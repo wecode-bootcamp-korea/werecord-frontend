@@ -6,6 +6,8 @@ const GlobalStyle = createGlobalStyle`
   
   :root{
     font-size: 16px;
+    color: #dedede;
+    background-color: #212121;
   }
   
   * {
