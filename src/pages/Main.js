@@ -1,51 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Modal from '../components/Modal/Modal';
+import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 
-const day = ['일', '월', '화', '수', '목', '금', '토'];
 const Main = () => {
-  const [startDescription, setStartDescription] =
-    useState(' 오늘도 상쾌하게 시작해볼까요?');
-  const [time, setTime] = useState(new Date().getMinutes());
+  const [isLogin, setIsLogin] = useState(false);
+  const [canPushBtn, setCanPushBtn] = useState(false);
+  const [time, setTime] = useState({
+    hour: new Date().getHours(),
+    minutes: new Date().getMinutes(),
+  });
 
   useEffect(() => {
-    console.log('시간변경!');
+    fetch('')
+      .then(res => res.json())
+      .then(isSuccess => {
+        if (isSuccess.message === 'SUCCESS') {
+          setCanPushBtn(true);
+        } else {
+          setCanPushBtn(false);
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    const goTime = setTimeout(() => {
+      setTime({
+        ...time,
+        hour: new Date().getHours(),
+        minutes: new Date().getMinutes(),
+      });
+    }, 1000);
+    return () => clearInterval(goTime);
   }, [time]);
-
-  const getTime = () => {
-    let hour = new Date().getHours();
-    hour > 12 ? (hour = `오후 ${hour - 12}`) : (hour = `오전 ${hour}`);
-    return hour;
-  };
-
-  const getMinutes = () => {
-    setTime(new Date().getMinutes());
-    return time;
-  };
-
-  const changeStartText = () => {
-    setStartDescription(
-      `은 ${getTime()}시 ${new Date().getMinutes()}분에 시작하셨습니다.`
-    );
-  };
 
   return (
     <Container>
       <TimeSection>
         <TimeDescription>
-          지금은 {new Date().getMonth() + 1}월 {new Date().getDate()}일
-          {day[new Date().getDay()]}요일
+          {`지금은 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일 ${
+            day[new Date().getDay()]
+          }요일`}
         </TimeDescription>
         <TimeDescription>
-          {getTime()}시 {getMinutes}분 입니다.
+          {`${getTime(time.hour)}시 ${
+            time.minutes !== 0 ? `${time.minutes}분` : ''
+          }입니다.`}
         </TimeDescription>
       </TimeSection>
       <StartSection>
-        <StudentName>이다슬님</StudentName>
-        <StartTime>{startDescription}</StartTime>
+        {!isLogin ? (
+          <StartTime>오늘도 상쾌하게 시작해볼까요?</StartTime>
+        ) : (
+          <>
+            <StudentName>이다슬님</StudentName>
+            <StartTime>{`은 시 분에 시작하셨습니다.`}</StartTime>
+          </>
+        )}
       </StartSection>
       <ButtonAnimationSection>
         <ButtonSection>
-          <Button onClick={changeStartText}>START</Button>
+          <Button onClick={() => setIsLogin(!isLogin)} disabled={canPushBtn}>
+            START
+          </Button>
           <Button>STOP</Button>
         </ButtonSection>
         <FireAnimationSection>
@@ -56,11 +73,19 @@ const Main = () => {
           <FireGif alt="firegif" src="/images/fire.gif"></FireGif>
         </FireAnimationSection>
       </ButtonAnimationSection>
+
+      {canPushBtn && (
+        <Modal height="300px">
+          <SendTimeModal />
+        </Modal>
+      )}
     </Container>
   );
 };
 
 export default Main;
+
+const day = ['일', '월', '화', '수', '목', '금', '토'];
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')}
@@ -131,3 +156,8 @@ const FireGif = styled.img`
   width: 500px;
   bottom: -10px;
 `;
+
+const getTime = timeHour => {
+  const hour = timeHour;
+  return hour > 12 ? `오후 ${hour - 12}` : `오전 ${hour}`;
+};
