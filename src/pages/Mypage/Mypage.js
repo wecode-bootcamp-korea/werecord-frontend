@@ -1,61 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import FadeIn from 'react-fade-in';
+import { keyframes } from 'styled-components';
+import LineChart from '../Mypage/Charts/LineChart';
+import BarChart from '../Mypage/Charts/BarChart';
+
+const boxBlink = keyframes`
+from {
+  background-color: transparent;
+}
+to {
+  background-color: ${({ theme }) => theme.colors.blue}
+}
+`;
 
 export default function Mypage() {
   const [hour, setHour] = useState(0);
   const [days, setDays] = useState(0);
   const [userInformation, setUserInformation] = useState('');
   const [checkTime, setCheckTime] = useState({
-    '내 평균 출근 시간': '9시 30분',
-    '내 평균 퇴근 시간': '9시 30분',
+    '내 평균 시작 시간': '9시 30분',
+    '내 평균 종료 시간': '9시 30분',
   });
 
   return (
-    <ContentsContainer>
-      <FirstContents>
-        <UserProfile>
-          <Img
-            alt="profile_image"
-            src="https://user-images.githubusercontent.com/75535651/121650104-33733d80-cad4-11eb-9103-844f3be71982.png
-"
-          />
-          <UserInformation>
-            <dt>이다슬</dt>
-            <dd>Profile Edit</dd>
-          </UserInformation>
-        </UserProfile>
-        <UserSpendingTime>
-          이다슬님은
-          <br />
-          <TotalspendingHour>총 50시간</TotalspendingHour>
-          <br />
-          &gt; WECODE와 <br />
-          함께 하셨습니다.
-        </UserSpendingTime>
-      </FirstContents>
-      <SecondContents>
-        <TimeGraphContents>
-          <WeekendGraph />
-          <WholeTimeGraph />
-        </TimeGraphContents>
-        <TimeContents>
-          <AverageTimeList>
-            {Object.keys(checkTime).map((key, index) => {
-              return (
-                <AverageTimeContent key={index}>
-                  <Label>{key}</Label>
-                  <Time>{checkTime[key]}</Time>
-                </AverageTimeContent>
-              );
-            })}
-          </AverageTimeList>
-          <AfterDday>
-            <Label>&gt; wecode</Label>
-            <Date>+9</Date>
-          </AfterDday>
-        </TimeContents>
-      </SecondContents>
-    </ContentsContainer>
+    <FadeIn delay={100} transitionDuration={1000}>
+      <ContentsContainer>
+        <article>
+          <UserProfile>
+            <Img
+              alt="profile_image"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+            />
+            <UserInformation>
+              <dt>전용민</dt>
+              <dd>Profile Edit</dd>
+            </UserInformation>
+          </UserProfile>
+          <UserSpendingTime>
+            전용민님은
+            <br />
+            <TotalspendingHour>총 50시간</TotalspendingHour>
+            <br />
+            &gt; wecode와 <br />
+            함께 하셨습니다.
+          </UserSpendingTime>
+        </article>
+        <SecondContents>
+          <TimeGraphContents>
+            <BarChart />
+            <LineChart />
+          </TimeGraphContents>
+          <TimeContents>
+            <ul>
+              {Object.keys(checkTime).map((key, index) => {
+                return (
+                  <AverageTimeContent key={index}>
+                    <Label>{key}</Label>
+                    <Time>{checkTime[key]}</Time>
+                  </AverageTimeContent>
+                );
+              })}
+            </ul>
+            <AfterDday>
+              <Label>&gt; wecode</Label>
+              <Date>+119</Date>
+            </AfterDday>
+          </TimeContents>
+        </SecondContents>
+      </ContentsContainer>
+    </FadeIn>
   );
 }
 
@@ -63,16 +77,14 @@ const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
   margin-top: 60px;
   /* margin-top: 120px; */
-  padding: 87px 181px 0;
+  padding: 87px 300px 0;
   border-top: 1px solid white;
   max-width: 1920px;
 `;
 
-const FirstContents = styled.article``;
-
 const UserProfile = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-  margin-bottom: 85px;
+  margin-bottom: 70px;
 `;
 
 const Img = styled.img`
@@ -101,6 +113,7 @@ const TotalspendingHour = styled.div`
   display: inline-block;
   padding: 5px 10px;
   background-color: ${({ theme }) => theme.colors.blue};
+  animation: ${boxBlink} 2s infinite linear alternate;
 `;
 
 const SecondContents = styled.article`
@@ -109,19 +122,13 @@ const SecondContents = styled.article`
 `;
 
 const TimeGraphContents = styled.div`
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 `;
-
-const WeekendGraph = styled.div``;
-
-const AverageTimeList = styled.ul``;
 
 const AverageTimeContent = styled.li`
   margin-bottom: 40px;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
 `;
-
-const WholeTimeGraph = styled.div``;
 
 const TimeContents = styled.div`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')}
@@ -129,7 +136,8 @@ const TimeContents = styled.div`
 
 const Label = styled.div`
   margin-bottom: 20px;
-  font-size: ${({ theme }) => theme.pixelToRem(35)};
+  font-size: ${({ theme }) => theme.pixelToRem(30)};
+  text-align: center;
 `;
 
 const Time = styled(Label.withComponent('div'))``;
