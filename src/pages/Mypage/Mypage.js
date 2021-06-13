@@ -5,15 +5,6 @@ import { keyframes } from 'styled-components';
 import LineChart from '../Mypage/Charts/LineChart';
 import BarChart from '../Mypage/Charts/BarChart';
 
-const boxBlink = keyframes`
-from {
-  background-color: transparent;
-}
-to {
-  background-color: ${({ theme }) => theme.colors.blue}
-}
-`;
-
 export default function Mypage() {
   const [hour, setHour] = useState(0);
   const [days, setDays] = useState(0);
@@ -40,7 +31,7 @@ export default function Mypage() {
           <UserSpendingTime>
             전용민님은
             <br />
-            <TotalspendingHour>총 50시간</TotalspendingHour>
+            <TotalspendingHour>총 {hour}시간</TotalspendingHour>
             <br />
             &gt; wecode와 <br />
             함께 하셨습니다.
@@ -64,7 +55,7 @@ export default function Mypage() {
             </ul>
             <AfterDday>
               <Label>&gt; wecode</Label>
-              <Date>+119</Date>
+              <Date>+{days}</Date>
             </AfterDday>
           </TimeContents>
         </SecondContents>
@@ -72,6 +63,15 @@ export default function Mypage() {
     </FadeIn>
   );
 }
+
+const boxBlink = keyframes`
+from {
+  background-color: transparent;
+}
+to {
+  background-color: ${({ theme }) => theme.colors.blue}
+}
+`;
 
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
