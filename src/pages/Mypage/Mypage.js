@@ -53,10 +53,10 @@ export default function Mypage() {
                 );
               })}
             </ul>
-            <AfterDday>
+            <div>
               <Label>&gt; wecode</Label>
               <Date>+{days}</Date>
-            </AfterDday>
+            </div>
           </TimeContents>
         </SecondContents>
       </ContentsContainer>
