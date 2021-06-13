@@ -1,16 +1,24 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 export default function Navbar() {
+  const location = useLocation();
+  console.log(location);
+
   return (
-    <Container>
-      <Logo>&gt; we-record</Logo>
-      <div>
-        <GoToMyPageBtn>마이 페이지</GoToMyPageBtn>
-        <GoToBatchBtn>기수 페이지</GoToBatchBtn>
-        <LogoutBtn>로그 아웃</LogoutBtn>
-      </div>
-    </Container>
+    <>
+      {location.pathname !== '/' && (
+        <Container>
+          <Logo>&gt; we-record</Logo>
+          <div>
+            <GoToMyPageBtn>마이 페이지</GoToMyPageBtn>
+            <GoToBatchBtn>기수 페이지</GoToBatchBtn>
+            <LogoutBtn>로그 아웃</LogoutBtn>
+          </div>
+        </Container>
+      )}
+    </>
   );
 }
 
