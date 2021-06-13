@@ -18,9 +18,6 @@ const Main = () => {
     );
   };
 
-  // `은 ${getTime()}시 ${new Date().getMinutes()}분에 시작하셨습니다.`
-  // `은 ${getTime()}시 ${new Date().getMinutes()}분에 시작하셨습니다.`
-
   return (
     <Container>
       <TimeSection>
@@ -36,10 +33,19 @@ const Main = () => {
         <StudentName>이다슬님</StudentName>
         <StartTime>{startDescription}</StartTime>
       </StartSection>
-      <ButtonSection>
-        <Button onClick={changeStartText}>START</Button>
-        <Button>STOP</Button>
-      </ButtonSection>
+      <ButtonAnimationSection>
+        <ButtonSection>
+          <Button onClick={changeStartText}>START</Button>
+          <Button>STOP</Button>
+        </ButtonSection>
+        <FireAnimationSection>
+          <FirewoodImg
+            alt="firewoodimg"
+            src="/images/firewood.png"
+          ></FirewoodImg>
+          <FireGif alt="firegif" src="/images/fire.gif"></FireGif>
+        </FireAnimationSection>
+      </ButtonAnimationSection>
     </Container>
   );
 };
@@ -60,14 +66,14 @@ const TimeSection = styled.section`
 
 const TimeDescription = styled.h1`
   color: ${({ theme }) => theme.colors.fontColor};
-  font-size: 70px;
+  font-size: ${({ theme }) => theme.pixelToRem(70)};
   font-weight: 700;
 `;
 
 const StartSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'start', 'center')}
   margin-top:30px;
-  font-size: 40px;
+  font-size: ${({ theme }) => theme.pixelToRem(40)};
   font-weight: 500;
 `;
 
@@ -81,14 +87,36 @@ const StartTime = styled.h2`
   color: ${({ theme }) => theme.colors.fontColor};
 `;
 
+const ButtonAnimationSection = styled.section`
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
+  width:70vw;
+  margin-top: 100px;
+`;
+
 const ButtonSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
-  width: 600px;
+  width: 40vw;
   font-size: 50px;
-  margin-top: 100px;
 `;
 
 const Button = styled.button`
   color: ${({ theme }) => theme.colors.fontColor};
   cursor: pointer;
+  margin-right: 20px;
+`;
+
+const FireAnimationSection = styled.div`
+  ${({ theme }) => theme.flexbox()}
+  position: relative;
+`;
+
+const FirewoodImg = styled.img`
+  width: 120px;
+  position: absolute;
+`;
+
+const FireGif = styled.img`
+  position: absolute;
+  width: 350px;
+  bottom: -10px;
 `;
