@@ -1,25 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-const logoAnimation = keyframes`
-  from {
-    width: 0px;    
-  }
-  to{
-    width: 68px;
-    background-color: #dedede;
-  }
-`;
-
-const showContainerAnimation = keyframes`
-  from {
-    opacity: 0
-  }
-  to{
-    opacity: 1
-  }
-`;
-
 export default function Navbar() {
   return (
     <Container>
@@ -32,6 +13,25 @@ export default function Navbar() {
     </Container>
   );
 }
+
+const logoAnimation = keyframes`
+  from {
+    width: 0px;    
+  }
+  to{
+    width: 68px;
+    background-color: ${({ theme }) => theme.colors.fontColor}
+  }
+`;
+
+const showContainerAnimation = keyframes`
+  from {
+    opacity: 0
+  }
+  to{
+    opacity: 1
+  }
+`;
 
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
@@ -73,7 +73,7 @@ const GoToMyPageBtn = styled.button`
 
   &:hover {
     transform: scale(1.05);
-    background-color: #8080803b;
+    background-color: #373737;
   }
 
   &:active {
