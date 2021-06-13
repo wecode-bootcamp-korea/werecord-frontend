@@ -142,8 +142,6 @@ const Label = styled.div`
 
 const Time = styled(Label.withComponent('div'))``;
 
-const AfterDday = styled.div``;
-
 const Date = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(100)};
 `;
