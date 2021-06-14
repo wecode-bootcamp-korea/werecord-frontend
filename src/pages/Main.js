@@ -5,11 +5,21 @@ const day = ['일', '월', '화', '수', '목', '금', '토'];
 const Main = () => {
   const [startDescription, setStartDescription] =
     useState(' 오늘도 상쾌하게 시작해볼까요?');
+  const [time, setTime] = useState(new Date().getMinutes());
+
+  useEffect(() => {
+    console.log('시간변경!');
+  }, [time]);
 
   const getTime = () => {
     let hour = new Date().getHours();
     hour > 12 ? (hour = `오후 ${hour - 12}`) : (hour = `오전 ${hour}`);
     return hour;
+  };
+
+  const getMinutes = () => {
+    setTime(new Date().getMinutes());
+    return time;
   };
 
   const changeStartText = () => {
@@ -26,7 +36,7 @@ const Main = () => {
           {day[new Date().getDay()]}요일
         </TimeDescription>
         <TimeDescription>
-          {getTime()}시 {new Date().getMinutes()}분 입니다.
+          {getTime()}시 {getMinutes}분 입니다.
         </TimeDescription>
       </TimeSection>
       <StartSection>
@@ -66,8 +76,9 @@ const TimeSection = styled.section`
 
 const TimeDescription = styled.h1`
   color: ${({ theme }) => theme.colors.fontColor};
-  font-size: ${({ theme }) => theme.pixelToRem(70)};
+  font-size: ${({ theme }) => theme.pixelToRem(100)};
   font-weight: 700;
+  margin-bottom: 10px;
 `;
 
 const StartSection = styled.section`
@@ -117,6 +128,6 @@ const FirewoodImg = styled.img`
 
 const FireGif = styled.img`
   position: absolute;
-  width: 350px;
+  width: 500px;
   bottom: -10px;
 `;
