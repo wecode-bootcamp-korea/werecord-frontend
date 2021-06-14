@@ -44,9 +44,13 @@ const showContainerAnimation = keyframes`
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
   padding: 12px 24px;
+  width: 100%;
+  top: 0;
+  position: fixed;
   border-bottom: 1px solid ${({ theme }) => theme.colors.white};
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
+  z-index: 10;
 `;
 
 const Logo = styled.div`
