@@ -29,10 +29,12 @@ export default function Mypage() {
             </UserInformation>
           </UserProfile>
           <UserSpendingTime>
-            전용민님은
-            <br />
-            <TotalspendingHour>총 {hour}시간</TotalspendingHour>
-            <br />
+            <div>
+              전용민님은
+              <br />
+              <TotalspendingHour>총 {hour}시간</TotalspendingHour>
+              <br />
+            </div>
             &gt; wecode와 <br />
             함께 하셨습니다.
           </UserSpendingTime>
@@ -53,10 +55,10 @@ export default function Mypage() {
                 );
               })}
             </ul>
-            <div>
+            <AfterDday>
               <Label>&gt; wecode</Label>
               <Date>+{days}</Date>
-            </div>
+            </AfterDday>
           </TimeContents>
         </SecondContents>
       </ContentsContainer>
@@ -64,22 +66,20 @@ export default function Mypage() {
   );
 }
 
-const boxBlink = keyframes`
-from {
-  background-color: transparent;
-}
-to {
-  background-color: ${({ theme }) => theme.colors.blue}
-}
-`;
+const boxAnimation = keyframes`
+ from {
+   width:0;
+ }
+ to {
+   width: 280px
+ }
+ `;
 
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
-  margin-top: 60px;
-  /* margin-top: 120px; */
-  padding: 87px 300px 0;
-  border-top: 1px solid white;
-  max-width: 1920px;
+  margin: 120px auto 0;
+  padding: 52px 75px;
+  max-width: 1440px;
 `;
 
 const UserProfile = styled.div`
@@ -106,14 +106,32 @@ const UserInformation = styled.dl`
 
 const UserSpendingTime = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(70)};
+  font-weight: 700;
   line-height: ${({ theme }) => theme.pixelToRem(122)};
+
+  div:first-child {
+    margin-bottom: 25px;
+  }
 `;
 
 const TotalspendingHour = styled.div`
   display: inline-block;
+  position: relative;
   padding: 5px 10px;
-  background-color: ${({ theme }) => theme.colors.blue};
-  animation: ${boxBlink} 2s infinite linear alternate;
+
+  &:after {
+    display: block;
+    position: absolute;
+    content: '';
+    width: 280px;
+    height: 100px;
+    left: -6px;
+    bottom: 15px;
+    background-color: ${({ theme }) => theme.colors.blue};
+    z-index: -1;
+    animation-name: ${boxAnimation};
+    animation-duration: 1000ms;
+  }
 `;
 
 const SecondContents = styled.article`
@@ -135,13 +153,20 @@ const TimeContents = styled.div`
 `;
 
 const Label = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
   text-align: center;
+  font-weight: 700;
 `;
 
-const Time = styled(Label.withComponent('div'))``;
+const Time = styled(Label.withComponent('div'))`
+  font-weight: 400;
+`;
 
 const Date = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(100)};
+`;
+
+const AfterDday = styled.div`
+  ${({ theme }) => theme.flexbox('column')}
 `;
