@@ -7,30 +7,24 @@ import BarChart from '../Mypage/Charts/BarChart';
 
 export default function Mypage() {
   const [userInformation, setUserInformation] = useState('');
-  const [timeContents, setTimeContents] = useState({
-    '내 평균 시작 시간': '',
-    '내 평균 종료 시간': '',
-  });
 
   useEffect(() => {
     fetch('data/mypageInformationData.json')
       .then(res => res.json())
       .then(res => {
         setUserInformation(res.result[0]);
-        setTimeContents({
-          ...timeContents,
-          '내 평균 시작 시간':
-            res.result[0]['record_information']['average_start_time'],
-          '내 평균 종료 시간':
-            res.result[0]['record_information']['average_end_time'],
-        });
       });
   }, []);
 
-  function getAverageTime(time) {
-    const timeToArray = time.split(':');
+  const getInformation = (category, data) => {
+    return userInformation[`${category}_information`][`${data}`];
+  };
+
+  const getAverageTime = type => {
+    const timeToArray =
+      userInformation['record_information'][`average_${type}_time`].split(':');
     return `${timeToArray[0]}시 ${timeToArray[1]}분`;
-  }
+  };
 
   return (
     <FadeIn transitionDuration={1000}>
@@ -40,24 +34,19 @@ export default function Mypage() {
             <UserProfile>
               <Img
                 alt="profile_image"
-                src={
-                  userInformation['user_information']['user_profile_image_url']
-                }
+                src={getInformation('user', 'user_profile_image_url')}
               />
               <UserInformation>
-                <dt>{userInformation['user_information']['user_name']}</dt>
+                <dt>{getInformation('user', 'user_name')}</dt>
                 <EditBtn>Profile Edit</EditBtn>
               </UserInformation>
             </UserProfile>
             <UserSpendingTime>
               <div>
-                {userInformation['user_information']['user_name']}님은
+                {getInformation('user', 'user_name')}님은
                 <br />
                 <TotalspendingHour>
-                  총
-                  <Hour>
-                    {userInformation['user_information']['user_total_time']}
-                  </Hour>
+                  총<Hour>{getInformation('user', 'user_total_time')}</Hour>
                   시간
                 </TotalspendingHour>
                 <br />
@@ -68,25 +57,23 @@ export default function Mypage() {
           </article>
           <SecondContents>
             <TimeGraphContents>
-              <BarChart />
+              <BarChart margin={50} />
               <LineChart />
             </TimeGraphContents>
             <TimeContents>
               <ul>
-                {Object.keys(timeContents).map((key, index) => {
-                  return (
-                    <AverageTimeContent key={index}>
-                      <Label>{key}</Label>
-                      <Time>{getAverageTime(timeContents[key])}</Time>
-                    </AverageTimeContent>
-                  );
-                })}
+                <AverageTimeContent>
+                  <Label>내 평균 시작 시간</Label>
+                  <Time>{getAverageTime('start')}</Time>
+                </AverageTimeContent>
+                <AverageTimeContent>
+                  <Label>내 평균 종료 시간</Label>
+                  <Time>{getAverageTime('end')}</Time>
+                </AverageTimeContent>
               </ul>
               <AfterDday>
                 <Label>&gt; wecode</Label>
-                <Date>
-                  +{userInformation['record_information']['wecode_d_day']}
-                </Date>
+                <Date>+{getInformation('record', 'wecode_d_day')}</Date>
               </AfterDday>
             </TimeContents>
           </SecondContents>
@@ -128,7 +115,7 @@ const UserInformation = styled.dl`
 const EditBtn = styled.dd`
   cursor: pointer;
   padding: 10px 15px;
-  transition: background-color 0.3s, opacity 0.2s;
+  transition: background-color 0.3s;
 
   &:hover {
     border-radius: 5px;
@@ -178,11 +165,15 @@ const Hour = styled.div`
 
 const SecondContents = styled.article`
   width: 500px;
-  height: 500px;
+  height: 100%;
 `;
 
 const TimeGraphContents = styled.div`
   margin-bottom: 80px;
+
+  canvas:first-child {
+    margin-bottom: 100px;
+  }
 `;
 
 const AverageTimeContent = styled.li`
@@ -212,5 +203,3 @@ const Date = styled.div`
 const AfterDday = styled.div`
   ${({ theme }) => theme.flexbox('column')}
 `;
-
-const timeContents = ['내 평균 시작 시간', '내 평균 종료 시간'];

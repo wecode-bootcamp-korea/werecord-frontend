@@ -42,7 +42,7 @@ export default function LineChart() {
         ],
       }}
       width={180}
-      height={60}
+      height={80}
       options={options}
     />
   );
