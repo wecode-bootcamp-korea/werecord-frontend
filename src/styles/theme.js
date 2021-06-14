@@ -36,7 +36,7 @@ const posCenter = (type = 'absolute') => {
 
 const colors = {
   black: '#000000',
-  white: '#fffff',
+  white: '#ffffff',
   blue: '#0066ff',
   gray: '#F6F4F1',
   red: '#ef6253',
