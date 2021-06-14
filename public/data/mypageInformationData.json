@@ -1,0 +1,22 @@
+{
+  "result": [
+    {
+      "user_information": {
+        "user_id": 2,
+        "user_name": "용용이",
+        "user_profile_image_url": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
+        "user_total_time": 870
+      },
+      "record_information": {
+        "weekly_record": {
+          "5": 344,
+          "3": 72097
+        },
+        "total_accumulate_records": [344, 72441],
+        "average_start_time": "10:08:42",
+        "average_end_time": "20:12:23",
+        "wecode_d_day": 61
+      }
+    }
+  ]
+}

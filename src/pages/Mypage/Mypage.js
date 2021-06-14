@@ -6,74 +6,95 @@ import LineChart from '../Mypage/Charts/LineChart';
 import BarChart from '../Mypage/Charts/BarChart';
 
 export default function Mypage() {
-  const [hour, setHour] = useState(0);
-  const [days, setDays] = useState(0);
   const [userInformation, setUserInformation] = useState('');
-  const [checkTime, setCheckTime] = useState({
-    '내 평균 시작 시간': '9시 30분',
-    '내 평균 종료 시간': '9시 30분',
+  const [timeContents, setTimeContents] = useState({
+    '내 평균 시작 시간': '',
+    '내 평균 종료 시간': '',
   });
 
+  useEffect(() => {
+    fetch('data/mypageInformationData.json')
+      .then(res => res.json())
+      .then(res => {
+        setUserInformation(res.result[0]);
+        setTimeContents({
+          ...timeContents,
+          '내 평균 시작 시간':
+            res.result[0]['record_information']['average_start_time'],
+          '내 평균 종료 시간':
+            res.result[0]['record_information']['average_end_time'],
+        });
+      });
+  }, []);
+
+  function getAverageTime(time) {
+    const timeToArray = time.split(':');
+    return `${timeToArray[0]}시 ${timeToArray[1]}분`;
+  }
+
   return (
-    <FadeIn delay={100} transitionDuration={1000}>
-      <ContentsContainer>
-        <article>
-          <UserProfile>
-            <Img
-              alt="profile_image"
-              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-            />
-            <UserInformation>
-              <dt>전용민</dt>
-              <dd>Profile Edit</dd>
-            </UserInformation>
-          </UserProfile>
-          <UserSpendingTime>
-            <div>
-              전용민님은
-              <br />
-              <TotalspendingHour>총 {hour}시간</TotalspendingHour>
-              <br />
-            </div>
-            &gt; wecode와 <br />
-            함께 하셨습니다.
-          </UserSpendingTime>
-        </article>
-        <SecondContents>
-          <TimeGraphContents>
-            <BarChart />
-            <LineChart />
-          </TimeGraphContents>
-          <TimeContents>
-            <ul>
-              {Object.keys(checkTime).map((key, index) => {
-                return (
-                  <AverageTimeContent key={index}>
-                    <Label>{key}</Label>
-                    <Time>{checkTime[key]}</Time>
-                  </AverageTimeContent>
-                );
-              })}
-            </ul>
-            <AfterDday>
-              <Label>&gt; wecode</Label>
-              <Date>+{days}</Date>
-            </AfterDday>
-          </TimeContents>
-        </SecondContents>
-      </ContentsContainer>
+    <FadeIn transitionDuration={1000}>
+      {userInformation && (
+        <ContentsContainer>
+          <article>
+            <UserProfile>
+              <Img
+                alt="profile_image"
+                src={
+                  userInformation['user_information']['user_profile_image_url']
+                }
+              />
+              <UserInformation>
+                <dt>{userInformation['user_information']['user_name']}</dt>
+                <EditBtn>Profile Edit</EditBtn>
+              </UserInformation>
+            </UserProfile>
+            <UserSpendingTime>
+              <div>
+                {userInformation['user_information']['user_name']}님은
+                <br />
+                <TotalspendingHour>
+                  총
+                  <Hour>
+                    {userInformation['user_information']['user_total_time']}
+                  </Hour>
+                  시간
+                </TotalspendingHour>
+                <br />
+              </div>
+              &gt; wecode와 <br />
+              함께 하셨습니다.
+            </UserSpendingTime>
+          </article>
+          <SecondContents>
+            <TimeGraphContents>
+              <BarChart />
+              <LineChart />
+            </TimeGraphContents>
+            <TimeContents>
+              <ul>
+                {Object.keys(timeContents).map((key, index) => {
+                  return (
+                    <AverageTimeContent key={index}>
+                      <Label>{key}</Label>
+                      <Time>{getAverageTime(timeContents[key])}</Time>
+                    </AverageTimeContent>
+                  );
+                })}
+              </ul>
+              <AfterDday>
+                <Label>&gt; wecode</Label>
+                <Date>
+                  +{userInformation['record_information']['wecode_d_day']}
+                </Date>
+              </AfterDday>
+            </TimeContents>
+          </SecondContents>
+        </ContentsContainer>
+      )}
     </FadeIn>
   );
 }
-
-const boxAnimation = keyframes`
- from {
-   width:0;
- }
- to {
-   width: 280px
- }
- `;
 
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
@@ -104,6 +125,21 @@ const UserInformation = styled.dl`
   }
 `;
 
+const EditBtn = styled.dd`
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: background-color 0.3s, opacity 0.2s;
+
+  &:hover {
+    border-radius: 5px;
+    background-color: #373737;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+`;
+
 const UserSpendingTime = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(70)};
   font-weight: 700;
@@ -118,20 +154,26 @@ const TotalspendingHour = styled.div`
   display: inline-block;
   position: relative;
   padding: 5px 10px;
+`;
 
-  &:after {
-    display: block;
-    position: absolute;
-    content: '';
-    width: 280px;
-    height: 100px;
-    left: -6px;
-    bottom: 15px;
-    background-color: ${({ theme }) => theme.colors.blue};
-    z-index: -1;
-    animation-name: ${boxAnimation};
-    animation-duration: 1000ms;
+const boxAnimation = keyframes`
+  from {
+    background-color: transparent;
   }
+  to{
+    background-color: ${({ theme }) => theme.colors.backgroundColor}
+  }
+`;
+
+const Hour = styled.div`
+  display: inline-block;
+  margin: 0 15px;
+  padding: 0 10px;
+  background-color: ${({ theme }) => theme.colors.blue};
+  animation-name: ${boxAnimation};
+  animation-delay: 0.3s;
+  animation-fill-mode: backwards;
+  animation-duration: 1s;
 `;
 
 const SecondContents = styled.article`
@@ -170,3 +212,5 @@ const Date = styled.div`
 const AfterDday = styled.div`
   ${({ theme }) => theme.flexbox('column')}
 `;
+
+const timeContents = ['내 평균 시작 시간', '내 평균 종료 시간'];
