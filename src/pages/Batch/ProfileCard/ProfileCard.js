@@ -1,16 +1,16 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function Profile({ setOn }) {
+export default function ProfileCard({ setOn, peersInfo }) {
   return (
-    <ProfileCard onClick={() => setOn(true)}>
-      <img alt="profile" src="/images/Profile/test1.jpeg" />
-      <div className="profileName">김수연</div>
-    </ProfileCard>
+    <Container onClick={() => setOn(true)} isOn={peersInfo.peer_status}>
+      <img alt={peersInfo.peer_name} src={peersInfo.peer_profile_image_url} />
+      <div className="profileName">{peersInfo.peer_name}</div>
+    </Container>
   );
 }
 
-const ProfileCard = Styled.li`
+const Container = Styled.li`
   ${({ theme }) => theme.flexbox('column')};
   position: relative;
   margin: 0 20px;
@@ -21,10 +21,10 @@ const ProfileCard = Styled.li`
       position: absolute;
       top: 3px;
       right: 8px;
-      width: 15px;
-      height: 15px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background-color: ${({ theme }) => theme.colors.green};
+      background-color: ${props => (props.isOn ? '#41b979' : '#f6f4f1')};
       z-index: 1;
     }
 

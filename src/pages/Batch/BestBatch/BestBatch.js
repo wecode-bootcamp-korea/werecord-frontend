@@ -1,19 +1,25 @@
 import React from 'react';
 import Styled, { keyframes } from 'styled-components';
 
-export default function BestBatch() {
+export default function BestBatch({ winnerInfo, myBatchInfo }) {
   return (
     <>
       <WhoBestBatch>
         <BestBatchTitle>record of legend</BestBatchTitle>
-        <BestBatchTime>20기 30,000시간 달성</BestBatchTime>
+        <BestBatchTime>
+          {`${winnerInfo.winner_batch_name}기 ${Math.floor(
+            winnerInfo.winner_batch_total_time
+          ).toLocaleString()}시간 달성`}
+        </BestBatchTime>
       </WhoBestBatch>
       <LankingArea>
         <BatchLanking>
           <MyBatch>
-            <div className="myBatch">Wecode 21기</div>
+            <div className="myBatch">Wecode {myBatchInfo.batch_name}기</div>
             <MyBatchTime>
-              800시간 ing...
+              {`${Math.floor(
+                myBatchInfo.batch_total_time
+              ).toLocaleString()}시간 ing...`}
               <img alt="cat" src="/images/run_cat.gif" />
             </MyBatchTime>
           </MyBatch>
@@ -21,9 +27,15 @@ export default function BestBatch() {
         <PersonLanking>
           <BestPersonTitle>지난주 지박령</BestPersonTitle>
           <BestPersons>
-            <BestPerson height="45%">김수여2</BestPerson>
-            <BestPerson height="70%">김수여이1</BestPerson>
-            <BestPerson height="30%">김이3</BestPerson>
+            <BestPerson height="45%">
+              {myBatchInfo.ghost_ranking[0].user_name}
+            </BestPerson>
+            <BestPerson height="70%">
+              {myBatchInfo.ghost_ranking[1].user_name}
+            </BestPerson>
+            <BestPerson height="30%">
+              {myBatchInfo.ghost_ranking[2].user_name}
+            </BestPerson>
           </BestPersons>
         </PersonLanking>
       </LankingArea>

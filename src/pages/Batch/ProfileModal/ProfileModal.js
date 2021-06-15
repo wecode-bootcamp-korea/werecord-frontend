@@ -1,29 +1,29 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function ProfileModal() {
+export default function ProfileModal({ peersInfo }) {
   return (
     <ProfileModalStyle>
       <ModalTitle>Profile</ModalTitle>
       <UserCard>
         <img alt="user1" src="/images/Profile/test1.jpeg" />
         <div className="userInfo">
-          <UserName>김수연</UserName>
-          <UserBirth>생일 : 7월 2일</UserBirth>
+          <UserName>{peersInfo.peer_name}</UserName>
+          <UserBirth>생일 : {peersInfo.peer_birthday}</UserBirth>
         </div>
       </UserCard>
       <UserInfos>
-        <Position>Position : 프론트엔드</Position>
+        <Position>Position : {peersInfo.peer_position}</Position>
         <GitAddress>
-          GitHub :{' '}
+          GitHub :
           <a href="##" target="_blank">
-            htt`asdlkfjdslfkjsalkfja
+            {peersInfo.peer_github}
           </a>
         </GitAddress>
         <BlogAddress>
-          Blog :{' '}
+          Blog :
           <a href="##" target="_blank">
-            asdlkfjlewhflkjsdalkfasdkfj
+            {peersInfo.peer_blog}
           </a>
         </BlogAddress>
       </UserInfos>

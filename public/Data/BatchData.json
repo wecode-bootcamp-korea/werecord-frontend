@@ -1,0 +1,103 @@
+{
+  "result": [
+    {
+      "winner_batch_information": {
+        "winner_batch_name": 20,
+        "winner_batch_total_time": 493737
+      },
+      "my_batch_information": {
+        "batch_id": 1,
+        "batch_name": 20,
+        "batch_total_time": 493737,
+        "ghost_ranking": [
+          {
+            "user_id": 2,
+            "user_name": "B",
+            "user_profile_image_url": "/images/Profile/test1.jpeg",
+            "user_last_week_total_time": 2038
+          },
+          {
+            "user_id": 1,
+            "user_name": "A",
+            "user_profile_image_url": "/images/Profile/test1.jpeg",
+            "user_last_week_total_time": 187
+          },
+          {
+            "user_id": 3,
+            "user_name": "C",
+            "user_profile_image_url": "/images/Profile/test1.jpeg",
+            "user_last_week_total_time": 0
+          }
+        ],
+        "peers": [
+          {
+            "peer_id": 1,
+            "peer_name": "A",
+            "peer_profile_image_url": "/images/Profile/test1.jpeg",
+            "peer_position": "풀스텍",
+            "peer_email": "a@example.com",
+            "peer_blog": null,
+            "peer_github": null,
+            "peer_birthday": null,
+            "peer_status": true
+          },
+          {
+            "peer_id": 2,
+            "peer_name": "B",
+            "peer_profile_image_url": "/images/Profile/test1.jpeg",
+            "peer_position": "프론트엔드",
+            "peer_email": "b@example.com",
+            "peer_blog": null,
+            "peer_github": null,
+            "peer_birthday": null,
+            "peer_status": false
+          },
+          {
+            "peer_id": 3,
+            "peer_name": "C",
+            "peer_profile_image_url": "/images/Profile/test1.jpeg",
+            "peer_position": "백엔드",
+            "peer_email": "c@example.com",
+            "peer_blog": null,
+            "peer_github": null,
+            "peer_birthday": null,
+            "peer_status": false
+          },
+          {
+            "peer_id": 4,
+            "peer_name": "C",
+            "peer_profile_image_url": "/images/Profile/test1.jpeg",
+            "peer_position": "백엔드",
+            "peer_email": "c@example.com",
+            "peer_blog": null,
+            "peer_github": null,
+            "peer_birthday": null,
+            "peer_status": false
+          },
+          {
+            "peer_id": 5,
+            "peer_name": "D",
+            "peer_profile_image_url": "/images/Profile/test1.jpeg",
+            "peer_position": null,
+            "peer_email": "d@example.com",
+            "peer_blog": null,
+            "peer_github": null,
+            "peer_birthday": null,
+            "peer_status": false
+          },
+          {
+            "peer_id": 6,
+            "peer_name": "E",
+            "peer_profile_image_url": "/images/Profile/test1.jpeg",
+            "peer_position": null,
+            "peer_email": "e@example.com",
+            "peer_blog": null,
+            "peer_github": null,
+            "peer_birthday": null,
+            "peer_status": false
+          }
+        ]
+      }
+    }
+  ]
+}
