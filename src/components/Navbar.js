@@ -1,10 +1,25 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 export default function Navbar() {
   const location = useLocation();
-  console.log(location);
+  const history = useHistory();
+
+  const goToPage = (page = '') => {
+    history.push(`/${page}`);
+  };
+
+  const handleLogout = () => {
+    if (localStorage.getItem('토큰 이름')) {
+      localStorage.clear();
+      alert('로그아웃이 되었습니다.');
+      goToPage();
+    } else {
+      alert('이미 로그아웃 상태입니다!');
+      goToPage();
+    }
+  };
 
   return (
     <>
@@ -12,9 +27,21 @@ export default function Navbar() {
         <Container>
           <Logo>&gt; we-record</Logo>
           <div>
-            <GoToMyPageBtn>마이 페이지</GoToMyPageBtn>
-            <GoToBatchBtn>기수 페이지</GoToBatchBtn>
-            <LogoutBtn>로그 아웃</LogoutBtn>
+            <GoToMyPageBtn
+              onClick={() => {
+                goToPage('my');
+              }}
+            >
+              마이 페이지
+            </GoToMyPageBtn>
+            <GoToBatchBtn
+              onClick={() => {
+                goToPage('batch');
+              }}
+            >
+              기수 페이지
+            </GoToBatchBtn>
+            <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
           </div>
         </Container>
       )}
@@ -50,7 +77,7 @@ const Container = styled.nav`
   border-bottom: 1px solid ${({ theme }) => theme.colors.white};
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
-  z-index: 10;
+  z-index: 100;
 `;
 
 const Logo = styled.div`
@@ -84,7 +111,6 @@ const GoToMyPageBtn = styled.button`
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.05);
     background-color: #373737;
   }
 
