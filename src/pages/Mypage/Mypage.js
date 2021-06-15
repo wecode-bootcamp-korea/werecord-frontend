@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import FadeIn from 'react-fade-in';
 import { keyframes } from 'styled-components';
+
+import FadeIn from 'react-fade-in';
 import LineChart from '../Mypage/Charts/LineChart';
 import BarChart from '../Mypage/Charts/BarChart';
+import Modal from '../../components/Modal/Modal';
+import EditForm from '../Mypage/EditForm';
 
 export default function Mypage() {
   const [userInformation, setUserInformation] = useState('');
+  const [isOn, setIsOn] = useState(false);
 
   useEffect(() => {
     fetch('data/mypageInformationData.json')
       .then(res => res.json())
       .then(res => {
+        console.log(res);
         setUserInformation(res.result[0]);
       });
   }, []);
@@ -26,6 +31,22 @@ export default function Mypage() {
     return `${timeToArray[0]}시 ${timeToArray[1]}분`;
   };
 
+  const handleModal = e => {
+    const clickedInside = e.target.closest('.modal');
+    const clickedBtn = e.target.closest('.closeBtn');
+
+    if (clickedInside) {
+      if (clickedBtn) {
+        setIsOn(false);
+      }
+      if (!clickedBtn) {
+        return;
+      }
+    } else {
+      setIsOn(false);
+    }
+  };
+
   return (
     <FadeIn transitionDuration={1000}>
       {userInformation && (
@@ -38,7 +59,12 @@ export default function Mypage() {
               />
               <UserInformation>
                 <dt>{getInformation('user', 'user_name')}</dt>
-                <EditBtn>Profile Edit</EditBtn>
+                <EditBtn onClick={() => setIsOn(true)}>Profile Edit</EditBtn>
+                {isOn && (
+                  <Modal isOn={isOn} setOff={handleModal} height="700px">
+                    <EditForm />
+                  </Modal>
+                )}
               </UserInformation>
             </UserProfile>
             <UserSpendingTime>
@@ -73,21 +99,26 @@ export default function Mypage() {
               </ul>
               <AfterDday>
                 <Label>&gt; wecode</Label>
-                <Date>+{getInformation('record', 'wecode_d_day')}</Date>
+                <Date>D+{getInformation('record', 'wecode_d_day')}</Date>
               </AfterDday>
             </TimeContents>
           </SecondContents>
         </ContentsContainer>
-      )}
+      )}{' '}
+      ㄹ
     </FadeIn>
   );
 }
 
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
-  margin: 120px auto 0;
-  padding: 52px 75px;
+  margin: 30px auto 0;
+  padding: 10px 75px;
   max-width: 1440px;
+
+  article:first-child {
+    height: 100%;
+  }
 `;
 
 const UserProfile = styled.div`
@@ -128,19 +159,20 @@ const EditBtn = styled.dd`
 `;
 
 const UserSpendingTime = styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(70)};
+  font-size: ${({ theme }) => theme.pixelToRem(60)};
   font-weight: 700;
-  line-height: ${({ theme }) => theme.pixelToRem(122)};
+  line-height: ${({ theme }) => theme.pixelToRem(90)};
 
   div:first-child {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
   }
 `;
 
 const TotalspendingHour = styled.div`
   display: inline-block;
-  position: relative;
+  margin-top: 35px;
   padding: 5px 10px;
+  font-size: ${({ theme }) => theme.pixelToRem(90)};
 `;
 
 const boxAnimation = keyframes`
@@ -155,7 +187,7 @@ const boxAnimation = keyframes`
 const Hour = styled.div`
   display: inline-block;
   margin: 0 15px;
-  padding: 0 10px;
+  padding: 10px 10px;
   background-color: ${({ theme }) => theme.colors.blue};
   animation-name: ${boxAnimation};
   animation-delay: 0.3s;
