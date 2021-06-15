@@ -7,7 +7,7 @@ export default function Modal({ setOff, children, height }) {
     <OutsideModal onClick={setOff}>
       <InsideModal className="modal" height={height}>
         <CloseBtn onClick={setOff} className="closeBtn">
-          <i class="fas fa-times" />
+          <i className="fas fa-times" />
         </CloseBtn>
         {children}
       </InsideModal>

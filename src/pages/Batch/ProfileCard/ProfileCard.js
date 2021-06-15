@@ -1,9 +1,9 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function Profile() {
+export default function Profile({ setOn }) {
   return (
-    <ProfileCard>
+    <ProfileCard onClick={() => setOn(true)}>
       <img alt="profile" src="/images/Profile/test1.jpeg" />
       <div className="profileName">김수연</div>
     </ProfileCard>

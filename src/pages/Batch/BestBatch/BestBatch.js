@@ -128,7 +128,7 @@ const thirdPlace = keyframes`
 
 const BestPerson = Styled.div`
   ${({ theme }) => theme.flexbox('column')};
-  width: 70%;
+  width: 100%;
   margin: 0 1px;
   height: ${props => props.height};
   background-color: #0066ff;
