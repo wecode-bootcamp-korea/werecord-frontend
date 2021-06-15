@@ -2,13 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- 구글소셜로그인 관련 -->
     <meta name="google-signin-scope" content="profile email" />
-    <meta
-      name="google-signin-client_id"
-      content="348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com"
-    />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="https://apis.google.com/js/client.js"></script>
+
+    <script>
+      // function init() {
+      //   gapi.load('auth2', function () {
+      //     console.log('hi');
+      //     var gauth = gapi.auth2.init({
+      //       client_id:
+      //         '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
+      //     });
+      //     gauth.then(
+      //       function () {
+      //         console.log('googlesuccess');
+      //         const loginBtn = document.querySelector('#loginBtn');
+      //         if (gauth.isSignedIn.get()) {
+      //           loginBtn.value = 'Logout';
+      //         } else {
+      //           loginBtn.value = 'Login';
+      //         }
+      //       },
+      //       function () {
+      //         console.log('fail');
+      //       }
+      //     );
+      //   });
+      // }
+    </script>
+    <!-- ---------------------------------------- -->
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>we-record</title>
@@ -24,5 +47,10 @@
   <body>
     <div id="root"></div>
     <div id="modal"></div>
+    <script
+      src="https://apis.google.com/js/platform.js?onload=init"
+      async
+      defer
+    ></script>
   </body>
 </html>

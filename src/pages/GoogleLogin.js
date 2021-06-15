@@ -1,34 +1,67 @@
-import React from 'react';
-import { gapi } from 'gapi-script';
+import React, { useEffect } from 'react';
 
-function onSignIn(googleUser) {
-  // Useful data for your client-side scripts:
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Don't send this directly to your server!
-  console.log('Full Name: ' + profile.getName());
-  console.log('Given Name: ' + profile.getGivenName());
-  console.log('Family Name: ' + profile.getFamilyName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
+const gauth = gapi.auth2.init({
+  client_id:
+    '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
+});
 
-  // The ID token you need to pass to your backend:
-  var id_token = googleUser.getAuthResponse().id_token;
-  console.log('ID Token: ' + id_token);
-}
+const googleSDK = () => {
+  // 구글 SDK 초기 설정
+  window.googleSDKLoaded = () => {
+    window.gapi.load('auth2', () => {
+      const auth2 = window.gapi.auth2.getAuthInstance({
+        client_id: '클라이언트_ID.apps.googleusercontent.com',
+        scope: 'profile email',
+      });
+      auth2.attachClickHandler(
+        googleLoginBtn.current, // useRef랑 current!!!!!
+        {},
+        googleUser => {
+          const profile = googleUser.getBasicProfile();
+          console.log(profile);
+          console.log(`Token || ${googleUser.getAuthResponse().id_token}`);
+          setToken(googleUser.getAuthResponse().id_token);
+          console.log(`ID: ${profile.getId()}`);
+          console.log(`Name: ${profile.getName()}`);
+          console.log(`Image URL: ${profile.getImageUrl()}`);
+          console.log(`Email: ${profile.getEmail()}`);
+        },
+        error => {
+          alert(JSON.stringify(error, undefined, 2));
+        }
+      );
+    });
+  };
+  // 구글 SDK 로드
+  (function (d, s, id) {
+    let js;
+    const fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = 'https://apis.google.com/js/platform.js?onload=googleSDKLoaded';
+    fjs.parentNode.insertBefore(js, fjs);
+  })(document, 'script', 'google-jssdk');
+};
 
-function signOut() {
-  gapi.auth2.getAuthInstance().disconnect();
-}
+useEffect(() => {
+  googleSDK();
+}, []);
 
 export default function GoogleLogin() {
   return (
-    <>
-      <div
-        className="g-signin2"
-        data-onsuccess="onSignIn"
-        data-theme="dark"
-      ></div>
-      <button onClick={signOut}>로그아웃</button>
-    </>
+    <Head>
+      <script
+        src="https://apis.google.com/js/platform.js?onload=init"
+        async
+        defer
+      ></script>
+      <meta
+        name="google-signin-client_id"
+        content="348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com"
+      />
+    </Head>
   );
 }
