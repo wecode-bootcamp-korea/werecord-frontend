@@ -1,16 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import FadeIn from 'react-fade-in';
+import Modal from '../components/Modal/Modal';
+import LoginModal from '../pages/LoginModal';
 
 const Rending = () => {
+  const [isOn, setIsOn] = useState(false);
+
+  const handleModal = e => {
+    const clickedInside = e.target.closest('.modal');
+    const clickedBtn = e.target.closest('.closeBtn');
+
+    if (clickedInside) {
+      if (clickedBtn) {
+        setIsOn(false);
+      }
+      if (!clickedBtn) {
+        return;
+      }
+    } else {
+      setIsOn(false);
+    }
+  };
+
   return (
     <Container>
+      {isOn && (
+        <Modal setOff={handleModal} height="400px">
+          <LoginModal />
+        </Modal>
+      )}
       <MainLogo alt="logo" src="/images/logo.png"></MainLogo>
       <FadeIn delay={600} transitionDuration={1000}>
         <SubLogo alt="sublogo" src="/images/우리는.png"></SubLogo>
         <SubLogo alt="sublogo" src="/images/기록합니다.png"></SubLogo>
       </FadeIn>
-      <LoginImg alt="loginimg" src="/images/login.png"></LoginImg>
+      <LoginImg
+        onClick={() => setIsOn(!isOn)}
+        alt="loginimg"
+        src="/images/login.png"
+      ></LoginImg>
     </Container>
   );
 };
