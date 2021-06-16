@@ -16,8 +16,7 @@ export default function Mypage() {
     fetch('data/mypageInformationData.json')
       .then(res => res.json())
       .then(res => {
-        console.log(res);
-        setUserInformation(res.result[0]);
+        setUserInformation(res.result);
       });
   }, []);
 
@@ -83,8 +82,15 @@ export default function Mypage() {
           </article>
           <SecondContents>
             <TimeGraphContents>
-              <BarChart margin={50} />
-              <LineChart />
+              <BarChart
+                weeklyRecordsData={getInformation('record', 'weekly_record')}
+              />
+              <LineChart
+                totalAccumulateRecordsData={getInformation(
+                  'record',
+                  'total_accumulate_records'
+                )}
+              />
             </TimeGraphContents>
             <TimeContents>
               <ul>
@@ -104,17 +110,17 @@ export default function Mypage() {
             </TimeContents>
           </SecondContents>
         </ContentsContainer>
-      )}{' '}
-      ㄹ
+      )}
     </FadeIn>
   );
 }
 
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
-  margin: 30px auto 0;
+  margin: 60px auto 0;
   padding: 10px 75px;
   max-width: 1440px;
+  transform: scale(0.95);
 
   article:first-child {
     height: 100%;

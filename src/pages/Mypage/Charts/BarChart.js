@@ -2,7 +2,7 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
 
-export default function BarChart({ margin }) {
+export default function BarChart({ weeklyRecordsData }) {
   const options = {
     legend: {
       display: false,
@@ -13,10 +13,14 @@ export default function BarChart({ margin }) {
           ticks: {
             beginAtZero: true,
             min: 0,
-            max: 15,
+            max: 14,
             stepSize: 2,
             fontSize: 15,
             fontColor: 'white',
+          },
+          gridLines: {
+            drawOnChartArea: false,
+            color: '#FFFFFF',
           },
         },
       ],
@@ -27,30 +31,44 @@ export default function BarChart({ margin }) {
             fontColor: 'white',
             fontStyle: 'bold',
           },
+          gridLines: {
+            drawOnChartArea: false,
+            drawBorder: false,
+          },
         },
       ],
     },
 
     maintainAspectRatio: true,
     animation: {
-      duration: 3000,
+      duration: 2000,
     },
     title: {
       display: true,
       text: 'Last week',
-      fontSize: 13,
+      fontSize: 18,
+      fontColor: 'white',
     },
   };
+
+  const secondsToHour = parameter =>
+    Math.ceil(weeklyRecordsData[parameter] / 360) / 10;
 
   return (
     <BarStyle>
       <Bar
         data={{
-          labels: ['월요일', '화요일', '수요일', '목요일', '금요일'],
+          labels: ['월', '화', '수', '목', '금'],
           datasets: [
             {
               label: 'Spending Time in Wecode',
-              data: [10, 5, 8, 10, 12],
+              data: [
+                secondsToHour('0'),
+                secondsToHour('1'),
+                secondsToHour('2'),
+                secondsToHour('3'),
+                secondsToHour('4'),
+              ],
               fill: false,
               backgroundColor: '#0066ff',
               stepSize: 1,

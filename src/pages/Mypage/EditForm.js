@@ -37,6 +37,7 @@ export default function EditContents() {
         <Label>사진</Label>
         <Input
           name="image"
+          type="file"
           placeholder="이미지 주소로 입력해주세요!"
           onChange={handleInput}
           required
