@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import FadeIn from 'react-fade-in';
 import Modal from '../components/Modal/Modal';
 import LoginModal from '../pages/LoginModal';
+import SignInModal from '../pages/SignInModal';
 
 const Rending = () => {
   const [isOn, setIsOn] = useState(false);
@@ -26,8 +27,8 @@ const Rending = () => {
   return (
     <Container>
       {isOn && (
-        <Modal setOff={handleModal} height="400px">
-          <LoginModal />
+        <Modal setOff={handleModal} height="800px">
+          <SignInModal />
         </Modal>
       )}
       <MainLogo alt="logo" src="/images/logo.png"></MainLogo>
