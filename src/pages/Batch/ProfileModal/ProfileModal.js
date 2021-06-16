@@ -14,6 +14,7 @@ export default function ProfileModal({ peersInfo }) {
       </UserCard>
       <UserInfos>
         <Position>Position : {peersInfo.peer_position}</Position>
+        <EmailAddress>Email : {peersInfo.peer_email}</EmailAddress>
         <GitAddress>
           GitHub :
           <a href="##" target="_blank">
@@ -74,6 +75,10 @@ const UserInfos = Styled.div`
 `;
 
 const Position = Styled.div``;
+
+const EmailAddress = Styled.div`
+  margin-top: 15px;
+`;
 
 const GitAddress = Styled.div`
   margin-top: 15px;

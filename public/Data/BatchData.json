@@ -64,17 +64,6 @@
             "peer_status": false
           },
           {
-            "peer_id": 4,
-            "peer_name": "C",
-            "peer_profile_image_url": "/images/Profile/test1.jpeg",
-            "peer_position": "백엔드",
-            "peer_email": "c@example.com",
-            "peer_blog": null,
-            "peer_github": null,
-            "peer_birthday": null,
-            "peer_status": false
-          },
-          {
             "peer_id": 5,
             "peer_name": "D",
             "peer_profile_image_url": "/images/Profile/test1.jpeg",

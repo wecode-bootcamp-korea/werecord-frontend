@@ -9,7 +9,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 export default function PeersBox({ myBatchInfo }) {
   const [isOn, setIsOn] = useState(false);
-  const [modalNum, setModalNum] = useState('');
+  const [peerData, setPeerData] = useState({});
 
   const handleModal = e => {
     const clickedInside = e.target.closest('.modal');
@@ -42,16 +42,17 @@ export default function PeersBox({ myBatchInfo }) {
       <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
       <StyledSlider {...settings}>
         {myBatchInfo.peers.map(peers => (
-          <div key={peers.peer_id} onClick={() => setModalNum(peers.peer_id)}>
+          <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
             <ProfileCard setOn={setIsOn} peersInfo={peers} />
-            {isOn && (
-              <Modal isOn={isOn} setOff={handleModal} height="450px">
-                <ProfileModal peersInfo={myBatchInfo.peers[modalNum - 1]} />
-              </Modal>
-            )}
           </div>
         ))}
       </StyledSlider>
+
+      {isOn && (
+        <Modal isOn={isOn} setOff={handleModal} height="480px">
+          <ProfileModal peersInfo={peerData} />
+        </Modal>
+      )}
     </PeersBoxArea>
   );
 }
