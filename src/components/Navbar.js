@@ -15,9 +15,6 @@ export default function Navbar() {
       localStorage.clear();
       alert('로그아웃이 되었습니다.');
       goToPage();
-    } else {
-      alert('이미 로그아웃 상태입니다!');
-      goToPage();
     }
   };
 
@@ -29,7 +26,7 @@ export default function Navbar() {
           <div>
             <GoToMyPageBtn
               onClick={() => {
-                goToPage('my');
+                goToPage('mypage');
               }}
             >
               마이 페이지
@@ -70,10 +67,10 @@ const showContainerAnimation = keyframes`
 
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
+  position: fixed;
   padding: 12px 24px;
   width: 100%;
   top: 0;
-  position: fixed;
   border-bottom: 1px solid ${({ theme }) => theme.colors.white};
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
