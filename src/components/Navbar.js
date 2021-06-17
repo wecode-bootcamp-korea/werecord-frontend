@@ -22,7 +22,7 @@ export default function Navbar() {
     <>
       {location.pathname !== '/' && (
         <Container>
-          <Logo>&gt; we-record</Logo>
+          <Logo onClick={() => goToPage('main')}>&gt; we-record</Logo>
           <div>
             <GoToMyPageBtn
               onClick={() => {
@@ -56,24 +56,14 @@ const logoAnimation = keyframes`
   }
 `;
 
-const showContainerAnimation = keyframes`
-  from {
-    opacity: 0
-  }
-  to{
-    opacity: 1
-  }
-`;
-
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
   position: fixed;
   padding: 12px 24px;
   width: 100%;
   top: 0;
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
   border-bottom: 1px solid ${({ theme }) => theme.colors.white};
-  animation-name: ${showContainerAnimation};
-  animation-duration: 1s;
   z-index: 100;
 `;
 
@@ -81,6 +71,12 @@ const Logo = styled.div`
   position: relative;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
   font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.6;
+  }
 
   &:before {
     display: block;
@@ -115,7 +111,7 @@ const GoToMyPageBtn = styled.button`
     opacity: 0.5;
   }
 
-  transition: transform 0.3s, background-color 0.3s, opacity 0.15s;
+  transition: background-color 0.3s, opacity 0.1s;
 `;
 
 const GoToBatchBtn = GoToMyPageBtn.withComponent('button');
