@@ -2,6 +2,28 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 
 export default function LineChart({ totalAccumulateRecordsData }) {
+  const controlSizeOfLineDot = value => {
+    if (value > 500) {
+      return 2;
+    } else {
+      return 3;
+    }
+  };
+
+  const setLabelData = totalAccumulateRecordsData =>
+    Object.keys(totalAccumulateRecordsData).map(
+      day => `${parseInt(day) + 1}회차`
+    );
+
+  const setAccumulateHoursData = totalAccumulateRecordsData =>
+    totalAccumulateRecordsData.map(hours => Math.ceil(hours / 360 / 10));
+
+  const getMaxyAxesValue = () => {
+    const lastAccumulatedTime =
+      totalAccumulateRecordsData[totalAccumulateRecordsData.length - 1];
+    return (Math.ceil(lastAccumulatedTime / 360) + 100) / 10;
+  };
+
   const options = {
     legend: {
       display: false,
@@ -17,7 +39,7 @@ export default function LineChart({ totalAccumulateRecordsData }) {
             beginAtZero: true,
             min: 0,
             max: getMaxyAxesValue(),
-            stepSize: 50,
+            stepSize: Math.floor(getMaxyAxesValue() / 5),
             fontColor: 'white',
             fontSize: 15,
             display: true,
@@ -54,46 +76,25 @@ export default function LineChart({ totalAccumulateRecordsData }) {
     },
   };
 
-  const totalData = type => {
-    if (type === 'afterDday') {
-      const result = Object.keys(totalAccumulateRecordsData).map(
-        day => `${parseInt(day) + 1}회차`
-      );
-      return result;
-    } else if (type === 'totalHours') {
-      const result = totalAccumulateRecordsData.map(hours =>
-        Math.ceil(hours / 360 / 10)
-      );
-      return result;
-    }
-  };
-
-  function getMaxyAxesValue() {
-    const lastAccumulatedTime =
-      totalAccumulateRecordsData[totalAccumulateRecordsData.length - 1];
-    const result = Math.ceil(lastAccumulatedTime / 360 / 10);
-    return result;
-  }
-
   return (
     <Line
+      width={180}
+      height={80}
+      options={options}
       data={{
-        labels: totalData('afterDday'),
+        labels: setLabelData(totalAccumulateRecordsData),
         datasets: [
           {
             label: 'Spending Time in Wecode',
-            data: totalData('totalHours'),
+            data: setAccumulateHoursData(totalAccumulateRecordsData),
             fill: false,
             borderColor: '#0066ff',
             backgroundColor: '#0066ff',
             tension: 0.1,
-            pointRadius: 2,
+            pointRadius: controlSizeOfLineDot(getMaxyAxesValue()),
           },
         ],
       }}
-      width={180}
-      height={80}
-      options={options}
     />
   );
 }

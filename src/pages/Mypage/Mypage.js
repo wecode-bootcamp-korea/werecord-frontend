@@ -14,9 +14,10 @@ export default function Mypage() {
 
   useEffect(() => {
     fetch('data/mypageInformationData.json')
+      // fetch('http://10.58.1.242:8000/users/student')
       .then(res => res.json())
-      .then(res => {
-        setUserInformation(res.result);
+      .then(userInformationData => {
+        setUserInformation(userInformationData.result);
       });
   }, []);
 
@@ -128,7 +129,7 @@ const ContentsContainer = styled.section`
 `;
 
 const UserProfile = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
+  ${({ theme }) => theme.flexbox('row', 'flex-start')}
   margin-bottom: 70px;
 `;
 
