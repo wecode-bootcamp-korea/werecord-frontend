@@ -2,6 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta
+      name="google-signin-client_id"
+      content="348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com"
+    />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script
+      src="https://apis.google.com/js/platform.js?onload=renderButton"
+      async
+      defer
+    ></script>
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>we-record</title>
@@ -17,5 +27,10 @@
   <body>
     <div id="root"></div>
     <div id="modal"></div>
+    <script
+      src="https://apis.google.com/js/platform.js?onload=init"
+      async
+      defer
+    ></script>
   </body>
 </html>
