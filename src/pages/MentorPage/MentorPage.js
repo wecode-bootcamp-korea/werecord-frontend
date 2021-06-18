@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import Slider from 'react-slick';
 import FadeIn from 'react-fade-in';
 import API_URLS from '../../config';
 import IMAGES from './IMAGES';
 
 export default function MentorPage({ history }) {
   const [batchInformation, setBatchInformation] = useState([]);
-
+  const sliderList = useRef();
+  const count = useRef(0);
   const goToBatchPage = id => {
     history.push(`/batch/${id}`);
   };
@@ -34,50 +36,82 @@ export default function MentorPage({ history }) {
       });
   }, []);
 
+  const goToPrevious = () => {
+    const batchLength = Math.ceil(batchInformation.length / 3);
+    if (count.current === 0) {
+      count.current = batchLength;
+    }
+    count.current--;
+    sliderList.current.style.transform = `translate(-${
+      1380 * count.current
+    }px, 0)`;
+  };
+
+  const goToNext = () => {
+    const batchLength = Math.floor(batchInformation.length / 3);
+
+    if (count.current === batchLength) {
+      count.current = -1;
+    }
+    count.current++;
+    sliderList.current.style.transform = `translate(-${
+      1380 * count.current
+    }px, 0)`;
+  };
+
+  console.log(batchInformation);
+
   return (
     <FadeIn>
       <ContentsContainer>
+        <MoveBtnContainer>
+          <LeftBtn onClick={goToPrevious}>
+            <i className="fas fa-arrow-left"></i>
+          </LeftBtn>
+          <RightBtn onClick={goToNext}>
+            <i className="fas fa-arrow-right"></i>
+          </RightBtn>
+        </MoveBtnContainer>
         <Title>진행중인 기수 현황</Title>
-        <BatchInformationContainer>
-          {batchInformation &&
-            batchInformation.map((batch, index) => {
-              const {
-                batch_id,
-                batch_name,
-                batch_start_day,
-                batch_end_day,
-                batch_total_time,
-                wecode_d_day,
-                batch_on_user_number,
-                batch_total_user_number,
-              } = batch;
-              return (
-                <List key={index}>
-                  <Contents
-                    images={getRandomImage(IMAGES)}
-                    onClick={() => {
-                      goToBatchPage(batch_id);
-                    }}
-                  >
-                    <BatchName>{batch_name}기</BatchName>
-                    <AfterDday>D + {wecode_d_day}</AfterDday>
-                    <StartDay>시작일: {batch_start_day}</StartDay>
-                    <EndDay>종료일: {batch_end_day}</EndDay>
-                    <TotalTime>
-                      누적: {convertSecondsToHours(batch_total_time)} 시간
-                    </TotalTime>
-                    <BatchOnUser>
-                      <UserStatus>현재 출석 현황: </UserStatus>
-                      <OnUser count={batch_on_user_number}>
-                        {batch_on_user_number}
-                      </OnUser>
-                      <Slash>/</Slash>
-                      <TotalUser>{batch_total_user_number}</TotalUser>
-                    </BatchOnUser>
-                  </Contents>
-                </List>
-              );
-            })}
+        <BatchInformationContainer ref={sliderList}>
+          {batchInformation.map((batch, index) => {
+            const {
+              batch_id,
+              batch_name,
+              batch_start_day,
+              batch_end_day,
+              batch_total_time,
+              wecode_d_day,
+              batch_on_user_number,
+              batch_total_user_number,
+            } = batch;
+            return (
+              <List key={index}>
+                <Contents
+                  images={getRandomImage(IMAGES)}
+                  onClick={() => {
+                    goToBatchPage(batch_id);
+                  }}
+                >
+                  <BatchName>{batch_name}기</BatchName>
+                  <AfterDday>D + {wecode_d_day}</AfterDday>
+                  <StartDay>시작일: {batch_start_day}</StartDay>
+                  <EndDay>종료일: {batch_end_day}</EndDay>
+                  <TotalTime>
+                    누적: {convertSecondsToHours(batch_total_time)} 시간
+                  </TotalTime>
+                  <BatchOnUser>
+                    <UserStatus>현재 출석 현황: </UserStatus>
+                    <OnUser count={batch_on_user_number}>
+                      {batch_on_user_number}
+                    </OnUser>
+                    <Slash>/</Slash>
+                    <TotalUser>{batch_total_user_number}</TotalUser>
+                  </BatchOnUser>
+                </Contents>
+              </List>
+            );
+          })}
         </BatchInformationContainer>
       </ContentsContainer>
     </FadeIn>
@@ -95,18 +129,45 @@ const convertSecondsToHours = seconds => {
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('column')}
   margin: 80px auto 0;
-  padding: 60px;
+  position: relative;
+  padding: 60px 0;
   max-width: 1440px;
+  overflow: hidden;
 `;
+
+const MoveBtnContainer = styled.div`
+  ${({ theme }) => theme.flexbox('row', 'space-between')};
+  width: 500px;
+  top: 65px;
+  position: absolute;
+`;
+const LeftBtn = styled.button`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.pixelToRem(30)};
+  cursor: pointer;
+  transition: 0.3s transform;
+
+  &:active {
+    opacity: 0.5;
+  }
+
+  &:hover {
+    transform: scale(1.3);
+  }
+`;
+const RightBtn = LeftBtn.withComponent('button');
 
 const Title = styled.h1`
   margin-bottom: 80px;
   font-weight: 700;
   font-size: ${({ theme }) => theme.pixelToRem(35)};
+  text-align: center;
 `;
 
 const BatchInformationContainer = styled.ul`
-  ${({ theme }) => theme.flexbox()}
+  ${({ theme }) => theme.flexbox('row', 'start')}
+  width: 1380px;
+  transition: transform 0.5s;
 `;
 
 const List = styled.li`

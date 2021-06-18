@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import Modal from '../components/Modal/Modal';
+import MakeBatchForm from '../pages/MentorPage/MakeBatchForm';
 
 export default function Navbar() {
+  const [isOn, setIsOn] = useState(false);
   const history = useHistory();
   const location = useLocation();
   const isCheckMentor = sessionStorage.getItem('user_type') === '2';
@@ -18,6 +21,23 @@ export default function Navbar() {
       goToPage();
     }
   };
+
+  const handleModal = e => {
+    const clickedInside = e.target.closest('.modal');
+    const clickedBtn = e.target.closest('.closeBtn');
+    if (clickedInside) {
+      if (clickedBtn) {
+        setIsOn(false);
+      }
+      if (!clickedBtn) {
+        return;
+      }
+    } else {
+      setIsOn(false);
+    }
+  };
+
+  const handleModalAfterBatchMaking = () => setIsOn(false);
 
   return (
     <>
@@ -39,7 +59,16 @@ export default function Navbar() {
                 마이 페이지
               </GoToMyPageBtn>
             )}
-            {isCheckMentor && (
+            {isCheckMentor && location.pathname === '/mentorpage' && (
+              <MakeBatchBtn
+                onClick={() => {
+                  setIsOn(true);
+                }}
+              >
+                기수 생성
+              </MakeBatchBtn>
+            )}
+            {isCheckMentor && location.pathname !== '/mentorpage' && (
               <GoToMentorPageBtn
                 onClick={() => {
                   goToPage('mentorpage');
@@ -59,6 +88,11 @@ export default function Navbar() {
             )}
             <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
           </div>
+          {isOn && (
+            <Modal isOn={isOn} setOff={handleModal} height="400px">
+              <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
+            </Modal>
+          )}
         </Container>
       )}
     </>
