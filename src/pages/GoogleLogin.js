@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const GoogleLogin = () => {
   const history = useHistory();
-  console.log(history);
   useEffect(() => {
     googleLogin();
   }, []);
@@ -22,7 +21,6 @@ const GoogleLogin = () => {
     });
 
     function attachSignin(element) {
-      console.log(element.id);
       window.auth2.attachClickHandler(
         element,
         {},
@@ -77,9 +75,9 @@ const GoogleButton = styled.button`
 `;
 
 const GoogleLogo = styled.img`
+  margin: 5px;
   width: 20px;
   height: 20px;
-  margin: 5px;
 `;
 
 const GoogleLoginText = styled.p`
