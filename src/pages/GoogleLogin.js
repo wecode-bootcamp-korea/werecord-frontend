@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,6 +7,8 @@ const GoogleLogin = () => {
   useEffect(() => {
     googleLogin();
   }, []);
+
+  const googleButton = useRef();
 
   const googleLogin = () => {
     window.gapi.load('auth2', function () {
@@ -17,7 +19,7 @@ const GoogleLogin = () => {
         cookiepolicy: 'single_host_origin',
         //scope: 'additional_scope'
       });
-      attachSignin(document.getElementById('customBtn'));
+      attachSignin(googleButton.current);
     });
 
     function attachSignin(element) {
@@ -26,7 +28,6 @@ const GoogleLogin = () => {
         {},
         function (googleUser) {
           const value = googleUser.getAuthResponse().id_token;
-
           fetch('http://10.58.5.223:8000/users/login', {
             headers: {
               Authorization: value,
@@ -57,7 +58,7 @@ const GoogleLogin = () => {
   };
 
   return (
-    <GoogleButton id="customBtn">
+    <GoogleButton ref={googleButton}>
       <GoogleLogo src="/images/googleLogo.png"></GoogleLogo>
       <GoogleLoginText>구글로 로그인하기</GoogleLoginText>
     </GoogleButton>
