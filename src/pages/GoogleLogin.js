@@ -39,7 +39,9 @@ const GoogleLogin = () => {
               sessionStorage.setItem('wrtoken', res.werecord_token);
               return res;
             })
+            //테스트용 console입니다.
             .then(res => console.log(res));
+          //테스트용 주석입니다.
           // .then(res => {
           //   if (res.user_info.batch) {
           //     alert('이미 가입된 회원입니다');
