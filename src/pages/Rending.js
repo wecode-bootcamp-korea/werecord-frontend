@@ -33,8 +33,8 @@ const Rending = () => {
       )}
       <MainLogo alt="logo" src="/images/logo.png"></MainLogo>
       <FadeIn delay={600} transitionDuration={1000}>
-        <SubLogo alt="sublogo" src="/images/우리는.png"></SubLogo>
-        <SubLogo alt="sublogo" src="/images/기록합니다.png"></SubLogo>
+        <SubLogo alt="sublogo" src="/images/우리는.png" />
+        <SubLogo alt="sublogo" src="/images/기록합니다.png" />
       </FadeIn>
       <LoginImg
         onClick={() => setIsOn(!isOn)}
