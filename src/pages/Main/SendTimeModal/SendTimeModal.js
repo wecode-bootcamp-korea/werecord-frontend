@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import Styled from 'styled-components';
 
-export default function SendTimeModal() {
+function SendTimeModal({ can }) {
   const [sendHour, setSendHour] = useState('');
   const [sendMinute, setSendMinute] = useState('');
 
   const sendTime = e => {
+    e.preventDefault();
+
     if (sendHour !== '' && sendMinute !== '') {
-      fetch('', {
+      fetch('http://10.58.1.242:8000/records', {
         method: 'POST',
-        headers: {},
+        // headers: {},
         body: JSON.stringify({
-          hour: sendHour,
-          minute: sendMinute,
+          hour: Number(sendHour),
+          minute: Number(sendMinute),
         }),
-      });
+      })
+        .then(res => res.json())
+        .then(isSuccess => {
+          if (isSuccess.message === 'SUCCESS') {
+            can(false);
+          }
+        });
     } else {
       alert('시간을 다시 확인해주세요.');
     }
@@ -28,7 +36,6 @@ export default function SendTimeModal() {
     setSendMinute(e.target.value);
   };
 
-  console.log(sendHour);
   return (
     <Container>
       <ModalTitle>퇴근 시간 입력창</ModalTitle>
@@ -59,6 +66,8 @@ export default function SendTimeModal() {
     </Container>
   );
 }
+
+export default React.memo(SendTimeModal);
 
 const Container = Styled.div``;
 

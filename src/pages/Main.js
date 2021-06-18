@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 
-const Main = () => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [canPushBtn, setCanPushBtn] = useState(false);
+export default function Main() {
   const [time, setTime] = useState({
     hour: new Date().getHours(),
     minutes: new Date().getMinutes(),
   });
+  const [userInfo, setUserInfo] = useState({
+    name: '위코드',
+    isOn: false,
+    startTime: '09:30',
+    normalAttendance: false,
+  });
+  const history = useHistory();
+  const startTimeArr = userInfo.startTime.split(':');
 
   useEffect(() => {
-    fetch('')
-      .then(res => res.json())
-      .then(isSuccess => {
-        if (isSuccess.message === 'SUCCESS') {
-          setCanPushBtn(true);
-        } else {
-          setCanPushBtn(false);
-        }
-      });
-  }, []);
-
-  useEffect(() => {
-    const goTime = setTimeout(() => {
+    const goTime = setInterval(() => {
       setTime({
         ...time,
         hour: new Date().getHours(),
@@ -33,6 +28,64 @@ const Main = () => {
     }, 1000);
     return () => clearInterval(goTime);
   }, [time]);
+
+  useEffect(() => {
+    fetch('http://10.58.6.89:8000/records')
+      .then(res => res.json())
+      .then(isSuccess => {
+        const { user_name, user_status, user_start_time } = isSuccess.result;
+
+        if (isSuccess.message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
+          return setUserInfo({
+            ...userInfo,
+            normalAttendance: true,
+          });
+        }
+
+        if (Object.keys(isSuccess.result).length > 0) {
+          setUserInfo({
+            ...userInfo,
+            name: user_name,
+            isOn: user_status,
+            startTime: user_start_time,
+          });
+        }
+      });
+  }, []);
+
+  const checkStart = e => {
+    fetch(`http://10.58.6.89:8000/records/1`)
+      .then(res => res.json())
+      .then(errorMessage => {
+        if (errorMessage.message === 'ALREADY_RECORD_ERROR') {
+          alert('이미 출근하셨습니다.');
+        }
+        if (Object.keys(errorMessage.result).length > 0) {
+          alert(errorMessage.result.comment);
+        }
+        if (errorMessage.message === 'LOCATION_ERROR') {
+          alert('위코드에 오시긴 하셨나요?');
+        }
+        history.push('/main');
+      });
+  };
+
+  const checkEnd = e => {
+    fetch('http://10.58.6.89:8000/records/2')
+      .then(res => res.json())
+      .then(errorMessage => {
+        if (errorMessage.message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
+          alert('출석부터 누르세요');
+        }
+        if (errorMessage.message === 'ALREADY_RECORD_ERROR') {
+          alert('이미 퇴근했습니다.');
+        }
+        if (errorMessage.message === 'LOCATION_ERROR') {
+          alert('위코드에 계시긴 하나요?');
+        }
+        history.push('/main');
+      });
+  };
 
   return (
     <Container>
@@ -49,41 +102,34 @@ const Main = () => {
         </TimeDescription>
       </TimeSection>
       <StartSection>
-        {!isLogin ? (
+        {!userInfo.isOn ? (
           <StartTime>오늘도 상쾌하게 시작해볼까요?</StartTime>
         ) : (
           <>
-            <StudentName>이다슬님</StudentName>
-            <StartTime>{`은 시 분에 시작하셨습니다.`}</StartTime>
+            <StudentName>{userInfo.name}</StudentName>
+            <StartTime>{`님은 ${startTimeArr[0]}시 ${startTimeArr[1]}분에 시작하셨습니다.`}</StartTime>
           </>
         )}
       </StartSection>
       <ButtonAnimationSection>
         <ButtonSection>
-          <Button onClick={() => setIsLogin(!isLogin)} disabled={canPushBtn}>
-            START
-          </Button>
-          <Button>STOP</Button>
+          <Button onClick={checkStart}>START</Button>
+          <Button onClick={checkEnd}>STOP</Button>
         </ButtonSection>
         <FireAnimationSection>
-          <FirewoodImg
-            alt="firewoodimg"
-            src="/images/firewood.png"
-          ></FirewoodImg>
-          <FireGif alt="firegif" src="/images/fire.gif"></FireGif>
+          <FirewoodImg alt="firewoodimg" src="/images/firewood.png" />
+          {userInfo.isOn && <FireGif alt="firegif" src="/images/fire.gif" />}
         </FireAnimationSection>
       </ButtonAnimationSection>
 
-      {canPushBtn && (
+      {userInfo.normalAttendance && (
         <Modal height="300px">
-          <SendTimeModal />
+          <SendTimeModal can={userInfo.normalAttendance} />
         </Modal>
       )}
     </Container>
   );
-};
-
-export default Main;
+}
 
 const day = ['일', '월', '화', '수', '목', '금', '토'];
 
