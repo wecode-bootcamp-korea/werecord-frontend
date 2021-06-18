@@ -7,6 +7,12 @@ import SignInModal from '../pages/SignInModal';
 
 const Rending = () => {
   const [isOn, setIsOn] = useState(false);
+  const [isSignOn, setIsSignOn] = useState(false);
+
+  const changeModalValue = () => {
+    setIsSignOn(!isSignOn);
+    setIsOn(!isOn);
+  };
 
   const handleModal = e => {
     const clickedInside = e.target.closest('.modal');
@@ -24,10 +30,31 @@ const Rending = () => {
     }
   };
 
+  const handleSignInModal = e => {
+    const clickedInside = e.target.closest('.modal');
+    const clickedBtn = e.target.closest('.closeBtn');
+
+    if (clickedInside) {
+      if (clickedBtn) {
+        setIsSignOn(false);
+      }
+      if (!clickedBtn) {
+        return;
+      }
+    } else {
+      setIsSignOn(false);
+    }
+  };
+
   return (
     <Container>
       {isOn && (
-        <Modal setOff={handleModal} height="800px">
+        <Modal setOff={handleModal} height="300px">
+          <LoginModal changeModalValue={changeModalValue} />
+        </Modal>
+      )}
+      {isSignOn && (
+        <Modal setOff={handleSignInModal} height="800px" isSignOn={isSignOn}>
           <SignInModal />
         </Modal>
       )}

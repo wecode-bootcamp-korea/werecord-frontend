@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import GoogleLogin from '../pages/GoogleLogin';
 
-const LoginModal = () => {
+const LoginModal = props => {
   return (
     <ModalContainer>
       <MainLogo>&gt;we-record</MainLogo>
       <LoginSection>
         <LoginHeader>로그인하시겠어요?</LoginHeader>
-        <GoogleLogin>구글로 로그인하기</GoogleLogin>
+        <GoogleLogin changeModalValue={props.changeModalValue} />
       </LoginSection>
     </ModalContainer>
   );
@@ -41,10 +42,10 @@ const LoginHeader = styled.h1`
   margin-bottom: 70px;
 `;
 
-const GoogleLogin = styled.button`
-  color: ${({ theme }) => theme.colors.black};
-  border: 2px solid ${({ theme }) => theme.colors.black};
-  padding: 10px;
-  border-radius: 5px;
-  font-weight: 700;
-`;
+// const GoogleLogin = styled.button`
+//   color: ${({ theme }) => theme.colors.black};
+//   border: 2px solid ${({ theme }) => theme.colors.black};
+//   padding: 10px;
+//   border-radius: 5px;
+//   font-weight: 700;
+// `;

@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-const GoogleLogin = () => {
+const GoogleLogin = props => {
   const history = useHistory();
   useEffect(() => {
     googleLogin();
@@ -36,19 +36,21 @@ const GoogleLogin = () => {
             .then(res => res.json())
             .then(res => {
               sessionStorage.setItem('wrtoken', res.werecord_token);
+              sessionStorage.setItem('use_type', res.user_type);
               return res;
             })
             //테스트용 console입니다.
-            .then(res => console.log(res));
-          //테스트용 주석입니다.
-          // .then(res => {
-          //   if (res.user_info.batch) {
-          //     alert('이미 가입된 회원입니다');
-          //   } else if (res.user_info.batch === undefined) {
-          //     alert('신규 가입 회원입니다');
-          //     history.push('/');
-          //   }
-          // });
+            // .then(res => console.log(res));
+            // 테스트용 주석입니다.
+            .then(res => {
+              if (res.user_info.batch) {
+                alert('로그인이 완료되었습니다!');
+                props.changeModalValue();
+              } else if (res.user_info.batch === undefined) {
+                alert('신규 가입 회원입니다');
+                history.push('/main');
+              }
+            });
         },
         function (error) {
           alert(JSON.stringify(error, undefined, 2));
@@ -58,10 +60,13 @@ const GoogleLogin = () => {
   };
 
   return (
-    <GoogleButton ref={googleButton}>
-      <GoogleLogo src="/images/googleLogo.png"></GoogleLogo>
-      <GoogleLoginText>구글로 로그인하기</GoogleLoginText>
-    </GoogleButton>
+    <>
+      {/* <button onClick={props.changeModalValue}>하이</button> */}
+      <GoogleButton ref={googleButton}>
+        <GoogleLogo src="/images/googleLogo.png"></GoogleLogo>
+        <GoogleLoginText>구글로 로그인하기</GoogleLoginText>
+      </GoogleButton>
+    </>
   );
 };
 
@@ -69,8 +74,8 @@ export default GoogleLogin;
 
 const GoogleButton = styled.button`
   ${({ theme }) => theme.flexbox()}
-  width: 120px;
-  height: 30px;
+  width: 200px;
+  height: 40px;
   background-color: white;
   border-radius: 3px;
 `;
@@ -82,6 +87,8 @@ const GoogleLogo = styled.img`
 `;
 
 const GoogleLoginText = styled.p`
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 700;
+  margin: 5px;
+  line-height: 15px;
 `;
