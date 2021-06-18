@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
 const GoogleLogin = () => {
   const history = useHistory();
@@ -26,30 +27,27 @@ const GoogleLogin = () => {
         element,
         {},
         function (googleUser) {
-          // setToken(googleUser.getAuthResponse().id_token);
-          // console.log();
-          // console.log(googleUser.getAuthResponse().access_token);
           const value = googleUser.getAuthResponse().id_token;
 
-          fetch('http://15.164.163.99:8000/users/login', {
+          fetch('http://10.58.5.223:8000/users/login', {
             headers: {
               Authorization: value,
             },
           })
             .then(res => res.json())
             .then(res => {
-              sessionStorage.setItem('token', res.werecord_token);
+              sessionStorage.setItem('wrtoken', res.werecord_token);
               return res;
             })
-            // .then(res => console.log(res));
-            .then(res => {
-              if (res.user_info.batch) {
-                alert('이미 가입된 회원입니다');
-              } else if (res.user_info.batch === undefined) {
-                alert('신규 가입 회원입니다');
-                history.push('/');
-              }
-            });
+            .then(res => console.log(res));
+          // .then(res => {
+          //   if (res.user_info.batch) {
+          //     alert('이미 가입된 회원입니다');
+          //   } else if (res.user_info.batch === undefined) {
+          //     alert('신규 가입 회원입니다');
+          //     history.push('/');
+          //   }
+          // });
         },
         function (error) {
           alert(JSON.stringify(error, undefined, 2));
@@ -59,14 +57,30 @@ const GoogleLogin = () => {
   };
 
   return (
-    <div
-      id="customBtn"
-      style={{ width: '30px', height: '30px', backgroundColor: 'yellow' }}
-    ></div>
+    <GoogleButton id="customBtn">
+      <GoogleLogo src="/images/googleLogo.png"></GoogleLogo>
+      <GoogleLoginText>구글로 로그인하기</GoogleLoginText>
+    </GoogleButton>
   );
 };
 
-// const GoogleButton = styled.div`
-// `;
-
 export default GoogleLogin;
+
+const GoogleButton = styled.button`
+  ${({ theme }) => theme.flexbox()}
+  width: 120px;
+  height: 30px;
+  background-color: white;
+  border-radius: 3px;
+`;
+
+const GoogleLogo = styled.img`
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+`;
+
+const GoogleLoginText = styled.p`
+  font-size: 10px;
+  font-weight: 700;
+`;
