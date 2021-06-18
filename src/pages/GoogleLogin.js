@@ -1,67 +1,72 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
-const gauth = gapi.auth2.init({
-  client_id:
-    '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
-});
+const GoogleLogin = () => {
+  const history = useHistory();
+  console.log(history);
+  useEffect(() => {
+    googleLogin();
+  }, []);
 
-const googleSDK = () => {
-  // 구글 SDK 초기 설정
-  window.googleSDKLoaded = () => {
-    window.gapi.load('auth2', () => {
-      const auth2 = window.gapi.auth2.getAuthInstance({
-        client_id: '클라이언트_ID.apps.googleusercontent.com',
-        scope: 'profile email',
+  const googleLogin = () => {
+    window.gapi.load('auth2', function () {
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      window.auth2 = window.gapi.auth2.init({
+        client_id:
+          '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        //scope: 'additional_scope'
       });
-      auth2.attachClickHandler(
-        googleLoginBtn.current, // useRef랑 current!!!!!
+      attachSignin(document.getElementById('customBtn'));
+    });
+
+    function attachSignin(element) {
+      console.log(element.id);
+      window.auth2.attachClickHandler(
+        element,
         {},
-        googleUser => {
-          const profile = googleUser.getBasicProfile();
-          console.log(profile);
-          console.log(`Token || ${googleUser.getAuthResponse().id_token}`);
-          setToken(googleUser.getAuthResponse().id_token);
-          console.log(`ID: ${profile.getId()}`);
-          console.log(`Name: ${profile.getName()}`);
-          console.log(`Image URL: ${profile.getImageUrl()}`);
-          console.log(`Email: ${profile.getEmail()}`);
+        function (googleUser) {
+          // setToken(googleUser.getAuthResponse().id_token);
+          // console.log();
+          // console.log(googleUser.getAuthResponse().access_token);
+          const value = googleUser.getAuthResponse().id_token;
+
+          fetch('http://15.164.163.99:8000/users/login', {
+            headers: {
+              Authorization: value,
+            },
+          })
+            .then(res => res.json())
+            .then(res => {
+              sessionStorage.setItem('token', res.werecord_token);
+              return res;
+            })
+            // .then(res => console.log(res));
+            .then(res => {
+              if (res.user_info.batch) {
+                alert('이미 가입된 회원입니다');
+              } else if (res.user_info.batch === undefined) {
+                alert('신규 가입 회원입니다');
+                history.push('/');
+              }
+            });
         },
-        error => {
+        function (error) {
           alert(JSON.stringify(error, undefined, 2));
         }
       );
-    });
-  };
-  // 구글 SDK 로드
-  (function (d, s, id) {
-    let js;
-    const fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-      return;
     }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = 'https://apis.google.com/js/platform.js?onload=googleSDKLoaded';
-    fjs.parentNode.insertBefore(js, fjs);
-  })(document, 'script', 'google-jssdk');
+  };
+
+  return (
+    <div
+      id="customBtn"
+      style={{ width: '30px', height: '30px', backgroundColor: 'yellow' }}
+    ></div>
+  );
 };
 
-useEffect(() => {
-  googleSDK();
-}, []);
+// const GoogleButton = styled.div`
+// `;
 
-export default function GoogleLogin() {
-  return (
-    <Head>
-      <script
-        src="https://apis.google.com/js/platform.js?onload=init"
-        async
-        defer
-      ></script>
-      <meta
-        name="google-signin-client_id"
-        content="348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com"
-      />
-    </Head>
-  );
-}
+export default GoogleLogin;

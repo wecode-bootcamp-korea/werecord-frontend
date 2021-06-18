@@ -9,7 +9,8 @@ export default function Routes() {
     <Router>
       <Switch>
         <Route exact path="/" component={Rending}></Route>
-        <Route exact path="/googlelogin" component={GoogleLogin}></Route>
+        <Route exact path="/googleLogin" component={GoogleLogin}></Route>
+        <Route exact path="/main" component={Main}></Route>
       </Switch>
     </Router>
   );
