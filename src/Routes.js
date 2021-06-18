@@ -4,7 +4,7 @@ import Main from './pages/Main';
 import Navbar from '../src/components/Navbar';
 import Rending from './pages/Rending';
 import GoogleLogin from './pages/GoogleLogin';
-// import Batch from './pages/Batch/Batch';
+import Batch from './pages/Batch/Batch';
 
 export default function Routes() {
   return (
@@ -13,8 +13,8 @@ export default function Routes() {
       <Switch>
         <Route exact path="/main" component={Main} />
         <Route exact path="/" component={Rending} />
-        {/* <Route exact path="/batch" component={Batch} /> */}
-        <Route exact path="/googleLogin" component={GoogleLogin}></Route>
+        <Route exact path="/googleLogin" component={GoogleLogin} />
+        <Route exact path="/batch" component={Batch} />
       </Switch>
     </Router>
   );
