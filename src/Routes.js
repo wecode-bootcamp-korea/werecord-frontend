@@ -4,7 +4,6 @@ import Main from './pages/Main';
 import Navbar from '../src/components/Navbar';
 import Rending from './pages/Rending';
 import GoogleLogin from './pages/GoogleLogin';
-import Rending from './pages/Rending';
 import Batch from './pages/Batch/Batch';
 
 export default function Routes() {
