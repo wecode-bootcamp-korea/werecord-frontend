@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 
-export default function Main() {
+export default function Main({ history }) {
   const [time, setTime] = useState({
     hour: new Date().getHours(),
     minutes: new Date().getMinutes(),
@@ -15,7 +14,6 @@ export default function Main() {
     startTime: '09:30',
     normalAttendance: false,
   });
-  const history = useHistory();
   const startTimeArr = userInfo.startTime.split(':');
 
   useEffect(() => {
@@ -92,7 +90,7 @@ export default function Main() {
       <TimeSection>
         <TimeDescription>
           {`지금은 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일 ${
-            day[new Date().getDay()]
+            WEEK[new Date().getDay()]
           }요일`}
         </TimeDescription>
         <TimeDescription>
@@ -131,7 +129,7 @@ export default function Main() {
   );
 }
 
-const day = ['일', '월', '화', '수', '목', '금', '토'];
+const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')}

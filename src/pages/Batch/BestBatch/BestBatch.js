@@ -68,7 +68,6 @@ const BestBatchTime = Styled.span`
 
 const MyBatch = Styled.article`
   ${({ theme }) => theme.flexbox('column', 'center', 'flex-start')};
-
   margin-top: ${({ theme }) => theme.pixelToRem(43)};
   font-size: ${({ theme }) => theme.pixelToRem(40)};
   font-weight: 700;
@@ -141,7 +140,6 @@ const BestPerson = Styled.div`
   height: ${props =>
     props.rank === 1 ? '70%' : props.rank === 2 ? '45%' : '30%'};
   background-color: #0066ff;
-
   animation: ${props =>
     props.rank === 1
       ? firstPlace

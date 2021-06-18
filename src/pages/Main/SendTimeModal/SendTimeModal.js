@@ -29,11 +29,28 @@ function SendTimeModal({ can }) {
   };
 
   const handleHourChange = e => {
+    const { value } = e.target;
+
     setSendHour(e.target.value);
+    if (value >= 24) {
+      setSendHour(23);
+    }
+    if (value < 0) {
+      setSendHour(0);
+    }
   };
 
   const handleMinuteChange = e => {
+    const { value } = e.target;
+
     setSendMinute(e.target.value);
+
+    if (value >= 60) {
+      setSendMinute(59);
+    }
+    if (value < 0) {
+      setSendMinute(0);
+    }
   };
 
   return (
@@ -46,7 +63,7 @@ function SendTimeModal({ can }) {
         <div>
           <InputTime
             type="number"
-            placeholder="시간을 입력하세요"
+            placeholder="시간(0-23시)"
             value={sendHour}
             name="hour"
             onChange={handleHourChange}
@@ -54,7 +71,7 @@ function SendTimeModal({ can }) {
           />
           <InputTime
             type="number"
-            placeholder="분을 입력하세요"
+            placeholder="분(0-59분)"
             value={sendMinute}
             name="minute"
             onChange={handleMinuteChange}
@@ -90,7 +107,7 @@ const SendTimeForm = Styled.form`
 
 const InputTime = Styled.input`
   margin: 5px 10px;
-  padding: 5px 10px;
+  padding: 8px 20px;
   border: 1px solid rgba(34, 34, 34, 0.3);
   border-radius: 3px;
   transition: all 0.3s ease;
@@ -112,6 +129,6 @@ const SendBtn = Styled.button`
 
   &:hover {
     color: ${({ theme }) => theme.colors.white};
-    background-color: ${({ theme }) => theme.colors.black};
+    background-color: rgba(34, 34, 34, 0.9);
   }
 `;
