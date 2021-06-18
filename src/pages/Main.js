@@ -1,85 +1,95 @@
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 
 export default function Main({ history }) {
   const [time, setTime] = useState({
-    hour: new Date().getHours(),
-    minutes: new Date().getMinutes(),
+    hour: dayjs().hour(),
+    minutes: dayjs().minute(),
   });
   const [userInfo, setUserInfo] = useState({
     name: '위코드',
     isOn: false,
-    startTime: '09:30',
+    startTime: '00:00',
     normalAttendance: false,
   });
-  const startTimeArr = userInfo.startTime.split(':');
+  const startTimeObj = {
+    hour: userInfo.startTime.split(':')[0],
+    minute: userInfo.startTime.split(':')[1],
+  };
 
   useEffect(() => {
     const goTime = setInterval(() => {
-      setTime({
-        ...time,
-        hour: new Date().getHours(),
-        minutes: new Date().getMinutes(),
-      });
+      setTime(prev => ({
+        ...prev,
+        hour: dayjs().hour(),
+        minutes: dayjs().minute(),
+      }));
     }, 1000);
     return () => clearInterval(goTime);
-  }, [time]);
+  }, []);
 
   useEffect(() => {
     fetch('http://10.58.6.89:8000/records')
       .then(res => res.json())
       .then(isSuccess => {
-        const { user_name, user_status, user_start_time } = isSuccess.result;
+        const { message, result } = isSuccess;
 
-        if (isSuccess.message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
-          return setUserInfo({
-            ...userInfo,
-            normalAttendance: true,
-          });
+        if (message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
+          return setUserInfo(prev => ({ ...prev, normalAttendance: true }));
         }
 
-        if (Object.keys(isSuccess.result).length > 0) {
-          setUserInfo({
-            ...userInfo,
+        if (result) {
+          const { user_name, user_status, user_start_time } = result;
+
+          setUserInfo(prev => ({
+            ...prev,
             name: user_name,
             isOn: user_status,
             startTime: user_start_time,
-          });
+          }));
         }
       });
   }, []);
 
-  const checkStart = e => {
+  const checkStart = () => {
     fetch(`http://10.58.6.89:8000/records/1`)
       .then(res => res.json())
-      .then(errorMessage => {
-        if (errorMessage.message === 'ALREADY_RECORD_ERROR') {
+      .then(errorData => {
+        const { message, result } = errorData;
+
+        if (message === 'ALREADY_RECORD_ERROR') {
           alert('이미 출근하셨습니다.');
         }
-        if (Object.keys(errorMessage.result).length > 0) {
-          alert(errorMessage.result.comment);
-        }
-        if (errorMessage.message === 'LOCATION_ERROR') {
+        if (message === 'LOCATION_ERROR') {
           alert('위코드에 오시긴 하셨나요?');
+        }
+        if (result) {
+          alert(result.comment);
         }
         history.push('/main');
       });
   };
 
-  const checkEnd = e => {
+  const checkEnd = () => {
     fetch('http://10.58.6.89:8000/records/2')
       .then(res => res.json())
-      .then(errorMessage => {
-        if (errorMessage.message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
+      .then(errorData => {
+        const { message, result } = errorData;
+
+        if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
           alert('출석부터 누르세요');
         }
-        if (errorMessage.message === 'ALREADY_RECORD_ERROR') {
+        if (message === 'ALREADY_RECORD_ERROR') {
           alert('이미 퇴근했습니다.');
         }
-        if (errorMessage.message === 'LOCATION_ERROR') {
+        if (message === 'LOCATION_ERROR') {
           alert('위코드에 계시긴 하나요?');
+        }
+        if (result) {
+          alert(result.comment);
         }
         history.push('/main');
       });
@@ -89,8 +99,8 @@ export default function Main({ history }) {
     <Container>
       <TimeSection>
         <TimeDescription>
-          {`지금은 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일 ${
-            WEEK[new Date().getDay()]
+          {`지금은 ${dayjs().month() + 1}월 ${dayjs().date()}일 ${
+            WEEK[dayjs().day()]
           }요일`}
         </TimeDescription>
         <TimeDescription>
@@ -105,7 +115,7 @@ export default function Main({ history }) {
         ) : (
           <>
             <StudentName>{userInfo.name}</StudentName>
-            <StartTime>{`님은 ${startTimeArr[0]}시 ${startTimeArr[1]}분에 시작하셨습니다.`}</StartTime>
+            <StartTime>{`님은 ${startTimeObj.hour}시 ${startTimeObj.minute}분에 시작하셨습니다.`}</StartTime>
           </>
         )}
       </StartSection>
@@ -122,7 +132,7 @@ export default function Main({ history }) {
 
       {userInfo.normalAttendance && (
         <Modal height="300px">
-          <SendTimeModal can={userInfo.normalAttendance} />
+          <SendTimeModal attendanceStatus={userInfo.normalAttendance} />
         </Modal>
       )}
     </Container>
@@ -132,35 +142,35 @@ export default function Main({ history }) {
 const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 
 const Container = styled.section`
-  ${({ theme }) => theme.flexbox('column', 'center', 'stretch')}
-  background-color: ${({ theme }) => theme.colors.backgroundColor};
+  ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
   width: 100%;
-  height: 100vh;
+  margin-top: 130px;
   margin-left: 150px;
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
 const TimeSection = styled.section`
-  ${({ theme }) => theme.flexbox('column', 'center', 'stretch')}
+  ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
 `;
 
 const TimeDescription = styled.h1`
-  color: ${({ theme }) => theme.colors.fontColor};
+  margin-bottom: 10px;
   font-size: ${({ theme }) => theme.pixelToRem(100)};
   font-weight: 700;
-  margin-bottom: 10px;
+  color: ${({ theme }) => theme.colors.fontColor};
 `;
 
 const StartSection = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'start', 'center')}
-  margin-top:30px;
+  ${({ theme }) => theme.flexbox('row', 'start', 'center')};
+  margin-top: 30px;
   font-size: ${({ theme }) => theme.pixelToRem(40)};
   font-weight: 500;
 `;
 
 const StudentName = styled.h2`
+  padding: 8px;
   color: ${({ theme }) => theme.colors.fontColor};
   background-color: ${({ theme }) => theme.colors.blue};
-  padding: 8px;
 `;
 
 const StartTime = styled.h2`
@@ -168,9 +178,9 @@ const StartTime = styled.h2`
 `;
 
 const ButtonAnimationSection = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
-  width:70vw;
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   margin-top: 100px;
+  width: 70vw;
 `;
 
 const ButtonSection = styled.section`
@@ -180,19 +190,25 @@ const ButtonSection = styled.section`
 `;
 
 const Button = styled.button`
-  color: ${({ theme }) => theme.colors.fontColor};
-  cursor: pointer;
   margin-right: 20px;
+  color: ${({ theme }) => theme.colors.fontColor};
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
 `;
 
 const FireAnimationSection = styled.div`
-  ${({ theme }) => theme.flexbox()}
+  ${({ theme }) => theme.flexbox()};
   position: relative;
 `;
 
 const FirewoodImg = styled.img`
-  width: 120px;
   position: absolute;
+  width: 120px;
 `;
 
 const FireGif = styled.img`

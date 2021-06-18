@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Styled from 'styled-components';
 
-function SendTimeModal({ can }) {
+function SendTimeModal({ attendanceStatus }) {
   const [sendHour, setSendHour] = useState('');
   const [sendMinute, setSendMinute] = useState('');
 
@@ -20,7 +20,7 @@ function SendTimeModal({ can }) {
         .then(res => res.json())
         .then(isSuccess => {
           if (isSuccess.message === 'SUCCESS') {
-            can(false);
+            attendanceStatus(false);
           }
         });
     } else {
@@ -31,7 +31,8 @@ function SendTimeModal({ can }) {
   const handleHourChange = e => {
     const { value } = e.target;
 
-    setSendHour(e.target.value);
+    setSendHour(value);
+
     if (value >= 24) {
       setSendHour(23);
     }
@@ -43,7 +44,7 @@ function SendTimeModal({ can }) {
   const handleMinuteChange = e => {
     const { value } = e.target;
 
-    setSendMinute(e.target.value);
+    setSendMinute(value);
 
     if (value >= 60) {
       setSendMinute(59);
