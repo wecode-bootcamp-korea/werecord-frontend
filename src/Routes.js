@@ -5,6 +5,7 @@ import Navbar from '../src/components/Navbar';
 import Rending from './pages/Rending';
 import GoogleLogin from './pages/GoogleLogin';
 import Batch from './pages/Batch/Batch';
+import Mypage from './pages/Mypage/Mypage';
 
 export default function Routes() {
   return (
@@ -15,6 +16,7 @@ export default function Routes() {
         <Route exact path="/" component={Rending} />
         <Route exact path="/googleLogin" component={GoogleLogin} />
         <Route exact path="/batch" component={Batch} />
+        <Route exact path="/mypage" component={Mypage} />
       </Switch>
     </Router>
   );
