@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Styled from 'styled-components';
 
 export default function ProfileCard({ setOn, peersInfo }) {
+  const { peer_status, peer_name, peer_profile_image_url } = peersInfo;
+  const onProfileModal = useCallback(() => {
+    setOn(true);
+  }, []);
+
   return (
-    <Container onClick={() => setOn(true)} isOn={peersInfo.peer_status}>
-      <img alt={peersInfo.peer_name} src={peersInfo.peer_profile_image_url} />
-      <div className="profileName">{peersInfo.peer_name}</div>
+    <Container onClick={onProfileModal} isOn={peer_status}>
+      <img alt={peer_name} src={peer_profile_image_url} />
+      <div className="profileName">{peer_name}</div>
     </Container>
   );
 }

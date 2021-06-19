@@ -2,32 +2,44 @@ import React from 'react';
 import Styled from 'styled-components';
 
 export default function ProfileModal({ peersInfo }) {
+  const {
+    peer_name,
+    peer_birthday,
+    peer_position,
+    peer_email,
+    peer_github,
+    peer_blog,
+    peer_profile_image_url,
+  } = peersInfo;
+
   return (
     <ProfileModalStyle>
       <ModalTitle>Profile</ModalTitle>
       <UserCard>
-        <img alt="user1" src="/images/Profile/test1.jpeg" />
+        <img alt="user1" src={peer_profile_image_url || DEFAULT_IMG} />
         <div className="userInfo">
-          <UserName>{peersInfo.peer_name}</UserName>
-          <UserBirth>생일 : {peersInfo.peer_birthday}</UserBirth>
+          <UserName>{peer_name}</UserName>
+          <UserBirth>{`생일 : ${
+            peer_birthday === null ? '언제일까용' : peer_birthday
+          }`}</UserBirth>
         </div>
       </UserCard>
-      <UserInfos>
-        <Position>Position : {peersInfo.peer_position}</Position>
-        <EmailAddress>Email : {peersInfo.peer_email}</EmailAddress>
+      <UserInfo>
+        <Position>{`Position : ${peer_position}`}</Position>
+        <EmailAddress>{`Email : ${peer_email}`}</EmailAddress>
         <GitAddress>
-          GitHub :
+          GitHub :{' '}
           <a href="##" target="_blank">
-            {peersInfo.peer_github}
+            {peer_github}
           </a>
         </GitAddress>
         <BlogAddress>
-          Blog :
+          Blog :{' '}
           <a href="##" target="_blank">
-            {peersInfo.peer_blog}
+            {peer_blog}
           </a>
         </BlogAddress>
-      </UserInfos>
+      </UserInfo>
     </ProfileModalStyle>
   );
 }
@@ -67,7 +79,7 @@ const UserBirth = Styled.div`
   font-size: 15px;
 `;
 
-const UserInfos = Styled.div`
+const UserInfo = Styled.div`
   ${({ theme }) => theme.flexbox('column', 'flex-start', 'flex-start')};
   margin-top: 30px;
   padding: 30px;
@@ -87,3 +99,5 @@ const GitAddress = Styled.div`
 const BlogAddress = Styled.div`
   margin-top: 15px;
 `;
+
+const DEFAULT_IMG = '/images/Profile/test1.jpeg';

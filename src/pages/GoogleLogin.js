@@ -71,8 +71,8 @@ const GoogleButton = styled.button`
   ${({ theme }) => theme.flexbox()}
   width: 120px;
   height: 30px;
-  background-color: white;
   border-radius: 3px;
+  background-color: white;
 `;
 
 const GoogleLogo = styled.img`

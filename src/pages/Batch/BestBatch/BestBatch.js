@@ -2,52 +2,48 @@ import React from 'react';
 import Styled, { keyframes } from 'styled-components';
 
 export default function BestBatch({ winnerInfo, myBatchInfo }) {
+  const { winner_batch_name, winner_batch_total_time } = winnerInfo;
+  const { batch_name, batch_total_time } = myBatchInfo;
+  const [firstPrize, secondPrize, thirdPrize] = myBatchInfo.ghost_ranking;
+
   return (
     <>
       <WhoBestBatch>
         <BestBatchTitle>record of legend</BestBatchTitle>
         <BestBatchTime>
-          {`${winnerInfo.winner_batch_name}기 ${Math.floor(
-            winnerInfo.winner_batch_total_time
+          {`${winner_batch_name}기 ${Math.floor(
+            winner_batch_total_time
           ).toLocaleString()}시간 달성`}
         </BestBatchTime>
       </WhoBestBatch>
-      <LankingArea>
-        <BatchLanking>
+      <RankingArea>
+        <BatchRanking>
           <MyBatch>
-            <div className="myBatch">Wecode {myBatchInfo.batch_name}기</div>
+            <div className="myBatch">{`Wecode ${batch_name}기`}</div>
             <MyBatchTime>
-              {`${Math.floor(
-                myBatchInfo.batch_total_time
-              ).toLocaleString()}시간 ing...`}
+              {`${Math.floor(batch_total_time).toLocaleString()}시간 ing...`}
               <img alt="cat" src="/images/run_cat.gif" />
             </MyBatchTime>
           </MyBatch>
-        </BatchLanking>
-        <PersonLanking>
+        </BatchRanking>
+        <PersonRanking>
           <BestPersonTitle>지난주 지박령</BestPersonTitle>
           <BestPersons>
-            <BestPerson height="45%">
-              {myBatchInfo.ghost_ranking[0].user_name}
-            </BestPerson>
-            <BestPerson height="70%">
-              {myBatchInfo.ghost_ranking[1].user_name}
-            </BestPerson>
-            <BestPerson height="30%">
-              {myBatchInfo.ghost_ranking[2].user_name}
-            </BestPerson>
+            <BestPerson rank={2}>{firstPrize.user_name}</BestPerson>
+            <BestPerson rank={1}>{secondPrize.user_name}</BestPerson>
+            <BestPerson rank={3}>{thirdPrize.user_name}</BestPerson>
           </BestPersons>
-        </PersonLanking>
-      </LankingArea>
+        </PersonRanking>
+      </RankingArea>
     </>
   );
 }
 
-const LankingArea = Styled.section`
+const RankingArea = Styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')};
 `;
 
-const BatchLanking = Styled.div`
+const BatchRanking = Styled.div`
   display: ${({ theme }) => theme.flexbox('column', 'center', 'center')};
   padding: 20px;
   width: 50%;
@@ -72,7 +68,6 @@ const BestBatchTime = Styled.span`
 
 const MyBatch = Styled.article`
   ${({ theme }) => theme.flexbox('column', 'center', 'flex-start')};
-
   margin-top: ${({ theme }) => theme.pixelToRem(43)};
   font-size: ${({ theme }) => theme.pixelToRem(40)};
   font-weight: 700;
@@ -91,7 +86,7 @@ const MyBatchTime = Styled.div`
   margin-top: 20px;
 `;
 
-const PersonLanking = Styled.article`
+const PersonRanking = Styled.article`
   ${({ theme }) => theme.flexbox('column', 'center', 'center')};
   margin-top: 80px;
   width: 100%;
@@ -142,13 +137,13 @@ const BestPerson = Styled.div`
   ${({ theme }) => theme.flexbox('column')};
   width: 100%;
   margin: 0 1px;
-  height: ${props => props.height};
+  height: ${props =>
+    props.rank === 1 ? '70%' : props.rank === 2 ? '45%' : '30%'};
   background-color: #0066ff;
-
   animation: ${props =>
-    props.height === '70%'
+    props.rank === 1
       ? firstPlace
-      : props.height === '45%'
+      : props.rank === 2
       ? secondPlace
       : thirdPlace} 1s linear;
 `;

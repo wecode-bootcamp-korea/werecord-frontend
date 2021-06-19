@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import FadeIn from 'react-fade-in';
+import styled from 'styled-components';
 
 const Rending = () => {
   return (
@@ -29,9 +29,9 @@ const Container = styled.section`
 
 const MainLogo = styled.img`
   position: relative;
-  width: 330px;
   padding-right: 50px;
   right: 10px;
+  width: 330px;
 `;
 
 const SubLogo = styled.img``;

@@ -1,40 +1,20 @@
 import React, { useState } from 'react';
 import Styled from 'styled-components';
+import Slider from 'react-slick';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import Modal from '../../../components/Modal/Modal';
 import ProfileModal from '../ProfileModal/ProfileModal';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 export default function PeersBox({ myBatchInfo }) {
-  const [isOn, setIsOn] = useState(false);
+  const [isModalOn, setIsModalOn] = useState(false);
   const [peerData, setPeerData] = useState({});
 
   const handleModal = e => {
-    const clickedInside = e.target.closest('.modal');
-    const clickedBtn = e.target.closest('.closeBtn');
+    const isclickedInside = e.target.closest('.modal');
+    const isclickedBtn = e.target.closest('.closeBtn');
 
-    if (clickedInside) {
-      if (clickedBtn) {
-        setIsOn(!isOn);
-      }
-      if (!clickedBtn) {
-        return;
-      }
-    } else {
-      setIsOn(false);
-    }
-  };
-
-  const settings = {
-    slide: 'li',
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 8,
-    slidesToScroll: 8,
-    draggable: true,
+    if (!isclickedInside) return setIsModalOn(false);
+    if (isclickedBtn) return setIsModalOn(false);
   };
 
   return (
@@ -43,13 +23,13 @@ export default function PeersBox({ myBatchInfo }) {
       <StyledSlider {...settings}>
         {myBatchInfo.peers.map(peers => (
           <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
-            <ProfileCard setOn={setIsOn} peersInfo={peers} />
+            <ProfileCard setOn={setIsModalOn} peersInfo={peers} />
           </div>
         ))}
       </StyledSlider>
 
-      {isOn && (
-        <Modal isOn={isOn} setOff={handleModal} height="480px">
+      {isModalOn && (
+        <Modal isOn={isModalOn} setOff={handleModal} height="480px">
           <ProfileModal peersInfo={peerData} />
         </Modal>
       )}
@@ -71,3 +51,13 @@ const ScrollBoxTitle = Styled.h1`
 const StyledSlider = Styled(Slider)`
   margin-top: 30px;
 `;
+
+const settings = {
+  slide: 'li',
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 8,
+  slidesToScroll: 8,
+  draggable: true,
+};
