@@ -9,6 +9,7 @@ const Rending = () => {
   const [isOn, setIsOn] = useState(false);
   const [isSignOn, setIsSignOn] = useState(false);
 
+  // 추가정보입력 모달 띄우기
   const changeModalValue = () => {
     setIsSignOn(!isSignOn);
     setIsOn(!isOn);
@@ -49,12 +50,12 @@ const Rending = () => {
   return (
     <Container>
       {isOn && (
-        <Modal setOff={handleModal} height="300px">
+        <Modal setOff={handleModal} height="600px">
           <LoginModal changeModalValue={changeModalValue} />
         </Modal>
       )}
       {isSignOn && (
-        <Modal setOff={handleSignInModal} height="800px" isSignOn={isSignOn}>
+        <Modal setOff={handleSignInModal} height="800px">
           <SignInModal />
         </Modal>
       )}

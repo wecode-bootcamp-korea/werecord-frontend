@@ -4,6 +4,7 @@ import Main from './pages/Main';
 import Navbar from '../src/components/Navbar';
 import Rending from './pages/Rending';
 import GoogleLogin from './pages/GoogleLogin';
+import SignInModal from './pages/SignInModal';
 
 export default function Routes() {
   return (
@@ -14,6 +15,7 @@ export default function Routes() {
         <Route exact path="/" component={Rending}></Route>
         <Route exact path="/googleLogin" component={GoogleLogin}></Route>
         <Route exact path="/main" component={Main}></Route>
+        <Route exact path="/test" component={SignInModal}></Route>
       </Switch>
     </Router>
   );

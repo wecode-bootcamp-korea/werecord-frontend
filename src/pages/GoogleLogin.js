@@ -27,16 +27,16 @@ const GoogleLogin = props => {
         element,
         {},
         function (googleUser) {
-          const value = googleUser.getAuthResponse().id_token;
-          fetch('http://10.58.5.223:8000/users/login', {
+          fetch('http://192.168.43.197:8000/users/login', {
             headers: {
-              Authorization: value,
+              Authorization: googleUser.getAuthResponse().id_token,
             },
           })
             .then(res => res.json())
             .then(res => {
               sessionStorage.setItem('wrtoken', res.werecord_token);
-              sessionStorage.setItem('use_type', res.user_type);
+              sessionStorage.setItem('use_type', res.user_info.user_type);
+              sessionStorage.setItem('user_id', res.user_info.user_id);
               return res;
             })
             //테스트용 console입니다.
@@ -45,10 +45,10 @@ const GoogleLogin = props => {
             .then(res => {
               if (res.user_info.batch) {
                 alert('로그인이 완료되었습니다!');
-                props.changeModalValue();
-              } else if (res.user_info.batch === undefined) {
-                alert('신규 가입 회원입니다');
                 history.push('/main');
+              } else if (res.user_info.batch == false) {
+                alert('신규 가입 회원입니다');
+                props.changeModalValue();
               }
             });
         },
