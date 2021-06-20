@@ -14,8 +14,8 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
-    fetch('/data/MentorPageData.json')
-      // fetch(`${API_URLS.MENTOR_PAGE}`, {
+    fetch('/data/MentorPageData.json') // mockdata입니다.
+      // fetch(`${API_URLS.MENTOR_PAGE}`, { // 통신용 로직입니다.
       //   method: 'GET',
       //   headers: {
       //     Authorization: localStorage.getItem('wrtoken'),
@@ -58,8 +58,6 @@ export default function MentorPage({ history }) {
       1380 * count.current
     }px, 0)`;
   };
-
-  console.log(batchInformation);
 
   return (
     <FadeIn>
@@ -158,7 +156,7 @@ const LeftBtn = styled.button`
 const RightBtn = LeftBtn.withComponent('button');
 
 const Title = styled.h1`
-  margin-bottom: 80px;
+  margin-bottom: 50px;
   font-weight: 700;
   font-size: ${({ theme }) => theme.pixelToRem(35)};
   text-align: center;

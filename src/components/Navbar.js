@@ -151,11 +151,12 @@ const GoToMyPageBtn = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #373737;
+    color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.white};
   }
 
   &:active {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 
   transition: background-color 0.3s, opacity 0.1s;

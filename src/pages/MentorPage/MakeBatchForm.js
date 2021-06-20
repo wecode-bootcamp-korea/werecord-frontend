@@ -39,23 +39,27 @@ export default function MakeBatchForm({ isModalOff }) {
   const handleBatchMaking = e => {
     e.preventDefault();
     const { batchNumber, startDay, endDay } = newBatchInformation;
-    fetch(`${API_URLS.BATCH_MAKING_BTN}`, {
-      method: 'POST',
-      headers: {
-        Authorization: sessionStorage.getItem('wrtoken'),
-      },
-      body: JSON.stringify({
-        name: batchNumber,
-        start_day: startDay,
-        end_day: endDay,
-      }),
-    })
-      .then(res => res.json())
-      .then(() => {
-        alert('성공적으로 기수를 생성하였습니다!');
-        isModalOff();
-        history.push('/mentorpage');
-      });
+    if (startDay === endDay) {
+      alert('날짜를 확인해주세요!');
+    } else {
+      fetch(`${API_URLS.BATCH_MAKING_BTN}`, {
+        method: 'POST',
+        headers: {
+          Authorization: sessionStorage.getItem('wrtoken'),
+        },
+        body: JSON.stringify({
+          name: batchNumber,
+          start_day: startDay,
+          end_day: endDay,
+        }),
+      })
+        .then(res => res.json())
+        .then(() => {
+          alert(`성공적으로 ${batchNumber}기를 생성하였습니다!`);
+          isModalOff();
+          history.push('/mentorpage');
+        });
+    }
   };
 
   return (
