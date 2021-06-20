@@ -113,13 +113,16 @@ export default function EditContents({ handleModal }) {
       </Content>
       <Content>
         <Label>포지션</Label>
-        <Input
+        <SelectBox
           name="position"
           value={position || ''}
-          placeholder="Front, Back"
           onChange={handleInput}
-          required
-        />
+        >
+          <option value="Undefined">Position</option>
+          <option value="Front-end">Front-end</option>
+          <option value="Back-end">Back-end</option>
+          <option value="FullStack">Full Stack</option>
+        </SelectBox>
       </Content>
       <Content>
         <Label>blog 주소</Label>
@@ -179,6 +182,12 @@ const Input = styled.input`
   width: 300px;
   padding-bottom: 5px;
   border-bottom: 1px solid black;
+`;
+
+const SelectBox = styled.select`
+  width: 300px;
+  padding: 3px 10px;
+  font-size: 16px;
 `;
 
 const Content = styled.div`
