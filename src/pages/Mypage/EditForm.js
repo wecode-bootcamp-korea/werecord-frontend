@@ -146,13 +146,14 @@ export default function EditContents({ handleModal }) {
       </Content>
       <Content>
         <Label>생일</Label>
-        <Input
-          name="birthday"
-          value={birthday || ''}
-          placeholder="04.12"
-          onChange={handleInput}
-          required
-        />
+        <SelectBirthDay>
+          <input
+            type="date"
+            name="birthday"
+            value={birthday || ''}
+            onChange={handleInput}
+          />
+        </SelectBirthDay>
       </Content>
       <SubmitBtn onClick={modifyUserData}>수정</SubmitBtn>
     </Container>
@@ -193,6 +194,13 @@ const SelectBox = styled.select`
 const Content = styled.div`
   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
   margin-bottom: 25px;
+`;
+
+const SelectBirthDay = styled.div`
+  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
+  width: 300px;
+  padding: 5px;
+  border-bottom: 1px solid black;
 `;
 
 const SubmitBtn = styled.button`
