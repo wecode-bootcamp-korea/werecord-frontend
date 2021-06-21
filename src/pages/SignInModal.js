@@ -32,12 +32,9 @@ const SignInModal = () => {
   //멘토일때 입력금지
   const isAbleInput = () => {
     if (userInfo.user_type === '멘토') {
-      batchInput.current.check = 'true';
       return true;
     }
   };
-
-  console.log(batchInput.current.check);
 
   //input 값을 setState하기
   const getInputValue = e => {
@@ -75,7 +72,6 @@ const SignInModal = () => {
     } else if (userInfo.user_type === '멘토') {
       history.push('/googleLogin');
     }
-
     // }
   };
 
@@ -115,14 +111,15 @@ const SignInModal = () => {
             />
           </SignInForm>
           <SignInForm>
-            <SignInTitle>기수 *</SignInTitle>
+            <SignInTitle check={userInfo.user_type === '멘토'}>
+              기수 *
+            </SignInTitle>
             <SignInInput
               disabled={isAbleInput()}
               onChange={getInputValue}
               name="batch"
               type="number"
               placeholder="숫자로만 입력해주세요. ex)21"
-              check="false"
               ref={batchInput}
             />
           </SignInForm>
