@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import Slider from 'react-slick';
 import FadeIn from 'react-fade-in';
 import API_URLS from '../../config';
 import IMAGES from './IMAGES';
@@ -15,15 +14,16 @@ export default function MentorPage({ history }) {
 
   useEffect(() => {
     fetch('/data/MentorPageData.json') // mockdata입니다.
-      // fetch(`${API_URLS.MENTOR_PAGE}`, { // 통신용 로직입니다.
+      // fetch(`${API_URLS.MENTOR_PAGE}`, {
+      //   // 통신용 로직입니다.
       //   method: 'GET',
-      //   headers: {
-      //     Authorization: localStorage.getItem('wrtoken'),
-      //   },
+      //   // headers: {
+      //   //   Authorization: localStorage.getItem('wrtoken'),
+      //   // },
       // })
       .then(res => res.json())
       .then(res => {
-        if (res.message === 'UNAUTHORIZED_USER_ERROR') {
+        if (res.message === 'LOGIN_REQUIRED') {
           alert('접근 권한이 없습니다!');
           history.push('/mypage');
         } else {
@@ -31,7 +31,7 @@ export default function MentorPage({ history }) {
         }
       })
       .catch(() => {
-        alert('로그인이 필요합니다!');
+        alert('관리자에게 문의바랍니다!');
         history.push('/');
       });
   }, []);
@@ -58,6 +58,8 @@ export default function MentorPage({ history }) {
       1380 * count.current
     }px, 0)`;
   };
+
+  const calculateDday = value => (value > 0 ? `+${value}` : `${value}`);
 
   return (
     <FadeIn>
@@ -92,7 +94,7 @@ export default function MentorPage({ history }) {
                   }}
                 >
                   <BatchName>{batch_name}기</BatchName>
-                  <AfterDday>D + {wecode_d_day}</AfterDday>
+                  <AfterDday>D {calculateDday(wecode_d_day)}</AfterDday>
                   <StartDay>시작일: {batch_start_day}</StartDay>
                   <EndDay>종료일: {batch_end_day}</EndDay>
                   <TotalTime>

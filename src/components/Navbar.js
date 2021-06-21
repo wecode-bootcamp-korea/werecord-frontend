@@ -50,6 +50,15 @@ export default function Navbar() {
                 메인 페이지
               </GoToMainPageBtn>
             )}
+            {isCheckMentor && location.pathname === '/mentorpage' && (
+              <EditMentorInfo
+                onClick={() => {
+                  setIsOn(true);
+                }}
+              >
+                내정보 수정
+              </EditMentorInfo>
+            )}
             {!isCheckMentor && (
               <GoToMyPageBtn
                 onClick={() => {
@@ -161,6 +170,8 @@ const GoToMyPageBtn = styled.button`
 
   transition: background-color 0.3s, opacity 0.1s;
 `;
+
+const EditMentorInfo = GoToMyPageBtn.withComponent('button');
 
 const MakeBatchBtn = GoToMyPageBtn.withComponent('button');
 

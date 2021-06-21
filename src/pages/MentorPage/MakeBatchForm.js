@@ -8,12 +8,13 @@ export default function MakeBatchForm({ isModalOff }) {
     batchNumber: '',
     startDay: '',
     endDay: '',
+    mentoName: '',
   });
 
   const history = useHistory();
 
   const checkBatchNumberInputValid = value => {
-    const batchNumberPattern = /^[0-9]*$/;
+    const batchNumberPattern = /^[1-9]*$/;
     return value.length > 0 && batchNumberPattern.test(value);
   };
 
@@ -38,26 +39,37 @@ export default function MakeBatchForm({ isModalOff }) {
 
   const handleBatchMaking = e => {
     e.preventDefault();
-    const { batchNumber, startDay, endDay } = newBatchInformation;
+    const { batchNumber, startDay, endDay, mentoName } = newBatchInformation;
     if (startDay === endDay) {
       alert('날짜를 확인해주세요!');
     } else {
       fetch(`${API_URLS.BATCH_MAKING_BTN}`, {
         method: 'POST',
-        headers: {
-          Authorization: sessionStorage.getItem('wrtoken'),
-        },
+        // headers: {
+        //   Authorization: sessionStorage.getItem('wrtoken'),
+        // },
         body: JSON.stringify({
           name: batchNumber,
           start_day: startDay,
           end_day: endDay,
+          mento_name: mentoName,
         }),
       })
         .then(res => res.json())
-        .then(() => {
-          alert(`성공적으로 ${batchNumber}기를 생성하였습니다!`);
-          isModalOff();
-          history.push('/mentorpage');
+        .then(batchMakingStatus => {
+          if (batchMakingStatus.message === 'ALREADY_EXIT_ERROR') {
+            alert('이미 존재하는 기수입니다!');
+          } else if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
+            alert('시작일과 종료일을 확인해주시기 바랍니다!');
+          } else if (batchMakingStatus.message === 'DATE_FORM_ERROR') {
+            alert('날짜를 확인해주시기 바랍니다!');
+          } else if (batchMakingStatus.message === 'JSON_DECODE_ERROR') {
+            alert('데이터 양식에 맞지 않습니다!');
+          } else {
+            alert(`성공적으로 ${batchNumber}기를 생성하였습니다!`);
+            isModalOff();
+            history.push('/mentorpage');
+          }
         });
     }
   };
@@ -69,7 +81,7 @@ export default function MakeBatchForm({ isModalOff }) {
         <Content>
           <Label>기수</Label>
           <Input
-            placeholder="ex) 20기 => 20, 21기 => 21"
+            placeholder="ex) 5기 => 5, 20기 => 20"
             maxLength="2"
             onChange={handleInput}
             name="batchNumber"
