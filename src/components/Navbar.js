@@ -3,9 +3,11 @@ import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import MakeBatchForm from '../pages/MentorPage/MakeBatchForm';
+import EditMentorInfoForm from '../pages/MentorPage/EditMentorInfoForm';
 
 export default function Navbar() {
-  const [isOn, setIsOn] = useState(false);
+  const [makeBatchModalOn, setMakeBatchModalOn] = useState(false);
+  const [editMentorInfoModalOn, setEditMentorInfoModalOn] = useState(false);
   const history = useHistory();
   const location = useLocation();
   const isCheckMentor = sessionStorage.getItem('user_type') === '2';
@@ -27,17 +29,20 @@ export default function Navbar() {
     const clickedBtn = e.target.closest('.closeBtn');
     if (clickedInside) {
       if (clickedBtn) {
-        setIsOn(false);
+        setMakeBatchModalOn(false);
+        setEditMentorInfoModalOn(false);
       }
       if (!clickedBtn) {
         return;
       }
     } else {
-      setIsOn(false);
+      setMakeBatchModalOn(false);
+      setEditMentorInfoModalOn(false);
     }
   };
 
-  const handleModalAfterBatchMaking = () => setIsOn(false);
+  const handleModalAfterBatchMaking = () => setMakeBatchModalOn(false);
+  const handleModalAfterEditMentorInfo = () => setEditMentorInfoModalOn(false);
 
   return (
     <>
@@ -50,15 +55,7 @@ export default function Navbar() {
                 메인 페이지
               </GoToMainPageBtn>
             )}
-            {isCheckMentor && location.pathname === '/mentorpage' && (
-              <EditMentorInfo
-                onClick={() => {
-                  setIsOn(true);
-                }}
-              >
-                내정보 수정
-              </EditMentorInfo>
-            )}
+
             {!isCheckMentor && (
               <GoToMyPageBtn
                 onClick={() => {
@@ -69,14 +66,36 @@ export default function Navbar() {
               </GoToMyPageBtn>
             )}
             {isCheckMentor && location.pathname === '/mentorpage' && (
+              <EditMentorInfo
+                onClick={() => {
+                  setMakeBatchModalOn(false);
+                  setEditMentorInfoModalOn(true);
+                }}
+              >
+                내정보 수정
+              </EditMentorInfo> // 내정보 수정
+            )}
+            {editMentorInfoModalOn && (
+              <Modal setOff={handleModal} height="400px">
+                <EditMentorInfoForm />
+              </Modal>
+            )}
+            {isCheckMentor && location.pathname === '/mentorpage' && (
               <MakeBatchBtn
                 onClick={() => {
-                  setIsOn(true);
+                  setMakeBatchModalOn(true);
+                  setEditMentorInfoModalOn(false);
                 }}
               >
                 기수 생성
-              </MakeBatchBtn>
+              </MakeBatchBtn> //기수 생성
             )}
+            {makeBatchModalOn && (
+              <Modal setOff={handleModal} height="400px">
+                <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
+              </Modal>
+            )}
+
             {isCheckMentor && location.pathname !== '/mentorpage' && (
               <GoToMentorPageBtn
                 onClick={() => {
@@ -97,11 +116,6 @@ export default function Navbar() {
             )}
             <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
           </div>
-          {isOn && (
-            <Modal isOn={isOn} setOff={handleModal} height="400px">
-              <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
-            </Modal>
-          )}
         </Container>
       )}
     </>

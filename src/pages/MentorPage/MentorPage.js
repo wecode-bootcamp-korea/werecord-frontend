@@ -48,15 +48,23 @@ export default function MentorPage({ history }) {
   };
 
   const goToNext = () => {
-    const batchLength = Math.floor(batchInformation.length / 3);
+    const batchLength = Math.ceil(batchInformation.length / 3);
+    const batchEvenLength = batchLength % 2 === 0;
 
-    if (count.current === batchLength) {
-      count.current = -1;
+    if (batchEvenLength) {
+      const batchOddLength = batchLength - 1;
+      if (count.current === batchOddLength) {
+        count.current = -1;
+      }
+    } else if (!batchEvenLength) {
+      if (count.current === batchLength - 1) count.current = -1;
     }
+
     count.current++;
     sliderList.current.style.transform = `translate(-${
       1380 * count.current
     }px, 0)`;
+    console.log(batchLength);
   };
 
   const calculateDday = value => (value > 0 ? `+${value}` : `${value}`);
@@ -84,6 +92,7 @@ export default function MentorPage({ history }) {
               wecode_d_day,
               batch_on_user_number,
               batch_total_user_number,
+              mentor_name,
             } = batch;
             return (
               <List key={index}>
@@ -94,6 +103,7 @@ export default function MentorPage({ history }) {
                   }}
                 >
                   <BatchName>{batch_name}기</BatchName>
+                  <MentorName>담임: {mentor_name}</MentorName>
                   <AfterDday>D {calculateDday(wecode_d_day)}</AfterDday>
                   <StartDay>시작일: {batch_start_day}</StartDay>
                   <EndDay>종료일: {batch_end_day}</EndDay>
@@ -109,6 +119,14 @@ export default function MentorPage({ history }) {
                     <TotalUser>{batch_total_user_number}</TotalUser>
                   </BatchOnUser>
                 </Contents>
+                <EditAndCloseBtn>
+                  <EditBtn>
+                    <i class="fas fa-cog"></i>
+                  </EditBtn>
+                  <CloseBtn>
+                    <i class="fas fa-times"></i>
+                  </CloseBtn>
+                </EditAndCloseBtn>
               </List>
             );
           })}
@@ -176,6 +194,7 @@ const List = styled.li`
 
 const Contents = styled.dl`
   ${({ theme }) => theme.flexbox('column', 'center', 'start')}
+  margin-bottom: 20px;
   padding: 20px;
   position: relative;
   width: 400px;
@@ -229,6 +248,13 @@ const BatchName = styled.dt`
   font-weight: 700;
 `;
 
+const MentorName = styled.dd`
+  position: relative;
+  left: 205px;
+  bottom: 60px;
+  font-size: ${({ theme }) => theme.pixelToRem(25)};
+`;
+
 const AfterDday = styled.dd`
   margin-bottom: 30px;
   font-size: ${({ theme }) => theme.pixelToRem(40)};
@@ -270,4 +296,35 @@ const Slash = styled.div`
 
 const TotalUser = styled.div`
   font-weight: bold;
+`;
+
+const EditAndCloseBtn = styled.div`
+  ${({ theme }) => theme.flexbox('row', 'flex-end')}
+  position: relative;
+  left: 25px;
+`;
+
+const EditBtn = styled.button`
+  margin-right: 30px;
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.pixelToRem(30)};
+  transition: 0.3s color, 0.3s transform;
+
+  &:hover {
+    transform: scale(1.2);
+    color: ${({ theme }) => theme.colors.blue};
+    cursor: pointer;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+`;
+
+const CloseBtn = styled(EditBtn.withComponent('button'))`
+  transition: 0.3s color, 0.3s transform;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.red};
+  }
 `;
