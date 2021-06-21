@@ -1,9 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Button({ children, fontSize, version, disabled }) {
+export default function Button({
+  children,
+  fontSize,
+  version,
+  disabled,
+  clickEvent,
+}) {
   return (
-    <Container fontSize={fontSize} version={version} disabled={disabled}>
+    <Container
+      fontSize={fontSize}
+      version={version}
+      disabled={disabled}
+      onClick={clickEvent}
+    >
       {children}
     </Container>
   );
@@ -13,13 +24,13 @@ const Container = styled.button`
   padding: 10px 20px;
   color: ${({ theme, version, disabled }) => {
     if (version === 'white') {
-      if (disabled === true) {
+      if (disabled) {
         return 'gray';
       } else {
         return theme.colors.black;
       }
     } else if (version === 'black') {
-      if (disabled === true) {
+      if (disabled) {
         return 'gray';
       } else {
         return theme.colors.white;
@@ -41,7 +52,7 @@ const Container = styled.button`
       if (version === 'white') {
         return theme.colors.black;
       } else if (version === 'black') {
-        if (disabled === true) {
+        if (disabled) {
           return 'gray';
         } else {
           return theme.colors.white;
@@ -52,7 +63,7 @@ const Container = styled.button`
   cursor: ${({ disabled }) => disabled || 'pointer'};
   opacity: ${({ theme, version, disabled }) => {
     if (version === 'white') {
-      if (disabled === true) {
+      if (disabled) {
         return '0.5';
       } else {
         return '1';
@@ -65,12 +76,12 @@ const Container = styled.button`
   &:hover {
     color: ${({ theme, version, disabled }) => {
       if (version === 'white') {
-        if (disabled === true) {
+        if (disabled) {
           return;
         }
         return theme.colors.white;
       } else if (version === 'black') {
-        if (disabled === true) {
+        if (disabled) {
           return;
         } else {
           return theme.colors.black;
@@ -79,13 +90,13 @@ const Container = styled.button`
     }};
     background-color: ${({ theme, version, disabled }) => {
       if (version === 'white') {
-        if (disabled === true) {
+        if (disabled) {
           return;
         } else {
           return 'transparent';
         }
       } else if (version === 'black') {
-        if (disabled === true) {
+        if (disabled) {
           return;
         } else {
           return theme.colors.white;
@@ -95,7 +106,7 @@ const Container = styled.button`
     border: 1px solid
       ${({ theme, version, disabled }) => {
         if (version === 'black') {
-          if (disabled === true) {
+          if (disabled) {
             return;
           } else {
             return theme.colors.white;

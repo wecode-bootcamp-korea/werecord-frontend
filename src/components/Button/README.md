@@ -4,7 +4,7 @@
 
 ## props
 
-- **fontSize** : boolean
+- **fontSize** : string
   폰트 크기에 따라 버튼 크기가 변경됩니다.
 
 - **version** : black, white
@@ -18,13 +18,16 @@
 
 - 버튼의 내용은 children으로 받기 때문에 원하시는 텍스트 문구를 컴포넌트로 감싸주시면 됩니다.
 
+- **clickEvent**: 클릭 이벤트로 실행할 함수를 props로 전달해주어야 합니다!
+- -
+
 ## 사용법 예시
 
 ```
   import Button from '경로'
 
 
-          <Button fontSize="50" version="black" disabled={true}>
+          <Button fontSize="50" version="black" disabled={true} clickEvent={handleClick}>
             안녕?
           </Button>
 ```
@@ -34,3 +37,5 @@
 - 버전: 버튼 바탕색이 검은색
 
 - disabled: true (비활성화)
+
+- clickEvent: 클릭시 handleClick 함수 실행
