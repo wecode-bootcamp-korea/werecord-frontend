@@ -49,25 +49,6 @@ const SignInModal = () => {
     setUserInfo(valuedInput);
   };
 
-  // const checkValidation = () => {
-  //   if(blogInput.current.value.include('@')){
-
-  //   }
-  // }
-  //input 값 초기화 굳이 초기화를 안해도 될것같으니 일단 주석처리~!
-  // const resetInputValue = () => {
-  //   const resetInputs = {
-  //     user_type: '',
-  //     name: '',
-  //     batch: '',
-  //     position: '',
-  //     blog: '',
-  //     github: '',
-  //     birthday: '',
-  //   };
-  //   setUserInfo(resetInputs);
-  // };
-
   // 추가입력정보 백엔드로 보내기
   const postUserData = e => {
     e.preventDefault();
@@ -87,8 +68,6 @@ const SignInModal = () => {
       // respond확인용
       .then(res => res.json())
       .then(res => console.log(res));
-    // resetInputValue();
-    console.log(userInfo);
     // 사용자 타입에 따른 이동
     // if (res.message === 'SUCCESS') {
     if (userInfo.user_type === '수강생') {
