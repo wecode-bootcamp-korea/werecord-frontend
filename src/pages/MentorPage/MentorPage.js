@@ -123,7 +123,6 @@ export default function MentorPage({ history }) {
                   images={getRandomImage(IMAGES)}
                   onClick={() => {
                     goToBatchPage(batch_id);
-                    console.log(batch_id);
                   }}
                 >
                   <BatchName>{batch_name}기</BatchName>
