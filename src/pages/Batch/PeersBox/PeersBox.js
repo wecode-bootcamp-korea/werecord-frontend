@@ -7,6 +7,7 @@ import ProfileModal from '../ProfileModal/ProfileModal';
 
 export default function PeersBox({ myBatchInfo }) {
   const [isModalOn, setIsModalOn] = useState(false);
+  const [isMentorInfo, setIsMentorInfo] = useState(false);
   const [peerData, setPeerData] = useState({});
 
   const handleModal = e => {
@@ -17,9 +18,26 @@ export default function PeersBox({ myBatchInfo }) {
     if (isclickedBtn) return setIsModalOn(false);
   };
 
+  const handleMontorModal = e => {
+    const isclickedInside = e.target.closest('.modal');
+    const isclickedBtn = e.target.closest('.closeBtn');
+
+    if (!isclickedInside) return setIsMentorInfo(false);
+    if (isclickedBtn) return setIsMentorInfo(false);
+  };
+
   return (
-    <PeersBoxArea>
-      <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
+    <Container>
+      <ContainerTop>
+        <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
+        <Responsibility
+          onClick={() => {
+            setIsMentorInfo(true);
+          }}
+        >
+          담당멘토
+        </Responsibility>
+      </ContainerTop>
       <StyledSlider {...settings}>
         {myBatchInfo.peers.map(peers => (
           <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
@@ -29,19 +47,33 @@ export default function PeersBox({ myBatchInfo }) {
       </StyledSlider>
 
       {isModalOn && (
-        <Modal isOn={isModalOn} setOff={handleModal} height="480px">
+        <Modal setOff={handleModal} height="480px">
           <ProfileModal peersInfo={peerData} />
         </Modal>
       )}
-    </PeersBoxArea>
+
+      {isMentorInfo && (
+        <Modal setOff={handleMontorModal} height="480px">
+          <ProfileModal peersInfo={peerData} />
+        </Modal>
+      )}
+    </Container>
   );
 }
 
-const PeersBoxArea = Styled.section`
+const Container = Styled.section`
   margin-top: 20px;
   padding: 30px;
   border-radius: 12px;
   background-color: rgba(222, 222, 222, 0.1);
+`;
+
+const ContainerTop = Styled.div`
+  ${({ theme }) => theme.flexbox('row', 'space-between')}
+`;
+
+const Responsibility = Styled.div`
+  cursor: pointer;
 `;
 
 const ScrollBoxTitle = Styled.h1`
