@@ -3,9 +3,15 @@ import styled from 'styled-components';
 import FadeIn from 'react-fade-in';
 import API_URLS from '../../config';
 import IMAGES from './IMAGES';
+import Modal from '../../components/Modal/Modal';
+import EditBatchInfoFrom from './EditBatchInfoForm';
+import DeleteBatchInfoForm from './DeleteBatchInfoForm';
 
 export default function MentorPage({ history }) {
   const [batchInformation, setBatchInformation] = useState([]);
+  const [editBatchInformation, setEditBatchInformation] = useState(false);
+  const [deleteBatchInformation, setDeleteBatchInformation] = useState(false);
+  const [deleteBatchNumber, setDeleteBatchNumber] = useState(0);
   const sliderList = useRef();
   const count = useRef(0);
   const goToBatchPage = id => {
@@ -64,10 +70,27 @@ export default function MentorPage({ history }) {
     sliderList.current.style.transform = `translate(-${
       1380 * count.current
     }px, 0)`;
-    console.log(batchLength);
   };
 
   const calculateDday = value => (value > 0 ? `+${value}` : `${value}`);
+
+  const handleModal = e => {
+    const clickedInside = e.target.closest('.modal');
+    const clickedBtn = e.target.closest('.closeBtn');
+
+    if (clickedInside) {
+      if (clickedBtn) {
+        setEditBatchInformation(false);
+        setDeleteBatchInformation(false);
+      }
+      if (!clickedBtn) {
+        return;
+      }
+    } else {
+      setEditBatchInformation(false);
+      setDeleteBatchInformation(false);
+    }
+  };
 
   return (
     <FadeIn>
@@ -100,6 +123,7 @@ export default function MentorPage({ history }) {
                   images={getRandomImage(IMAGES)}
                   onClick={() => {
                     goToBatchPage(batch_id);
+                    console.log(batch_id);
                   }}
                 >
                   <BatchName>{batch_name}기</BatchName>
@@ -120,12 +144,33 @@ export default function MentorPage({ history }) {
                   </BatchOnUser>
                 </Contents>
                 <EditAndCloseBtn>
-                  <EditBtn>
-                    <i class="fas fa-cog"></i>
+                  <EditBtn
+                    onClick={() => {
+                      setEditBatchInformation(true);
+                    }}
+                  >
+                    <i className="fas fa-cog"></i>
                   </EditBtn>
-                  <CloseBtn>
-                    <i class="fas fa-times"></i>
+                  {editBatchInformation && (
+                    <Modal setOff={handleModal} height="600px">
+                      <EditBatchInfoFrom />
+                    </Modal>
+                  )}
+                  <CloseBtn
+                    onClick={() => {
+                      setDeleteBatchInformation(true);
+                      setDeleteBatchNumber(batch_name);
+                    }}
+                  >
+                    <i className="fas fa-times"></i>
                   </CloseBtn>
+                  {deleteBatchInformation && (
+                    <Modal setOff={handleModal} height="200px">
+                      <DeleteBatchInfoForm
+                        deleteBatchNumber={deleteBatchNumber}
+                      />
+                    </Modal>
+                  )}
                 </EditAndCloseBtn>
               </List>
             );

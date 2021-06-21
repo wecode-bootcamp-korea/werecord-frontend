@@ -41,7 +41,7 @@ const Container = styled.button`
     if (version === 'white') {
       return theme.colors.white;
     } else if (version === 'black') {
-      return 'transparent';
+      return theme.colors.black;
     }
   }};
 
@@ -69,7 +69,7 @@ const Container = styled.button`
         return '1';
       }
     } else if (version === 'black') {
-      return 'transparent';
+      return theme.colors.black;
     }
   }};
 
@@ -93,7 +93,7 @@ const Container = styled.button`
         if (disabled) {
           return;
         } else {
-          return 'transparent';
+          return theme.colors.black;
         }
       } else if (version === 'black') {
         if (disabled) {
