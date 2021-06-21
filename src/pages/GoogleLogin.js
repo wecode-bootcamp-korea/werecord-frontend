@@ -27,7 +27,7 @@ const GoogleLogin = props => {
         element,
         {},
         function (googleUser) {
-          fetch('http://192.168.43.197:8000/users/login', {
+          fetch('http://10.58.2.86:8000/users/login', {
             headers: {
               Authorization: googleUser.getAuthResponse().id_token,
             },

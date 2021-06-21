@@ -1,12 +1,16 @@
 import React, { useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 const SignInModal = () => {
+  const history = useHistory();
+
   const [userInfo, setUserInfo] = useState({
     user_type: '',
     name: '',
     batch: '',
-    position: '',
+    position: 'Undefined',
     blog: '',
     github: '',
     birthday: '',
@@ -16,25 +20,41 @@ const SignInModal = () => {
   const batchInput = useRef();
   const submitButton = useRef();
 
-  const [requiredUserInfo, setRequiredUserInfo] = useState(true);
-  // const { user_type, name, batch, position, blog, github, birthday } = userInfo;
+  //입력 완료 버튼 클릭가능하게 할지
+  const isAbleButton = () => {
+    if (userInfo.user_type === '수강생') {
+      return Boolean(nameInput.current.value && batchInput.current.value);
+    } else if (userInfo.user_type === '멘토') {
+      return Boolean(nameInput.current.value);
+    }
+  };
+
+  //멘토일때 입력금지
+  const isAbleInput = () => {
+    if (userInfo.user_type === '멘토') {
+      batchInput.current.check = 'true';
+      return true;
+    }
+  };
+
+  console.log(batchInput.current.check);
 
   //input 값을 setState하기
   const getInputValue = e => {
     const { name, value } = e.target;
-    const nextInput = {
+    const valuedInput = {
       ...userInfo,
       [name]: value,
     };
-    setUserInfo(nextInput);
-    if (nameInput.current.value && batchInput.current.value) {
-      setRequiredUserInfo(false);
-    } else {
-      setRequiredUserInfo(true);
-    }
+    setUserInfo(valuedInput);
   };
 
-  //input 값 초기화
+  // const checkValidation = () => {
+  //   if(blogInput.current.value.include('@')){
+
+  //   }
+  // }
+  //input 값 초기화 굳이 초기화를 안해도 될것같으니 일단 주석처리~!
   // const resetInputValue = () => {
   //   const resetInputs = {
   //     user_type: '',
@@ -48,6 +68,7 @@ const SignInModal = () => {
   //   setUserInfo(resetInputs);
   // };
 
+  // 추가입력정보 백엔드로 보내기
   const postUserData = e => {
     e.preventDefault();
     const userData = JSON.stringify(userInfo);
@@ -55,18 +76,28 @@ const SignInModal = () => {
     userInformation.append('info', userData);
     const wrtoken = sessionStorage.getItem('wrtoken');
 
-    fetch(`http://192.168.43.197:8000/users/info/${sessionStorage.user_id}`, {
+    fetch(`http://10.58.2.86:8000/users/info/${sessionStorage.user_id}`, {
       method: 'post',
+      // 토큰을 보낼지 말지 대환님이 경훈님과 상의해보기로 함
       // header: {
       //   Authorization: wrtoken,
       // },
-      // body: JSON.stringify({ user_info: userInfo }),
       body: userInformation,
     })
+      // respond확인용
       .then(res => res.json())
       .then(res => console.log(res));
     // resetInputValue();
     console.log(userInfo);
+    // 사용자 타입에 따른 이동
+    // if (res.message === 'SUCCESS') {
+    if (userInfo.user_type === '수강생') {
+      history.push('/main');
+    } else if (userInfo.user_type === '멘토') {
+      history.push('/googleLogin');
+    }
+
+    // }
   };
 
   return (
@@ -74,16 +105,16 @@ const SignInModal = () => {
       <MainLogo>&gt;we-record</MainLogo>
       <SignInContainer>
         <SignInHeader>추가 정보를 입력해주세요 ✏️ </SignInHeader>
+        <SignIntext>*은 필수 입력 값입니다. </SignIntext>
         <SignInContent>
           <SignInForm>
-            <SignInTitle>사용자</SignInTitle>
+            <SignInTitle>사용자 *</SignInTitle>
             <div>
               <SignInRadioInput
                 onChange={getInputValue}
                 type="radio"
                 name="user_type"
                 value="수강생"
-                checked
               />
               <p>학생</p>
               <SignInRadioInput
@@ -96,7 +127,7 @@ const SignInModal = () => {
             </div>
           </SignInForm>
           <SignInForm>
-            <SignInTitle>이름</SignInTitle>
+            <SignInTitle>이름 *</SignInTitle>
             <SignInInput
               onChange={getInputValue}
               name="name"
@@ -105,32 +136,36 @@ const SignInModal = () => {
             />
           </SignInForm>
           <SignInForm>
-            <SignInTitle>기수</SignInTitle>
+            <SignInTitle>기수 *</SignInTitle>
             <SignInInput
+              disabled={isAbleInput()}
               onChange={getInputValue}
               name="batch"
               type="number"
               placeholder="숫자로만 입력해주세요. ex)21"
+              check="false"
               ref={batchInput}
             />
           </SignInForm>
           <SignInForm>
-            <SignInTitle>포지션</SignInTitle>
-            <PositionSelect>
-              <option value="Front">Front-End</option>
-              <option value="Back">Back-End</option>
+            <SignInTitle>포지션 *</SignInTitle>
+            <PositionSelect name="position" onChange={getInputValue}>
+              <option value="Front-End">Front-End</option>
+              <option value="Back-End">Back-End</option>
               <option value="Fullstack">Fullstack</option>
-              <option value="Undefined">미정</option>
+              <option selected value="Undefined">
+                미정
+              </option>
             </PositionSelect>
           </SignInForm>
           <SignInForm>
             <SignInTitle>생일</SignInTitle>
             <SignInInput
+              type="date"
               onChange={getInputValue}
               name="birthday"
               placeholder="생일을 입력해주세요"
             />
-            <SignInValidation>* 입력형식에 맞춰주세요</SignInValidation>
           </SignInForm>
           <SignInForm>
             <SignInTitle>Blog</SignInTitle>
@@ -139,7 +174,6 @@ const SignInModal = () => {
               name="blog"
               placeholder="블로그 URL을 입력해주세요"
             />
-            <SignInValidation>* 입력형식에 맞춰주세요</SignInValidation>
           </SignInForm>
           <SignInForm>
             <SignInTitle>GitHub</SignInTitle>
@@ -148,13 +182,12 @@ const SignInModal = () => {
               name="github"
               placeholder="GitHub 을 입력해주세요"
             />
-            <SignInValidation>* 입력형식에 맞춰주세요</SignInValidation>
           </SignInForm>
         </SignInContent>
         <SubmitButton
           useRef={submitButton}
           onClick={postUserData}
-          disabled={requiredUserInfo}
+          disabled={!isAbleButton()}
         >
           입력 완료
         </SubmitButton>
@@ -182,12 +215,19 @@ const SignInContainer = styled.section`
   margin-top: 20px;
 `;
 
+const SignIntext = styled.div`
+  color: ${({ theme }) => theme.colors.black};
+  margin: 10px 0px 20px 0px;
+
+  font-size: 12px;
+`;
+
 const SignInHeader = styled.h1`
   text-align: left;
   font-weight: 700;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.black};
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const SignInContent = styled.form`
@@ -215,11 +255,13 @@ const SignInValidation = styled.p`
 `;
 
 const SignInTitle = styled.span`
-  color: ${({ theme }) => theme.colors.black};
+  /* color: ${({ theme }) => theme.colors.black}; */
+  color: ${props => (props.check ? 'gray' : 'black')};
   font-size: 17px;
   margin-bottom: 10px;
   text-align: left;
   font-weight: 700;
+  margin-right: 7px;
 `;
 
 const SignInInput = styled.input`
