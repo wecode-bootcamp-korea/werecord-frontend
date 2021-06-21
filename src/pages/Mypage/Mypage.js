@@ -54,7 +54,7 @@ export default function Mypage() {
                   Profile Edit
                 </EditBtn>
                 {isModalOn && (
-                  <Modal isOn={isModalOn} setOff={handleModal} height="600px">
+                  <Modal setOff={handleModal} height="600px">
                     <EditForm setOff={handleModal} />
                   </Modal>
                 )}
