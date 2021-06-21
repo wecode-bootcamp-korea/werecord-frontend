@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 const SignInModal = () => {
   const history = useHistory();
-
   const [userInfo, setUserInfo] = useState({
     user_type: '',
     name: '',
@@ -15,7 +14,6 @@ const SignInModal = () => {
     github: '',
     birthday: '',
   });
-
   const nameInput = useRef();
   const batchInput = useRef();
   const submitButton = useRef();
