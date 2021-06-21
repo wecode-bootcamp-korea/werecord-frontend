@@ -1,10 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-
 import styled from 'styled-components';
 
-const SignInModal = () => {
-  const history = useHistory();
+const SignInModal = props => {
+  const { history } = props;
   const [userInfo, setUserInfo] = useState({
     user_type: '',
     name: '',
@@ -55,9 +53,9 @@ const SignInModal = () => {
     fetch(`http://10.58.2.86:8000/users/info/${sessionStorage.user_id}`, {
       method: 'post',
       // 토큰을 보낼지 말지 대환님이 경훈님과 상의해보기로 함
-      // header: {
-      //   Authorization: wrtoken,
-      // },
+      header: {
+        Authorization: wrtoken,
+      },
       body: userInformation,
     })
       // respond확인용
@@ -173,16 +171,16 @@ export default SignInModal;
 
 const ModalContainer = styled.section`
   ${({ theme }) => theme.flexbox()};
-  height: 100%;
   width: 100%;
+  height: 100%;
   padding: 20px;
 `;
 
 const MainLogo = styled.div`
-  font-size: 25px;
   padding: 30px;
-  font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
+  font-size: 25px;
+  font-weight: 700;
 `;
 const SignInContainer = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
@@ -190,18 +188,17 @@ const SignInContainer = styled.section`
 `;
 
 const SignIntext = styled.div`
-  color: ${({ theme }) => theme.colors.black};
   margin: 10px 0px 20px 0px;
-
+  color: ${({ theme }) => theme.colors.black};
   font-size: 12px;
 `;
 
 const SignInHeader = styled.h1`
+  margin-bottom: 10px;
   text-align: left;
+  color: ${({ theme }) => theme.colors.black};
   font-weight: 700;
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.black};
-  margin-bottom: 10px;
 `;
 
 const SignInContent = styled.form`
@@ -211,37 +208,31 @@ const SignInContent = styled.form`
 const SignInForm = styled.li`
   ${({ theme }) => theme.flexbox('column', 'start', 'stretch')};
   margin-bottom: 20px;
+
   div {
     ${({ theme }) => theme.flexbox('row', 'start', 'stretch')};
     text-align: left;
 
     p {
-      color: black;
       margin-right: 20px;
+      color: black;
     }
   }
 `;
-const SignInValidation = styled.p`
-  color: red;
-  font-size: 10px;
-  text-align: left;
-  margin-top: 5px;
-`;
 
 const SignInTitle = styled.span`
-  /* color: ${({ theme }) => theme.colors.black}; */
   color: ${props => (props.check ? 'gray' : 'black')};
-  font-size: 17px;
-  margin-bottom: 10px;
-  text-align: left;
-  font-weight: 700;
   margin-right: 7px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 17px;
+  text-align: left;
 `;
 
 const SignInInput = styled.input`
-  border-bottom: 1px solid ${({ theme }) => theme.colors.black};
-  font-size: 15px;
   width: 90%;
+  font-size: 15px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.black};
 `;
 
 const SignInRadioInput = styled.input`
@@ -250,19 +241,19 @@ const SignInRadioInput = styled.input`
 
 const PositionSelect = styled.select`
   padding: 3px;
-  outline: none;
   border: 1px solid;
   border-radius: 2px;
+  outline: none;
 `;
 
 const SubmitButton = styled.button`
-  font-size: 15px;
-  font-weight: 700;
+  position: relative;
   width: 90px;
   height: 25px;
-  position: relative;
   top: 5px;
   left: 150px;
+  font-size: 15px;
+  font-weight: 700;
   border: 1px solid ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   background-color: ${({ theme }) => theme.colors.white};

@@ -1,9 +1,8 @@
 import React, { useRef, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const GoogleLogin = props => {
-  const history = useHistory();
+  const { history } = props;
   useEffect(() => {
     googleLogin();
   }, []);
@@ -12,7 +11,6 @@ const GoogleLogin = props => {
 
   const googleLogin = () => {
     window.gapi.load('auth2', function () {
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
       window.auth2 = window.gapi.auth2.init({
         client_id:
           '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
@@ -35,14 +33,8 @@ const GoogleLogin = props => {
             .then(res => res.json())
             .then(res => {
               sessionStorage.setItem('wrtoken', res.werecord_token);
-              sessionStorage.setItem('use_type', res.user_info.user_type);
+              sessionStorage.setItem('user_type', res.user_info.user_type);
               sessionStorage.setItem('user_id', res.user_info.user_id);
-              return res;
-            })
-            //테스트용 console입니다.
-            // .then(res => console.log(res));
-            // 테스트용 주석입니다.
-            .then(res => {
               if (res.user_info.batch) {
                 alert('로그인이 완료되었습니다!');
                 history.push('/main');
@@ -50,6 +42,19 @@ const GoogleLogin = props => {
                 alert('신규 가입 회원입니다');
                 props.changeModalValue();
               }
+              return res;
+            })
+            //테스트용 console입니다.
+            // .then(res => console.log(res));
+            // 테스트용 주석입니다.
+            .then(res => {
+              // if (res.user_info.batch) {
+              //   alert('로그인이 완료되었습니다!');
+              //   history.push('/main');
+              // } else if (res.user_info.batch == false) {
+              //   alert('신규 가입 회원입니다');
+              //   props.changeModalValue();
+              // }
             });
         },
         function (error) {
@@ -61,7 +66,6 @@ const GoogleLogin = props => {
 
   return (
     <>
-      {/* <button onClick={props.changeModalValue}>하이</button> */}
       <GoogleButton ref={googleButton}>
         <GoogleLogo src="/images/googleLogo.png"></GoogleLogo>
         <GoogleLoginText>구글로 로그인하기</GoogleLoginText>
@@ -87,8 +91,8 @@ const GoogleLogo = styled.img`
 `;
 
 const GoogleLoginText = styled.p`
+  margin: 5px;
   font-size: 16px;
   font-weight: 700;
-  margin: 5px;
   line-height: 15px;
 `;
