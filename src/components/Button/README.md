@@ -7,7 +7,7 @@
 - **fontSize** : string
   폰트 크기에 따라 버튼 크기가 변경됩니다.
 
-- **version** : black, white
+- **type** : black, white
 
   - black: 버튼 background가 black인 버튼
   - white: 버튼 background가 white인 버튼
