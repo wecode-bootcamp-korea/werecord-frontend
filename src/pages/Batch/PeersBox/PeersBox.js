@@ -23,13 +23,13 @@ export default function PeersBox({ myBatchInfo }) {
       <StyledSlider {...settings}>
         {myBatchInfo.peers.map(peers => (
           <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
-            <ProfileCard setOn={setIsModalOn} peersInfo={peers} />
+            <ProfileCard modalOn={setIsModalOn} peersInfo={peers} />
           </div>
         ))}
       </StyledSlider>
 
       {isModalOn && (
-        <Modal isOn={isModalOn} setOff={handleModal} height="480px">
+        <Modal setOff={handleModal} height="480px">
           <ProfileModal peersInfo={peerData} />
         </Modal>
       )}

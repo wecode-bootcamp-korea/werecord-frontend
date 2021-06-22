@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import Styled from 'styled-components';
 
-export default function ProfileCard({ setOn, peersInfo }) {
+export default function ProfileCard({ modalOn, peersInfo }) {
   const { peer_status, peer_name, peer_profile_image_url } = peersInfo;
   const onProfileModal = useCallback(() => {
-    setOn(true);
+    modalOn(true);
   }, []);
 
   return (
@@ -29,7 +29,8 @@ const Container = Styled.li`
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background-color: ${props => (props.isOn ? '#41b979' : '#f6f4f1')};
+      background-color: ${({ isOn, theme }) =>
+        isOn ? theme.colors.blue : theme.colors.red};
       z-index: 1;
     }
 
