@@ -19,8 +19,6 @@ export default function EditContents() {
     setUserForm(nextUserForm);
   };
 
-  console.log(userForm);
-
   return (
     <Container>
       <Content>

@@ -60,7 +60,6 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
       })
         .then(res => res.json())
         .then(batchMakingStatus => {
-          console.log(batchMakingStatus);
           if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
             alert('시작일과 종료일을 확인해주시기 바랍니다!');
           } else if (batchMakingStatus.message === 'DATE_FORM_ERROR') {

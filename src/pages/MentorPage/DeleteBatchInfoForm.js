@@ -1,11 +1,9 @@
 import React from 'react';
-// import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import API_URLS from '../../config';
 
 export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
-  // const location = useLocation();
   const handleDelete = value => {
     fetch(`${API_URLS.DELETE_BATCH}`, {
       method: 'DELETE',

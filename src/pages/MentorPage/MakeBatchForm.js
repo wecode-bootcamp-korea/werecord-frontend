@@ -61,7 +61,6 @@ export default function MakeBatchForm({ isModalOff }) {
       })
         .then(res => res.json())
         .then(batchMakingStatus => {
-          console.log(batchMakingStatus);
           if (batchMakingStatus.message === 'ALREADY_EXIT_ERROR') {
             alert('이미 존재하는 기수입니다!');
           } else if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
@@ -82,8 +81,6 @@ export default function MakeBatchForm({ isModalOff }) {
         });
     }
   };
-
-  console.log(newBatchInformation);
 
   return (
     <article>
