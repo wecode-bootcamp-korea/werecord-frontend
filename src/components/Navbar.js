@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import Button from '../components/Button/Button';
 
 export default function Navbar() {
   const history = useHistory();
@@ -58,6 +59,9 @@ export default function Navbar() {
               </GoToBatchPageBtn>
             )}
             <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
+            <Button type="black" fontSize="14" disabled={false}>
+              안녕?
+            </Button>
           </div>
         </Container>
       )}
