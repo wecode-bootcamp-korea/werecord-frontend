@@ -15,8 +15,8 @@ export default function Mypage() {
     fetch('data/mypageInformationData.json')
       // fetch('http://10.58.1.242:8000/users/student')
       .then(res => res.json())
-      .then(userInformationData => {
-        setUserInformation(userInformationData.result);
+      .then(({ result }) => {
+        setUserInformation(result);
       });
   }, []);
 
@@ -55,7 +55,7 @@ export default function Mypage() {
                 </EditBtn>
                 {isModalOn && (
                   <Modal setOff={handleModal} height="600px">
-                    <EditForm setOff={handleModal} />
+                    <EditForm />
                   </Modal>
                 )}
               </UserInformation>

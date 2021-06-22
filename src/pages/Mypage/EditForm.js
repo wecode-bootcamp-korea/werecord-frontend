@@ -1,78 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import styled from 'styled-components';
 
 export default function EditContents() {
-  const [userForm, setUserForm] = useState({
-    name: '',
-    user_type: '',
-    batch: '',
-    position: '',
-    blog: '',
-    github: '',
-    birthday: '',
-    profile_image_url: [],
-  });
-  const [userId, setUserId] = useState('');
+  const [userForm, setUserForm] = useState({});
   const [imgFile, setImgFile] = useState('');
-  const { name, position, blog, github, birthday } = userForm;
   const [isModalOn, setIsModalOn] = useState(false);
-  const history = useHistory();
+  const { name, position, blog, github, birthday } = userForm;
 
   useEffect(() => {
-    fetch('http://10.58.2.86:8000/users/info', {
-      headers: {
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MjQyNTkzMTAsImV4cCI6MTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxNjI0MjU5MzEwfQ.tzSQnsH2-ojHz5i51_Pugr8Dr4i8vmbkwtruuUrpqds',
-      },
+    fetch('http:///users/info', {
+      headers: { Authorization: '' },
     })
       .then(res => res.json())
-      .then(userData => {
-        const {
-          name,
-          batch,
-          position,
-          blog,
-          github,
-          birthday,
-          user_type,
-          user_id,
-          profile_image_url,
-        } = userData.data;
-
-        setUserForm(prev => ({
-          ...prev,
-          name,
-          batch,
-          position,
-          blog,
-          github,
-          birthday,
-          user_type,
-          profile_image_url,
-        }));
-        setUserId(user_id);
+      .then(({ data }) => {
+        setUserForm(data);
       });
   }, []);
 
-  const modifyUserData = e => {
+  const modifyUserData = (e, abc) => {
     e.preventDefault();
     const userInfo = JSON.stringify(userForm);
     const userData = new FormData();
     userData.append('info', userInfo);
     userData.append('image', imgFile);
 
-    fetch(`http://10.58.2.86:8000/users/info/${userId}`, {
+    fetch('http:///users/info', {
       method: 'POST',
-      header: {
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MjQyNTkzMTAsImV4cCI6MTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxNjI0MjU5MzEwfQ.tzSQnsH2-ojHz5i51_Pugr8Dr4i8vmbkwtruuUrpqds',
-      },
+      headers: { Authorization: '' },
       body: userData,
-    });
-
-    history.push('/mypage');
+    })
+      .then(res => res.json())
+      .then(
+        ({ message }) =>
+          message === 'SUCCESS' && window.location.replace('/mypage')
+      );
   };
 
   const handleInput = e => {
@@ -84,9 +46,8 @@ export default function EditContents() {
   const onFileInput = e => {
     e.preventDefault();
     const reader = new FileReader();
-    const file = e.target.files[0];
+    const { file } = e.target;
     reader.readAsDataURL(file);
-
     reader.onload = () => {
       setImgFile(file);
     };
@@ -94,16 +55,11 @@ export default function EditContents() {
 
   const RecheckLeave = e => {
     e.preventDefault();
-
-    fetch('', {
+    fetch(`http:///users/info`, {
       method: 'DELETE',
-      header: {},
-      body: JSON.stringify({
-        user_id: { userId },
-      }),
+      headers: { Authorization: '' },
     });
-
-    history.push('/');
+    window.location.replace('/mypage');
   };
 
   return (
@@ -117,7 +73,6 @@ export default function EditContents() {
             placeholder="이름을 입력해주세요"
             value={name || ''}
             onChange={handleInput}
-            required
           />
         </Content>
         <Content>
@@ -128,7 +83,6 @@ export default function EditContents() {
             accept="image/*"
             placeholder="이미지 주소로 입력해주세요!"
             onChange={onFileInput}
-            required
           />
         </Content>
         <Content>
@@ -151,7 +105,6 @@ export default function EditContents() {
             value={blog || ''}
             placeholder="개인 블로그 주소"
             onChange={handleInput}
-            required
           />
         </Content>
         <Content>
@@ -161,7 +114,6 @@ export default function EditContents() {
             value={github || ''}
             placeholder="Github 주소"
             onChange={handleInput}
-            required
           />
         </Content>
         <Content>
@@ -177,8 +129,8 @@ export default function EditContents() {
           </SelectBirthDay>
         </Content>
         <SubmitBtn onClick={modifyUserData}>수정</SubmitBtn>
+        <LeaveBtn onClick={() => setIsModalOn(true)}>탈퇴</LeaveBtn>
       </Container>
-      <LeaveBtn onClick={() => setIsModalOn(true)}>탈퇴</LeaveBtn>
 
       {isModalOn && (
         <Modal height="400px">
@@ -205,6 +157,7 @@ const Container = styled.form`
   padding: 40px;
   color: #212121;
 `;
+
 const Label = styled.label`
   margin-right: 15px;
   margin-bottom: 5px;
@@ -244,7 +197,7 @@ const SubmitBtn = styled.button`
   cursor: pointer;
 `;
 
-const LeaveBtn = styled.button`
+const LeaveBtn = styled.div`
   padding: 3px 3px;
   color: red;
   cursor: pointer;
