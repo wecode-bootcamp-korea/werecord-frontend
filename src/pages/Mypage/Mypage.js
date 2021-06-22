@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { keyframes } from 'styled-components';
-
 import FadeIn from 'react-fade-in';
 import LineChart from '../Mypage/Charts/LineChart';
 import BarChart from '../Mypage/Charts/BarChart';
 import Modal from '../../components/Modal/Modal';
 import EditForm from '../Mypage/EditForm';
+import styled from 'styled-components';
 
 export default function Mypage() {
   const [userInformation, setUserInformation] = useState('');
-  const [isOn, setIsOn] = useState(false);
+  const [isModalOn, setIsModalOn] = useState(false);
 
   useEffect(() => {
     fetch('data/mypageInformationData.json')
       // fetch('http://10.58.1.242:8000/users/student')
       .then(res => res.json())
-      .then(userInformationData => {
-        setUserInformation(userInformationData.result);
+      .then(({ result }) => {
+        setUserInformation(result);
       });
   }, []);
 
@@ -29,22 +28,6 @@ export default function Mypage() {
     const timeToArray =
       userInformation['record_information'][`average_${type}_time`].split(':');
     return `${timeToArray[0]}시 ${timeToArray[1]}분`;
-  };
-
-  const handleModal = e => {
-    const clickedInside = e.target.closest('.modal');
-    const clickedBtn = e.target.closest('.closeBtn');
-
-    if (clickedInside) {
-      if (clickedBtn) {
-        setIsOn(false);
-      }
-      if (!clickedBtn) {
-        return;
-      }
-    } else {
-      setIsOn(false);
-    }
   };
 
   return (
@@ -59,9 +42,11 @@ export default function Mypage() {
               />
               <UserInformation>
                 <dt>{getInformation('user', 'user_name')}</dt>
-                <EditBtn onClick={() => setIsOn(true)}>Profile Edit</EditBtn>
-                {isOn && (
-                  <Modal isOn={isOn} setOff={handleModal} height="700px">
+                <EditBtn onClick={() => setIsModalOn(true)}>
+                  Profile Edit
+                </EditBtn>
+                {isModalOn && (
+                  <Modal setOff={setIsModalOn} height="600px">
                     <EditForm />
                   </Modal>
                 )}
