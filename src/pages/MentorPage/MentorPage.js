@@ -23,13 +23,15 @@ export default function MentorPage({ history }) {
     // fetch('/data/MentorPageData.json') // mockdata입니다.
     fetch(`${API_URLS.MENTOR_PAGE}`, {
       // 통신용 로직입니다.
-      method: 'GET',
-      headers: {
-        Authorization: localStorage.getItem('wrtoken'),
-      },
+      // method: 'GET',
+      // headers: {
+      //   Authorization: localStorage.getItem('wrtoken'),
+      // },
     })
       .then(res => res.json())
       .then(res => {
+        console.log(res);
+
         if (res.message === 'LOGIN_REQUIRED') {
           alert('접근 권한이 없습니다!');
           history.push('/mypage');
@@ -93,7 +95,8 @@ export default function MentorPage({ history }) {
     }
   };
 
-  const handleModalAfterBatchDelete = () => setDeleteBatchInformation(true);
+  const handleModalAfterBatchDelete = () => setDeleteBatchInformation(false);
+  const handleModalAfterBatchEdit = () => setEditBatchInformation(false);
 
   return (
     <FadeIn>
@@ -176,7 +179,10 @@ export default function MentorPage({ history }) {
           )}
           {editBatchInformation && (
             <Modal setOff={handleModal} height="450px">
-              <EditBatchInfoFrom prevBatchInformation={prevBatchInformation} />
+              <EditBatchInfoFrom
+                prevBatchInformation={prevBatchInformation}
+                isModalOff={handleModalAfterBatchEdit}
+              />
             </Modal>
           )}
         </BatchInformationContainer>

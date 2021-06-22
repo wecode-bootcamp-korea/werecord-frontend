@@ -5,7 +5,7 @@ import API_URLS from '../../config';
 
 export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
   const handleDelete = value => {
-    fetch(`${API_URLS.DELETE_BATCH}`, {
+    fetch(`${API_URLS.DELETE_BATCH_BTN}`, {
       method: 'DELETE',
       headers: {
         // Authorization: sessionStorage.getItem('wrtoken'),

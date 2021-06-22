@@ -52,13 +52,17 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
         //   Authorization: sessionStorage.getItem('wrtoken'),
         // },
         body: JSON.stringify({
-          batch_id: batchNumber,
+          batch_id: prevBatchInformation['batch_id'],
+          new_batch_id: batchNumber,
           start_day: startDay,
           end_day: endDay,
           mentor_name: mentorName,
         }),
       })
-        .then(res => res.json())
+        .then(res => {
+          console.log(res);
+          return res.json();
+        })
         .then(batchMakingStatus => {
           if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
             alert('시작일과 종료일을 확인해주시기 바랍니다!');
