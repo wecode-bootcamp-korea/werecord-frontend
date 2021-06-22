@@ -24,23 +24,6 @@ export default function Navbar() {
     }
   };
 
-  const handleModal = e => {
-    const clickedInside = e.target.closest('.modal');
-    const clickedBtn = e.target.closest('.closeBtn');
-    if (clickedInside) {
-      if (clickedBtn) {
-        setMakeBatchModalOn(false);
-        setEditMentorInfoModalOn(false);
-      }
-      if (!clickedBtn) {
-        return;
-      }
-    } else {
-      setMakeBatchModalOn(false);
-      setEditMentorInfoModalOn(false);
-    }
-  };
-
   const handleModalAfterBatchMaking = () => setMakeBatchModalOn(false);
   const handleModalAfterEditMentorInfo = () => setEditMentorInfoModalOn(false);
 
@@ -76,7 +59,7 @@ export default function Navbar() {
               </EditMentorInfo> // 내정보 수정
             )}
             {editMentorInfoModalOn && (
-              <Modal setOff={handleModal} height="650px">
+              <Modal setOff={setEditMentorInfoModalOn} height="650px">
                 <EditMentorInfoForm />
               </Modal>
             )}
@@ -91,7 +74,7 @@ export default function Navbar() {
               </MakeBatchBtn> //기수 생성
             )}
             {makeBatchModalOn && (
-              <Modal setOff={handleModal} height="450px">
+              <Modal setOff={setMakeBatchModalOn} height="450px">
                 <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
               </Modal>
             )}
