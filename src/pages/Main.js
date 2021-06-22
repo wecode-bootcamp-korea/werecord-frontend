@@ -70,7 +70,7 @@ export default function Main({ history }) {
         if (result) {
           alert(result.comment);
         }
-        history.push('/main');
+        window.location.replace('/main');
       });
   };
 
@@ -92,7 +92,7 @@ export default function Main({ history }) {
         if (result) {
           alert(result.comment);
         }
-        history.push('/main');
+        window.location.replace('/mypage');
       });
   };
 

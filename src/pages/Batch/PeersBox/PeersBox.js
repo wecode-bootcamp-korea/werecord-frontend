@@ -9,14 +9,6 @@ export default function PeersBox({ myBatchInfo }) {
   const [isModalOn, setIsModalOn] = useState(false);
   const [peerData, setPeerData] = useState({});
 
-  const handleModal = e => {
-    const isclickedInside = e.target.closest('.modal');
-    const isclickedBtn = e.target.closest('.closeBtn');
-
-    if (!isclickedInside) return setIsModalOn(false);
-    if (isclickedBtn) return setIsModalOn(false);
-  };
-
   return (
     <PeersBoxArea>
       <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
@@ -29,7 +21,7 @@ export default function PeersBox({ myBatchInfo }) {
       </StyledSlider>
 
       {isModalOn && (
-        <Modal setOff={handleModal} height="480px">
+        <Modal setOff={setIsModalOn} height="480px">
           <ProfileModal peersInfo={peerData} />
         </Modal>
       )}
