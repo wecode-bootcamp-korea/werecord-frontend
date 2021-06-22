@@ -9,9 +9,10 @@ import DeleteBatchInfoForm from './DeleteBatchInfoForm';
 
 export default function MentorPage({ history }) {
   const [batchInformation, setBatchInformation] = useState([]);
-  const [editBatchInformation, setEditBatchInformation] = useState(false);
-  const [deleteBatchInformation, setDeleteBatchInformation] = useState(false);
   const [deleteBatchNumber, setDeleteBatchNumber] = useState(0);
+  const [deleteBatchInformation, setDeleteBatchInformation] = useState(false);
+  const [editBatchInformation, setEditBatchInformation] = useState(false);
+  const [prevBatchInformation, setPrevBatchInformation] = useState({});
   const sliderList = useRef();
   const count = useRef(0);
   const goToBatchPage = id => {
@@ -23,9 +24,9 @@ export default function MentorPage({ history }) {
     fetch(`${API_URLS.MENTOR_PAGE}`, {
       // 통신용 로직입니다.
       method: 'GET',
-      // headers: {
-      //   Authorization: localStorage.getItem('wrtoken'),
-      // },
+      headers: {
+        Authorization: localStorage.getItem('wrtoken'),
+      },
     })
       .then(res => res.json())
       .then(res => {
@@ -42,7 +43,7 @@ export default function MentorPage({ history }) {
       });
   }, []);
 
-  const goToPrevious = () => {
+  const goToPrevious = (target, value) => {
     const batchLength = Math.ceil(batchInformation.length / 3);
     if (count.current === 0) {
       count.current = batchLength;
@@ -127,7 +128,7 @@ export default function MentorPage({ history }) {
                     goToBatchPage(batch_id);
                   }}
                 >
-                  <BatchName>{batch_name}기</BatchName>
+                  <BatchName>{batch_id}기</BatchName>
                   <MentorName>담임: {mentor_name}</MentorName>
                   <AfterDday>D {calculateDday(wecode_d_day)}</AfterDday>
                   <StartDay>시작일: {batch_start_day}</StartDay>
@@ -148,15 +149,11 @@ export default function MentorPage({ history }) {
                   <EditBtn
                     onClick={() => {
                       setEditBatchInformation(true);
+                      setPrevBatchInformation(batch);
                     }}
                   >
                     <i className="fas fa-cog"></i>
                   </EditBtn>
-                  {editBatchInformation && (
-                    <Modal setOff={handleModal} height="600px">
-                      <EditBatchInfoFrom />
-                    </Modal>
-                  )}
                   <CloseBtn
                     onClick={() => {
                       setDeleteBatchInformation(true);
@@ -175,6 +172,11 @@ export default function MentorPage({ history }) {
                 deleteBatchNumber={deleteBatchNumber}
                 isModalOff={handleModalAfterBatchDelete}
               />
+            </Modal>
+          )}
+          {editBatchInformation && (
+            <Modal setOff={handleModal} height="450px">
+              <EditBatchInfoFrom prevBatchInformation={prevBatchInformation} />
             </Modal>
           )}
         </BatchInformationContainer>
