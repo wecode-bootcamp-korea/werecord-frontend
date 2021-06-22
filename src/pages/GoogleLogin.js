@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const GoogleLogin = props => {
-  const { history } = props;
+  const history = useHistory();
   useEffect(() => {
     googleLogin();
   }, []);
@@ -25,7 +26,7 @@ const GoogleLogin = props => {
         element,
         {},
         function (googleUser) {
-          fetch('http://10.58.2.86:8000/users/login', {
+          fetch('http://10.58.5.247:8000/users/login', {
             headers: {
               Authorization: googleUser.getAuthResponse().id_token,
             },

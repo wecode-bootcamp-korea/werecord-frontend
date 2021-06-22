@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 const SignInModal = props => {
-  const { history } = props;
+  const history = useHistory();
   const [userInfo, setUserInfo] = useState({
     user_type: '',
     name: '',
@@ -12,6 +13,7 @@ const SignInModal = props => {
     github: '',
     birthday: '',
   });
+  const [selectDefault, setSelectDefault] = useState('Undefined');
   const nameInput = useRef();
   const batchInput = useRef();
   const submitButton = useRef();
@@ -50,10 +52,10 @@ const SignInModal = props => {
     userInformation.append('info', userData);
     const wrtoken = sessionStorage.getItem('wrtoken');
 
-    fetch(`http://10.58.2.86:8000/users/info/${sessionStorage.user_id}`, {
+    fetch('http://10.58.5.247:8000/users/info', {
       method: 'post',
       // 토큰을 보낼지 말지 대환님이 경훈님과 상의해보기로 함
-      header: {
+      headers: {
         Authorization: wrtoken,
       },
       body: userInformation,
@@ -64,9 +66,10 @@ const SignInModal = props => {
     // 사용자 타입에 따른 이동
     // if (res.message === 'SUCCESS') {
     if (userInfo.user_type === '수강생') {
+      // history.push(`/main/${sessionStorage.user_id}`);
       history.push('/main');
     } else if (userInfo.user_type === '멘토') {
-      history.push('/googleLogin');
+      history.push(`/googleLogin/${sessionStorage.user_id}`);
     }
     // }
   };
@@ -111,6 +114,7 @@ const SignInModal = props => {
               기수 *
             </SignInTitle>
             <SignInInput
+              check={userInfo.user_type === '멘토'}
               disabled={isAbleInput()}
               onChange={getInputValue}
               name="batch"
@@ -121,13 +125,15 @@ const SignInModal = props => {
           </SignInForm>
           <SignInForm>
             <SignInTitle>포지션 *</SignInTitle>
-            <PositionSelect name="position" onChange={getInputValue}>
+            <PositionSelect
+              value={selectDefault}
+              name="position"
+              onChange={getInputValue}
+            >
               <option value="Front-End">Front-End</option>
               <option value="Back-End">Back-End</option>
               <option value="Fullstack">Fullstack</option>
-              <option selected value="Undefined">
-                미정
-              </option>
+              <option value="Undefined">미정</option>
             </PositionSelect>
           </SignInForm>
           <SignInForm>
@@ -221,7 +227,8 @@ const SignInForm = styled.li`
 `;
 
 const SignInTitle = styled.span`
-  color: ${props => (props.check ? 'gray' : 'black')};
+  color: ${props =>
+    props.check ? `${({ theme }) => theme.colors.gray}` : 'black'};
   margin-right: 7px;
   margin-bottom: 10px;
   font-weight: 700;

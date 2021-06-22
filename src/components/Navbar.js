@@ -10,15 +10,23 @@ export default function Navbar() {
     history.push(`/${page}`);
   };
 
-  const handleLogout = () => {
-    if (localStorage.getItem('토큰 이름')) {
-      localStorage.clear();
-      alert('로그아웃이 되었습니다.');
-      goToPage();
-    } else {
-      alert('이미 로그아웃 상태입니다!');
-      goToPage();
-    }
+  // const handleLogout = () => {
+  //   if (sessionStorage.getItem('wrtoken')) {
+  //     sessionStorage.clear();
+  //     alert('로그아웃이 되었습니다.');
+  //     goToPage();
+  //   } else {
+  //     alert('이미 로그아웃 상태입니다!');
+  //     goToPage();
+  //   }
+  //
+
+  const Logout = () => {
+    const auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      alert('로그아웃되었습니다');
+      history.push('/');
+    });
   };
 
   return (
@@ -41,7 +49,7 @@ export default function Navbar() {
             >
               기수 페이지
             </GoToBatchBtn>
-            <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
+            <LogoutBtn onClick={Logout}>로그아웃</LogoutBtn>
           </div>
         </Container>
       )}
