@@ -13,7 +13,7 @@ export default function Batch() {
     fetch('Data/BatchData.json')
       .then(res => res.json())
       .then(batchInfo => {
-        setBatchInfo(batchInfo.result[0]);
+        setBatchInfo(batchInfo.result);
       });
   }, []);
 

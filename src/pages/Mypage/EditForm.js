@@ -18,7 +18,7 @@ export default function EditContents() {
       });
   }, []);
 
-  const modifyUserData = (e, abc) => {
+  const modifyUserData = e => {
     e.preventDefault();
     const userInfo = JSON.stringify(userForm);
     const userData = new FormData();
@@ -53,7 +53,7 @@ export default function EditContents() {
     };
   };
 
-  const RecheckLeave = e => {
+  const recheckLeave = e => {
     e.preventDefault();
     fetch(`http:///users/info`, {
       method: 'DELETE',
@@ -135,7 +135,7 @@ export default function EditContents() {
       {isModalOn && (
         <Modal height="400px">
           <h1>리얼 탈퇴????</h1>
-          <button type="button" onClick={RecheckLeave}>
+          <button type="button" onClick={recheckLeave}>
             진짜 탈퇴??
           </button>
         </Modal>

@@ -30,14 +30,6 @@ export default function Mypage() {
     return `${timeToArray[0]}시 ${timeToArray[1]}분`;
   };
 
-  const handleModal = e => {
-    const isclickedInside = e.target.closest('.modal');
-    const isclickedBtn = e.target.closest('.closeBtn');
-
-    if (!isclickedInside) return setIsModalOn(false);
-    if (isclickedBtn) return setIsModalOn(false);
-  };
-
   return (
     <FadeIn transitionDuration={1000}>
       {userInformation && (
@@ -54,7 +46,7 @@ export default function Mypage() {
                   Profile Edit
                 </EditBtn>
                 {isModalOn && (
-                  <Modal setOff={handleModal} height="600px">
+                  <Modal setOff={setIsModalOn} height="600px">
                     <EditForm />
                   </Modal>
                 )}
