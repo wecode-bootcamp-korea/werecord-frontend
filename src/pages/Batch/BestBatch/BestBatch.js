@@ -11,9 +11,7 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
       <WhoBestBatch>
         <BestBatchTitle>record of legend</BestBatchTitle>
         <BestBatchTime>
-          {`${winner_batch_name}기 ${Math.floor(
-            winner_batch_total_time
-          ).toLocaleString()}시간 달성`}
+          {makeWinnerTotalTime(winner_batch_name, winner_batch_total_time)}
         </BestBatchTime>
       </WhoBestBatch>
       <RankingArea>
@@ -21,7 +19,7 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
           <MyBatch>
             <div className="myBatch">{`Wecode ${batch_name}기`}</div>
             <MyBatchTime>
-              {`${Math.floor(batch_total_time).toLocaleString()}시간 ing...`}
+              {makeMyBatchTotalTime(batch_total_time)}
               <img alt="cat" src="/images/run_cat.gif" />
             </MyBatchTime>
           </MyBatch>
@@ -29,9 +27,15 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
         <PersonRanking>
           <BestPersonTitle>지난주 지박령</BestPersonTitle>
           <BestPersons>
-            <BestPerson rank={2}>{firstPrize.user_name}</BestPerson>
-            <BestPerson rank={1}>{secondPrize.user_name}</BestPerson>
-            <BestPerson rank={3}>{thirdPrize.user_name}</BestPerson>
+            {secondPrize && (
+              <BestPerson rank={2}>{secondPrize.user_name}</BestPerson>
+            )}
+            {firstPrize && (
+              <BestPerson rank={1}>{firstPrize.user_name}</BestPerson>
+            )}
+            {thirdPrize && (
+              <BestPerson rank={3}>{thirdPrize.user_name}</BestPerson>
+            )}
           </BestPersons>
         </PersonRanking>
       </RankingArea>
@@ -147,3 +151,13 @@ const BestPerson = Styled.div`
       ? secondPlace
       : thirdPlace} 1s linear;
 `;
+
+const makeWinnerTotalTime = (batchName, batchTotalTime) => {
+  return `${batchName}기 ${Math.floor(
+    batchTotalTime
+  ).toLocaleString()}시간 달성`;
+};
+
+const makeMyBatchTotalTime = batchTotalTime => {
+  return `${Math.floor(batchTotalTime).toLocaleString()}시간 ing...`;
+};
