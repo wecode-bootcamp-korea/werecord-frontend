@@ -95,7 +95,6 @@ export default function Navbar() {
                 <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
               </Modal>
             )}
-
             {isCheckMentor && location.pathname !== '/mentorpage' && (
               <GoToMentorPageBtn
                 onClick={() => {
