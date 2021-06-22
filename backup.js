@@ -9,13 +9,13 @@ export default function EditContents({ setOff }) {
     user_type: '',
     position: '',
     blog: '',
-    batch: '',
     github: '',
     birthday: '',
     profile_image_url: [],
   });
   const [userId, setUserId] = useState('');
-  const [imgFile, setImgFile] = useState('');
+  // arror&fix 사항 1(이미지 POST할 떄 수정안하면 초기화되는 현상)
+  // const [imgFile, setImgFile] = useState('');
   const { name, position, blog, github, birthday } = userForm;
   const [isModalOn, setIsModalOn] = useState(false);
 
@@ -28,29 +28,16 @@ export default function EditContents({ setOff }) {
           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE2MjQzNTk1ODEsImV4cCI6MTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxNjI0MzU5NTgxfQ.8rMEhsdu0MLZyOAHVV3KYtnoLx8rPX7KcK4aCVc9pVY',
       },
     })
-      .then(res => {
-        console.log(res);
-        return res.json();
-      })
+      .then(res => res.json())
       .then(userData => {
-        console.log(userData);
-        const {
-          name,
-          position,
-          blog,
-          github,
-          batch,
-          birthday,
-          user_type,
-          user_id,
-        } = userData.data;
+        const { name, position, blog, github, birthday, user_type, user_id } =
+          userData.data;
 
         setUserForm(prev => ({
           ...prev,
           name,
           position,
           blog,
-          batch,
           github,
           birthday,
           user_type,
@@ -64,7 +51,8 @@ export default function EditContents({ setOff }) {
     const userInfo = JSON.stringify(userForm);
     const userData = new FormData();
     userData.append('info', userInfo);
-    userData.append('image', imgFile);
+    // arror&fix 사항
+    // userData.append('image', imgFile);
 
     fetch(`${API_URLS.MENTOR_INFO}`, {
       method: 'POST',
@@ -98,7 +86,8 @@ export default function EditContents({ setOff }) {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-      setImgFile(file);
+      // arror&fix 사항
+      // setImgFile(file);
       setUserForm(prev => ({
         ...prev,
         profile_image_url: file,
@@ -106,7 +95,7 @@ export default function EditContents({ setOff }) {
     };
   };
 
-  const recheckLeave = e => {
+  const RecheckLeave = e => {
     e.preventDefault();
 
     fetch(`${API_URLS.MENTOR_INFO}`, {
@@ -197,7 +186,7 @@ export default function EditContents({ setOff }) {
       {isModalOn && (
         <Modal height="400px">
           <h1>리얼 탈퇴????</h1>
-          <button type="button" onClick={recheckLeave}>
+          <button type="button" onClick={RecheckLeave}>
             진짜 탈퇴??
           </button>
         </Modal>

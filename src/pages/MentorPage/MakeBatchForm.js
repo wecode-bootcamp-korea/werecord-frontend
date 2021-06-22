@@ -84,7 +84,7 @@ export default function MakeBatchForm({ isModalOff }) {
 
   return (
     <article>
-      <Title>기수 정보를 입력해주세요 📝</Title>
+      <Title>새 기수 생성 📝</Title>
       <NewBatchInformation>
         <Content>
           <Label>기수</Label>

@@ -20,18 +20,17 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
     return datePattern.test(value);
   };
 
-  // const checkMentorNameValid = value => {
-  //   if (value.length === (3 || 4)) return true;
-  // };
+  const checkMentorNameValid = value => {
+    if (value.length > 0) return true;
+  };
 
   const checkBatchBtnValid = () => {
     const { batchNumber, startDay, endDay, mentorName } = editBatchInformation;
     return (
       checkBatchNumberInputValid(batchNumber) &&
       checkDateInputValid(startDay) &&
-      checkDateInputValid(endDay)
-      // &&
-      // checkMentorNameValid(mentorName)
+      checkDateInputValid(endDay) &&
+      checkMentorNameValid(mentorName)
     );
   };
 
@@ -87,7 +86,7 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
 
   return (
     <article>
-      <Title>수정할 정보를 입력해주세요 📝</Title>
+      <Title>기수 정보 수정 📝</Title>
       <EditBatchInformation>
         <Content>
           <Label>기수</Label>

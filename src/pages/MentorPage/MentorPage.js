@@ -20,14 +20,14 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
-    // fetch('/data/MentorPageData.json') // mockdata입니다.
-    fetch(`${API_URLS.MENTOR_PAGE}`, {
-      // 통신용 로직입니다.
-      // method: 'GET',
-      // headers: {
-      //   Authorization: localStorage.getItem('wrtoken'),
-      // },
-    })
+    fetch('/data/MentorPageData.json') // mockdata입니다.
+      // fetch(`${API_URLS.MENTOR_PAGE}`, {
+      //   // 통신용 로직입니다.
+      //   // method: 'GET',
+      //   // headers: {
+      //   //   Authorization: localStorage.getItem('wrtoken'),
+      //   // },
+      // })
       .then(res => res.json())
       .then(res => {
         console.log(res);
@@ -185,15 +185,14 @@ export default function MentorPage({ history }) {
               />
             </Modal>
           )}
+          {}
         </BatchInformationContainer>
       </ContentsContainer>
     </FadeIn>
   );
 }
 
-const getRandomImage = arr => {
-  return arr[Math.floor(Math.random() * arr.length)];
-};
+const getRandomImage = arr => {};
 
 const convertSecondsToHours = seconds => {
   return Math.round(seconds / 360) / 10;

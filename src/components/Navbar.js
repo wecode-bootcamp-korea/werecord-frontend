@@ -76,7 +76,7 @@ export default function Navbar() {
               </EditMentorInfo> // 내정보 수정
             )}
             {editMentorInfoModalOn && (
-              <Modal setOff={handleModal} height="400px">
+              <Modal setOff={handleModal} height="650px">
                 <EditMentorInfoForm />
               </Modal>
             )}
