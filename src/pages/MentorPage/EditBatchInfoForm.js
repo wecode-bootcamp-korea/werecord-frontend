@@ -75,7 +75,9 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
           ) {
             alert('멘토 이름을 확인해주시기 바랍니다!');
           } else {
-            alert(`성공적으로 ${batchNumber}기 정보를 수정하였습니다!`);
+            alert(
+              `성공적으로 ${prevBatchInformation['batch_id']}기 정보를 수정하였습니다!`
+            );
             isModalOff();
             window.location.replace('/mentorpage');
           }
