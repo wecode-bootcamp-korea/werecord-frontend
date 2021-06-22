@@ -4,14 +4,14 @@ import styled from 'styled-components';
 export default function Button({
   children,
   fontSize,
-  type,
+  version,
   disabled,
   clickEvent,
 }) {
   return (
     <Container
       fontSize={fontSize}
-      type={type}
+      version={version}
       disabled={disabled}
       onClick={clickEvent}
     >
@@ -22,14 +22,14 @@ export default function Button({
 
 const Container = styled.button`
   padding: 10px 20px;
-  color: ${({ theme, type, disabled }) => {
-    if (type === 'white') {
+  color: ${({ theme, version, disabled }) => {
+    if (version === 'white') {
       if (disabled) {
         return 'gray';
       } else {
         return theme.colors.black;
       }
-    } else if (type === 'black') {
+    } else if (version === 'black') {
       if (disabled) {
         return 'gray';
       } else {
@@ -37,21 +37,21 @@ const Container = styled.button`
       }
     }
   }};
-  background-color: ${({ theme, type, disabled }) => {
-    if (type === 'white') {
+  background-color: ${({ theme, version, disabled }) => {
+    if (version === 'white') {
       return theme.colors.white;
-    } else if (type === 'black') {
-      return theme.colors.backgroundColor;
+    } else if (version === 'black') {
+      return theme.colors.black;
     }
   }};
 
   font-size: ${({ theme, fontSize }) => theme.pixelToRem(fontSize)};
   font-weight: bold;
   border: 1px solid
-    ${({ theme, type, disabled }) => {
-      if (type === 'white') {
+    ${({ theme, version, disabled }) => {
+      if (version === 'white') {
         return theme.colors.black;
-      } else if (type === 'black') {
+      } else if (version === 'black') {
         if (disabled) {
           return 'gray';
         } else {
@@ -61,26 +61,26 @@ const Container = styled.button`
     }};
   border-radius: 3px;
   cursor: ${({ disabled }) => disabled || 'pointer'};
-  opacity: ${({ theme, type, disabled }) => {
-    if (type === 'white') {
+  opacity: ${({ theme, version, disabled }) => {
+    if (version === 'white') {
       if (disabled) {
         return '0.5';
       } else {
         return '1';
       }
-    } else if (type === 'black') {
-      return theme.colors.backgroundColor;
+    } else if (version === 'black') {
+      return theme.colors.black;
     }
   }};
 
   &:hover {
-    color: ${({ theme, type, disabled }) => {
-      if (type === 'white') {
+    color: ${({ theme, version, disabled }) => {
+      if (version === 'white') {
         if (disabled) {
           return;
         }
         return theme.colors.white;
-      } else if (type === 'black') {
+      } else if (version === 'black') {
         if (disabled) {
           return;
         } else {
@@ -88,14 +88,14 @@ const Container = styled.button`
         }
       }
     }};
-    background-color: ${({ theme, type, disabled }) => {
-      if (type === 'white') {
+    background-color: ${({ theme, version, disabled }) => {
+      if (version === 'white') {
         if (disabled) {
           return;
         } else {
-          return 'transparent';
+          return theme.colors.black;
         }
-      } else if (type === 'black') {
+      } else if (version === 'black') {
         if (disabled) {
           return;
         } else {
@@ -104,18 +104,12 @@ const Container = styled.button`
       }
     }};
     border: 1px solid
-      ${({ theme, type, disabled }) => {
-        if (type === 'black') {
+      ${({ theme, version, disabled }) => {
+        if (version === 'black') {
           if (disabled) {
             return;
           } else {
-            return theme.colors.black;
-          }
-        } else if (type === 'white') {
-          if (disabled) {
-            return 'gray';
-          } else {
-            return theme.colors.black;
+            return theme.colors.white;
           }
         }
       }};
