@@ -91,7 +91,7 @@ export default function Navbar() {
               </MakeBatchBtn> //기수 생성
             )}
             {makeBatchModalOn && (
-              <Modal setOff={handleModal} height="400px">
+              <Modal setOff={handleModal} height="450px">
                 <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
               </Modal>
             )}

@@ -8,13 +8,13 @@ export default function MakeBatchForm({ isModalOff }) {
     batchNumber: '',
     startDay: '',
     endDay: '',
-    mentoName: '',
+    mentorName: '',
   });
 
   const history = useHistory();
 
   const checkBatchNumberInputValid = value => {
-    const batchNumberPattern = /^[1-9]*$/;
+    const batchNumberPattern = /^[0-9]*$/;
     return value.length > 0 && batchNumberPattern.test(value);
   };
 
@@ -23,12 +23,18 @@ export default function MakeBatchForm({ isModalOff }) {
     return datePattern.test(value);
   };
 
+  // const checkMentorNameValid = value => {
+  //   if (value.length === (3 || 4)) return true;
+  // };
+
   const checkBatchBtnValid = () => {
-    const { batchNumber, startDay, endDay } = newBatchInformation;
+    const { batchNumber, startDay, endDay, mentorName } = newBatchInformation;
     return (
       checkBatchNumberInputValid(batchNumber) &&
       checkDateInputValid(startDay) &&
       checkDateInputValid(endDay)
+      // &&
+      // checkMentorNameValid(mentorName)
     );
   };
 
@@ -39,7 +45,7 @@ export default function MakeBatchForm({ isModalOff }) {
 
   const handleBatchMaking = e => {
     e.preventDefault();
-    const { batchNumber, startDay, endDay, mentoName } = newBatchInformation;
+    const { batchNumber, startDay, endDay, mentorName } = newBatchInformation;
     if (startDay === endDay) {
       alert('날짜를 확인해주세요!');
     } else {
@@ -52,11 +58,12 @@ export default function MakeBatchForm({ isModalOff }) {
           name: batchNumber,
           start_day: startDay,
           end_day: endDay,
-          mento_name: mentoName,
+          mentor_name: mentorName,
         }),
       })
         .then(res => res.json())
         .then(batchMakingStatus => {
+          console.log(batchMakingStatus);
           if (batchMakingStatus.message === 'ALREADY_EXIT_ERROR') {
             alert('이미 존재하는 기수입니다!');
           } else if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
@@ -65,14 +72,20 @@ export default function MakeBatchForm({ isModalOff }) {
             alert('날짜를 확인해주시기 바랍니다!');
           } else if (batchMakingStatus.message === 'JSON_DECODE_ERROR') {
             alert('데이터 양식에 맞지 않습니다!');
+          } else if (
+            batchMakingStatus.message === 'RECHECK_MENTOR_NAME_ERROR'
+          ) {
+            alert('멘토 이름을 확인해주시기 바랍니다!');
           } else {
             alert(`성공적으로 ${batchNumber}기를 생성하였습니다!`);
             isModalOff();
-            history.push('/mentorpage');
+            window.location.replace('/mentorpage');
           }
         });
     }
   };
+
+  console.log(newBatchInformation);
 
   return (
     <article>
@@ -103,6 +116,14 @@ export default function MakeBatchForm({ isModalOff }) {
             onChange={handleInput}
             name="endDay"
             maxLength="10"
+          ></Input>
+        </Content>
+        <Content>
+          <Label>담당 멘토</Label>
+          <Input
+            placeholder="ex) 홍길동"
+            onChange={handleInput}
+            name="mentorName"
           ></Input>
         </Content>
         <MakeBatchBtn

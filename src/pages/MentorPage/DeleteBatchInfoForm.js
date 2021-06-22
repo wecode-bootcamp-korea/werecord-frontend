@@ -1,14 +1,39 @@
 import React from 'react';
+// import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import API_URLS from '../../config';
-import MakeBatchForm from './EditMentorInfoForm';
 
-export default function DeleteBatchInfoForm({ deleteBatchNumber }) {
+export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
+  // const location = useLocation();
+  const handleDelete = value => {
+    fetch(`${API_URLS.DELETE_BATCH}`, {
+      method: 'DELETE',
+      headers: {
+        // Authorization: sessionStorage.getItem('wrtoken'),
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        batch_id: value,
+      }),
+    }).then(res => {
+      if (res.status === 204) {
+        alert('성공적으로 삭제했습니다!');
+        isModalOff();
+        window.location.replace('/mentorpage');
+      }
+    });
+  };
   return (
     <Container>
       <Title>정말 삭제하시겠습니까?</Title>
-      <Button version="white" clickEvent={handleDelete(deleteBatchNumber)}>
+      <Button
+        version="white"
+        clickEvent={() => {
+          handleDelete(deleteBatchNumber);
+        }}
+      >
         삭제
       </Button>
     </Container>
@@ -23,20 +48,3 @@ const Title = styled.h1`
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   font-weight: 700;
 `;
-
-const handleDelete = value => {
-  console.log(value);
-
-  // fetch(`${API_URLS.DELETE_BATCH}`, {
-  //   method: 'POST',
-  //   // headers: {
-  //   //   Authorization: sessionStorage.getItem('wrtoken'),
-  //   // },
-  //   body: JSON.stringify({}),
-  // })
-  //   .then(res => res.json())
-  //   .then(
-  //     res =>
-  //       res.message === 'DELETE_SUCCESS' && alert('성공적으로 삭제했습니다!')
-  //   );
-};

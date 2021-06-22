@@ -19,14 +19,14 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
-    fetch('/data/MentorPageData.json') // mockdata입니다.
-      // fetch(`${API_URLS.MENTOR_PAGE}`, {
-      //   // 통신용 로직입니다.
-      //   method: 'GET',
-      //   // headers: {
-      //   //   Authorization: localStorage.getItem('wrtoken'),
-      //   // },
-      // })
+    // fetch('/data/MentorPageData.json') // mockdata입니다.
+    fetch(`${API_URLS.MENTOR_PAGE}`, {
+      // 통신용 로직입니다.
+      method: 'GET',
+      // headers: {
+      //   Authorization: localStorage.getItem('wrtoken'),
+      // },
+    })
       .then(res => res.json())
       .then(res => {
         if (res.message === 'LOGIN_REQUIRED') {
@@ -91,6 +91,8 @@ export default function MentorPage({ history }) {
       setDeleteBatchInformation(false);
     }
   };
+
+  const handleModalAfterBatchDelete = () => setDeleteBatchInformation(true);
 
   return (
     <FadeIn>
@@ -163,17 +165,18 @@ export default function MentorPage({ history }) {
                   >
                     <i className="fas fa-times"></i>
                   </CloseBtn>
-                  {deleteBatchInformation && (
-                    <Modal setOff={handleModal} height="200px">
-                      <DeleteBatchInfoForm
-                        deleteBatchNumber={deleteBatchNumber}
-                      />
-                    </Modal>
-                  )}
                 </EditAndCloseBtn>
               </List>
             );
           })}
+          {deleteBatchInformation && (
+            <Modal setOff={handleModal} height="200px">
+              <DeleteBatchInfoForm
+                deleteBatchNumber={deleteBatchNumber}
+                isModalOff={handleModalAfterBatchDelete}
+              />
+            </Modal>
+          )}
         </BatchInformationContainer>
       </ContentsContainer>
     </FadeIn>
