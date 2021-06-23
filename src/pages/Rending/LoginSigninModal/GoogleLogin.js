@@ -43,10 +43,14 @@ const GoogleLogin = props => {
                 'profile_image_url',
                 res.user_info.profile_image_url
               );
-              if (res.user_info.batch) {
+              if (res.user_info.user_id) {
                 alert('로그인이 완료되었습니다!');
-                history.push('/main');
-              } else if (res.user_info.batch == false) {
+                if (res.user_info.user_type === '수강생') {
+                  history.push('/main');
+                } else if (res.user_info.user_type === '멘토') {
+                  history.push('/mentorpage');
+                }
+              } else if (res.user_info.user_id === '') {
                 alert('신규 가입 회원입니다');
                 props.changeModalValue();
               }
