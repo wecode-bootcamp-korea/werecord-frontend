@@ -22,7 +22,6 @@ export default function MentorPage({ history }) {
   useEffect(() => {
     // fetch('/data/MentorPageData.json') // mockdata입니다.
     fetch(`${API_URLS.MENTOR_PAGE}`, {
-      // 통신용 로직입니다.
       method: 'GET',
       headers: {
         Authorization: localStorage.getItem('wrtoken'),
@@ -30,8 +29,6 @@ export default function MentorPage({ history }) {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
-
         if (res.message === 'LOGIN_REQUIRED') {
           alert('접근 권한이 없습니다!');
           history.push('/mypage');
@@ -49,6 +46,7 @@ export default function MentorPage({ history }) {
     return arr[Math.floor(Math.random() * arr.length)];
   };
 
+  // 슬라이더 로직 - 시작
   const goToPrevious = () => {
     const batchLength = Math.ceil(batchInformation.length / 3);
     if (count.current === 0) {
@@ -78,26 +76,9 @@ export default function MentorPage({ history }) {
       1380 * count.current
     }px, 0)`;
   };
+  // 슬라이더 로직 - 끝 (리팩토링 예정)
 
   const calculateDday = value => (value > 0 ? `+${value}` : `${value}`);
-
-  const handleModal = e => {
-    const clickedInside = e.target.closest('.modal');
-    const clickedBtn = e.target.closest('.closeBtn');
-
-    if (clickedInside) {
-      if (clickedBtn) {
-        setEditBatchInformation(false);
-        setDeleteBatchInformation(false);
-      }
-      if (!clickedBtn) {
-        return;
-      }
-    } else {
-      setEditBatchInformation(false);
-      setDeleteBatchInformation(false);
-    }
-  };
 
   const handleModalAfterBatchDelete = () => setDeleteBatchInformation(false);
   const handleModalAfterBatchEdit = () => setEditBatchInformation(false);
@@ -174,7 +155,7 @@ export default function MentorPage({ history }) {
             );
           })}
           {deleteBatchInformation && (
-            <Modal setOff={handleModal} height="200px">
+            <Modal setOff={setDeleteBatchInformation} height="200px">
               <DeleteBatchInfoForm
                 deleteBatchNumber={deleteBatchNumber}
                 isModalOff={handleModalAfterBatchDelete}
@@ -182,7 +163,7 @@ export default function MentorPage({ history }) {
             </Modal>
           )}
           {editBatchInformation && (
-            <Modal setOff={handleModal} height="450px">
+            <Modal setOff={setEditBatchInformation} height="450px">
               <EditBatchInfoFrom
                 prevBatchInformation={prevBatchInformation}
                 isModalOff={handleModalAfterBatchEdit}

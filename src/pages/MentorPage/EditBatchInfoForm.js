@@ -20,17 +20,18 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
     return datePattern.test(value);
   };
 
-  const checkMentorNameValid = value => {
-    if (value.length > 0) return true;
-  };
+  // const checkMentorNameValid = value => {
+  //   if (value.length > 0) return true;
+  // };
 
   const checkBatchBtnValid = () => {
     const { batchNumber, startDay, endDay, mentorName } = editBatchInformation;
     return (
       checkBatchNumberInputValid(batchNumber) &&
       checkDateInputValid(startDay) &&
-      checkDateInputValid(endDay) &&
-      checkMentorNameValid(mentorName)
+      checkDateInputValid(endDay)
+      // &&
+      // checkMentorNameValid(mentorName)
     );
   };
 
@@ -49,9 +50,9 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
         `${API_URLS.BATCH_MANAGEMENT}/${prevBatchInformation['batch_id']}`,
         {
           method: 'PATCH',
-          // headers: {
-          //   Authorization: sessionStorage.getItem('wrtoken'),
-          // },
+          headers: {
+            Authorization: sessionStorage.getItem('wrtoken'),
+          },
           body: JSON.stringify({
             new_batch_name: batchNumber,
             start_day: startDay,
@@ -60,10 +61,7 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
           }),
         }
       )
-        .then(res => {
-          console.log(res);
-          return res.json();
-        })
+        .then(res => res.json())
         .then(batchMakingStatus => {
           if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
             alert('시작일과 종료일을 확인해주시기 바랍니다!');

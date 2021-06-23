@@ -56,11 +56,13 @@ export default function Navbar() {
                 }}
               >
                 내정보 수정
-              </EditMentorInfo> // 내정보 수정
+              </EditMentorInfo>
             )}
             {editMentorInfoModalOn && (
               <Modal setOff={setEditMentorInfoModalOn} height="650px">
-                <EditMentorInfoForm />
+                <EditMentorInfoForm
+                  isModalOff={handleModalAfterEditMentorInfo}
+                />
               </Modal>
             )}
             {isCheckMentor && location.pathname === '/mentorpage' && (
@@ -71,7 +73,7 @@ export default function Navbar() {
                 }}
               >
                 기수 생성
-              </MakeBatchBtn> //기수 생성
+              </MakeBatchBtn>
             )}
             {makeBatchModalOn && (
               <Modal setOff={setMakeBatchModalOn} height="450px">

@@ -8,13 +8,10 @@ export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
     fetch(`${API_URLS.BATCH_MANAGEMENT}/${deleteBatchNumber}`, {
       method: 'DELETE',
       headers: {
-        // Authorization: sessionStorage.getItem('wrtoken'),
+        Authorization: sessionStorage.getItem('wrtoken'),
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      // body: JSON.stringify({
-      //   batch_id: value,
-      // }),
     }).then(res => {
       if (res.status === 204) {
         alert('성공적으로 삭제했습니다!');

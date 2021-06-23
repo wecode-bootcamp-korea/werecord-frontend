@@ -12,8 +12,8 @@ export default function Mypage() {
   const [isModalOn, setIsModalOn] = useState(false);
 
   useEffect(() => {
-    fetch('data/mypageInformationData.json')
-      // fetch('http://10.58.1.242:8000/users/student')
+    // fetch('data/mypageInformationData.json')
+    fetch('http://10.58.1.242:8000/users/student')
       .then(res => res.json())
       .then(({ result }) => {
         setUserInformation(result);

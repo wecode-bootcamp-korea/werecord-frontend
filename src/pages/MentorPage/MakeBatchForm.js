@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import API_URLS from '../../config';
 
@@ -49,9 +48,9 @@ export default function MakeBatchForm({ isModalOff }) {
     } else {
       fetch(`${API_URLS.BATCH_MANAGEMENT}`, {
         method: 'POST',
-        // headers: {
-        //   Authorization: sessionStorage.getItem('wrtoken'),
-        // },
+        headers: {
+          Authorization: sessionStorage.getItem('wrtoken'),
+        },
         body: JSON.stringify({
           name: batchNumber,
           start_day: startDay,

@@ -3,7 +3,7 @@ import Modal from '../../components/Modal/Modal';
 import styled from 'styled-components';
 import API_URLS from '../../config';
 
-export default function EditContents({ setOff }) {
+export default function EditContents({ isModalOff }) {
   const [userForm, setUserForm] = useState({
     name: '',
     user_type: '',
@@ -17,23 +17,17 @@ export default function EditContents({ setOff }) {
   const [userId, setUserId] = useState('');
   const [imgFile, setImgFile] = useState('');
   const { name, position, blog, github, birthday } = userForm;
-  const [isModalOn, setIsModalOn] = useState(false);
+  const [recheckDelete, setRecheckDelete] = useState(false);
 
   useEffect(() => {
     fetch(`${API_URLS.MENTOR_INFO}`, {
       method: 'GET',
       headers: {
-        // Authorization: localStorage.getItem('wrtoken'),
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE2MjQzNTk1ODEsImV4cCI6MTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxNjI0MzU5NTgxfQ.8rMEhsdu0MLZyOAHVV3KYtnoLx8rPX7KcK4aCVc9pVY',
+        Authorization: localStorage.getItem('wrtoken'),
       },
     })
-      .then(res => {
-        console.log(res);
-        return res.json();
-      })
+      .then(res => res.json())
       .then(userData => {
-        console.log(userData);
         const {
           name,
           position,
@@ -69,19 +63,16 @@ export default function EditContents({ setOff }) {
     fetch(`${API_URLS.MENTOR_INFO}`, {
       method: 'POST',
       headers: {
-        // Authorization: localStorage.getItem('wrtoken'),
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE2MjQzNTk1ODEsImV4cCI6MTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxNjI0MzU5NTgxfQ.8rMEhsdu0MLZyOAHVV3KYtnoLx8rPX7KcK4aCVc9pVY',
+        Authorization: localStorage.getItem('wrtoken'),
       },
       body: userData,
     })
+      .then(res => res.json())
       .then(res => {
-        console.log(res);
-        return res.json();
-      })
-      .then(res => {
-        console.log(res);
-        alert('성공적으로 수정했습니다!');
+        if (res.message === 'SUCCESS') {
+          alert('성공적으로 수정했습니다!');
+          isModalOff();
+        }
       });
   };
 
@@ -108,17 +99,20 @@ export default function EditContents({ setOff }) {
 
   const recheckLeave = e => {
     e.preventDefault();
-
     fetch(`${API_URLS.MENTOR_INFO}`, {
       method: 'DELETE',
-      header: {},
-      body: JSON.stringify({
-        user_id: { userId },
-      }),
+      headers: {
+        Authorization: sessionStorage.getItem('wrtoken'),
+      },
+    }).then(res => {
+      if (res === 204) {
+        alert('정상적으로 탈퇴가 처리되었습니다!');
+        isModalOff();
+        sessionStorage.clear();
+        window.location.replace('/main');
+      }
     });
   };
-
-  console.log(userForm);
 
   return (
     <>
@@ -192,10 +186,10 @@ export default function EditContents({ setOff }) {
         </Content>
         <SubmitBtn onClick={modifyUserData}>수정</SubmitBtn>
       </Container>
-      <LeaveBtn onClick={() => setIsModalOn(true)}>탈퇴</LeaveBtn>
+      <LeaveBtn onClick={() => setRecheckDelete(true)}>탈퇴</LeaveBtn>
 
-      {isModalOn && (
-        <Modal height="400px">
+      {recheckDelete && (
+        <Modal height="400px" setOff={setRecheckDelete}>
           <h1>리얼 탈퇴????</h1>
           <button type="button" onClick={recheckLeave}>
             진짜 탈퇴??
