@@ -1,23 +1,32 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import Button from '../components/Button/Button';
 
 export default function Navbar() {
-  const history = useHistory();
   const location = useLocation();
-  const isCheckMentor = sessionStorage.getItem('user_type') === '2';
+  const history = useHistory();
 
   const goToPage = (page = '') => {
     history.push(`/${page}`);
   };
 
-  const handleLogout = () => {
-    if (sessionStorage.getItem('wrtoken')) {
-      sessionStorage.clear();
-      alert('로그아웃이 되었습니다.');
-      goToPage();
-    }
+  // const handleLogout = () => {
+  //   if (localStorage.getItem('토큰 이름')) {
+  //     sessionStorage.clear();
+  //     alert('로그아웃이 되었습니다.');
+  //     goToPage();
+  //   } else {
+  //     alert('이미 로그아웃 상태입니다!');
+  //     goToPage();
+  //   }
+  // };
+
+  const Logout = () => {
+    const auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      alert('로그아웃되었습니다');
+      history.push('/');
+    });
   };
 
   return (
@@ -26,42 +35,21 @@ export default function Navbar() {
         <Container>
           <Logo>&gt; we-record</Logo>
           <div>
-            {!isCheckMentor && (
-              <GoToMainPageBtn onClick={() => goToPage('main')}>
-                메인 페이지
-              </GoToMainPageBtn>
-            )}
-            {!isCheckMentor && (
-              <GoToMyPageBtn
-                onClick={() => {
-                  goToPage('mypage');
-                }}
-              >
-                마이 페이지
-              </GoToMyPageBtn>
-            )}
-            {isCheckMentor && (
-              <GoToMentorPageBtn
-                onClick={() => {
-                  goToPage('mentorpage');
-                }}
-              >
-                멘토 페이지
-              </GoToMentorPageBtn>
-            )}
-            {!isCheckMentor && (
-              <GoToBatchPageBtn
-                onClick={() => {
-                  goToPage('batch');
-                }}
-              >
-                기수 페이지
-              </GoToBatchPageBtn>
-            )}
-            <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
-            <Button type="black" fontSize="14" disabled={false}>
-              안녕?
-            </Button>
+            <GoToMyPageBtn
+              onClick={() => {
+                goToPage('my');
+              }}
+            >
+              마이 페이지
+            </GoToMyPageBtn>
+            <GoToBatchBtn
+              onClick={() => {
+                goToPage('batch');
+              }}
+            >
+              기수 페이지
+            </GoToBatchBtn>
+            <LogoutBtn onClick={Logout}>로그아웃</LogoutBtn>
           </div>
         </Container>
       )}
@@ -79,14 +67,24 @@ const logoAnimation = keyframes`
   }
 `;
 
+const showContainerAnimation = keyframes`
+  from {
+    opacity: 0
+  }
+  to{
+    opacity: 1
+  }
+`;
+
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
-  position: fixed;
   padding: 12px 24px;
   width: 100%;
   top: 0;
-  background-color: ${({ theme }) => theme.colors.backgroundColor};
+  position: fixed;
   border-bottom: 1px solid ${({ theme }) => theme.colors.white};
+  animation-name: ${showContainerAnimation};
+  animation-duration: 1s;
   z-index: 100;
 `;
 
@@ -98,10 +96,10 @@ const Logo = styled.div`
   &:before {
     display: block;
     position: absolute;
-    content: '';
     width: 68px;
     height: 30px;
     top: 3px;
+    content: '';
     opacity: 0.5;
     background-color: #dedede;
     animation-name: ${logoAnimation};
@@ -128,16 +126,10 @@ const GoToMyPageBtn = styled.button`
     opacity: 0.5;
   }
 
-  transition: background-color 0.3s, opacity 0.1s;
+  transition: transform 0.3s, background-color 0.3s, opacity 0.15s;
 `;
 
-const MakeBatchBtn = GoToMyPageBtn.withComponent('button');
-
-const GoToMainPageBtn = GoToMyPageBtn.withComponent('button');
-
-const GoToBatchPageBtn = GoToMyPageBtn.withComponent('button');
-
-const GoToMentorPageBtn = GoToMyPageBtn.withComponent('button');
+const GoToBatchBtn = GoToMyPageBtn.withComponent('button');
 
 const LogoutBtn = styled(GoToMyPageBtn.withComponent('button'))`
   margin-right: 0;
