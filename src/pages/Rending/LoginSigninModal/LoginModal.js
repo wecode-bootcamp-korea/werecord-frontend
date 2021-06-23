@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GoogleLogin from '../pages/GoogleLogin';
+import GoogleLogin from './GoogleLogin';
 
 const LoginModal = props => {
   return (
@@ -26,7 +26,6 @@ const MainLogo = styled.div`
   font-size: 25px;
   padding: 30px;
   font-weight: 700;
-
   color: ${({ theme }) => theme.colors.black};
 `;
 
@@ -41,11 +40,3 @@ const LoginHeader = styled.h1`
   font-weight: 700;
   margin-bottom: 70px;
 `;
-
-// const GoogleLogin = styled.button`
-//   color: ${({ theme }) => theme.colors.black};
-//   border: 2px solid ${({ theme }) => theme.colors.black};
-//   padding: 10px;
-//   border-radius: 5px;
-//   font-weight: 700;
-// `;

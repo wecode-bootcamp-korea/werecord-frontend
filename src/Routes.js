@@ -2,20 +2,21 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Main from './pages/Main';
 import Navbar from '../src/components/Navbar';
-import Rending from './pages/Rending';
-import GoogleLogin from './pages/GoogleLogin';
-import SignInModal from './pages/SignInModal';
+import Rending from './pages/Rending/Rending';
+import GoogleLogin from './pages/Rending/LoginSigninModal/GoogleLogin';
+import Batch from './pages/Batch/Batch';
+import Mypage from './pages/Mypage/Mypage';
 
 export default function Routes() {
   return (
     <Router>
       <Navbar />
       <Switch>
-        <Route exact path="/main" component={Main}></Route>
-        <Route exact path="/" component={Rending}></Route>
-        <Route exact path="/googleLogin" component={GoogleLogin}></Route>
-        <Route exact path="/main" component={Main}></Route>
-        <Route exact path="/test" component={SignInModal}></Route>
+        <Route exact path="/main" component={Main} />
+        <Route exact path="/" component={Rending} />
+        <Route exact path="/googleLogin" component={GoogleLogin} />
+        <Route exact path="/batch" component={Batch} />
+        <Route exact path="/mypage" component={Mypage} />
       </Switch>
     </Router>
   );

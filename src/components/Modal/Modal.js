@@ -7,7 +7,7 @@ export default function Modal({ setOff, children, height }) {
     <OutsideModal onClick={setOff}>
       <InsideModal className="modal" height={height}>
         <CloseBtn onClick={setOff} className="closeBtn">
-          <i class="fas fa-times" />
+          <i className="fas fa-times" />
         </CloseBtn>
         {children}
       </InsideModal>
@@ -30,7 +30,7 @@ const InsideModal = Styled.div`
   position: relative;
   width: 550px;
   height: ${props => props.height};
-  border-radius: 10px;
+  /* border-radius: 10px; */
   text-align: center;
   background-color: ${({ theme }) => theme.colors.fontColor};
   color: white;

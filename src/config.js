@@ -1,7 +1,7 @@
-const BASE_URL = 'http://IP주소:8000';
+const BASE_URL = 'http://10.58.2.10:8000';
 const API_URLS = {
-  PAGE_NAME: `${BASE_URL}/endPoint 입력하세요`,
-  PAGE_NAME: `${BASE_URL}/endPoint 입력하세요`,
+  SIGNIN: `${BASE_URL}/users/info`,
+  LOGIN: `${BASE_URL}/users/login`,
   PAGE_NAME: `${BASE_URL}/endPoint 입력하세요`,
   PAGE_NAME: `${BASE_URL}/endPoint 입력하세요`,
   PAGE_NAME: `${BASE_URL}/endPoint 입력하세요`,

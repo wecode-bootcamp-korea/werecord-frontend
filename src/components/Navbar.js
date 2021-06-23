@@ -11,7 +11,7 @@ export default function Navbar() {
   };
 
   // const handleLogout = () => {
-  //   if (sessionStorage.getItem('wrtoken')) {
+  //   if (localStorage.getItem('토큰 이름')) {
   //     sessionStorage.clear();
   //     alert('로그아웃이 되었습니다.');
   //     goToPage();
@@ -19,7 +19,7 @@ export default function Navbar() {
   //     alert('이미 로그아웃 상태입니다!');
   //     goToPage();
   //   }
-  //
+  // };
 
   const Logout = () => {
     const auth2 = window.gapi.auth2.getAuthInstance();

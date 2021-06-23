@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import FadeIn from 'react-fade-in';
-import Modal from '../components/Modal/Modal';
-import LoginModal from '../pages/LoginModal';
-import SignInModal from '../pages/SignInModal';
+import Modal from '../../components/Modal/Modal';
+import LoginModal from './LoginSigninModal/LoginModal';
+import SignInModal from './LoginSigninModal/SignInModal';
 
 const Rending = () => {
   const [isOn, setIsOn] = useState(false);
@@ -50,7 +50,7 @@ const Rending = () => {
   return (
     <Container>
       {isOn && (
-        <Modal setOff={handleModal} height="600px">
+        <Modal setOff={handleModal} height="300px">
           <LoginModal changeModalValue={changeModalValue} />
         </Modal>
       )}
@@ -87,9 +87,9 @@ const Container = styled.section`
 
 const MainLogo = styled.img`
   position: relative;
-  width: 330px;
   padding-right: 50px;
   right: 10px;
+  width: 330px;
 `;
 
 const SubLogo = styled.img``;

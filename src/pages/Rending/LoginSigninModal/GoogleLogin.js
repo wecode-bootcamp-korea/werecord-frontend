@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import API_URLS from '../../../config';
 
 const GoogleLogin = props => {
   const history = useHistory();
@@ -26,7 +27,7 @@ const GoogleLogin = props => {
         element,
         {},
         function (googleUser) {
-          fetch('http://10.58.5.247:8000/users/login', {
+          fetch(`${API_URLS.LOGIN}`, {
             headers: {
               Authorization: googleUser.getAuthResponse().id_token,
             },
@@ -35,7 +36,7 @@ const GoogleLogin = props => {
             .then(res => {
               sessionStorage.setItem('wrtoken', res.werecord_token);
               sessionStorage.setItem('user_type', res.user_info.user_type);
-              sessionStorage.setItem('user_id', res.user_info.user_id);
+              sessionStorage.setItem('batch', res.user_info.batch);
               if (res.user_info.batch) {
                 alert('로그인이 완료되었습니다!');
                 history.push('/main');
@@ -44,19 +45,10 @@ const GoogleLogin = props => {
                 props.changeModalValue();
               }
               return res;
-            })
-            //테스트용 console입니다.
-            // .then(res => console.log(res));
-            // 테스트용 주석입니다.
-            .then(res => {
-              // if (res.user_info.batch) {
-              //   alert('로그인이 완료되었습니다!');
-              //   history.push('/main');
-              // } else if (res.user_info.batch == false) {
-              //   alert('신규 가입 회원입니다');
-              //   props.changeModalValue();
-              // }
             });
+          //테스트용 console입니다.
+          // .then(res => console.log(res));
+          // 테스트용 주석입니다.
         },
         function (error) {
           alert(JSON.stringify(error, undefined, 2));
@@ -83,6 +75,7 @@ const GoogleButton = styled.button`
   height: 40px;
   background-color: white;
   border-radius: 3px;
+  background-color: white;
 `;
 
 const GoogleLogo = styled.img`

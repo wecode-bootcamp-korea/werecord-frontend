@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import Button from '../../../components/Button/Button';
+import API_URLS from '../../../config';
 
 const SignInModal = props => {
   const history = useHistory();
@@ -8,22 +10,20 @@ const SignInModal = props => {
     user_type: '',
     name: '',
     batch: '',
-    position: 'Undefined',
+    position: 'Front-end',
     blog: '',
     github: '',
     birthday: '',
   });
-  const [selectDefault, setSelectDefault] = useState('Undefined');
-  const nameInput = useRef();
-  const batchInput = useRef();
+
   const submitButton = useRef();
 
   //입력 완료 버튼 클릭가능하게 할지
   const isAbleButton = () => {
     if (userInfo.user_type === '수강생') {
-      return Boolean(nameInput.current.value && batchInput.current.value);
+      return Boolean(userInfo.name && userInfo.batch);
     } else if (userInfo.user_type === '멘토') {
-      return Boolean(nameInput.current.value);
+      return Boolean(userInfo.name);
     }
   };
 
@@ -34,6 +34,7 @@ const SignInModal = props => {
     }
   };
 
+  console.log(userInfo);
   //input 값을 setState하기
   const getInputValue = e => {
     const { name, value } = e.target;
@@ -52,9 +53,8 @@ const SignInModal = props => {
     userInformation.append('info', userData);
     const wrtoken = sessionStorage.getItem('wrtoken');
 
-    fetch('http://10.58.5.247:8000/users/info', {
-      method: 'post',
-      // 토큰을 보낼지 말지 대환님이 경훈님과 상의해보기로 함
+    fetch(`${API_URLS.SIGNIN}`, {
+      method: 'POST',
       headers: {
         Authorization: wrtoken,
       },
@@ -62,23 +62,24 @@ const SignInModal = props => {
     })
       // respond확인용
       .then(res => res.json())
-      .then(res => console.log(res));
-    // 사용자 타입에 따른 이동
-    // if (res.message === 'SUCCESS') {
-    if (userInfo.user_type === '수강생') {
-      // history.push(`/main/${sessionStorage.user_id}`);
-      history.push('/main');
-    } else if (userInfo.user_type === '멘토') {
-      history.push(`/googleLogin/${sessionStorage.user_id}`);
-    }
-    // }
+      // .then(res => console.log(res));
+      // 사용자 타입에 따른 이동
+      .then(res => {
+        if (res.message === 'SUCCESS') {
+          if (userInfo.user_type === '수강생') {
+            history.push('/main');
+          } else if (userInfo.user_type === '멘토') {
+            history.push('/mentorpage');
+          }
+        }
+      });
   };
 
   return (
     <ModalContainer>
       <MainLogo>&gt;we-record</MainLogo>
       <SignInContainer>
-        <SignInHeader>추가 정보를 입력해주세요 ✏️ </SignInHeader>
+        <SignInHeader>추가 정보를 입력해주세요 👨🏻‍💻</SignInHeader>
         <SignIntext>*은 필수 입력 값입니다. </SignIntext>
         <SignInContent>
           <SignInForm>
@@ -106,7 +107,6 @@ const SignInModal = props => {
               onChange={getInputValue}
               name="name"
               placeholder="이름을 입력해주세요."
-              ref={nameInput}
             />
           </SignInForm>
           <SignInForm>
@@ -114,43 +114,34 @@ const SignInModal = props => {
               기수 *
             </SignInTitle>
             <SignInInput
+              className="batch"
               check={userInfo.user_type === '멘토'}
               disabled={isAbleInput()}
               onChange={getInputValue}
               name="batch"
               type="number"
               placeholder="숫자로만 입력해주세요. ex)21"
-              ref={batchInput}
             />
           </SignInForm>
           <SignInForm>
             <SignInTitle>포지션 *</SignInTitle>
-            <PositionSelect
-              value={selectDefault}
-              name="position"
-              onChange={getInputValue}
-            >
-              <option value="Front-End">Front-End</option>
-              <option value="Back-End">Back-End</option>
+            <PositionSelect name="position" onChange={getInputValue}>
+              <option value="Front-end">Front-End</option>
+              <option value="Back-end">Back-End</option>
               <option value="Fullstack">Fullstack</option>
               <option value="Undefined">미정</option>
             </PositionSelect>
           </SignInForm>
           <SignInForm>
             <SignInTitle>생일</SignInTitle>
-            <SignInInput
-              type="date"
-              onChange={getInputValue}
-              name="birthday"
-              placeholder="생일을 입력해주세요"
-            />
+            <SignInInput type="date" onChange={getInputValue} name="birthday" />
           </SignInForm>
           <SignInForm>
             <SignInTitle>Blog</SignInTitle>
             <SignInInput
               onChange={getInputValue}
               name="blog"
-              placeholder="블로그 URL을 입력해주세요"
+              placeholder="블로그 주소를 입력해주세요.(선택)"
             />
           </SignInForm>
           <SignInForm>
@@ -158,17 +149,19 @@ const SignInModal = props => {
             <SignInInput
               onChange={getInputValue}
               name="github"
-              placeholder="GitHub 을 입력해주세요"
+              placeholder="GitHub 주소를 입력해주세요.(선택)"
             />
           </SignInForm>
         </SignInContent>
-        <SubmitButton
-          useRef={submitButton}
-          onClick={postUserData}
+        <Button
+          fontSize="12"
+          version="white"
           disabled={!isAbleButton()}
+          clickEvent={postUserData}
+          useRef={submitButton}
         >
           입력 완료
-        </SubmitButton>
+        </Button>
       </SignInContainer>
     </ModalContainer>
   );
@@ -197,6 +190,8 @@ const SignIntext = styled.div`
   margin: 10px 0px 20px 0px;
   color: ${({ theme }) => theme.colors.black};
   font-size: 12px;
+  font-weight: 700;
+  text-align: left;
 `;
 
 const SignInHeader = styled.h1`
@@ -240,6 +235,9 @@ const SignInInput = styled.input`
   width: 90%;
   font-size: 15px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
+  /* .batch{
+    input::-webkit-input-placeholder { color: #f00; } */
+  /* } */
 `;
 
 const SignInRadioInput = styled.input`
@@ -251,22 +249,4 @@ const PositionSelect = styled.select`
   border: 1px solid;
   border-radius: 2px;
   outline: none;
-`;
-
-const SubmitButton = styled.button`
-  position: relative;
-  width: 90px;
-  height: 25px;
-  top: 5px;
-  left: 150px;
-  font-size: 15px;
-  font-weight: 700;
-  border: 1px solid ${({ theme }) => theme.colors.white};
-  border-radius: 3px;
-  background-color: ${({ theme }) => theme.colors.white};
-  cursor: pointer;
-
-  &:hover {
-    border: 1px solid black;
-  }
 `;

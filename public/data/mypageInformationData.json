@@ -1,0 +1,26 @@
+{
+  "result": {
+    "user_information": {
+      "user_id": 1,
+      "user_name": "용용이",
+      "user_profile_image_url": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
+      "user_total_time": 1000
+    },
+    "record_information": {
+      "weekly_record": {
+        "0": 12468,
+        "1": 14400,
+        "2": 10800,
+        "3": 18000,
+        "4": 21600
+      },
+      "total_accumulate_records": [
+        43200, 86384, 129369, 172513, 345026, 385026, 315026, 415026, 435026,
+        485026, 525834, 625830, 756424, 984412, 1104412
+      ],
+      "average_start_time": "11:32:47.500535",
+      "average_end_time": "20:12:10.632480",
+      "wecode_d_day": 64
+    }
+  }
+}
