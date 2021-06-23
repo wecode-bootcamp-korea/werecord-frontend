@@ -1,40 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Modal from '../../components/Modal/Modal';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Modal from '../../components/Modal/Modal';
 
 export default function EditContents() {
   const [userForm, setUserForm] = useState({});
   const [imgFile, setImgFile] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
   const { name, position, blog, github, birthday } = userForm;
+  const callbackIsModalOn = useCallback(() => setIsModalOn(true), [isModalOn]);
 
   useEffect(() => {
-    fetch('http:///users/info', {
-      headers: { Authorization: '' },
-    })
-      .then(res => res.json())
-      .then(({ data }) => {
-        setUserForm(data);
-      });
+    getUserDataFetch(setUserForm);
   }, []);
 
   const modifyUserData = e => {
     e.preventDefault();
-    const userInfo = JSON.stringify(userForm);
-    const userData = new FormData();
-    userData.append('info', userInfo);
-    userData.append('image', imgFile);
-
-    fetch('http:///users/info', {
-      method: 'POST',
-      headers: { Authorization: '' },
-      body: userData,
-    })
-      .then(res => res.json())
-      .then(
-        ({ message }) =>
-          message === 'SUCCESS' && window.location.replace('/mypage')
-      );
+    sendImgData(userForm, imgFile);
   };
 
   const handleInput = e => {
@@ -46,20 +27,11 @@ export default function EditContents() {
   const onFileInput = e => {
     e.preventDefault();
     const reader = new FileReader();
-    const { file } = e.target;
+    const file = e.target.files[0];
     reader.readAsDataURL(file);
     reader.onload = () => {
       setImgFile(file);
     };
-  };
-
-  const recheckLeave = e => {
-    e.preventDefault();
-    fetch(`http:///users/info`, {
-      method: 'DELETE',
-      headers: { Authorization: '' },
-    });
-    window.location.replace('/mypage');
   };
 
   return (
@@ -129,7 +101,7 @@ export default function EditContents() {
           </SelectBirthDay>
         </Content>
         <SubmitBtn onClick={modifyUserData}>수정</SubmitBtn>
-        <LeaveBtn onClick={() => setIsModalOn(true)}>탈퇴</LeaveBtn>
+        <LeaveBtn onClick={callbackIsModalOn}>탈퇴</LeaveBtn>
       </Container>
 
       {isModalOn && (
@@ -206,3 +178,46 @@ const LeaveBtn = styled.div`
     opacity: 0.3;
   }
 `;
+
+const getUserDataFetch = setUserForm => {
+  fetch('http://10.58.2.17:8000/users/info', {
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  })
+    .then(res => res.json())
+    .then(({ data }) => {
+      setUserForm(data);
+    });
+};
+
+const recheckLeave = e => {
+  e.preventDefault();
+  fetch(`http://10.58.2.17:8000/users/info`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  });
+  window.location.replace('/mypage');
+};
+
+const sendImgData = (userForm, imgFile) => {
+  const userInfo = JSON.stringify(userForm);
+  const userData = new FormData();
+  userData.append('info', userInfo);
+  userData.append('image', imgFile);
+
+  fetch('http://10.58.2.17:8000/users/info', {
+    method: 'POST',
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+    body: userData,
+  })
+    .then(res => res.json())
+    .then(
+      ({ message }) =>
+        message === 'SUCCESS' && window.location.replace('/mypage')
+    );
+};

@@ -37,7 +37,7 @@ export default function Navbar() {
           <div>
             <GoToMyPageBtn
               onClick={() => {
-                goToPage('my');
+                goToPage('mypage');
               }}
             >
               마이 페이지
