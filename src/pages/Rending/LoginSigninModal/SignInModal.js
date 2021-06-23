@@ -14,6 +14,8 @@ const SignInModal = props => {
     blog: '',
     github: '',
     birthday: '',
+    email: sessionStorage.getItem('email'),
+    profile_image_url: sessionStorage.getItem('profile_image_url'),
   });
 
   const submitButton = useRef();
@@ -52,6 +54,8 @@ const SignInModal = props => {
     const userInformation = new FormData();
     userInformation.append('info', userData);
     const wrtoken = sessionStorage.getItem('wrtoken');
+    console.log(userData);
+    console.log(userInformation);
 
     fetch(`${API_URLS.SIGNIN}`, {
       method: 'POST',

@@ -33,10 +33,16 @@ const GoogleLogin = props => {
             },
           })
             .then(res => res.json())
+            // .then(res => console.log(res));
             .then(res => {
               sessionStorage.setItem('wrtoken', res.werecord_token);
               sessionStorage.setItem('user_type', res.user_info.user_type);
               sessionStorage.setItem('batch', res.user_info.batch);
+              sessionStorage.setItem('email', res.user_info.email);
+              sessionStorage.setItem(
+                'profile_image_url',
+                res.user_info.profile_image_url
+              );
               if (res.user_info.batch) {
                 alert('로그인이 완료되었습니다!');
                 history.push('/main');
