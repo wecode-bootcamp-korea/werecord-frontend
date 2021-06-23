@@ -10,18 +10,29 @@ export default function Navbar() {
   const [editMentorInfoModalOn, setEditMentorInfoModalOn] = useState(false);
   const history = useHistory();
   const location = useLocation();
-  const isCheckMentor = sessionStorage.getItem('user_type') === '2';
+  const isCheckMentor = sessionStorage.getItem('user_type') === '멘토';
 
   const goToPage = (page = '') => {
     history.push(`/${page}`);
   };
 
   const handleLogout = () => {
-    if (sessionStorage.getItem('wrtoken')) {
+    if (localStorage.getItem('토큰 이름')) {
       sessionStorage.clear();
       alert('로그아웃이 되었습니다.');
       goToPage();
+    } else {
+      alert('이미 로그아웃 상태입니다!');
+      goToPage();
     }
+  };
+
+  const Logout = () => {
+    const auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      alert('로그아웃되었습니다');
+      history.push('/');
+    });
   };
 
   const handleModalAfterBatchMaking = () => setMakeBatchModalOn(false);
@@ -116,14 +127,24 @@ const logoAnimation = keyframes`
   }
 `;
 
+const showContainerAnimation = keyframes`
+  from {
+    opacity: 0
+  }
+  to{
+    opacity: 1
+  }
+`;
+
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
-  position: fixed;
   padding: 12px 24px;
   width: 100%;
   top: 0;
-  background-color: ${({ theme }) => theme.colors.backgroundColor};
+  position: fixed;
   border-bottom: 1px solid ${({ theme }) => theme.colors.white};
+  animation-name: ${showContainerAnimation};
+  animation-duration: 1s;
   z-index: 100;
 `;
 
@@ -135,10 +156,10 @@ const Logo = styled.div`
   &:before {
     display: block;
     position: absolute;
-    content: '';
     width: 68px;
     height: 30px;
     top: 3px;
+    content: '';
     opacity: 0.5;
     background-color: #dedede;
     animation-name: ${logoAnimation};
@@ -166,7 +187,7 @@ const GoToMyPageBtn = styled.button`
     opacity: 0.8;
   }
 
-  transition: background-color 0.3s, opacity 0.1s;
+  transition: transform 0.3s, background-color 0.3s, opacity 0.15s;
 `;
 
 const EditMentorInfo = GoToMyPageBtn.withComponent('button');
