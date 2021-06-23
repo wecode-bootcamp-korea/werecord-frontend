@@ -6,6 +6,7 @@ import Rending from './pages/Rending/Rending';
 import GoogleLogin from './pages/Rending/LoginSigninModal/GoogleLogin';
 import Batch from './pages/Batch/Batch';
 import Mypage from './pages/Mypage/Mypage';
+import MentorPage from './pages/MentorPage/MentorPage';
 
 export default function Routes() {
   return (
@@ -17,6 +18,7 @@ export default function Routes() {
         <Route exact path="/googleLogin" component={GoogleLogin} />
         <Route exact path="/batch" component={Batch} />
         <Route exact path="/mypage" component={Mypage} />
+        <Route exact path="/mentorpage" component={MentorPage} />
       </Switch>
     </Router>
   );

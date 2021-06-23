@@ -1,21 +1,79 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import Modal from '../../components/Modal/Modal';
+import styled from 'styled-components';
+import API_URLS from '../../config';
 
-export default function EditContents() {
-  const [userForm, setUserForm] = useState({});
+export default function EditContents({ isModalOff }) {
+  const [userForm, setUserForm] = useState({
+    name: '',
+    user_type: '',
+    position: '',
+    blog: '',
+    batch: '',
+    github: '',
+    birthday: '',
+    profile_image_url: [],
+  });
+  const [userId, setUserId] = useState('');
   const [imgFile, setImgFile] = useState('');
-  const [isModalOn, setIsModalOn] = useState(false);
   const { name, position, blog, github, birthday } = userForm;
-  const callbackIsModalOn = useCallback(() => setIsModalOn(true), [isModalOn]);
+  const [recheckDelete, setRecheckDelete] = useState(false);
 
   useEffect(() => {
-    getUserDataFetch(setUserForm);
+    fetch(`${API_URLS.MENTOR_INFO}`, {
+      method: 'GET',
+      headers: {
+        Authorization: localStorage.getItem('wrtoken'),
+      },
+    })
+      .then(res => res.json())
+      .then(userData => {
+        const {
+          name,
+          position,
+          blog,
+          github,
+          batch,
+          birthday,
+          user_type,
+          user_id,
+        } = userData.data;
+
+        setUserForm(prev => ({
+          ...prev,
+          name,
+          position,
+          blog,
+          batch,
+          github,
+          birthday,
+          user_type,
+        }));
+        setUserId(user_id);
+      });
   }, []);
 
   const modifyUserData = e => {
     e.preventDefault();
-    sendImgData(userForm, imgFile);
+    const userInfo = JSON.stringify(userForm);
+    const userData = new FormData();
+    userData.append('info', userInfo);
+    userData.append('image', imgFile);
+
+    fetch(`${API_URLS.MENTOR_INFO}`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.getItem('wrtoken'),
+      },
+      body: userData,
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message === 'SUCCESS') {
+          alert('성공적으로 수정했습니다!');
+          isModalOff();
+        }
+      });
   };
 
   const handleInput = e => {
@@ -29,9 +87,31 @@ export default function EditContents() {
     const reader = new FileReader();
     const file = e.target.files[0];
     reader.readAsDataURL(file);
+
     reader.onload = () => {
       setImgFile(file);
+      setUserForm(prev => ({
+        ...prev,
+        profile_image_url: file,
+      }));
     };
+  };
+
+  const recheckLeave = e => {
+    e.preventDefault();
+    fetch(`${API_URLS.MENTOR_INFO}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: sessionStorage.getItem('wrtoken'),
+      },
+    }).then(res => {
+      if (res === 204) {
+        alert('정상적으로 탈퇴가 처리되었습니다!');
+        isModalOff();
+        sessionStorage.clear();
+        window.location.replace('/main');
+      }
+    });
   };
 
   return (
@@ -45,6 +125,7 @@ export default function EditContents() {
             placeholder="이름을 입력해주세요"
             value={name || ''}
             onChange={handleInput}
+            required
           />
         </Content>
         <Content>
@@ -55,6 +136,7 @@ export default function EditContents() {
             accept="image/*"
             placeholder="이미지 주소로 입력해주세요!"
             onChange={onFileInput}
+            required
           />
         </Content>
         <Content>
@@ -77,6 +159,7 @@ export default function EditContents() {
             value={blog || ''}
             placeholder="개인 블로그 주소"
             onChange={handleInput}
+            required
           />
         </Content>
         <Content>
@@ -86,6 +169,7 @@ export default function EditContents() {
             value={github || ''}
             placeholder="Github 주소"
             onChange={handleInput}
+            required
           />
         </Content>
         <Content>
@@ -101,11 +185,11 @@ export default function EditContents() {
           </SelectBirthDay>
         </Content>
         <SubmitBtn onClick={modifyUserData}>수정</SubmitBtn>
-        <LeaveBtn onClick={callbackIsModalOn}>탈퇴</LeaveBtn>
       </Container>
+      <LeaveBtn onClick={() => setRecheckDelete(true)}>탈퇴</LeaveBtn>
 
-      {isModalOn && (
-        <Modal height="400px">
+      {recheckDelete && (
+        <Modal height="400px" setOff={setRecheckDelete}>
           <h1>리얼 탈퇴????</h1>
           <button type="button" onClick={recheckLeave}>
             진짜 탈퇴??
@@ -129,7 +213,6 @@ const Container = styled.form`
   padding: 40px;
   color: #212121;
 `;
-
 const Label = styled.label`
   margin-right: 15px;
   margin-bottom: 5px;
@@ -169,7 +252,7 @@ const SubmitBtn = styled.button`
   cursor: pointer;
 `;
 
-const LeaveBtn = styled.div`
+const LeaveBtn = styled.button`
   padding: 3px 3px;
   color: red;
   cursor: pointer;
@@ -178,46 +261,3 @@ const LeaveBtn = styled.div`
     opacity: 0.3;
   }
 `;
-
-const getUserDataFetch = setUserForm => {
-  fetch('http://10.58.2.17:8000/users/info', {
-    headers: {
-      Authorization: sessionStorage.getItem('wrtoken'),
-    },
-  })
-    .then(res => res.json())
-    .then(({ data }) => {
-      setUserForm(data);
-    });
-};
-
-const recheckLeave = e => {
-  e.preventDefault();
-  fetch(`http://10.58.2.17:8000/users/info`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: sessionStorage.getItem('wrtoken'),
-    },
-  });
-  window.location.replace('/mypage');
-};
-
-const sendImgData = (userForm, imgFile) => {
-  const userInfo = JSON.stringify(userForm);
-  const userData = new FormData();
-  userData.append('info', userInfo);
-  userData.append('image', imgFile);
-
-  fetch('http://10.58.2.17:8000/users/info', {
-    method: 'POST',
-    headers: {
-      Authorization: sessionStorage.getItem('wrtoken'),
-    },
-    body: userData,
-  })
-    .then(res => res.json())
-    .then(
-      ({ message }) =>
-        message === 'SUCCESS' && window.location.replace('/mypage')
-    );
-};

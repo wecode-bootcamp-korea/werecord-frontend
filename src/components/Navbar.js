@@ -1,25 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import Modal from '../components/Modal/Modal';
+import MakeBatchForm from '../pages/MentorPage/MakeBatchForm';
+import EditMentorInfoForm from '../pages/MentorPage/EditMentorInfoForm';
 
 export default function Navbar() {
-  const location = useLocation();
+  const [makeBatchModalOn, setMakeBatchModalOn] = useState(false);
+  const [editMentorInfoModalOn, setEditMentorInfoModalOn] = useState(false);
   const history = useHistory();
+  const location = useLocation();
+  const isCheckMentor = sessionStorage.getItem('user_type') === '멘토';
 
   const goToPage = (page = '') => {
     history.push(`/${page}`);
   };
 
-  // const handleLogout = () => {
-  //   if (localStorage.getItem('토큰 이름')) {
-  //     sessionStorage.clear();
-  //     alert('로그아웃이 되었습니다.');
-  //     goToPage();
-  //   } else {
-  //     alert('이미 로그아웃 상태입니다!');
-  //     goToPage();
-  //   }
-  // };
+  const handleLogout = () => {
+    if (localStorage.getItem('토큰 이름')) {
+      sessionStorage.clear();
+      alert('로그아웃이 되었습니다.');
+      goToPage();
+    } else {
+      alert('이미 로그아웃 상태입니다!');
+      goToPage();
+    }
+  };
 
   const Logout = () => {
     const auth2 = window.gapi.auth2.getAuthInstance();
@@ -29,27 +35,81 @@ export default function Navbar() {
     });
   };
 
+  const handleModalAfterBatchMaking = () => setMakeBatchModalOn(false);
+  const handleModalAfterEditMentorInfo = () => setEditMentorInfoModalOn(false);
+
   return (
     <>
       {location.pathname !== '/' && (
         <Container>
           <Logo>&gt; we-record</Logo>
           <div>
-            <GoToMyPageBtn
-              onClick={() => {
-                goToPage('my');
-              }}
-            >
-              마이 페이지
-            </GoToMyPageBtn>
-            <GoToBatchBtn
-              onClick={() => {
-                goToPage('batch');
-              }}
-            >
-              기수 페이지
-            </GoToBatchBtn>
-            <LogoutBtn onClick={Logout}>로그아웃</LogoutBtn>
+            {!isCheckMentor && (
+              <GoToMainPageBtn onClick={() => goToPage('main')}>
+                메인 페이지
+              </GoToMainPageBtn>
+            )}
+
+            {!isCheckMentor && (
+              <GoToMyPageBtn
+                onClick={() => {
+                  goToPage('mypage');
+                }}
+              >
+                마이 페이지
+              </GoToMyPageBtn>
+            )}
+            {isCheckMentor && location.pathname === '/mentorpage' && (
+              <EditMentorInfo
+                onClick={() => {
+                  setMakeBatchModalOn(false);
+                  setEditMentorInfoModalOn(true);
+                }}
+              >
+                내정보 수정
+              </EditMentorInfo>
+            )}
+            {editMentorInfoModalOn && (
+              <Modal setOff={setEditMentorInfoModalOn} height="650px">
+                <EditMentorInfoForm
+                  isModalOff={handleModalAfterEditMentorInfo}
+                />
+              </Modal>
+            )}
+            {isCheckMentor && location.pathname === '/mentorpage' && (
+              <MakeBatchBtn
+                onClick={() => {
+                  setMakeBatchModalOn(true);
+                  setEditMentorInfoModalOn(false);
+                }}
+              >
+                기수 생성
+              </MakeBatchBtn>
+            )}
+            {makeBatchModalOn && (
+              <Modal setOff={setMakeBatchModalOn} height="450px">
+                <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
+              </Modal>
+            )}
+            {isCheckMentor && location.pathname !== '/mentorpage' && (
+              <GoToMentorPageBtn
+                onClick={() => {
+                  goToPage('mentorpage');
+                }}
+              >
+                멘토 페이지
+              </GoToMentorPageBtn>
+            )}
+            {!isCheckMentor && (
+              <GoToBatchPageBtn
+                onClick={() => {
+                  goToPage('batch');
+                }}
+              >
+                기수 페이지
+              </GoToBatchPageBtn>
+            )}
+            <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
           </div>
         </Container>
       )}
@@ -119,17 +179,26 @@ const GoToMyPageBtn = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #373737;
+    color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.white};
   }
 
   &:active {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 
   transition: transform 0.3s, background-color 0.3s, opacity 0.15s;
 `;
 
-const GoToBatchBtn = GoToMyPageBtn.withComponent('button');
+const EditMentorInfo = GoToMyPageBtn.withComponent('button');
+
+const MakeBatchBtn = GoToMyPageBtn.withComponent('button');
+
+const GoToMainPageBtn = GoToMyPageBtn.withComponent('button');
+
+const GoToBatchPageBtn = GoToMyPageBtn.withComponent('button');
+
+const GoToMentorPageBtn = GoToMyPageBtn.withComponent('button');
 
 const LogoutBtn = styled(GoToMyPageBtn.withComponent('button'))`
   margin-right: 0;
