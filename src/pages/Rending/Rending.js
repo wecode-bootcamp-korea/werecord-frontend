@@ -6,56 +6,23 @@ import LoginModal from './LoginSigninModal/LoginModal';
 import SignInModal from './LoginSigninModal/SignInModal';
 
 const Rending = () => {
-  const [isOn, setIsOn] = useState(false);
-  const [isSignOn, setIsSignOn] = useState(false);
+  const [isLogInModalOn, setIsLogInModalOn] = useState(false);
+  const [isSignModalOn, setIsSignModalOn] = useState(false);
 
-  // 추가정보입력 모달 띄우기
   const changeModalValue = () => {
-    setIsSignOn(!isSignOn);
-    setIsOn(!isOn);
-  };
-
-  const handleModal = e => {
-    const clickedInside = e.target.closest('.modal');
-    const clickedBtn = e.target.closest('.closeBtn');
-
-    if (clickedInside) {
-      if (clickedBtn) {
-        setIsOn(false);
-      }
-      if (!clickedBtn) {
-        return;
-      }
-    } else {
-      setIsOn(false);
-    }
-  };
-
-  const handleSignInModal = e => {
-    const clickedInside = e.target.closest('.modal');
-    const clickedBtn = e.target.closest('.closeBtn');
-
-    if (clickedInside) {
-      if (clickedBtn) {
-        setIsSignOn(false);
-      }
-      if (!clickedBtn) {
-        return;
-      }
-    } else {
-      setIsSignOn(false);
-    }
+    setIsSignModalOn(!isSignModalOn);
+    setIsLogInModalOn(!isLogInModalOn);
   };
 
   return (
     <Container>
-      {isOn && (
-        <Modal setOff={handleModal} height="300px">
+      {isLogInModalOn && (
+        <Modal setOff={setIsLogInModalOn} height="300px">
           <LoginModal changeModalValue={changeModalValue} />
         </Modal>
       )}
-      {isSignOn && (
-        <Modal setOff={handleSignInModal} height="800px">
+      {isSignModalOn && (
+        <Modal setOff={setIsSignModalOn} height="800px">
           <SignInModal />
         </Modal>
       )}
@@ -65,7 +32,7 @@ const Rending = () => {
         <SubLogo alt="sublogo" src="/images/기록합니다.png" />
       </FadeIn>
       <LoginImg
-        onClick={() => setIsOn(!isOn)}
+        onClick={() => setIsLogInModalOn(!isLogInModalOn)}
         alt="loginimg"
         src="/images/login.png"
       ></LoginImg>
