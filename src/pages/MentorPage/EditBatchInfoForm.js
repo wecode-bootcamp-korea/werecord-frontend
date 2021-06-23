@@ -45,19 +45,21 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
     if (startDay === endDay) {
       alert('날짜를 확인해주세요!');
     } else {
-      fetch(`${API_URLS.EDIT_BATCH_INFO_BTN}`, {
-        method: 'PATCH',
-        // headers: {
-        //   Authorization: sessionStorage.getItem('wrtoken'),
-        // },
-        body: JSON.stringify({
-          batch_id: prevBatchInformation['batch_id'],
-          new_batch_id: batchNumber,
-          start_day: startDay,
-          end_day: endDay,
-          mentor_name: mentorName,
-        }),
-      })
+      fetch(
+        `${API_URLS.BATCH_MANAGEMENT}/${prevBatchInformation['batch_id']}`,
+        {
+          method: 'PATCH',
+          // headers: {
+          //   Authorization: sessionStorage.getItem('wrtoken'),
+          // },
+          body: JSON.stringify({
+            new_batch_name: batchNumber,
+            start_day: startDay,
+            end_day: endDay,
+            mentor_name: mentorName,
+          }),
+        }
+      )
         .then(res => {
           console.log(res);
           return res.json();

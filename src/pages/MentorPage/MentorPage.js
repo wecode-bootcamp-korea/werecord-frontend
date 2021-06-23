@@ -20,14 +20,14 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
-    fetch('/data/MentorPageData.json') // mockdata입니다.
-      // fetch(`${API_URLS.MENTOR_PAGE}`, {
-      //   // 통신용 로직입니다.
-      //   // method: 'GET',
-      //   // headers: {
-      //   //   Authorization: localStorage.getItem('wrtoken'),
-      //   // },
-      // })
+    // fetch('/data/MentorPageData.json') // mockdata입니다.
+    fetch(`${API_URLS.MENTOR_PAGE}`, {
+      // 통신용 로직입니다.
+      method: 'GET',
+      headers: {
+        Authorization: localStorage.getItem('wrtoken'),
+      },
+    })
       .then(res => res.json())
       .then(res => {
         console.log(res);
@@ -45,7 +45,11 @@ export default function MentorPage({ history }) {
       });
   }, []);
 
-  const goToPrevious = (target, value) => {
+  const getRandomImage = arr => {
+    return arr[Math.floor(Math.random() * arr.length)];
+  };
+
+  const goToPrevious = () => {
     const batchLength = Math.ceil(batchInformation.length / 3);
     if (count.current === 0) {
       count.current = batchLength;
@@ -160,7 +164,7 @@ export default function MentorPage({ history }) {
                   <CloseBtn
                     onClick={() => {
                       setDeleteBatchInformation(true);
-                      setDeleteBatchNumber(batch_name);
+                      setDeleteBatchNumber(batch_id);
                     }}
                   >
                     <i className="fas fa-times"></i>
@@ -191,8 +195,6 @@ export default function MentorPage({ history }) {
     </FadeIn>
   );
 }
-
-const getRandomImage = arr => {};
 
 const convertSecondsToHours = seconds => {
   return Math.round(seconds / 360) / 10;

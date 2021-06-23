@@ -4,17 +4,17 @@ import Button from '../../components/Button/Button';
 import API_URLS from '../../config';
 
 export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
-  const handleDelete = value => {
-    fetch(`${API_URLS.DELETE_BATCH_BTN}`, {
+  const handleDelete = () => {
+    fetch(`${API_URLS.BATCH_MANAGEMENT}/${deleteBatchNumber}`, {
       method: 'DELETE',
       headers: {
         // Authorization: sessionStorage.getItem('wrtoken'),
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: JSON.stringify({
-        batch_id: value,
-      }),
+      // body: JSON.stringify({
+      //   batch_id: value,
+      // }),
     }).then(res => {
       if (res.status === 204) {
         alert('성공적으로 삭제했습니다!');
@@ -29,7 +29,7 @@ export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
       <Button
         version="white"
         clickEvent={() => {
-          handleDelete(deleteBatchNumber);
+          handleDelete();
         }}
       >
         삭제

@@ -47,7 +47,7 @@ export default function MakeBatchForm({ isModalOff }) {
     if (startDay === endDay) {
       alert('날짜를 확인해주세요!');
     } else {
-      fetch(`${API_URLS.MAKE_BATCH_BTN}`, {
+      fetch(`${API_URLS.BATCH_MANAGEMENT}`, {
         method: 'POST',
         // headers: {
         //   Authorization: sessionStorage.getItem('wrtoken'),
