@@ -3,17 +3,20 @@ import { keyframes } from 'styled-components';
 import FadeIn from 'react-fade-in';
 import LineChart from '../Mypage/Charts/LineChart';
 import BarChart from '../Mypage/Charts/BarChart';
+import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
 import EditForm from '../Mypage/EditForm';
-import styled from 'styled-components';
 
 export default function Mypage() {
   const [userInformation, setUserInformation] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
 
   useEffect(() => {
-    fetch('data/mypageInformationData.json')
-      // fetch('http://10.58.1.242:8000/users/student')
+    fetch('http://10.58.2.17:8000/users/student', {
+      headers: {
+        Authorization: sessionStorage.getItem('wrtoken'),
+      },
+    })
       .then(res => res.json())
       .then(({ result }) => {
         setUserInformation(result);
@@ -25,9 +28,15 @@ export default function Mypage() {
   };
 
   const getAverageTime = type => {
-    const timeToArray =
-      userInformation['record_information'][`average_${type}_time`].split(':');
-    return `${timeToArray[0]}시 ${timeToArray[1]}분`;
+    if (userInformation['record_information'][`average_${type}_time`] === 0) {
+      return `0시 0분`;
+    } else {
+      const timeToArray =
+        userInformation['record_information'][`average_${type}_time`].split(
+          ':'
+        );
+      return `${timeToArray[0]}시 ${timeToArray[1]}분`;
+    }
   };
 
   return (

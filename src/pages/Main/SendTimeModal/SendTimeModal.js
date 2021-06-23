@@ -9,9 +9,9 @@ function SendTimeModal({ attendanceStatus }) {
     e.preventDefault();
 
     if (sendHour !== '' && sendMinute !== '') {
-      fetch('http://10.58.1.242:8000/records', {
+      fetch('http://10.58.2.17:8000/records', {
         method: 'POST',
-        // headers: {},
+        headers: { Authorization: sessionStorage.getItem('wrtoken') },
         body: JSON.stringify({
           hour: Number(sendHour),
           minute: Number(sendMinute),

@@ -38,7 +38,6 @@ const InsideModal = Styled.div`
   position: relative;
   width: 550px;
   height: ${props => props.height};
-  /* border-radius: 10px; */
   text-align: center;
   background-color: ${({ theme }) => theme.colors.fontColor};
   color: white;
