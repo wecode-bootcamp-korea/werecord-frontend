@@ -78,8 +78,8 @@ export default function LineChart({ totalAccumulateRecordsData }) {
 
   return (
     <Line
-      width={180}
-      height={80}
+      width={120}
+      height={45}
       options={options}
       data={{
         labels: setLabelData(totalAccumulateRecordsData),

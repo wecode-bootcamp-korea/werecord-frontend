@@ -17,6 +17,7 @@ export default function Mypage() {
         Authorization: sessionStorage.getItem('wrtoken'),
       },
     })
+      // fetch('/data/mypageInformationData.json')
       .then(res => res.json())
       .then(({ result }) => {
         setUserInformation(result);
@@ -31,19 +32,31 @@ export default function Mypage() {
     if (userInformation['record_information'][`average_${type}_time`] === 0) {
       return `0시 0분`;
     } else {
-      const timeToArray =
+      const hour = Number(
         userInformation['record_information'][`average_${type}_time`].split(
           ':'
-        );
-      return `${timeToArray[0]}시 ${timeToArray[1]}분`;
+        )[0]
+      );
+      const minute = Number(
+        userInformation['record_information'][`average_${type}_time`].split(
+          ':'
+        )[1]
+      );
+      if (hour > 12) {
+        return `오후 ${hour - 12}시 ${minute}분`;
+      } else {
+        return `오전 ${hour}시 ${minute}분`;
+      }
     }
   };
+
+  const secondToHour = second => Math.ceil(second / 360) / 10;
 
   return (
     <FadeIn transitionDuration={1000}>
       {userInformation && (
         <ContentsContainer>
-          <article>
+          <FirstContents>
             <UserProfile>
               <Img
                 alt="profile_image"
@@ -66,7 +79,10 @@ export default function Mypage() {
                 {getInformation('user', 'user_name')}님은
                 <br />
                 <TotalspendingHour>
-                  총<Hour>{getInformation('user', 'user_total_time')}</Hour>
+                  총
+                  <Hour>
+                    {secondToHour(getInformation('user', 'user_total_time'))}
+                  </Hour>
                   시간
                 </TotalspendingHour>
                 <br />
@@ -74,7 +90,7 @@ export default function Mypage() {
               &gt; wecode와 <br />
               함께 하셨습니다.
             </UserSpendingTime>
-          </article>
+          </FirstContents>
           <SecondContents>
             <TimeGraphContents>
               <BarChart
@@ -113,9 +129,8 @@ export default function Mypage() {
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
   margin: 80px auto 0;
-  padding: 10px 75px 0;
+  padding: 50px 65px 0;
   max-width: 1440px;
-  transform: scale(0.95);
 
   article:first-child {
     height: 100%;
@@ -124,7 +139,7 @@ const ContentsContainer = styled.section`
 
 const UserProfile = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start')}
-  margin-bottom: 70px;
+  margin-bottom: 130px;
 `;
 
 const Img = styled.img`
@@ -160,7 +175,7 @@ const EditBtn = styled.dd`
 `;
 
 const UserSpendingTime = styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(60)};
+  font-size: ${({ theme }) => theme.pixelToRem(50)};
   font-weight: 700;
   line-height: ${({ theme }) => theme.pixelToRem(90)};
 
@@ -172,7 +187,7 @@ const UserSpendingTime = styled.div`
 const TotalspendingHour = styled.div`
   display: inline-block;
   margin-top: 35px;
-  padding: 5px 10px;
+  padding: 0 10px;
   font-size: ${({ theme }) => theme.pixelToRem(90)};
 `;
 
@@ -196,6 +211,8 @@ const Hour = styled.div`
   animation-duration: 1s;
 `;
 
+const FirstContents = styled.article``;
+
 const SecondContents = styled.article`
   width: 500px;
   height: 100%;
@@ -203,10 +220,6 @@ const SecondContents = styled.article`
 
 const TimeGraphContents = styled.div`
   margin-bottom: 80px;
-
-  canvas:first-child {
-    margin-bottom: 100px;
-  }
 `;
 
 const AverageTimeContent = styled.li`
@@ -230,7 +243,7 @@ const Time = styled(Label.withComponent('div'))`
 `;
 
 const Date = styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(100)};
+  font-size: ${({ theme }) => theme.pixelToRem(70)};
 `;
 
 const AfterDday = styled.div`

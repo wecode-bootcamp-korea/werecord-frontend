@@ -17,7 +17,7 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    if (localStorage.getItem('토큰 이름')) {
+    if (sessionStorage.getItem('토큰 이름')) {
       sessionStorage.clear();
       alert('로그아웃이 되었습니다.');
       goToPage();

@@ -6,8 +6,8 @@ export default function BarChart({ weeklyRecordsData }) {
   return (
     <BarStyle>
       <Bar
-        width={180}
-        height={80}
+        width={120}
+        height={45}
         options={options}
         data={{
           labels: ['월', '화', '수', '목', '금'],
