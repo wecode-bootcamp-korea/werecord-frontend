@@ -3,10 +3,18 @@ import { createPortal } from 'react-dom';
 import Styled from 'styled-components';
 
 export default function Modal({ setOff, children, height }) {
+  const handleModal = e => {
+    const isclickedInside = e.target.closest('.modal');
+    const isclickedBtn = e.target.closest('.closeBtn');
+
+    if (!isclickedInside) return setOff(false);
+    if (isclickedBtn) return setOff(false);
+  };
+
   return createPortal(
-    <OutsideModal onClick={setOff}>
+    <OutsideModal onClick={handleModal}>
       <InsideModal className="modal" height={height}>
-        <CloseBtn onClick={setOff} className="closeBtn">
+        <CloseBtn onClick={handleModal} className="closeBtn">
           <i className="fas fa-times" />
         </CloseBtn>
         {children}

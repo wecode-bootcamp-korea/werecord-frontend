@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
+import FadeIn from 'react-fade-in';
 
 export default function Main({ history }) {
   const [time, setTime] = useState({
@@ -69,7 +70,7 @@ export default function Main({ history }) {
         if (result) {
           alert(result.comment);
         }
-        history.push('/main');
+        window.location.replace('/main');
       });
   };
 
@@ -91,51 +92,53 @@ export default function Main({ history }) {
         if (result) {
           alert(result.comment);
         }
-        history.push('/main');
+        window.location.replace('/mypage');
       });
   };
 
   return (
-    <Container>
-      <TimeSection>
-        <TimeDescription>
-          {`지금은 ${dayjs().month() + 1}월 ${dayjs().date()}일 ${
-            WEEK[dayjs().day()]
-          }요일`}
-        </TimeDescription>
-        <TimeDescription>
-          {`${getTime(time.hour)}시 ${
-            time.minutes !== 0 ? `${time.minutes}분` : ''
-          }입니다.`}
-        </TimeDescription>
-      </TimeSection>
-      <StartSection>
-        {!userInfo.isOn ? (
-          <StartTime>오늘도 상쾌하게 시작해볼까요?</StartTime>
-        ) : (
-          <>
-            <StudentName>{userInfo.name}</StudentName>
-            <StartTime>{`님은 ${startTimeObj.hour}시 ${startTimeObj.minute}분에 시작하셨습니다.`}</StartTime>
-          </>
-        )}
-      </StartSection>
-      <ButtonAnimationSection>
-        <ButtonSection>
-          <Button onClick={checkStart}>START</Button>
-          <Button onClick={checkEnd}>STOP</Button>
-        </ButtonSection>
-        <FireAnimationSection>
-          <FirewoodImg alt="firewoodimg" src="/images/firewood.png" />
-          {userInfo.isOn && <FireGif alt="firegif" src="/images/fire.gif" />}
-        </FireAnimationSection>
-      </ButtonAnimationSection>
+    <FadeIn transitionDuration={1000}>
+      <Container>
+        <TimeSection>
+          <TimeDescription>
+            {`지금은 ${dayjs().month() + 1}월 ${dayjs().date()}일 ${
+              WEEK[dayjs().day()]
+            }요일`}
+          </TimeDescription>
+          <TimeDescription>
+            {`${getTime(time.hour)}시 ${
+              time.minutes !== 0 ? `${time.minutes}분` : ''
+            }입니다.`}
+          </TimeDescription>
+        </TimeSection>
+        <StartSection>
+          {!userInfo.isOn ? (
+            <StartTime>오늘도 상쾌하게 시작해볼까요?</StartTime>
+          ) : (
+            <>
+              <StudentName>{userInfo.name}</StudentName>
+              <StartTime>{`님은 ${startTimeObj.hour}시 ${startTimeObj.minute}분에 시작하셨습니다.`}</StartTime>
+            </>
+          )}
+        </StartSection>
+        <ButtonAnimationSection>
+          <ButtonSection>
+            <Button onClick={checkStart}>START</Button>
+            <Button onClick={checkEnd}>STOP</Button>
+          </ButtonSection>
+          <FireAnimationSection>
+            <FirewoodImg alt="firewoodimg" src="/images/firewood.png" />
+            {userInfo.isOn && <FireGif alt="firegif" src="/images/fire.gif" />}
+          </FireAnimationSection>
+        </ButtonAnimationSection>
 
-      {userInfo.normalAttendance && (
-        <Modal height="300px">
-          <SendTimeModal attendanceStatus={userInfo.normalAttendance} />
-        </Modal>
-      )}
-    </Container>
+        {userInfo.normalAttendance && (
+          <Modal height="300px">
+            <SendTimeModal attendanceStatus={userInfo.normalAttendance} />
+          </Modal>
+        )}
+      </Container>
+    </FadeIn>
   );
 }
 

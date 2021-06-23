@@ -1,7 +1,7 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function ProfileModal({ peersInfo }) {
+export default function ProfileModal({ peersInfo, mento }) {
   const {
     peer_name,
     peer_birthday,
