@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
+import FadeIn from 'react-fade-in';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
-import FadeIn from 'react-fade-in';
 
-export default function Main({ history }) {
+export default function Main() {
   const [time, setTime] = useState({
     hour: dayjs().hour(),
     minutes: dayjs().minute(),
@@ -16,115 +16,36 @@ export default function Main({ history }) {
     startTime: '00:00',
     normalAttendance: false,
   });
-  const startTimeObj = {
-    hour: userInfo.startTime.split(':')[0],
-    minute: userInfo.startTime.split(':')[1],
-  };
+
+  const memoStartTimeObj = useMemo(() => startTimeObj(userInfo), [userInfo]);
+  const memoDate = useMemo(() => getTodayDate(), []);
 
   useEffect(() => {
-    const goTime = setInterval(() => {
-      setTime(prev => ({
-        ...prev,
-        hour: dayjs().hour(),
-        minutes: dayjs().minute(),
-      }));
-    }, 1000);
-    return () => clearInterval(goTime);
+    getTimePasses(setTime);
+    fetchUserData(setUserInfo);
   }, []);
-
-  useEffect(() => {
-    fetch('http://10.58.6.89:8000/records')
-      .then(res => res.json())
-      .then(isSuccess => {
-        const { message, result } = isSuccess;
-
-        if (message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
-          return setUserInfo(prev => ({ ...prev, normalAttendance: true }));
-        }
-
-        if (result) {
-          const { user_name, user_status, user_start_time } = result;
-
-          setUserInfo(prev => ({
-            ...prev,
-            name: user_name,
-            isOn: user_status,
-            startTime: user_start_time,
-          }));
-        }
-      });
-  }, []);
-
-  const checkStart = () => {
-    fetch(`http://10.58.6.89:8000/records/1`)
-      .then(res => res.json())
-      .then(errorData => {
-        const { message, result } = errorData;
-
-        if (message === 'ALREADY_RECORD_ERROR') {
-          alert('이미 출근하셨습니다.');
-        }
-        if (message === 'LOCATION_ERROR') {
-          alert('위코드에 오시긴 하셨나요?');
-        }
-        if (result) {
-          alert(result.comment);
-        }
-        window.location.replace('/main');
-      });
-  };
-
-  const checkEnd = () => {
-    fetch('http://10.58.6.89:8000/records/2')
-      .then(res => res.json())
-      .then(errorData => {
-        const { message, result } = errorData;
-
-        if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
-          alert('출석부터 누르세요');
-        }
-        if (message === 'ALREADY_RECORD_ERROR') {
-          alert('이미 퇴근했습니다.');
-        }
-        if (message === 'LOCATION_ERROR') {
-          alert('위코드에 계시긴 하나요?');
-        }
-        if (result) {
-          alert(result.comment);
-        }
-        window.location.replace('/mypage');
-      });
-  };
 
   return (
     <FadeIn transitionDuration={1000}>
       <Container>
         <TimeSection>
+          <TimeDescription>{memoDate}</TimeDescription>
           <TimeDescription>
-            {`지금은 ${dayjs().month() + 1}월 ${dayjs().date()}일 ${
-              WEEK[dayjs().day()]
-            }요일`}
-          </TimeDescription>
-          <TimeDescription>
-            {`${getTime(time.hour)}시 ${
-              time.minutes !== 0 ? `${time.minutes}분` : ''
-            }입니다.`}
+            {`${getTime(time.hour)}시 ${time.minutes}분입니다.`}
           </TimeDescription>
         </TimeSection>
         <StartSection>
+          <StudentName>{userInfo.name}</StudentName>
           {!userInfo.isOn ? (
-            <StartTime>오늘도 상쾌하게 시작해볼까요?</StartTime>
+            <StartTime>님 오늘도 상쾌하게 시작해볼까요?</StartTime>
           ) : (
-            <>
-              <StudentName>{userInfo.name}</StudentName>
-              <StartTime>{`님은 ${startTimeObj.hour}시 ${startTimeObj.minute}분에 시작하셨습니다.`}</StartTime>
-            </>
+            <StartTime>{`님은${memoStartTimeObj.hour}시 ${memoStartTimeObj.minute}분에 시작하셨습니다.`}</StartTime>
           )}
         </StartSection>
         <ButtonAnimationSection>
           <ButtonSection>
             <Button onClick={checkStart}>START</Button>
-            <Button onClick={checkEnd}>STOP</Button>
+            <Button onClick={checkStop}>STOP</Button>
           </ButtonSection>
           <FireAnimationSection>
             <FirewoodImg alt="firewoodimg" src="/images/firewood.png" />
@@ -146,9 +67,10 @@ const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
-  width: 100%;
-  margin-top: 130px;
-  margin-left: 150px;
+  max-width: 1440px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 0 142px;
   background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
@@ -183,7 +105,6 @@ const StartTime = styled.h2`
 const ButtonAnimationSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   margin-top: 100px;
-  width: 70vw;
 `;
 
 const ButtonSection = styled.section`
@@ -219,6 +140,108 @@ const FireGif = styled.img`
   width: 500px;
   bottom: -10px;
 `;
+
+const fetchUserData = setUserInfo => {
+  fetch('http://10.58.2.17:8000/records', {
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  })
+    .then(res => res.json())
+    .then(({ message, result }) => {
+      if (message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
+        return setUserInfo(prev => ({ ...prev, normalAttendance: true }));
+      }
+      if (result) {
+        const { user_name, user_status, user_start_time } = result;
+        setUserInfo(prev => ({
+          ...prev,
+          name: user_name,
+          isOn: user_status,
+          startTime: user_start_time,
+        }));
+      }
+    });
+};
+
+const checkStart = () => {
+  fetch(`http://10.58.2.17:8000/records/start`, {
+    method: 'POST',
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  })
+    .then(res => res.json())
+    .then(({ message, result }) => {
+      if (message === 'ALREADY_RECORD_ERROR') {
+        alert('이미 출근하셨습니다.');
+      }
+      if (message === 'LOCATION_ERROR') {
+        alert('위코드에 오시긴 하셨나요?');
+      }
+      if (result) {
+        window.location.replace('/main');
+      }
+    });
+};
+
+const checkStop = () => {
+  fetch('http://10.58.2.17:8000/records/stop', {
+    method: 'POST',
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  })
+    .then(res => res.json())
+    .then(({ message, result }) => {
+      if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
+        alert('출석부터 누르세요');
+      }
+      if (message === 'ALREADY_RECORD_ERROR') {
+        alert('이미 퇴근했습니다.');
+      }
+      if (message === 'LOCATION_ERROR') {
+        alert('위코드에 계시긴 하나요?');
+      }
+      if (result) {
+        alert(result.comment);
+      }
+    });
+};
+
+const getTimePasses = setTime => {
+  const goTime = setInterval(() => {
+    setTime(prev => ({
+      ...prev,
+      hour: dayjs().hour(),
+      minutes: dayjs().minute(),
+    }));
+  }, 1000);
+  return () => clearInterval(goTime);
+};
+
+const getTodayDate = () => {
+  return `지금은 ${dayjs().month() + 1}월 ${dayjs().date()}일 ${
+    WEEK[dayjs().day()]
+  }요일`;
+};
+
+const startTimeObj = userInfo => {
+  if (userInfo.startTime === null) {
+    const initTime = {
+      hour: '00',
+      minute: '00',
+    };
+    return initTime;
+  }
+  if (userInfo.startTime) {
+    const nowTime = {
+      hour: userInfo.startTime.split(':')[0],
+      minute: userInfo.startTime.split(':')[0],
+    };
+    return nowTime;
+  }
+};
 
 const getTime = timeHour => {
   const hour = timeHour;

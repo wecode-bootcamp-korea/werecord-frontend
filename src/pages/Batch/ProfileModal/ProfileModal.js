@@ -1,7 +1,7 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function ProfileModal({ peersInfo, mento }) {
+export default function ProfileModal({ peersInfo }) {
   const {
     peer_name,
     peer_birthday,
@@ -13,7 +13,7 @@ export default function ProfileModal({ peersInfo, mento }) {
   } = peersInfo;
 
   return (
-    <ProfileModalStyle>
+    <Container>
       <ModalTitle>Profile</ModalTitle>
       <UserCard>
         <img alt="user1" src={peer_profile_image_url || DEFAULT_IMG} />
@@ -40,11 +40,11 @@ export default function ProfileModal({ peersInfo, mento }) {
           </a>
         </BlogAddress>
       </UserInfo>
-    </ProfileModalStyle>
+    </Container>
   );
 }
 
-const ProfileModalStyle = Styled.section`
+const Container = Styled.section`
   color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 

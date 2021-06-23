@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import Modal from '../components/Modal/Modal';

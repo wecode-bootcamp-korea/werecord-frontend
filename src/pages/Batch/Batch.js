@@ -10,11 +10,7 @@ export default function Batch() {
   const { winner_batch_information, my_batch_information } = batchInfo;
 
   useEffect(() => {
-    fetch('Data/BatchData.json')
-      .then(res => res.json())
-      .then(batchInfo => {
-        setBatchInfo(batchInfo.result);
-      });
+    batchInfoFetch(setBatchInfo);
   }, []);
 
   return (
@@ -39,3 +35,17 @@ const Container = Styled.main`
   margin: 0 auto;
   padding: 0 142px;
 `;
+
+const batchInfoFetch = setBatchInfo => {
+  const batchNum = sessionStorage.getItem('batch');
+
+  fetch(`http://10.58.2.17:8000/users/batch/${batchNum}`, {
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  })
+    .then(res => res.json())
+    .then(({ result }) => {
+      setBatchInfo(result);
+    });
+};

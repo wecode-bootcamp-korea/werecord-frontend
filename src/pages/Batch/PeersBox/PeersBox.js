@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Styled from 'styled-components';
 import Slider from 'react-slick';
+import Styled from 'styled-components';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import Modal from '../../../components/Modal/Modal';
 import ProfileModal from '../ProfileModal/ProfileModal';
@@ -10,7 +10,7 @@ export default function PeersBox({ myBatchInfo }) {
   const [peerData, setPeerData] = useState({});
 
   return (
-    <PeersBoxArea>
+    <Container>
       <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
       <StyledSlider {...settings}>
         {myBatchInfo.peers.map(peers => (
@@ -25,11 +25,11 @@ export default function PeersBox({ myBatchInfo }) {
           <ProfileModal peersInfo={peerData} />
         </Modal>
       )}
-    </PeersBoxArea>
+    </Container>
   );
 }
 
-const PeersBoxArea = Styled.section`
+const Container = Styled.section`
   margin-top: 20px;
   padding: 30px;
   border-radius: 12px;
