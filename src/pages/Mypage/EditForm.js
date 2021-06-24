@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+// import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
+import API_URLS from '../../config';
 
 export default function EditContents() {
   const [userForm, setUserForm] = useState({});
@@ -180,7 +182,7 @@ const LeaveBtn = styled.div`
 `;
 
 const getUserDataFetch = setUserForm => {
-  fetch('http://10.58.2.17:8000/users/info', {
+  fetch(`${API_URLS.EDIT_PROFILE}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
@@ -193,13 +195,18 @@ const getUserDataFetch = setUserForm => {
 
 const recheckLeave = e => {
   e.preventDefault();
-  fetch(`http://10.58.2.17:8000/users/info`, {
+  fetch(`${API_URLS.EDIT_PROFILE}`, {
     method: 'DELETE',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
+  }).then(res => {
+    if (res.status === 204) {
+      alert('성공적으로 탈퇴되었습니다!');
+      // history.push('/');
+      window.location.replace('/');
+    }
   });
-  window.location.replace('/mypage');
 };
 
 const sendImgData = (userForm, imgFile) => {
@@ -208,7 +215,7 @@ const sendImgData = (userForm, imgFile) => {
   userData.append('info', userInfo);
   userData.append('image', imgFile);
 
-  fetch('http://10.58.2.17:8000/users/info', {
+  fetch(`${API_URLS.EDIT_PROFILE}`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),

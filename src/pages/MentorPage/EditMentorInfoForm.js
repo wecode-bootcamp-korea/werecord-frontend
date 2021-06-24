@@ -23,7 +23,7 @@ export default function EditContents({ isModalOff }) {
     fetch(`${API_URLS.MENTOR_INFO}`, {
       method: 'GET',
       headers: {
-        Authorization: localStorage.getItem('wrtoken'),
+        Authorization: sessionStorage.getItem('wrtoken'),
       },
     })
       .then(res => res.json())
@@ -63,7 +63,7 @@ export default function EditContents({ isModalOff }) {
     fetch(`${API_URLS.MENTOR_INFO}`, {
       method: 'POST',
       headers: {
-        Authorization: localStorage.getItem('wrtoken'),
+        Authorization: sessionStorage.getItem('wrtoken'),
       },
       body: userData,
     })

@@ -4,25 +4,34 @@ import Styled from 'styled-components';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import Modal from '../../../components/Modal/Modal';
 import ProfileModal from '../ProfileModal/ProfileModal';
+import MentorModal from '../ProfileModal/MentorModal';
 
 export default function PeersBox({ myBatchInfo }) {
-  const [isModalOn, setIsModalOn] = useState(false);
+  const [isPeerModalOn, setIsPeerModalOn] = useState(false);
+  const [isMentorModalOn, setIsMentorModalOn] = useState(false);
   const [peerData, setPeerData] = useState({});
 
   return (
     <Container>
-      <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
+      <ScrollBoxTop>
+        <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
+        <div onClick={() => setIsMentorModalOn(!isMentorModalOn)}>담임멘토</div>
+      </ScrollBoxTop>
       <StyledSlider {...settings}>
         {myBatchInfo.peers.map(peers => (
           <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
-            <ProfileCard modalOn={setIsModalOn} peersInfo={peers} />
+            <ProfileCard modalOn={setIsPeerModalOn} peersInfo={peers} />
           </div>
         ))}
       </StyledSlider>
-
-      {isModalOn && (
-        <Modal setOff={setIsModalOn} height="480px">
+      {isPeerModalOn && (
+        <Modal setOff={setIsPeerModalOn} height="480px">
           <ProfileModal peersInfo={peerData} />
+        </Modal>
+      )}
+      {isMentorModalOn && (
+        <Modal setOff={setIsMentorModalOn} height="480px">
+          <MentorModal mentorInfo={myBatchInfo.mentor} />
         </Modal>
       )}
     </Container>
@@ -34,6 +43,10 @@ const Container = Styled.section`
   padding: 30px;
   border-radius: 12px;
   background-color: rgba(222, 222, 222, 0.1);
+`;
+
+const ScrollBoxTop = Styled.div`
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
 `;
 
 const ScrollBoxTitle = Styled.h1`
