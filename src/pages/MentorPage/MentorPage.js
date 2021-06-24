@@ -20,11 +20,10 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
-    // fetch('/data/MentorPageData.json') // mockdata입니다.
     fetch(`${API_URLS.MENTOR_PAGE}`, {
       method: 'GET',
       headers: {
-        Authorization: localStorage.getItem('wrtoken'),
+        Authorization: sessionStorage.getItem('wrtoken'),
       },
     })
       .then(res => res.json())

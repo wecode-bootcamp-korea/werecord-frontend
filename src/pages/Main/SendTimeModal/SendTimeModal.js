@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import Styled from 'styled-components';
+import API_URLS from '../../../config';
 
-function SendTimeModal({ attendanceStatus }) {
+function SendTimeModal({ attendanceStatus, setOff }) {
   const [sendHour, setSendHour] = useState('');
   const [sendMinute, setSendMinute] = useState('');
 
   const sendTime = e => {
     e.preventDefault();
-
     if (sendHour !== '' && sendMinute !== '') {
-      fetch('http://10.58.2.17:8000/records', {
+      fetch(`${API_URLS.MAIN}`, {
         method: 'POST',
         headers: { Authorization: sessionStorage.getItem('wrtoken') },
         body: JSON.stringify({
@@ -20,7 +20,12 @@ function SendTimeModal({ attendanceStatus }) {
         .then(res => res.json())
         .then(isSuccess => {
           if (isSuccess.message === 'SUCCESS') {
-            attendanceStatus(false);
+            attendanceStatus(prev => ({
+              ...prev,
+              normalAttendance: false,
+            }));
+            setOff(false);
+            window.location.replace('/main');
           }
         });
     } else {
@@ -84,7 +89,6 @@ function SendTimeModal({ attendanceStatus }) {
     </Container>
   );
 }
-
 export default React.memo(SendTimeModal);
 
 const Container = Styled.div``;
@@ -112,7 +116,6 @@ const InputTime = Styled.input`
   border: 1px solid rgba(34, 34, 34, 0.3);
   border-radius: 3px;
   transition: all 0.3s ease;
-
   &:focus {
     border: 1px solid #0066ff;
   }
@@ -127,7 +130,7 @@ const SendBtn = Styled.button`
   line-height: 20px;
   transition: all 0.3s ease;
   cursor: pointer;
-
+  
   &:hover {
     color: ${({ theme }) => theme.colors.white};
     background-color: rgba(34, 34, 34, 0.9);

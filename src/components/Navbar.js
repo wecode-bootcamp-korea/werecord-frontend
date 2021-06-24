@@ -16,8 +16,10 @@ export default function Navbar() {
     history.push(`/${page}`);
   };
 
+  const batch = sessionStorage.getItem('batch');
+
   const handleLogout = () => {
-    if (sessionStorage.getItem('토큰 이름')) {
+    if (sessionStorage.getItem('wrtoken')) {
       sessionStorage.clear();
       alert('로그아웃이 되었습니다.');
       goToPage();
@@ -38,6 +40,7 @@ export default function Navbar() {
   const handleModalAfterBatchMaking = () => setMakeBatchModalOn(false);
   const handleModalAfterEditMentorInfo = () => setEditMentorInfoModalOn(false);
 
+  console.log(batch);
   return (
     <>
       {location.pathname !== '/' && (
@@ -103,7 +106,7 @@ export default function Navbar() {
             {!isCheckMentor && (
               <GoToBatchPageBtn
                 onClick={() => {
-                  goToPage('batch');
+                  goToPage(`batch/${batch}`);
                 }}
               >
                 기수 페이지

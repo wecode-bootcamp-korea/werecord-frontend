@@ -16,7 +16,7 @@ export default function Routes() {
         <Route exact path="/main" component={Main} />
         <Route exact path="/" component={Rending} />
         <Route exact path="/googleLogin" component={GoogleLogin} />
-        <Route exact path="/batch" component={Batch} />
+        <Route exact path="/batch/:id" component={Batch} />
         <Route exact path="/mypage" component={Mypage} />
         <Route exact path="/mentorpage" component={MentorPage} />
       </Switch>

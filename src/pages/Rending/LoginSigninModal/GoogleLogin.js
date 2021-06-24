@@ -2,15 +2,12 @@ import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import API_URLS from '../../../config';
-
 const GoogleLogin = props => {
   const history = useHistory();
   useEffect(() => {
     googleLogin();
   }, []);
-
   const googleButton = useRef();
-
   const googleLogin = () => {
     window.gapi.load('auth2', function () {
       window.auth2 = window.gapi.auth2.init({
@@ -21,7 +18,6 @@ const GoogleLogin = props => {
       });
       attachSignin(googleButton.current);
     });
-
     function attachSignin(element) {
       window.auth2.attachClickHandler(
         element,
@@ -33,7 +29,6 @@ const GoogleLogin = props => {
             },
           })
             .then(res => res.json())
-            // .then(res => console.log(res));
             .then(res => {
               sessionStorage.setItem('wrtoken', res.werecord_token);
               sessionStorage.setItem('user_type', res.user_info.user_type);
@@ -44,11 +39,14 @@ const GoogleLogin = props => {
                 res.user_info.profile_image_url
               );
               if (res.user_info.user_id) {
-                alert('로그인이 완료되었습니다!');
                 if (res.user_info.user_type === '수강생') {
                   history.push('/main');
-                } else if (res.user_info.user_type === '멘토') {
+                }
+                if (res.user_info.user_type === '멘토') {
                   history.push('/mentorpage');
+                }
+                if (res.user_info.user_type === '') {
+                  props.changeModalValue();
                 }
               } else if (res.user_info.user_id === '') {
                 alert('신규 가입 회원입니다');
@@ -66,7 +64,6 @@ const GoogleLogin = props => {
       );
     }
   };
-
   return (
     <>
       <GoogleButton ref={googleButton}>
@@ -76,9 +73,7 @@ const GoogleLogin = props => {
     </>
   );
 };
-
 export default GoogleLogin;
-
 const GoogleButton = styled.button`
   ${({ theme }) => theme.flexbox()}
   width: 200px;
@@ -87,13 +82,11 @@ const GoogleButton = styled.button`
   border-radius: 3px;
   background-color: white;
 `;
-
 const GoogleLogo = styled.img`
   margin: 5px;
   width: 20px;
   height: 20px;
 `;
-
 const GoogleLoginText = styled.p`
   margin: 5px;
   font-size: 16px;

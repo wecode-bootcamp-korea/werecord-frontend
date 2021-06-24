@@ -6,18 +6,18 @@ import BarChart from '../Mypage/Charts/BarChart';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
 import EditForm from '../Mypage/EditForm';
+import API_URLS from '../../config';
 
 export default function Mypage() {
   const [userInformation, setUserInformation] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
 
   useEffect(() => {
-    fetch('http://10.58.2.17:8000/users/student', {
+    fetch(`${API_URLS.MY_PAGE}`, {
       headers: {
         Authorization: sessionStorage.getItem('wrtoken'),
       },
     })
-      // fetch('/data/mypageInformationData.json')
       .then(res => res.json())
       .then(({ result }) => {
         setUserInformation(result);
@@ -50,13 +50,13 @@ export default function Mypage() {
     }
   };
 
-  const secondToHour = second => Math.ceil(second / 360) / 10;
+  const secondToHour = second => Math.round(second / 360) / 10;
 
   return (
     <FadeIn transitionDuration={1000}>
       {userInformation && (
         <ContentsContainer>
-          <FirstContents>
+          <article>
             <UserProfile>
               <Img
                 alt="profile_image"
@@ -75,42 +75,25 @@ export default function Mypage() {
               </UserInformation>
             </UserProfile>
             <UserSpendingTime>
-              <div>
-                {getInformation('user', 'user_name')}님은
-                <br />
-                <TotalspendingHour>
-                  총
-                  <Hour>
-                    {secondToHour(getInformation('user', 'user_total_time'))}
-                  </Hour>
-                  시간
-                </TotalspendingHour>
-                <br />
-              </div>
+              <TotalspendingHour>
+                총
+                <Hour>
+                  {secondToHour(getInformation('user', 'user_total_time'))}
+                </Hour>
+                시간
+              </TotalspendingHour>
+              <br />
               &gt; wecode와 <br />
               함께 하셨습니다.
             </UserSpendingTime>
-          </FirstContents>
-          <SecondContents>
-            <TimeGraphContents>
-              <BarChart
-                weeklyRecordsData={getInformation('record', 'weekly_record')}
-              />
-              <LineChart
-                totalAccumulateRecordsData={getInformation(
-                  'record',
-                  'total_accumulate_records'
-                )}
-              />
-            </TimeGraphContents>
             <TimeContents>
               <ul>
                 <AverageTimeContent>
-                  <Label>내 평균 시작 시간</Label>
+                  <Label>⏳ 내 평균 시작 시간</Label>
                   <Time>{getAverageTime('start')}</Time>
                 </AverageTimeContent>
                 <AverageTimeContent>
-                  <Label>내 평균 종료 시간</Label>
+                  <Label>⌛ 내 평균 종료 시간</Label>
                   <Time>{getAverageTime('end')}</Time>
                 </AverageTimeContent>
               </ul>
@@ -119,6 +102,21 @@ export default function Mypage() {
                 <Date>D+{getInformation('record', 'wecode_d_day')}</Date>
               </AfterDday>
             </TimeContents>
+          </article>
+          <SecondContents>
+            <TimeGraphContents>
+              <div>
+                <BarChart
+                  weeklyRecordsData={getInformation('record', 'weekly_record')}
+                />
+              </div>
+              <LineChart
+                totalAccumulateRecordsData={getInformation(
+                  'record',
+                  'total_accumulate_records'
+                )}
+              />
+            </TimeGraphContents>
           </SecondContents>
         </ContentsContainer>
       )}
@@ -131,6 +129,7 @@ const ContentsContainer = styled.section`
   margin: 80px auto 0;
   padding: 50px 65px 0;
   max-width: 1440px;
+  transform: scale(1.05);
 
   article:first-child {
     height: 100%;
@@ -139,13 +138,13 @@ const ContentsContainer = styled.section`
 
 const UserProfile = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start')}
-  margin-bottom: 130px;
+  margin-bottom: 35px;
 `;
 
 const Img = styled.img`
-  margin-right: 26px;
-  width: 110px;
-  height: 110px;
+  margin-right: 25px;
+  width: 85px;
+  height: 85px;
   border-radius: 50%;
 `;
 
@@ -153,8 +152,10 @@ const UserInformation = styled.dl`
   text-align: center;
 
   dt {
-    margin-bottom: 15px;
-    font-size: ${({ theme }) => theme.pixelToRem(35)};
+    margin-bottom: 20px;
+    position: relative;
+    top: 10px;
+    font-size: ${({ theme }) => theme.pixelToRem(30)};
     font-weight: 700;
   }
 `;
@@ -162,11 +163,10 @@ const UserInformation = styled.dl`
 const EditBtn = styled.dd`
   cursor: pointer;
   padding: 10px 15px;
-  transition: background-color 0.3s;
 
   &:hover {
-    border-radius: 5px;
-    background-color: #373737;
+    text-decoration: underline;
+    text-underline-position: under;
   }
 
   &:active {
@@ -175,20 +175,17 @@ const EditBtn = styled.dd`
 `;
 
 const UserSpendingTime = styled.div`
+  margin-bottom: 75px;
   font-size: ${({ theme }) => theme.pixelToRem(50)};
   font-weight: 700;
-  line-height: ${({ theme }) => theme.pixelToRem(90)};
-
-  div:first-child {
-    margin-bottom: 15px;
-  }
+  line-height: ${({ theme }) => theme.pixelToRem(75)};
 `;
 
 const TotalspendingHour = styled.div`
   display: inline-block;
-  margin-top: 35px;
-  padding: 0 10px;
-  font-size: ${({ theme }) => theme.pixelToRem(90)};
+  margin: 35px 0 35px;
+  padding: 0 10px 0 0;
+  font-size: ${({ theme }) => theme.pixelToRem(85)};
 `;
 
 const boxAnimation = keyframes`
@@ -211,19 +208,20 @@ const Hour = styled.div`
   animation-duration: 1s;
 `;
 
-const FirstContents = styled.article``;
-
 const SecondContents = styled.article`
   width: 500px;
   height: 100%;
 `;
 
 const TimeGraphContents = styled.div`
-  margin-bottom: 80px;
+  div:first-child {
+    margin-bottom: 80px;
+  }
 `;
 
 const AverageTimeContent = styled.li`
   margin-bottom: 40px;
+  margin-right: 100px;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
 `;
 
@@ -233,7 +231,7 @@ const TimeContents = styled.div`
 
 const Label = styled.div`
   margin-bottom: 10px;
-  font-size: ${({ theme }) => theme.pixelToRem(30)};
+  font-size: ${({ theme }) => theme.pixelToRem(25)};
   text-align: center;
   font-weight: 700;
 `;
@@ -243,7 +241,8 @@ const Time = styled(Label.withComponent('div'))`
 `;
 
 const Date = styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(70)};
+  font-size: ${({ theme }) => theme.pixelToRem(80)};
+  font-weight: 700;
 `;
 
 const AfterDday = styled.div`
