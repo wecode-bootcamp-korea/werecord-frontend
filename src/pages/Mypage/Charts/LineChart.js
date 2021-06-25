@@ -16,12 +16,12 @@ export default function LineChart({ totalAccumulateRecordsData }) {
     );
 
   const setAccumulateHoursData = totalAccumulateRecordsData =>
-    totalAccumulateRecordsData.map(hours => Math.ceil(hours / 360 / 10));
+    totalAccumulateRecordsData.map(hours => Math.round(hours / 360 / 10));
 
   const getMaxyAxesValue = () => {
     const lastAccumulatedTime =
       totalAccumulateRecordsData[totalAccumulateRecordsData.length - 1];
-    return (Math.ceil(lastAccumulatedTime / 360) + 100) / 10;
+    return (Math.round(lastAccumulatedTime / 360) + 100) / 10;
   };
 
   const options = {
@@ -70,7 +70,7 @@ export default function LineChart({ totalAccumulateRecordsData }) {
     },
     title: {
       display: true,
-      text: 'Full period',
+      text: '전체 누적 기록',
       fontSize: 18,
       fontColor: 'white',
     },
@@ -78,7 +78,7 @@ export default function LineChart({ totalAccumulateRecordsData }) {
 
   return (
     <Line
-      width={180}
+      width={120}
       height={80}
       options={options}
       data={{

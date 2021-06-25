@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
+import RecheckDeleteModal from '../MentorPage/RecheckDeleteModal';
 import API_URLS from '../../config';
 
 export default function EditContents() {
@@ -106,11 +107,8 @@ export default function EditContents() {
       </Container>
 
       {isModalOn && (
-        <Modal height="400px">
-          <h1>리얼 탈퇴????</h1>
-          <button type="button" onClick={recheckLeave}>
-            진짜 탈퇴??
-          </button>
+        <Modal height="200px">
+          <RecheckDeleteModal deleteAccount={recheckLeave} />
         </Modal>
       )}
     </>
@@ -181,7 +179,7 @@ const LeaveBtn = styled.div`
 `;
 
 const getUserDataFetch = setUserForm => {
-  fetch(`${API_URLS.MENTOR_INFO}`, {
+  fetch(`${API_URLS.EDIT_PROFILE}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
@@ -194,13 +192,18 @@ const getUserDataFetch = setUserForm => {
 
 const recheckLeave = e => {
   e.preventDefault();
-  fetch(`${API_URLS.MENTOR_INFO}`, {
+  fetch(`${API_URLS.EDIT_PROFILE}`, {
     method: 'DELETE',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
+  }).then(res => {
+    if (res.status === 204) {
+      alert('성공적으로 탈퇴되었습니다!');
+      sessionStorage.clear();
+      window.location.replace('/');
+    }
   });
-  window.location.replace('/mypage');
 };
 
 const sendImgData = (userForm, imgFile) => {
@@ -209,7 +212,7 @@ const sendImgData = (userForm, imgFile) => {
   userData.append('info', userInfo);
   userData.append('image', imgFile);
 
-  fetch(`${API_URLS.MENTOR_INFO}`, {
+  fetch(`${API_URLS.EDIT_PROFILE}`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),

@@ -2,8 +2,14 @@ import React from 'react';
 import Styled from 'styled-components';
 
 export default function ProfileModal({ peersInfo }) {
-  const { peer_name, peer_birthday, peer_position, peer_profile_image_url } =
-    peersInfo;
+  const {
+    peer_name,
+    peer_birthday,
+    peer_position,
+    peer_profile_image_url,
+    peer_github,
+    peer_blog,
+  } = peersInfo;
 
   return (
     <Container>
@@ -19,10 +25,10 @@ export default function ProfileModal({ peersInfo }) {
             peer_birthday === null ? '생일이 입력되지 않았어요!' : peer_birthday
           }`}</UserBirth>
           <div>
-            <GitAddress href="{peer_github}" target="_blank">
+            <GitAddress href={peer_github} target="_blank">
               <i class="fab fa-github-square"></i>
             </GitAddress>
-            <BlogAddress href="{peer_blog}" target="_blank">
+            <BlogAddress href={peer_blog} target="_blank">
               <i class="fab fa-vimeo"></i>
             </BlogAddress>
           </div>

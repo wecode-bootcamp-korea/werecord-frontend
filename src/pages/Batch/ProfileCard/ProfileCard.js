@@ -41,8 +41,8 @@ const Container = Styled.li`
 
   img {
     border-radius: 12px;
-    width: 90%;
-    height: 90%;
+    width: 100px;
+    height: 100px;
   }
 
   .profileName {

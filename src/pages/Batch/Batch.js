@@ -6,12 +6,14 @@ import PeersBox from './PeersBox/PeersBox';
 import checkObjData from '../Util/checkObjData';
 import API_URLS from '../../config';
 
-export default function Batch() {
+export default function Batch({ match }) {
   const [batchInfo, setBatchInfo] = useState({});
   const { winner_batch_information, my_batch_information } = batchInfo;
 
   useEffect(() => {
-    batchInfoFetch(setBatchInfo);
+    const batchNum = sessionStorage.getItem('batch');
+    const matchBatchNum = match.params.id;
+    chooseUserType(batchNum, matchBatchNum, setBatchInfo);
   }, []);
 
   return (
@@ -37,16 +39,28 @@ const Container = Styled.main`
   padding: 0 142px;
 `;
 
-const batchInfoFetch = setBatchInfo => {
-  const batchNum = sessionStorage.getItem('batch');
+const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
+  if (sessionStorage.getItem('user_type') === '수강생') {
+    fetch(`${API_URLS.BATCH}/${batchNum}`, {
+      headers: {
+        Authorization: sessionStorage.getItem('wrtoken'),
+      },
+    })
+      .then(res => res.json())
+      .then(({ result }) => {
+        setBatchInfo(result);
+      });
+  }
 
-  fetch(`${API_URLS.BATCH_PAGE}/${batchNum}`, {
-    headers: {
-      Authorization: sessionStorage.getItem('wrtoken'),
-    },
-  })
-    .then(res => res.json())
-    .then(({ result }) => {
-      setBatchInfo(result);
-    });
+  if (matchBatchNum) {
+    fetch(`${API_URLS.BATCH}/${matchBatchNum}`, {
+      headers: {
+        Authorization: sessionStorage.getItem('wrtoken'),
+      },
+    })
+      .then(res => res.json())
+      .then(({ result }) => {
+        setBatchInfo(result);
+      });
+  }
 };

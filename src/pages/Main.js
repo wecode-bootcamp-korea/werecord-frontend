@@ -17,8 +17,7 @@ export default function Main() {
     startTime: '00:00',
     normalAttendance: false,
   });
-
-  const memoStartTimeObj = useMemo(() => startTimeObj(userInfo), [userInfo]);
+  const [sendModalOff, setSendModalOff] = useState(false);
   const memoDate = useMemo(() => getTodayDate(), []);
 
   useEffect(() => {
@@ -31,16 +30,14 @@ export default function Main() {
       <Container>
         <TimeSection>
           <TimeDescription>{memoDate}</TimeDescription>
-          <TimeDescription>
-            {`${getTime(time.hour)}시 ${time.minutes}분입니다.`}
-          </TimeDescription>
+          <TimeDescription>{showNowTime(time)}</TimeDescription>
         </TimeSection>
         <StartSection>
           <StudentName>{userInfo.name}</StudentName>
           {!userInfo.isOn ? (
             <StartTime>님 오늘도 상쾌하게 시작해볼까요?</StartTime>
           ) : (
-            <StartTime>{`님은 ${memoStartTimeObj.hour}시 ${memoStartTimeObj.minute}분에 시작하셨습니다.`}</StartTime>
+            <StartTime>{showStartTime(userInfo)}</StartTime>
           )}
         </StartSection>
         <ButtonAnimationSection>
@@ -56,7 +53,10 @@ export default function Main() {
 
         {userInfo.normalAttendance && (
           <Modal height="300px">
-            <SendTimeModal attendanceStatus={userInfo.normalAttendance} />
+            <SendTimeModal
+              setOff={setSendModalOff}
+              attendanceStatus={setUserInfo}
+            />
           </Modal>
         )}
       </Container>
@@ -81,7 +81,7 @@ const TimeSection = styled.section`
 
 const TimeDescription = styled.h1`
   margin-bottom: 10px;
-  font-size: ${({ theme }) => theme.pixelToRem(100)};
+  font-size: ${({ theme }) => theme.pixelToRem(80)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColor};
 `;
@@ -89,7 +89,7 @@ const TimeDescription = styled.h1`
 const StartSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'start', 'center')};
   margin-top: 30px;
-  font-size: ${({ theme }) => theme.pixelToRem(40)};
+  font-size: ${({ theme }) => theme.pixelToRem(35)};
   font-weight: 500;
 `;
 
@@ -112,6 +112,7 @@ const ButtonAnimationSection = styled.section`
 const ButtonSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
   width: 40vw;
+  margin-top: 50px;
   font-size: 50px;
 `;
 
@@ -119,6 +120,7 @@ const Button = styled.button`
   margin-right: 20px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColor};
+  font-weight: 700;
   transition: all 0.3s ease;
   cursor: pointer;
 
@@ -126,26 +128,31 @@ const Button = styled.button`
     opacity: 0.7;
     transform: scale(1.05);
   }
+
+  &:active {
+    opacity: 0.3;
+  }
 `;
 
 const FireAnimationSection = styled.div`
   ${({ theme }) => theme.flexbox()};
   position: relative;
+  margin-right: 150px;
 `;
 
 const FirewoodImg = styled.img`
   position: absolute;
-  width: 120px;
+  width: 200px;
 `;
 
 const FireGif = styled.img`
   position: absolute;
-  width: 500px;
+  width: 700px;
   bottom: -10px;
 `;
 
 const fetchUserData = setUserInfo => {
-  fetch(`${API_URLS.MAIN_PAGE}`, {
+  fetch(`${API_URLS.MAIN}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
@@ -168,7 +175,7 @@ const fetchUserData = setUserInfo => {
 };
 
 const checkStart = () => {
-  fetch(`${API_URLS.MAIN_TIME_START}`, {
+  fetch(`${API_URLS.MAIN}/start`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
@@ -189,7 +196,7 @@ const checkStart = () => {
 };
 
 const checkStop = () => {
-  fetch(`${API_URLS.MAIN_TIME_STOP}`, {
+  fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
@@ -197,6 +204,7 @@ const checkStop = () => {
   })
     .then(res => res.json())
     .then(({ message, result }) => {
+      console.log('stop', result);
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
         alert('출석부터 누르세요');
       }
@@ -208,6 +216,7 @@ const checkStop = () => {
       }
       if (result) {
         alert(result.comment);
+        window.location.replace('/main');
       }
     });
 };
@@ -229,24 +238,17 @@ const getTodayDate = () => {
   }요일`;
 };
 
-const startTimeObj = userInfo => {
-  if (userInfo.startTime === null) {
-    const initTime = {
-      hour: '00',
-      minute: '00',
-    };
-    return initTime;
-  }
-  if (userInfo.startTime) {
-    const nowTime = {
-      hour: userInfo.startTime.split(':')[0],
-      minute: userInfo.startTime.split(':')[0],
-    };
-    return nowTime;
-  }
-};
-
 const getTime = timeHour => {
   const hour = timeHour;
   return hour > 12 ? `오후 ${hour - 12}` : `오전 ${hour}`;
+};
+
+const showNowTime = time => {
+  return `${getTime(time.hour)}시 ${time.minutes}분입니다.`;
+};
+
+const showStartTime = userInfo => {
+  return `님은 ${getTime(userInfo.startTime.split(':')[0])}시 ${
+    userInfo.startTime.split(':')[1]
+  }분에 시작하셨습니다.`;
 };

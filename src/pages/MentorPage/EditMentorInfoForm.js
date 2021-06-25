@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from '../../components/Modal/Modal';
 import styled from 'styled-components';
 import API_URLS from '../../config';
+import RecheckDeleteModal from './RecheckDeleteModal';
 
 export default function EditContents({ isModalOff }) {
   const [userForm, setUserForm] = useState({
@@ -23,7 +24,7 @@ export default function EditContents({ isModalOff }) {
     fetch(`${API_URLS.MENTOR_INFO}`, {
       method: 'GET',
       headers: {
-        Authorization: localStorage.getItem('wrtoken'),
+        Authorization: sessionStorage.getItem('wrtoken'),
       },
     })
       .then(res => res.json())
@@ -63,7 +64,7 @@ export default function EditContents({ isModalOff }) {
     fetch(`${API_URLS.MENTOR_INFO}`, {
       method: 'POST',
       headers: {
-        Authorization: localStorage.getItem('wrtoken'),
+        Authorization: sessionStorage.getItem('wrtoken'),
       },
       body: userData,
     })
@@ -105,11 +106,11 @@ export default function EditContents({ isModalOff }) {
         Authorization: sessionStorage.getItem('wrtoken'),
       },
     }).then(res => {
-      if (res === 204) {
+      if (res.status === 204) {
         alert('정상적으로 탈퇴가 처리되었습니다!');
         isModalOff();
         sessionStorage.clear();
-        window.location.replace('/main');
+        window.location.replace('/');
       }
     });
   };
@@ -189,11 +190,8 @@ export default function EditContents({ isModalOff }) {
       <LeaveBtn onClick={() => setRecheckDelete(true)}>탈퇴</LeaveBtn>
 
       {recheckDelete && (
-        <Modal height="400px" setOff={setRecheckDelete}>
-          <h1>리얼 탈퇴????</h1>
-          <button type="button" onClick={recheckLeave}>
-            진짜 탈퇴??
-          </button>
+        <Modal height="300px" setOff={setRecheckDelete}>
+          <RecheckDeleteModal deleteAccount={recheckLeave} />
         </Modal>
       )}
     </>

@@ -4,14 +4,14 @@ import styled from 'styled-components';
 export default function Button({
   children,
   fontSize,
-  version,
+  type,
   disabled,
   clickEvent,
 }) {
   return (
     <Container
       fontSize={fontSize}
-      version={version}
+      type={type}
       disabled={disabled}
       onClick={clickEvent}
     >
@@ -22,14 +22,14 @@ export default function Button({
 
 const Container = styled.button`
   padding: 10px 20px;
-  color: ${({ theme, version, disabled }) => {
-    if (version === 'white') {
+  color: ${({ theme, type, disabled }) => {
+    if (type === 'white') {
       if (disabled) {
         return 'gray';
       } else {
         return theme.colors.black;
       }
-    } else if (version === 'black') {
+    } else if (type === 'black') {
       if (disabled) {
         return 'gray';
       } else {
@@ -37,10 +37,10 @@ const Container = styled.button`
       }
     }
   }};
-  background-color: ${({ theme, version, disabled }) => {
-    if (version === 'white') {
+  background-color: ${({ theme, type, disabled }) => {
+    if (type === 'white') {
       return theme.colors.white;
-    } else if (version === 'black') {
+    } else if (type === 'black') {
       return theme.colors.black;
     }
   }};
@@ -48,10 +48,14 @@ const Container = styled.button`
   font-size: ${({ theme, fontSize }) => theme.pixelToRem(fontSize)};
   font-weight: bold;
   border: 1px solid
-    ${({ theme, version, disabled }) => {
-      if (version === 'white') {
-        return theme.colors.black;
-      } else if (version === 'black') {
+    ${({ theme, type, disabled }) => {
+      if (type === 'white') {
+        if (disabled) {
+          return 'gray';
+        } else {
+          return theme.colors.black;
+        }
+      } else if (type === 'black') {
         if (disabled) {
           return 'gray';
         } else {
@@ -61,26 +65,26 @@ const Container = styled.button`
     }};
   border-radius: 3px;
   cursor: ${({ disabled }) => disabled || 'pointer'};
-  opacity: ${({ theme, version, disabled }) => {
-    if (version === 'white') {
+  opacity: ${({ theme, type, disabled }) => {
+    if (type === 'white') {
       if (disabled) {
         return '0.5';
       } else {
         return '1';
       }
-    } else if (version === 'black') {
+    } else if (type === 'black') {
       return theme.colors.black;
     }
   }};
 
   &:hover {
-    color: ${({ theme, version, disabled }) => {
-      if (version === 'white') {
+    color: ${({ theme, type, disabled }) => {
+      if (type === 'white') {
         if (disabled) {
           return;
         }
         return theme.colors.white;
-      } else if (version === 'black') {
+      } else if (type === 'black') {
         if (disabled) {
           return;
         } else {
@@ -88,14 +92,14 @@ const Container = styled.button`
         }
       }
     }};
-    background-color: ${({ theme, version, disabled }) => {
-      if (version === 'white') {
+    background-color: ${({ theme, type, disabled }) => {
+      if (type === 'white') {
         if (disabled) {
           return;
         } else {
-          return theme.colors.black;
+          return theme.colors.blue;
         }
-      } else if (version === 'black') {
+      } else if (type === 'black') {
         if (disabled) {
           return;
         } else {
@@ -104,16 +108,15 @@ const Container = styled.button`
       }
     }};
     border: 1px solid
-      ${({ theme, version, disabled }) => {
-        if (version === 'black') {
+      ${({ theme, type, disabled }) => {
+        if (type === 'white') {
           if (disabled) {
-            return;
+            return 'gray';
           } else {
-            return theme.colors.white;
+            return theme.colors.blue;
           }
         }
       }};
-  }
 
   &:active {
     opacity: 0.5;

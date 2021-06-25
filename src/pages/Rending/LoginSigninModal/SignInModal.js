@@ -54,8 +54,6 @@ const SignInModal = props => {
     const userInformation = new FormData();
     userInformation.append('info', userData);
     const wrtoken = sessionStorage.getItem('wrtoken');
-    console.log(userData);
-    console.log(userInformation);
 
     fetch(`${API_URLS.SIGNIN}`, {
       method: 'POST',
@@ -140,7 +138,12 @@ const SignInModal = props => {
           </SignInForm>
           <SignInForm>
             <SignInTitle>생일</SignInTitle>
-            <SignInInput type="date" onChange={getInputValue} name="birthday" />
+            <SignInInput
+              type="date"
+              onChange={getInputValue}
+              name="birthday"
+              max="2100-01-01"
+            />
           </SignInForm>
           <SignInForm>
             <SignInTitle>Blog</SignInTitle>

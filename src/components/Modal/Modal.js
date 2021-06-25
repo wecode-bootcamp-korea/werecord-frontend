@@ -7,8 +7,10 @@ export default function Modal({ setOff, children, height }) {
     const isclickedInside = e.target.closest('.modal');
     const isclickedBtn = e.target.closest('.closeBtn');
 
-    if (!isclickedInside) return setOff(false);
-    if (isclickedBtn) return setOff(false);
+    if (setOff) {
+      if (!isclickedInside) return setOff(false);
+      if (isclickedBtn) return setOff(false);
+    }
   };
 
   return createPortal(
@@ -31,7 +33,6 @@ const OutsideModal = Styled.div`
   width: 100%;
   height: 100vh;
   background-color: rgba(33, 33, 33, 0.9);
-
 `;
 
 const InsideModal = Styled.div`
