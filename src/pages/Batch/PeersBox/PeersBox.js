@@ -25,7 +25,7 @@ export default function PeersBox({ myBatchInfo }) {
         ))}
       </StyledSlider>
       {isPeerModalOn && (
-        <Modal setOff={setIsPeerModalOn} height="480px">
+        <Modal setOff={setIsPeerModalOn} height="300px">
           <ProfileModal peersInfo={peerData} />
         </Modal>
       )}
@@ -41,8 +41,8 @@ export default function PeersBox({ myBatchInfo }) {
 const Container = Styled.section`
   margin-top: 20px;
   padding: 30px;
-  border-radius: 12px;
-  background-color: rgba(222, 222, 222, 0.1);
+  border-radius: 3px;
+  background-color: white;
 `;
 
 const ScrollBoxTop = Styled.div`
@@ -51,6 +51,9 @@ const ScrollBoxTop = Styled.div`
 
 const ScrollBoxTitle = Styled.h1`
   font-size: 20px;
+  color: ${({ theme }) => theme.colors.black};
+  font-weight: 700;
+
 `;
 
 const StyledSlider = Styled(Slider)`

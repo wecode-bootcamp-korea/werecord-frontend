@@ -2,18 +2,18 @@
   "result": {
     "winner_batch_information": {
       "winner_batch_name": 20,
-      "winner_batch_total_time": 493737
+      "winner_batch_total_time": 49737
     },
     "my_batch_information": {
       "batch_id": 1,
       "batch_name": 20,
-      "batch_total_time": 493737,
+      "batch_total_time": 43737,
       "ghost_ranking": [
         {
           "user_id": 2,
-          "user_name": "B",
+          "user_name": "김이슬",
           "user_profile_image_url": "/images/Profile/test1.jpeg",
-          "user_last_week_total_time": 2038
+          "user_last_week_total_time": 203
         },
         {
           "user_id": 1,
@@ -29,6 +29,83 @@
         }
       ],
       "peers": [
+        {
+          "peer_id": 1,
+          "peer_name": "이다슬",
+          "peer_profile_image_url": "/images/Profile/test1.jpeg",
+          "peer_position": "Front-End",
+          "peer_email": "a@example.com",
+          "peer_blog": null,
+          "peer_github": null,
+          "peer_birthday": null,
+          "peer_status": true
+        },
+        {
+          "peer_id": 1,
+          "peer_name": "A",
+          "peer_profile_image_url": "/images/Profile/test1.jpeg",
+          "peer_position": "풀스텍",
+          "peer_email": "a@example.com",
+          "peer_blog": null,
+          "peer_github": null,
+          "peer_birthday": null,
+          "peer_status": true
+        },
+        {
+          "peer_id": 1,
+          "peer_name": "A",
+          "peer_profile_image_url": "/images/Profile/test1.jpeg",
+          "peer_position": "풀스텍",
+          "peer_email": "a@example.com",
+          "peer_blog": null,
+          "peer_github": null,
+          "peer_birthday": null,
+          "peer_status": true
+        },
+        {
+          "peer_id": 1,
+          "peer_name": "A",
+          "peer_profile_image_url": "/images/Profile/test1.jpeg",
+          "peer_position": "풀스텍",
+          "peer_email": "a@example.com",
+          "peer_blog": null,
+          "peer_github": null,
+          "peer_birthday": null,
+          "peer_status": true
+        },
+        {
+          "peer_id": 1,
+          "peer_name": "A",
+          "peer_profile_image_url": "/images/Profile/test1.jpeg",
+          "peer_position": "풀스텍",
+          "peer_email": "a@example.com",
+          "peer_blog": null,
+          "peer_github": null,
+          "peer_birthday": null,
+          "peer_status": true
+        },
+        {
+          "peer_id": 1,
+          "peer_name": "A",
+          "peer_profile_image_url": "/images/Profile/test1.jpeg",
+          "peer_position": "풀스텍",
+          "peer_email": "a@example.com",
+          "peer_blog": null,
+          "peer_github": null,
+          "peer_birthday": null,
+          "peer_status": true
+        },
+        {
+          "peer_id": 1,
+          "peer_name": "A",
+          "peer_profile_image_url": "/images/Profile/test1.jpeg",
+          "peer_position": "풀스텍",
+          "peer_email": "a@example.com",
+          "peer_blog": null,
+          "peer_github": null,
+          "peer_birthday": null,
+          "peer_status": true
+        },
         {
           "peer_id": 1,
           "peer_name": "A",

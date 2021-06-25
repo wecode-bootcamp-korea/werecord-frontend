@@ -10,7 +10,7 @@ export default function ProfileCard({ modalOn, peersInfo }) {
   return (
     <Container onClick={onProfileModal} isOn={peer_status}>
       <img alt={peer_name} src={peer_profile_image_url} />
-      <div className="profileName">{peer_name}</div>
+      <div className="profileName">{peer_name}님</div>
     </Container>
   );
 }
@@ -18,6 +18,7 @@ export default function ProfileCard({ modalOn, peersInfo }) {
 const Container = Styled.li`
   ${({ theme }) => theme.flexbox('column')};
   position: relative;
+  color: ${({ theme }) => theme.colors.black};
   margin: 0 20px;
   cursor: pointer;
 
@@ -46,6 +47,6 @@ const Container = Styled.li`
 
   .profileName {
     margin-top: 10px;
-    font-size: ${({ theme }) => theme.pixelToRem(20)};
+    font-size: ${({ theme }) => theme.pixelToRem(15)};
   }
 `;

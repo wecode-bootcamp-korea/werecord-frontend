@@ -181,6 +181,10 @@ const UserSpendingTime = styled.div`
   line-height: ${({ theme }) => theme.pixelToRem(75)};
 `;
 
+const UserName = styled.div`
+  font-size: ${({ theme }) => theme.pixelToRem(70)};
+`;
+
 const TotalspendingHour = styled.div`
   display: inline-block;
   margin: 35px 0 35px;

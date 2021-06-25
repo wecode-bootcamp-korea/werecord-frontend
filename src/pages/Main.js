@@ -118,6 +118,7 @@ const ButtonSection = styled.section`
 
 const Button = styled.button`
   margin-right: 20px;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColor};
   font-weight: 700;
   transition: all 0.3s ease;

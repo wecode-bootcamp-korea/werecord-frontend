@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
-import API_URLS from '../../config';
 import RecheckDeleteModal from '../MentorPage/RecheckDeleteModal';
+import API_URLS from '../../config';
 
 export default function EditContents() {
   const [userForm, setUserForm] = useState({});

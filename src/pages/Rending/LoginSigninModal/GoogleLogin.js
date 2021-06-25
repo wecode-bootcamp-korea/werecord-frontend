@@ -44,6 +44,8 @@ const GoogleLogin = props => {
                 }
                 if (res.user_info.user_type === '멘토') {
                   history.push('/mentorpage');
+                } else if (res.user_info.user_type === '') {
+                  props.changeModalValue();
                 }
                 if (res.user_info.user_type === '') {
                   props.changeModalValue();
@@ -78,9 +80,11 @@ const GoogleButton = styled.button`
   ${({ theme }) => theme.flexbox()}
   width: 200px;
   height: 40px;
-  background-color: white;
+  border: 1px solid ${({ theme }) => theme.colors.black};
   border-radius: 3px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.black};
+  cursor: pointer;
 `;
 const GoogleLogo = styled.img`
   margin: 5px;

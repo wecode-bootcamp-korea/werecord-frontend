@@ -69,7 +69,6 @@ const SignInModal = props => {
       .then(res => {
         sessionStorage.setItem('user_type', res.user_info.user_type);
         sessionStorage.setItem('batch', res.user_info.batch);
-
         if (res.message === 'SUCCESS') {
           if (userInfo.user_type === '수강생') {
             history.push('/main');
