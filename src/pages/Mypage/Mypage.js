@@ -37,13 +37,15 @@ export default function Mypage() {
           ':'
         )[0]
       );
-      const minute = Number(
+      const minute =
         userInformation['record_information'][`average_${type}_time`].split(
           ':'
-        )[1]
-      );
-      if (hour > 12) {
-        return `오후 ${hour - 12}시 ${minute}분`;
+        )[1];
+
+      if (hour < 10) {
+        return `오후 0${hour}시 ${minute}분`;
+      } else if (hour > 12) {
+        return `오후 0${hour - 12}시 ${minute}분`;
       } else {
         return `오전 ${hour}시 ${minute}분`;
       }
@@ -64,9 +66,7 @@ export default function Mypage() {
               />
               <UserInformation>
                 <dt>{getInformation('user', 'user_name')}</dt>
-                <EditBtn onClick={() => setIsModalOn(true)}>
-                  Profile Edit
-                </EditBtn>
+                <EditBtn onClick={() => setIsModalOn(true)}>Edit</EditBtn>
                 {isModalOn && (
                   <Modal setOff={setIsModalOn}>
                     <EditForm />
@@ -149,8 +149,6 @@ const Img = styled.img`
 `;
 
 const UserInformation = styled.dl`
-  text-align: center;
-
   dt {
     margin-bottom: 20px;
     position: relative;
@@ -161,24 +159,26 @@ const UserInformation = styled.dl`
 `;
 
 const EditBtn = styled.dd`
+  padding-left: 1px;
+  font-size: ${({ theme }) => theme.pixelToRem(16)};
   cursor: pointer;
-  padding: 10px 15px;
 
   &:hover {
     text-decoration: underline;
     text-underline-position: under;
+    opacity: 0.8;
   }
 
   &:active {
-    opacity: 0.8;
+    opacity: 0.5;
   }
 `;
 
 const UserSpendingTime = styled.div`
-  margin-bottom: 75px;
+  margin-bottom: 80px;
   font-size: ${({ theme }) => theme.pixelToRem(50)};
   font-weight: 700;
-  line-height: ${({ theme }) => theme.pixelToRem(75)};
+  line-height: ${({ theme }) => theme.pixelToRem(70)};
 `;
 
 const UserName = styled.div`
@@ -187,7 +187,7 @@ const UserName = styled.div`
 
 const TotalspendingHour = styled.div`
   display: inline-block;
-  margin: 35px 0 35px;
+  margin: 35px 0 20px;
   padding: 0 10px 0 0;
   font-size: ${({ theme }) => theme.pixelToRem(85)};
 `;
@@ -242,6 +242,7 @@ const Label = styled.div`
 
 const Time = styled(Label.withComponent('div'))`
   font-weight: 400;
+  padding-left: 15px;
 `;
 
 const Date = styled.div`

@@ -22,8 +22,6 @@ export default function Navbar() {
     if (sessionStorage.getItem('wrtoken')) {
       sessionStorage.clear();
       goToPage();
-    } else {
-      goToPage();
     }
   };
 
@@ -44,13 +42,13 @@ export default function Navbar() {
         <Container>
           <Logo>&gt; we-record</Logo>
           <div>
-            {!isCheckMentor && (
+            {!isCheckMentor && location.pathname !== '/main' && (
               <GoToMainPageBtn onClick={() => goToPage('main')}>
                 메인 페이지
               </GoToMainPageBtn>
             )}
 
-            {!isCheckMentor && (
+            {!isCheckMentor && location.pathname !== '/mypage' && (
               <GoToMyPageBtn
                 onClick={() => {
                   goToPage('mypage');
@@ -100,7 +98,7 @@ export default function Navbar() {
                 멘토 페이지
               </GoToMentorPageBtn>
             )}
-            {!isCheckMentor && (
+            {!isCheckMentor && !location.pathname.includes('/batch/') && (
               <GoToBatchPageBtn
                 onClick={() => {
                   goToPage(`batch/${batch}`);
@@ -152,6 +150,7 @@ const Logo = styled.div`
   position: relative;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
   font-weight: bold;
+  cursor: default;
 
   &:before {
     display: block;

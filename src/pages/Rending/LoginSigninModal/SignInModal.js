@@ -61,9 +61,7 @@ const SignInModal = props => {
       },
       body: userInformation,
     })
-      // respond확인용
       .then(res => res.json())
-      // .then(res => console.log(res));
       // 사용자 타입에 따른 이동
       .then(res => {
         sessionStorage.setItem('user_type', res.user_info.user_type);
