@@ -227,10 +227,12 @@ const BestPerson = Styled.div`
 
 const makeWinnerTotalTime = (batchName, batchTotalTime) => {
   return `${batchName}기 ${Math.floor(
-    batchTotalTime
+    batchTotalTime / 3600
   ).toLocaleString()}시간 달성 !`;
 };
 
 const makeMyBatchTotalTime = batchTotalTime => {
-  return `🔥 ${Math.floor(batchTotalTime).toLocaleString()}시간 기록 중  `;
+  return `🔥 ${Math.floor(
+    batchTotalTime / 3600
+  ).toLocaleString()}시간 기록 중  `;
 };

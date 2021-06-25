@@ -204,7 +204,6 @@ const checkStop = () => {
   })
     .then(res => res.json())
     .then(({ message, result }) => {
-      console.log('stop', result);
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
         alert('출석부터 누르세요');
       }
