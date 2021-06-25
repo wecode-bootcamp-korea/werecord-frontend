@@ -56,9 +56,6 @@ const GoogleLogin = props => {
               }
               return res;
             });
-          //테스트용 console입니다.
-          // .then(res => console.log(res));
-          // 테스트용 주석입니다.
         },
         function (error) {
           alert(JSON.stringify(error, undefined, 2));
