@@ -4,6 +4,7 @@ import FadeIn from 'react-fade-in';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
+import API_URLS from '../config';
 
 export default function Main() {
   const [time, setTime] = useState({
@@ -39,7 +40,7 @@ export default function Main() {
           {!userInfo.isOn ? (
             <StartTime>님 오늘도 상쾌하게 시작해볼까요?</StartTime>
           ) : (
-            <StartTime>{`님은${memoStartTimeObj.hour}시 ${memoStartTimeObj.minute}분에 시작하셨습니다.`}</StartTime>
+            <StartTime>{`님은 ${memoStartTimeObj.hour}시 ${memoStartTimeObj.minute}분에 시작하셨습니다.`}</StartTime>
           )}
         </StartSection>
         <ButtonAnimationSection>
@@ -94,6 +95,7 @@ const StartSection = styled.section`
 
 const StudentName = styled.h2`
   padding: 8px;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColor};
   background-color: ${({ theme }) => theme.colors.blue};
 `;
@@ -115,6 +117,7 @@ const ButtonSection = styled.section`
 
 const Button = styled.button`
   margin-right: 20px;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColor};
   transition: all 0.3s ease;
   cursor: pointer;
@@ -142,7 +145,7 @@ const FireGif = styled.img`
 `;
 
 const fetchUserData = setUserInfo => {
-  fetch('http://10.58.2.17:8000/records', {
+  fetch(`${API_URLS.MAIN_PAGE}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
@@ -165,7 +168,7 @@ const fetchUserData = setUserInfo => {
 };
 
 const checkStart = () => {
-  fetch(`http://10.58.2.17:8000/records/start`, {
+  fetch(`${API_URLS.MAIN_TIME_START}`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
@@ -186,7 +189,7 @@ const checkStart = () => {
 };
 
 const checkStop = () => {
-  fetch('http://10.58.2.17:8000/records/stop', {
+  fetch(`${API_URLS.MAIN_TIME_STOP}`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),

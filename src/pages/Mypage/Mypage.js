@@ -6,13 +6,14 @@ import BarChart from '../Mypage/Charts/BarChart';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
 import EditForm from '../Mypage/EditForm';
+import API_URLS from '../../config';
 
 export default function Mypage() {
   const [userInformation, setUserInformation] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
 
   useEffect(() => {
-    fetch('http://10.58.2.17:8000/users/student', {
+    fetch(`${API_URLS.MY_PAGE}`, {
       headers: {
         Authorization: sessionStorage.getItem('wrtoken'),
       },
@@ -63,16 +64,13 @@ export default function Mypage() {
             </UserProfile>
             <UserSpendingTime>
               <div>
-                {getInformation('user', 'user_name')}님은
-                <br />
+                <UserName>{getInformation('user', 'user_name')}님은</UserName>
                 <TotalspendingHour>
                   총<Hour>{getInformation('user', 'user_total_time')}</Hour>
                   시간
                 </TotalspendingHour>
-                <br />
               </div>
-              &gt; wecode와 <br />
-              함께 하셨습니다.
+              &gt; wecode와 함께 하셨습니다.
             </UserSpendingTime>
           </article>
           <SecondContents>
@@ -169,10 +167,13 @@ const UserSpendingTime = styled.div`
   }
 `;
 
+const UserName = styled.div`
+  font-size: ${({ theme }) => theme.pixelToRem(70)};
+`;
+
 const TotalspendingHour = styled.div`
   display: inline-block;
-  margin-top: 35px;
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
   font-size: ${({ theme }) => theme.pixelToRem(90)};
 `;
 

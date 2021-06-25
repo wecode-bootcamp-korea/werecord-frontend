@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
+import API_URLS from '../../config';
 
 export default function EditContents() {
   const [userForm, setUserForm] = useState({});
@@ -180,7 +181,7 @@ const LeaveBtn = styled.div`
 `;
 
 const getUserDataFetch = setUserForm => {
-  fetch('http://10.58.2.17:8000/users/info', {
+  fetch(`${API_URLS.MENTOR_INFO}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
@@ -193,7 +194,7 @@ const getUserDataFetch = setUserForm => {
 
 const recheckLeave = e => {
   e.preventDefault();
-  fetch(`http://10.58.2.17:8000/users/info`, {
+  fetch(`${API_URLS.MENTOR_INFO}`, {
     method: 'DELETE',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
@@ -208,7 +209,7 @@ const sendImgData = (userForm, imgFile) => {
   userData.append('info', userInfo);
   userData.append('image', imgFile);
 
-  fetch('http://10.58.2.17:8000/users/info', {
+  fetch(`${API_URLS.MENTOR_INFO}`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),

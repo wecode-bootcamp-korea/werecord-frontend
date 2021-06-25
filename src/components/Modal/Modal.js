@@ -39,16 +39,16 @@ const InsideModal = Styled.div`
   width: 550px;
   height: ${props => props.height};
   text-align: center;
-  background-color: ${({ theme }) => theme.colors.fontColor};
+  background-color: ${({ theme }) => theme.colors.white};
   color: white;
 `;
 
 const CloseBtn = Styled.div`
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 8px;
+  right: 12px;
   padding: 10px;
-  font-size: 30px;
+  font-size: 22px;
   color: ${({ theme }) => theme.colors.backgroundColor};
   cursor: pointer;
 

@@ -20,11 +20,10 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
-    // fetch('/data/MentorPageData.json') // mockdata입니다.
     fetch(`${API_URLS.MENTOR_PAGE}`, {
       method: 'GET',
       headers: {
-        Authorization: localStorage.getItem('wrtoken'),
+        Authorization: sessionStorage.getItem('wrtoken'),
       },
     })
       .then(res => res.json())
@@ -295,6 +294,7 @@ const MentorName = styled.dd`
 const AfterDday = styled.dd`
   margin-bottom: 30px;
   font-size: ${({ theme }) => theme.pixelToRem(40)};
+  font-weight: 700;
 `;
 
 const StartDay = styled.dd`
@@ -344,11 +344,10 @@ const EditAndCloseBtn = styled.div`
 const EditBtn = styled.button`
   margin-right: 30px;
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.pixelToRem(30)};
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
   transition: 0.3s color, 0.3s transform;
 
   &:hover {
-    transform: scale(1.2);
     color: ${({ theme }) => theme.colors.blue};
     cursor: pointer;
   }

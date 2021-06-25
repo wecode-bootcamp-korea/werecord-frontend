@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Styled from 'styled-components';
+import API_URLS from '../../../config';
 
 function SendTimeModal({ attendanceStatus }) {
   const [sendHour, setSendHour] = useState('');
@@ -9,7 +10,7 @@ function SendTimeModal({ attendanceStatus }) {
     e.preventDefault();
 
     if (sendHour !== '' && sendMinute !== '') {
-      fetch('http://10.58.2.17:8000/records', {
+      fetch(`${API_URLS.MAIN_PAGE}`, {
         method: 'POST',
         headers: { Authorization: sessionStorage.getItem('wrtoken') },
         body: JSON.stringify({
