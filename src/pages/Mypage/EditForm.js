@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-// import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
 import API_URLS from '../../config';
+import RecheckDeleteModal from '../MentorPage/RecheckDeleteModal';
 
 export default function EditContents() {
   const [userForm, setUserForm] = useState({});
@@ -107,11 +107,8 @@ export default function EditContents() {
       </Container>
 
       {isModalOn && (
-        <Modal height="400px">
-          <h1>리얼 탈퇴????</h1>
-          <button type="button" onClick={recheckLeave}>
-            진짜 탈퇴??
-          </button>
+        <Modal height="200px">
+          <RecheckDeleteModal deleteAccount={recheckLeave} />
         </Modal>
       )}
     </>
@@ -203,7 +200,7 @@ const recheckLeave = e => {
   }).then(res => {
     if (res.status === 204) {
       alert('성공적으로 탈퇴되었습니다!');
-      // history.push('/');
+      sessionStorage.clear();
       window.location.replace('/');
     }
   });

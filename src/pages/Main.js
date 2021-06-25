@@ -112,18 +112,24 @@ const ButtonAnimationSection = styled.section`
 const ButtonSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
   width: 40vw;
+  margin-top: 50px;
   font-size: 50px;
 `;
 
 const Button = styled.button`
   margin-right: 20px;
   color: ${({ theme }) => theme.colors.fontColor};
+  font-weight: 700;
   transition: all 0.3s ease;
   cursor: pointer;
 
   &:hover {
     opacity: 0.7;
     transform: scale(1.05);
+  }
+
+  &:active {
+    opacity: 0.3;
   }
 `;
 
