@@ -190,7 +190,7 @@ export default function EditContents({ isModalOff }) {
       <LeaveBtn onClick={() => setRecheckDelete(true)}>탈퇴</LeaveBtn>
 
       {recheckDelete && (
-        <Modal height="300px" setOff={setRecheckDelete}>
+        <Modal setOff={setRecheckDelete}>
           <RecheckDeleteModal deleteAccount={recheckLeave} />
         </Modal>
       )}

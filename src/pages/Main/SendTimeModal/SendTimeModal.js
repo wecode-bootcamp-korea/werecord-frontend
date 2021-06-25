@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Styled from 'styled-components';
 import API_URLS from '../../../config';
 
-function SendTimeModal({ attendanceStatus, setOff }) {
+function SendTimeModal({ attendanceStatus, setOff, checkOffWorkDate }) {
   const [sendHour, setSendHour] = useState('');
   const [sendMinute, setSendMinute] = useState('');
 
@@ -59,12 +59,15 @@ function SendTimeModal({ attendanceStatus, setOff }) {
     }
   };
 
+  const makeDate = checkOffWorkDate => {
+    const dateForm = checkOffWorkDate.split('-');
+    return `${dateForm[1]}월 ${dateForm[2]}일에 입력하지 못하신 퇴근 시간을 입력하세요.`;
+  };
+
   return (
     <Container>
       <ModalTitle>퇴근 시간 입력창</ModalTitle>
-      <ModalDescription>
-        어제 입력하지 못하신 퇴근 시간을 입력하세요.
-      </ModalDescription>
+      <ModalDescription>{makeDate(checkOffWorkDate)}</ModalDescription>
       <SendTimeForm>
         <div>
           <InputTime
@@ -102,7 +105,7 @@ const ModalTitle = Styled.h1`
 
 const ModalDescription = Styled.h1`
   margin: 30px 0;
-  font-size: 20px;
+  font-size: 16px;
   color: ${({ theme }) => theme.colors.black};
 `;
 

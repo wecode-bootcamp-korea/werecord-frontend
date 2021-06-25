@@ -17,23 +17,9 @@ export default function ProfileCard({ modalOn, peersInfo }) {
 
 const Container = Styled.li`
   ${({ theme }) => theme.flexbox('column')};
-  position: relative;
   color: ${({ theme }) => theme.colors.black};
   margin: 0 20px;
   cursor: pointer;
-
-  &:after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      right: 8px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: ${({ isOn, theme }) =>
-        isOn ? theme.colors.blue : theme.colors.red};
-      z-index: 1;
-    }
 
   &:hover {
     opacity: 0.6;
@@ -47,6 +33,20 @@ const Container = Styled.li`
 
   .profileName {
     margin-top: 10px;
+    position: relative;
     font-size: ${({ theme }) => theme.pixelToRem(15)};
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: ${({ isOn, theme }) =>
+        isOn ? theme.colors.blue : theme.colors.red};
+      z-index: 1;
+    }
   }
 `;

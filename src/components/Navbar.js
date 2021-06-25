@@ -21,7 +21,6 @@ export default function Navbar() {
   const handleLogout = () => {
     if (sessionStorage.getItem('wrtoken')) {
       sessionStorage.clear();
-      alert('로그아웃이 되었습니다.');
       goToPage();
     }
   };
@@ -69,7 +68,7 @@ export default function Navbar() {
               </EditMentorInfo>
             )}
             {editMentorInfoModalOn && (
-              <Modal setOff={setEditMentorInfoModalOn} height="650px">
+              <Modal setOff={setEditMentorInfoModalOn}>
                 <EditMentorInfoForm
                   isModalOff={handleModalAfterEditMentorInfo}
                 />
@@ -86,7 +85,7 @@ export default function Navbar() {
               </MakeBatchBtn>
             )}
             {makeBatchModalOn && (
-              <Modal setOff={setMakeBatchModalOn} height="450px">
+              <Modal setOff={setMakeBatchModalOn}>
                 <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
               </Modal>
             )}

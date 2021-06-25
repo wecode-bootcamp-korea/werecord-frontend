@@ -68,7 +68,7 @@ export default function Mypage() {
                 <dt>{getInformation('user', 'user_name')}</dt>
                 <EditBtn onClick={() => setIsModalOn(true)}>Edit</EditBtn>
                 {isModalOn && (
-                  <Modal setOff={setIsModalOn} height="600px">
+                  <Modal setOff={setIsModalOn}>
                     <EditForm />
                   </Modal>
                 )}
