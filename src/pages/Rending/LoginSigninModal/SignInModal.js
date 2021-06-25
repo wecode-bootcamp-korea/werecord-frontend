@@ -36,7 +36,6 @@ const SignInModal = props => {
     }
   };
 
-  console.log(userInfo);
   //input 값을 setState하기
   const getInputValue = e => {
     const { name, value } = e.target;

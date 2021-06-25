@@ -17,12 +17,12 @@ const Rending = () => {
   return (
     <Container>
       {isLogInModalOn && (
-        <Modal setOff={setIsLogInModalOn} height="300px">
+        <Modal setOff={setIsLogInModalOn}>
           <LoginModal changeModalValue={changeModalValue} />
         </Modal>
       )}
       {isSignModalOn && (
-        <Modal setOff={setIsSignModalOn} height="800px">
+        <Modal setOff={setIsSignModalOn}>
           <SignInModal />
         </Modal>
       )}

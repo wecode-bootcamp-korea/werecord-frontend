@@ -26,6 +26,8 @@ const ModalContainer = styled.section`
   ${({ theme }) => theme.flexbox()};
   width: 100%;
   height: 100%;
+  margin: 70px auto;
+  padding: 20px 30px;
 
   div {
     ${({ theme }) => theme.flexbox('column', 'start', 'start')};

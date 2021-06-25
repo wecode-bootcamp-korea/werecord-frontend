@@ -107,7 +107,7 @@ export default function EditContents() {
       </Container>
 
       {isModalOn && (
-        <Modal height="200px">
+        <Modal>
           <RecheckDeleteModal deleteAccount={recheckLeave} />
         </Modal>
       )}

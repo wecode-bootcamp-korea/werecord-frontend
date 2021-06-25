@@ -154,7 +154,7 @@ export default function MentorPage({ history }) {
             );
           })}
           {deleteBatchInformation && (
-            <Modal setOff={setDeleteBatchInformation} height="200px">
+            <Modal setOff={setDeleteBatchInformation}>
               <DeleteBatchInfoForm
                 deleteBatchNumber={deleteBatchNumber}
                 isModalOff={handleModalAfterBatchDelete}
@@ -162,7 +162,7 @@ export default function MentorPage({ history }) {
             </Modal>
           )}
           {editBatchInformation && (
-            <Modal setOff={setEditBatchInformation} height="450px">
+            <Modal setOff={setEditBatchInformation}>
               <EditBatchInfoFrom
                 prevBatchInformation={prevBatchInformation}
                 isModalOff={handleModalAfterBatchEdit}

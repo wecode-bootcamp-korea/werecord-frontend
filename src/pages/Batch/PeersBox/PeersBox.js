@@ -25,12 +25,12 @@ export default function PeersBox({ myBatchInfo }) {
         ))}
       </StyledSlider>
       {isPeerModalOn && (
-        <Modal setOff={setIsPeerModalOn} height="300px">
+        <Modal setOff={setIsPeerModalOn}>
           <ProfileModal peersInfo={peerData} />
         </Modal>
       )}
       {isMentorModalOn && (
-        <Modal setOff={setIsMentorModalOn} height="300px">
+        <Modal setOff={setIsMentorModalOn}>
           <MentorModal mentorInfo={myBatchInfo.mentor} />
         </Modal>
       )}

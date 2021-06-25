@@ -20,6 +20,7 @@ export default function Main() {
     normalAttendance: false,
   });
   const [isCommentModal, setIsCommentModal] = useState({});
+  const [stopModalPopUp, setStopModalPopUp] = useState(false);
 
   const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-06-25');
   const [sendModalOff, setSendModalOff] = useState(false);
@@ -30,8 +31,8 @@ export default function Main() {
     [isCommentModal]
   );
   const useCallbackStopTime = useCallback(
-    () => checkStop(setIsCommentModal),
-    [isCommentModal]
+    () => checkStop(setIsCommentModal, setStopModalPopUp),
+    [isCommentModal, stopModalPopUp]
   );
 
   useEffect(() => {
@@ -66,13 +67,16 @@ export default function Main() {
         </ButtonAnimationSection>
 
         {checkObjData(isCommentModal) && (
-          <Modal setOff={setIsCommentModal} height="300px">
+          <Modal setOff={setIsCommentModal}>
+            {stopModalPopUp && (
+              <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
+            )}
             <CommentModal comment={isCommentModal} />
           </Modal>
         )}
 
         {userInfo.normalAttendance && (
-          <Modal height="310px">
+          <Modal>
             <SendTimeModal
               setOff={setSendModalOff}
               attendanceStatus={setUserInfo}
@@ -172,6 +176,13 @@ const FireGif = styled.img`
   bottom: -10px;
 `;
 
+const StopCommentTitle = styled.div`
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
+`;
+
 const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
   fetch(`${API_URLS.MAIN}`, {
     headers: {
@@ -225,7 +236,7 @@ const checkStart = setIsCommentMdoal => {
     });
 };
 
-const checkStop = setIsCommentMdoal => {
+const checkStop = (setIsCommentMdoal, setStopModalPopUp) => {
   fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
@@ -234,7 +245,6 @@ const checkStop = setIsCommentMdoal => {
   })
     .then(res => res.json())
     .then(({ message, result }) => {
-      console.log('stop', result);
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
         setIsCommentMdoal(prev => ({
           ...prev,
@@ -269,6 +279,7 @@ const checkStop = setIsCommentMdoal => {
           isOn: true,
           comment: result.comment,
         }));
+        setStopModalPopUp(true);
       }
     });
 };
