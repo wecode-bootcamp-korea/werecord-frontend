@@ -30,7 +30,7 @@ export default function PeersBox({ myBatchInfo }) {
         </Modal>
       )}
       {isMentorModalOn && (
-        <Modal setOff={setIsMentorModalOn} height="480px">
+        <Modal setOff={setIsMentorModalOn} height="300px">
           <MentorModal mentorInfo={myBatchInfo.mentor} />
         </Modal>
       )}
@@ -42,7 +42,7 @@ const Container = Styled.section`
   margin-top: 20px;
   padding: 30px;
   border-radius: 3px;
-  background-color: white;
+  background-color: #fefefe;
 `;
 
 const ScrollBoxTop = Styled.div`
