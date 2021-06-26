@@ -7,7 +7,7 @@ const breakpoint = {
 
 export default Object.keys(breakpoint).reduce((acc, device) => {
   acc[device] = (...attribute) => css`
-    @media screen and (min-width: ${breakpoint[device]}px) {
+    @media screen and (max-width: ${breakpoint[device]}px) {
       ${css(...attribute)};
     }
   `;

@@ -186,7 +186,12 @@ const MainLogo = styled.div`
   color: ${({ theme }) => theme.colors.black};
   font-size: 25px;
   font-weight: 700;
+
+  ${({ theme }) => theme.tablet`
+    display: none;
+  `}
 `;
+
 const SignInContainer = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
   margin-top: 20px;
@@ -198,6 +203,11 @@ const SignIntext = styled.div`
   font-size: 12px;
   font-weight: 700;
   text-align: left;
+
+  ${({ theme }) => theme.tablet`
+    margin-top: 7px 0 16px 0px;
+    font-size: 10px;
+  `}
 `;
 
 const SignInHeader = styled.h1`
@@ -206,6 +216,10 @@ const SignInHeader = styled.h1`
   color: ${({ theme }) => theme.colors.black};
   font-weight: 700;
   font-size: 20px;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 16px;
+  `}
 `;
 
 const SignInContent = styled.form`
@@ -223,6 +237,10 @@ const SignInForm = styled.li`
     p {
       margin-right: 20px;
       color: black;
+
+      ${({ theme }) => theme.tablet`
+        font-size: 12px;
+      `}
     }
   }
 `;
@@ -235,6 +253,10 @@ const SignInTitle = styled.span`
   font-weight: 700;
   font-size: 17px;
   text-align: left;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 13px;
+  `}
 `;
 
 const SignInInput = styled.input`
@@ -244,6 +266,10 @@ const SignInInput = styled.input`
   /* .batch{
     input::-webkit-input-placeholder { color: #f00; } */
   /* } */
+
+  ${({ theme }) => theme.tablet`
+    font-size: 12px;
+  `}
 `;
 
 const SignInRadioInput = styled.input`
@@ -255,4 +281,8 @@ const PositionSelect = styled.select`
   border: 1px solid;
   border-radius: 2px;
   outline: none;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 11px;
+  `}
 `;
