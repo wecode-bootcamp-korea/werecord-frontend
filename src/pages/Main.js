@@ -145,7 +145,6 @@ const StudentName = styled.h2`
 
 const StartTime = styled.h2`
   color: ${({ theme }) => theme.colors.fontColor};
-  }
 `;
 
 const ButtonAnimationSection = styled.section`

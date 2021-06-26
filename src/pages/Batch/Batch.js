@@ -37,30 +37,44 @@ const Container = Styled.main`
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 142px;
+
+  ${({ theme }) => theme.tablet`
+    padding: 0;
+  `}
 `;
 
 const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
-  if (sessionStorage.getItem('user_type') === '수강생') {
-    fetch(`${API_URLS.BATCH}/${batchNum}`, {
-      headers: {
-        Authorization: sessionStorage.getItem('wrtoken'),
-      },
-    })
-      .then(res => res.json())
-      .then(({ result }) => {
-        setBatchInfo(result);
-      });
-  }
+  // if (sessionStorage.getItem('user_type') === '수강생') {
+  //   fetch(`${API_URLS.BATCH}/${batchNum}`, {
+  //     headers: {
+  //       Authorization: sessionStorage.getItem('wrtoken'),
+  //     },
+  //   })
+  //     .then(res => res.json())
+  //     .then(({ result }) => {
+  //       setBatchInfo(result);
+  //     });
+  // }
 
-  if (matchBatchNum) {
-    fetch(`${API_URLS.BATCH}/${matchBatchNum}`, {
-      headers: {
-        Authorization: sessionStorage.getItem('wrtoken'),
-      },
-    })
-      .then(res => res.json())
-      .then(({ result }) => {
-        setBatchInfo(result);
-      });
-  }
+  // if (matchBatchNum) {
+  //   fetch(`${API_URLS.BATCH}/${matchBatchNum}`, {
+  //     headers: {
+  //       Authorization: sessionStorage.getItem('wrtoken'),
+  //     },
+  //   })
+  //     .then(res => res.json())
+  //     .then(({ result }) => {
+  //       setBatchInfo(result);
+  //     });
+  // }
+
+  fetch(`/Data/BatchData.json`, {
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  })
+    .then(res => res.json())
+    .then(({ result }) => {
+      setBatchInfo(result);
+    });
 };
