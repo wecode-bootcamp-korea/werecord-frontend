@@ -25,11 +25,7 @@ const ModalContainer = styled.section`
   div {
     ${({ theme }) => theme.flexbox('column', 'start', 'start')};
     color: ${({ theme }) => theme.colors.black};
-    margin-right: 10px;
   }
 `;
 
-const ContentSection = styled.div`
-  ${({ theme }) => theme.flexbox('column', 'start', 'stretch')};
-  margin-left: 50px;
-`;
+const ContentSection = styled.div``;
