@@ -44,37 +44,26 @@ const Container = Styled.main`
 `;
 
 const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
-  // if (sessionStorage.getItem('user_type') === '수강생') {
-  //   fetch(`${API_URLS.BATCH}/${batchNum}`, {
-  //     headers: {
-  //       Authorization: sessionStorage.getItem('wrtoken'),
-  //     },
-  //   })
-  //     .then(res => res.json())
-  //     .then(({ result }) => {
-  //       setBatchInfo(result);
-  //     });
-  // }
-
-  // if (matchBatchNum) {
-  //   fetch(`${API_URLS.BATCH}/${matchBatchNum}`, {
-  //     headers: {
-  //       Authorization: sessionStorage.getItem('wrtoken'),
-  //     },
-  //   })
-  //     .then(res => res.json())
-  //     .then(({ result }) => {
-  //       setBatchInfo(result);
-  //     });
-  // }
-
-  fetch(`/Data/BatchData.json`, {
-    headers: {
-      Authorization: sessionStorage.getItem('wrtoken'),
-    },
-  })
-    .then(res => res.json())
-    .then(({ result }) => {
-      setBatchInfo(result);
-    });
+  if (sessionStorage.getItem('user_type') === '수강생') {
+    fetch(`${API_URLS.BATCH}/${batchNum}`, {
+      headers: {
+        Authorization: sessionStorage.getItem('wrtoken'),
+      },
+    })
+      .then(res => res.json())
+      .then(({ result }) => {
+        setBatchInfo(result);
+      });
+  }
+  if (matchBatchNum) {
+    fetch(`${API_URLS.BATCH}/${matchBatchNum}`, {
+      headers: {
+        Authorization: sessionStorage.getItem('wrtoken'),
+      },
+    })
+      .then(res => res.json())
+      .then(({ result }) => {
+        setBatchInfo(result);
+      });
+  }
 };

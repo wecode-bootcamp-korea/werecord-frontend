@@ -55,13 +55,12 @@ const Container = Styled.li`
       content: '';
       position: absolute;
       top: 2px;
-      
+      margin-left: 5px;
       width: 12px;
       height: 12px;
       border-radius: 50%;
       background-color: ${({ isOn, theme }) =>
         isOn ? theme.colors.blue : theme.colors.red};
-      z-index: 1;
 
       ${({ theme }) => theme.tablet`
         width: 7px;

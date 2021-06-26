@@ -193,9 +193,9 @@ const MybatchText = Styled.div`
   `;
 
 const MybatchNumber = Styled.div`
-  font-size: 60px;
+  padding: 10px;
   background-color: ${({ theme }) => theme.colors.blue};
-  padding:10px;
+  font-size: 60px;
 
   ${({ theme }) => theme.tablet`
     font-size: 30px;
@@ -205,6 +205,7 @@ const MybatchNumber = Styled.div`
 const MyBatchTime = Styled.div`
   position: relative;
   margin-top: 20px;
+  font-size: 60px;
 
   ${({ theme }) => theme.tablet`
     margin-top: 10px;
@@ -254,8 +255,9 @@ const BestPersons = Styled.div`
 
   ${({ theme }) => theme.tablet`
     width: 100vw;
-    height: 160px;
-    margin-top: 0;
+    height: 130px;
+    margin-top: 20px;
+    padding: 0 30px;;
   `}
 `;
 
@@ -263,6 +265,10 @@ const PrizeGuide = Styled.div`
   ${({ theme }) => theme.flexbox('column', 'center', 'center')};
   line-height: 15;
   font-size: 14px;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 10px;
+  `}
 `;
 
 const firstPlace = keyframes`
