@@ -12,10 +12,12 @@ export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-    }).then(res => {
-      if (res.status === 204) {
-        alert('성공적으로 삭제했습니다!');
-        isModalOff();
+    }).then(({ status }) => {
+      if (status === 204) {
+        alert('정상적으로 삭제가 완료되었습니다!');
+        window.location.replace('/mentorpage');
+      } else if (status === 400) {
+        alert('수강생이 존재하므로 삭제가 불가합니다!');
         window.location.replace('/mentorpage');
       }
     });

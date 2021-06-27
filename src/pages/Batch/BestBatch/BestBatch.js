@@ -30,6 +30,11 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
       <PersonRanking>
         <BestPersonTitle>지난주 지박령</BestPersonTitle>
         <BestPersons>
+          {!firstPrize && (
+            <PrizeGuide>
+              👻 다음주에 첫 지박령 순위가 발표될 예정입니다!
+            </PrizeGuide>
+          )}
           {secondPrize && (
             <BestPerson rank={2}>
               <BestGrade>{secondPrize.user_name}님</BestGrade>
@@ -49,17 +54,6 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
             </BestPerson>
           )}
         </BestPersons>
-        {/* <BestPersons>
-          {secondPrize && (
-            <BestPerson rank={2}>🥈 {secondPrize.user_name}님</BestPerson>
-          )}
-          {firstPrize && (
-            <BestPerson rank={1}>🥇 {firstPrize.user_name}님</BestPerson>
-          )}
-          {thirdPrize && (
-            <BestPerson rank={3}>🥉 {thirdPrize.user_name}님</BestPerson>
-          )}
-        </BestPersons> */}
       </PersonRanking>
     </Container>
   );
@@ -79,7 +73,6 @@ const RankingArea = Styled.section`
 const BatchRanking = Styled.div`
   display: ${({ theme }) => theme.flexbox('column', 'center', 'center')};
   padding: 20px;
- 
 `;
 
 const WhoBestBatch = Styled.div`
@@ -164,8 +157,6 @@ const BestGrade = Styled.div`
   font-size:20px;
   position: relative;
   top:-60%;
-  
-
 `;
 
 const BestPersons = Styled.div`
@@ -175,6 +166,12 @@ const BestPersons = Styled.div`
   border-radius: 12px;
   width: 448px;
   height: 220px;
+`;
+
+const PrizeGuide = Styled.div`
+  ${({ theme }) => theme.flexbox('column', 'center', 'center')};
+  line-height: 15;
+  font-size: 14px;
 `;
 
 const firstPlace = keyframes`
@@ -227,10 +224,12 @@ const BestPerson = Styled.div`
 
 const makeWinnerTotalTime = (batchName, batchTotalTime) => {
   return `${batchName}기 ${Math.floor(
-    batchTotalTime
+    batchTotalTime / 3600
   ).toLocaleString()}시간 달성 !`;
 };
 
 const makeMyBatchTotalTime = batchTotalTime => {
-  return `🔥 ${Math.floor(batchTotalTime).toLocaleString()}시간 기록 중  `;
+  return `🔥 ${Math.floor(
+    batchTotalTime / 3600
+  ).toLocaleString()}시간 기록 중  `;
 };

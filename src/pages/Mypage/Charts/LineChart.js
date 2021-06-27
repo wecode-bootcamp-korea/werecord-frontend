@@ -6,7 +6,7 @@ export default function LineChart({ totalAccumulateRecordsData }) {
     if (value > 500) {
       return 2;
     } else {
-      return 3;
+      return 4;
     }
   };
 
@@ -16,12 +16,12 @@ export default function LineChart({ totalAccumulateRecordsData }) {
     );
 
   const setAccumulateHoursData = totalAccumulateRecordsData =>
-    totalAccumulateRecordsData.map(hours => Math.round(hours / 360 / 10));
+    totalAccumulateRecordsData.map(hours => Math.round(hours / 360) / 10);
 
   const getMaxyAxesValue = () => {
     const lastAccumulatedTime =
       totalAccumulateRecordsData[totalAccumulateRecordsData.length - 1];
-    return (Math.round(lastAccumulatedTime / 360) + 100) / 10;
+    return Math.round((Math.round(lastAccumulatedTime / 360) + 100) / 10) + 10;
   };
 
   const options = {
@@ -38,7 +38,6 @@ export default function LineChart({ totalAccumulateRecordsData }) {
           ticks: {
             beginAtZero: true,
             min: 0,
-            max: getMaxyAxesValue(),
             stepSize: Math.floor(getMaxyAxesValue() / 5),
             fontColor: 'white',
             fontSize: 15,
@@ -76,25 +75,28 @@ export default function LineChart({ totalAccumulateRecordsData }) {
     },
   };
 
-  return (
-    <Line
-      width={120}
-      height={80}
-      options={options}
-      data={{
-        labels: setLabelData(totalAccumulateRecordsData),
-        datasets: [
-          {
-            label: 'Spending Time in Wecode',
-            data: setAccumulateHoursData(totalAccumulateRecordsData),
-            fill: false,
-            borderColor: '#0066ff',
-            backgroundColor: '#0066ff',
-            tension: 0.1,
-            pointRadius: controlSizeOfLineDot(getMaxyAxesValue()),
-          },
-        ],
-      }}
-    />
-  );
+  const data = canvas => {
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 500);
+    gradient.addColorStop(0, '#0066ff');
+    gradient.addColorStop(1, 'transparent');
+
+    return {
+      labels: setLabelData(totalAccumulateRecordsData),
+      datasets: [
+        {
+          label: 'Spending Time in Wecode',
+          data: setAccumulateHoursData(totalAccumulateRecordsData),
+          fill: true,
+          tension: 0.1,
+          borderColor: '#0066ff',
+          backgroundColor: gradient,
+          pointBackgroundColor: 'white',
+          pointRadius: controlSizeOfLineDot(getMaxyAxesValue()),
+        },
+      ],
+    };
+  };
+
+  return <Line width={120} height={70} options={options} data={data} />;
 }

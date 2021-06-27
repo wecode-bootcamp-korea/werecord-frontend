@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import dayjs from 'dayjs';
 import FadeIn from 'react-fade-in';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
+import CommentModal from '../components/CommentModal/CommentModal';
+import checkObjData from './Util/checkObjData';
 import API_URLS from '../config';
 
 export default function Main() {
@@ -17,12 +19,25 @@ export default function Main() {
     startTime: '00:00',
     normalAttendance: false,
   });
+  const [isCommentModal, setIsCommentModal] = useState({});
+  const [stopModalPopUp, setStopModalPopUp] = useState(false);
+
+  const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-06-25');
   const [sendModalOff, setSendModalOff] = useState(false);
   const memoDate = useMemo(() => getTodayDate(), []);
 
+  const useCallbackStartTime = useCallback(
+    () => checkStart(setIsCommentModal),
+    [isCommentModal]
+  );
+  const useCallbackStopTime = useCallback(
+    () => checkStop(setIsCommentModal, setStopModalPopUp),
+    [isCommentModal, stopModalPopUp]
+  );
+
   useEffect(() => {
     getTimePasses(setTime);
-    fetchUserData(setUserInfo);
+    fetchUserData(setUserInfo, setCheckOffWorkDate);
   }, []);
 
   return (
@@ -42,8 +57,8 @@ export default function Main() {
         </StartSection>
         <ButtonAnimationSection>
           <ButtonSection>
-            <Button onClick={checkStart}>START</Button>
-            <Button onClick={checkStop}>STOP</Button>
+            <Button onClick={useCallbackStartTime}>START</Button>
+            <Button onClick={useCallbackStopTime}>STOP</Button>
           </ButtonSection>
           <FireAnimationSection>
             <FirewoodImg alt="firewoodimg" src="/images/firewood.png" />
@@ -51,11 +66,21 @@ export default function Main() {
           </FireAnimationSection>
         </ButtonAnimationSection>
 
+        {checkObjData(isCommentModal) && (
+          <Modal setOff={setIsCommentModal}>
+            {stopModalPopUp && (
+              <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
+            )}
+            <CommentModal comment={isCommentModal} />
+          </Modal>
+        )}
+
         {userInfo.normalAttendance && (
-          <Modal height="300px">
+          <Modal>
             <SendTimeModal
               setOff={setSendModalOff}
               attendanceStatus={setUserInfo}
+              checkOffWorkDate={checkOffWorkDate}
             />
           </Modal>
         )}
@@ -111,7 +136,7 @@ const ButtonAnimationSection = styled.section`
 
 const ButtonSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
-  width: 40vw;
+  width: 35vw;
   margin-top: 50px;
   font-size: 50px;
 `;
@@ -151,7 +176,14 @@ const FireGif = styled.img`
   bottom: -10px;
 `;
 
-const fetchUserData = setUserInfo => {
+const StopCommentTitle = styled.div`
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
+`;
+
+const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
   fetch(`${API_URLS.MAIN}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
@@ -160,7 +192,8 @@ const fetchUserData = setUserInfo => {
     .then(res => res.json())
     .then(({ message, result }) => {
       if (message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
-        return setUserInfo(prev => ({ ...prev, normalAttendance: true }));
+        setUserInfo(prev => ({ ...prev, normalAttendance: true }));
+        setCheckOffWorkDate('helo');
       }
       if (result) {
         const { user_name, user_status, user_start_time } = result;
@@ -174,7 +207,7 @@ const fetchUserData = setUserInfo => {
     });
 };
 
-const checkStart = () => {
+const checkStart = setIsCommentMdoal => {
   fetch(`${API_URLS.MAIN}/start`, {
     method: 'POST',
     headers: {
@@ -184,10 +217,18 @@ const checkStart = () => {
     .then(res => res.json())
     .then(({ message, result }) => {
       if (message === 'ALREADY_RECORD_ERROR') {
-        alert('이미 출근하셨습니다.');
+        setIsCommentMdoal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: '이미 출근하셨습니다.',
+        }));
       }
       if (message === 'LOCATION_ERROR') {
-        alert('위코드에 오시긴 하셨나요?');
+        setIsCommentMdoal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: '위코드에 계시나요?',
+        }));
       }
       if (result) {
         window.location.replace('/main');
@@ -195,7 +236,7 @@ const checkStart = () => {
     });
 };
 
-const checkStop = () => {
+const checkStop = (setIsCommentMdoal, setStopModalPopUp) => {
   fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
@@ -204,19 +245,41 @@ const checkStop = () => {
   })
     .then(res => res.json())
     .then(({ message, result }) => {
-      console.log('stop', result);
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
-        alert('출석부터 누르세요');
+        setIsCommentMdoal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: '출근이 아직 되지 않았습니다.',
+        }));
       }
       if (message === 'ALREADY_RECORD_ERROR') {
-        alert('이미 퇴근했습니다.');
+        setIsCommentMdoal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: '이미 퇴근하셨습니다.',
+        }));
       }
       if (message === 'LOCATION_ERROR') {
-        alert('위코드에 계시긴 하나요?');
+        setIsCommentMdoal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: '위코드에 계시나요?',
+        }));
+      }
+      if (message === 'CLOSE_TIME_ERROR') {
+        setIsCommentMdoal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: '출근하신지 1분이 지나지 않았습니다.',
+        }));
       }
       if (result) {
-        alert(result.comment);
-        window.location.replace('/main');
+        setIsCommentMdoal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: result.comment,
+        }));
+        setStopModalPopUp(true);
       }
     });
 };

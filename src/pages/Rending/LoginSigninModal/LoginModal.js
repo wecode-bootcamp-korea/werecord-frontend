@@ -7,7 +7,6 @@ const LoginModal = props => {
     <ModalContainer>
       <div>
         <MainLogo>&gt;we-record</MainLogo>
-        <LogoLine></LogoLine>
         <LoginText>하루하루가 모여 내가 됩니다.</LoginText>
         <LoginText>정신없이 지나간 소중한 오늘을</LoginText>
         <LoginText>기록하며 나를 되돌아보는</LoginText>
@@ -27,6 +26,8 @@ const ModalContainer = styled.section`
   ${({ theme }) => theme.flexbox()};
   width: 100%;
   height: 100%;
+  margin: 70px auto;
+  padding: 20px 30px;
 
   div {
     ${({ theme }) => theme.flexbox('column', 'start', 'start')};
@@ -36,21 +37,16 @@ const ModalContainer = styled.section`
 `;
 
 const MainLogo = styled.div`
+  margin-bottom: 25px;
+  border-bottom: 1px solid black;
+  line-height: 1.5;
   font-weight: 700;
   font-size: 25px;
-  margin-bottom: 5px;
 `;
 
-const LogoLine = styled.hr`
-  width: 130px;
-  margin-left: 5px;
-  margin-bottom: 5px;
-  background-color: red;
-  text-align: center;
-`;
 const LoginText = styled.p`
-  font-size: 13px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  font-size: 11px;
   font-weight: 700;
 `;
 

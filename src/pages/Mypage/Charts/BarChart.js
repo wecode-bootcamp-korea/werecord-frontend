@@ -9,7 +9,6 @@ export default function BarChart({ weeklyRecordsData }) {
     );
 
     const MaxHour = Math.max(...weeklyHourArray);
-    console.log(MaxHour);
     if (MaxHour % 2 === 0) {
       return MaxHour + 2;
     } else {
@@ -59,42 +58,46 @@ export default function BarChart({ weeklyRecordsData }) {
     },
     title: {
       display: true,
-      text: '지난 주간 기록',
+      text: '이번 주간 기록',
       fontSize: 18,
       fontColor: 'white',
     },
   };
 
+  const data = canvas => {
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 1000);
+    gradient.addColorStop(0, '#0066ff');
+    gradient.addColorStop(1, 'transparent');
+
+    return {
+      labels: ['월', '화', '수', '목', '금'],
+      datasets: [
+        {
+          label: 'Spending Time in Wecode',
+          data: [
+            secondsToHour(weeklyRecordsData, '0'),
+            secondsToHour(weeklyRecordsData, '1'),
+            secondsToHour(weeklyRecordsData, '2'),
+            secondsToHour(weeklyRecordsData, '3'),
+            secondsToHour(weeklyRecordsData, '4'),
+          ],
+          fill: false,
+          backgroundColor: gradient,
+          stepSize: 1,
+        },
+      ],
+    };
+  };
+
   return (
     <BarStyle>
-      <Bar
-        width={120}
-        height={80}
-        options={options}
-        data={{
-          labels: ['월', '화', '수', '목', '금'],
-          datasets: [
-            {
-              label: 'Spending Time in Wecode',
-              data: [
-                secondsToHour(weeklyRecordsData, '0'),
-                secondsToHour(weeklyRecordsData, '1'),
-                secondsToHour(weeklyRecordsData, '2'),
-                secondsToHour(weeklyRecordsData, '3'),
-                secondsToHour(weeklyRecordsData, '4'),
-              ],
-              fill: false,
-              backgroundColor: '#0066ff',
-              stepSize: 1,
-            },
-          ],
-        }}
-      />
+      <Bar width={120} height={70} options={options} data={data} />
     </BarStyle>
   );
 }
 
-const secondsToHour = (data, days) => Math.ceil(data[days] / 360) / 10;
+const secondsToHour = (data, days) => Math.round(data[days] / 360) / 10;
 
 const BarStyle = styled.div`
   margin-bottom: 50px;

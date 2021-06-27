@@ -21,10 +21,6 @@ export default function Navbar() {
   const handleLogout = () => {
     if (sessionStorage.getItem('wrtoken')) {
       sessionStorage.clear();
-      alert('로그아웃이 되었습니다.');
-      goToPage();
-    } else {
-      alert('이미 로그아웃 상태입니다!');
       goToPage();
     }
   };
@@ -40,20 +36,19 @@ export default function Navbar() {
   const handleModalAfterBatchMaking = () => setMakeBatchModalOn(false);
   const handleModalAfterEditMentorInfo = () => setEditMentorInfoModalOn(false);
 
-  console.log(batch);
   return (
     <>
       {location.pathname !== '/' && (
         <Container>
           <Logo>&gt; we-record</Logo>
           <div>
-            {!isCheckMentor && (
+            {!isCheckMentor && location.pathname !== '/main' && (
               <GoToMainPageBtn onClick={() => goToPage('main')}>
                 메인 페이지
               </GoToMainPageBtn>
             )}
 
-            {!isCheckMentor && (
+            {!isCheckMentor && location.pathname !== '/mypage' && (
               <GoToMyPageBtn
                 onClick={() => {
                   goToPage('mypage');
@@ -73,7 +68,7 @@ export default function Navbar() {
               </EditMentorInfo>
             )}
             {editMentorInfoModalOn && (
-              <Modal setOff={setEditMentorInfoModalOn} height="650px">
+              <Modal setOff={setEditMentorInfoModalOn}>
                 <EditMentorInfoForm
                   isModalOff={handleModalAfterEditMentorInfo}
                 />
@@ -90,7 +85,7 @@ export default function Navbar() {
               </MakeBatchBtn>
             )}
             {makeBatchModalOn && (
-              <Modal setOff={setMakeBatchModalOn} height="450px">
+              <Modal setOff={setMakeBatchModalOn}>
                 <MakeBatchForm isModalOff={handleModalAfterBatchMaking} />
               </Modal>
             )}
@@ -103,7 +98,7 @@ export default function Navbar() {
                 멘토 페이지
               </GoToMentorPageBtn>
             )}
-            {!isCheckMentor && (
+            {!isCheckMentor && !location.pathname.includes('/batch/') && (
               <GoToBatchPageBtn
                 onClick={() => {
                   goToPage(`batch/${batch}`);
@@ -155,6 +150,7 @@ const Logo = styled.div`
   position: relative;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
   font-weight: bold;
+  cursor: default;
 
   &:before {
     display: block;
