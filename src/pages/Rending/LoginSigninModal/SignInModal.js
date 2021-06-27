@@ -164,7 +164,7 @@ const SignInModal = props => {
         </SignInContent>
         <Button
           fontSize="12"
-          version="white"
+          type="white"
           disabled={!isAbleButton()}
           clickEvent={postUserData}
           useRef={submitButton}
@@ -244,9 +244,6 @@ const SignInInput = styled.input`
   width: 90%;
   font-size: 15px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
-  /* .batch{
-    input::-webkit-input-placeholder { color: #f00; } */
-  /* } */
 `;
 
 const SignInRadioInput = styled.input`

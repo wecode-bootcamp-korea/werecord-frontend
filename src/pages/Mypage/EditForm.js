@@ -39,8 +39,9 @@ export default function EditContents() {
   return (
     <>
       <Container>
+        <Title>마이 페이지 정보수정 📝</Title>
+        <MainLogo>&gt;we-record</MainLogo>
         <Content>
-          <Title>마이 페이지 정보수정 📝</Title>
           <Label>이름</Label>
           <Input
             name="name"
@@ -73,7 +74,7 @@ export default function EditContents() {
           </SelectBox>
         </Content>
         <Content>
-          <Label>blog 주소</Label>
+          <Label>Blog 주소</Label>
           <Input
             name="blog"
             value={blog || ''}
@@ -127,6 +128,11 @@ const Container = styled.form`
   position: relative;
   padding: 40px;
   color: #212121;
+`;
+
+const MainLogo = styled.div`
+  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const Label = styled.label`

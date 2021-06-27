@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Button from '../../components/Button/Button';
 import API_URLS from '../../config';
 
 export default function MakeBatchForm({ isModalOff }) {
@@ -83,54 +84,56 @@ export default function MakeBatchForm({ isModalOff }) {
 
   return (
     <article>
-      <Title>새 기수 생성 📝</Title>
-      <NewBatchInformation>
-        <Content>
-          <Label>기수</Label>
-          <Input
-            placeholder="ex) 5기 => 5, 20기 => 20"
-            maxLength="2"
-            onChange={handleInput}
-            name="batchNumber"
-          ></Input>
-        </Content>
-        <Content>
-          <Label>시작일</Label>
-          <Input
-            placeholder="ex) 2021-06-19"
-            onChange={handleInput}
-            name="startDay"
-            maxLength="10"
-          ></Input>
-        </Content>
-        <Content>
-          <Label>종료일</Label>
-          <Input
-            placeholder="ex) 2021-09-21"
-            onChange={handleInput}
-            name="endDay"
-            maxLength="10"
-          ></Input>
-        </Content>
-        <Content>
-          <Label>담당 멘토</Label>
-          <Input
-            placeholder="ex) 홍길동"
-            onChange={handleInput}
-            name="mentorName"
-          ></Input>
-        </Content>
-        <MakeBatchBtn
-          disabled={!checkBatchBtnValid()}
-          onClick={handleBatchMaking}
-          isOn={!checkBatchBtnValid()}
-        >
-          기수 생성
-        </MakeBatchBtn>
-        <CheckValid display={checkBatchBtnValid()}>
-          * 형식에 맞게 작성해주세요!
-        </CheckValid>
-      </NewBatchInformation>
+      <Title>새 기수 생성 ✏️</Title>
+      <BatchContainer>
+        <MainLogo>&gt;we-record</MainLogo>
+        <NewBatchInformation>
+          <Content>
+            <Label>기수</Label>
+            <Input
+              placeholder="ex) 20기 > 20"
+              maxLength="2"
+              onChange={handleInput}
+              name="batchNumber"
+            ></Input>
+          </Content>
+          <Content>
+            <Label>시작일 </Label>
+            <Input type="date" onChange={handleInput} name="startDay"></Input>
+          </Content>
+          <Content>
+            <Label>종료일</Label>\
+            <Input type="date" onChange={handleInput} name="endDay"></Input>
+          </Content>
+          <Content>
+            <Label>담당 멘토</Label>
+            <Input
+              placeholder="ex) 홍길동"
+              onChange={handleInput}
+              name="mentorName"
+            ></Input>
+          </Content>
+          <Button
+            fontSize="12"
+            type="white"
+            disabled={!checkBatchBtnValid()}
+            isOn={!checkBatchBtnValid()}
+            clickEvent={handleBatchMaking}
+          >
+            기수생성
+          </Button>
+          {/* <MakeBatchBtn
+            disabled={!checkBatchBtnValid()}
+            onClick={handleBatchMaking}
+            isOn={!checkBatchBtnValid()}
+          >
+            기수 생성
+          </MakeBatchBtn> */}
+          <CheckValid display={checkBatchBtnValid()}>
+            * 형식에 맞게 작성해주세요!
+          </CheckValid>
+        </NewBatchInformation>
+      </BatchContainer>
     </article>
   );
 }
@@ -140,27 +143,43 @@ const Content = styled.div`
 `;
 
 const Title = styled.h1`
-  margin: 35px 0 60px;
+  margin: 50px 0 40px 60px;
   color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
 `;
-const NewBatchInformation = styled.form``;
+
+const BatchContainer = styled.div`
+  ${({ theme }) => theme.flexbox()}
+`;
+const MainLogo = styled.div`
+  margin-right: 20px;
+  margin-bottom: 40px;
+  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
+`;
+
+const NewBatchInformation = styled.form`
+  ${({ theme }) => theme.flexbox('column', 'center', 'flex-start')}
+`;
 
 const Label = styled.label`
-  margin: 0 15px 5px;
+  margin: 0 20px 5px;
   color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.pixelToRem(18)};
+  font-size: ${({ theme }) => theme.pixelToRem(16)};
   font-weight: 700;
 `;
 
 const Input = styled.input`
+  font-size: ${({ theme }) => theme.pixelToRem(14)};
   padding-bottom: 5px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
 `;
 
 const CheckValid = styled.div`
   display: ${({ display }) => display && 'none'};
+  margin-top: 20px;
   color: ${({ theme }) => theme.colors.red};
   font-size: ${({ theme }) => theme.pixelToRem(12)};
   font-weight: 700;

@@ -77,7 +77,7 @@ export default function MentorPage({ history }) {
   };
   // 슬라이더 로직 - 끝 (리팩토링 예정)
 
-  const calculateDday = value => (value > 0 ? `+${value}` : `${value}`);
+  const calculateDday = value => (value > 0 ? `+ ${value}` : `- ${value * -1}`);
 
   const handleModalAfterBatchDelete = () => setDeleteBatchInformation(false);
   const handleModalAfterBatchEdit = () => setEditBatchInformation(false);
@@ -116,21 +116,35 @@ export default function MentorPage({ history }) {
                   }}
                 >
                   <BatchName>{batch_id}기</BatchName>
-                  <MentorName>담임: {mentor_name}</MentorName>
-                  <AfterDday>D {calculateDday(wecode_d_day)}</AfterDday>
-                  <StartDay>시작일: {batch_start_day}</StartDay>
-                  <EndDay>종료일: {batch_end_day}</EndDay>
-                  <TotalTime>
-                    누적: {convertSecondsToHours(batch_total_time)} 시간
-                  </TotalTime>
-                  <BatchOnUser>
-                    <UserStatus>현재 출석 현황: </UserStatus>
-                    <OnUser count={batch_on_user_number}>
-                      {batch_on_user_number}
-                    </OnUser>
-                    <Slash>/</Slash>
-                    <TotalUser>{batch_total_user_number}</TotalUser>
-                  </BatchOnUser>
+                  <MentorContainer>
+                    <MentorText>💁🏻‍♂️ 담임멘토</MentorText>
+                    <MentorName>{mentor_name}</MentorName>
+                  </MentorContainer>
+                  <DayContainer>
+                    <AfterDday>D {calculateDday(wecode_d_day)}</AfterDday>
+                    <StartEndContainer>
+                      <StartEnd>시작일</StartEnd>
+                      <StartDay>{batch_start_day}</StartDay>
+                    </StartEndContainer>
+                    <StartEndContainer>
+                      <StartEnd>종료일</StartEnd>
+                      <EndDay>{batch_end_day}</EndDay>
+                    </StartEndContainer>
+                    <TotalTimeContainer>
+                      <TotalTimeText>누적</TotalTimeText>
+                      <TotalTime>
+                        {convertSecondsToHours(batch_total_time)} 시간
+                      </TotalTime>
+                    </TotalTimeContainer>
+                    <BatchOnUser>
+                      <UserStatus>현재 출석 현황</UserStatus>
+                      <OnUser count={batch_on_user_number}>
+                        {batch_on_user_number}
+                      </OnUser>
+                      <Slash>/</Slash>
+                      <TotalUser>{batch_total_user_number}</TotalUser>
+                    </BatchOnUser>
+                  </DayContainer>
                 </Contents>
                 <EditAndCloseBtn>
                   <EditBtn
@@ -284,39 +298,76 @@ const BatchName = styled.dt`
   font-weight: 700;
 `;
 
+const MentorContainer = styled.div`
+  ${({ theme }) => theme.flexbox()}
+`;
+
+const MentorText = styled.dd`
+  position: relative;
+  left: 180px;
+  bottom: 70px;
+  font-size: ${({ theme }) => theme.pixelToRem(18)};
+  font-weight: 700;
+`;
 const MentorName = styled.dd`
   position: relative;
-  left: 205px;
-  bottom: 60px;
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  left: 190px;
+  bottom: 70px;
+  font-size: ${({ theme }) => theme.pixelToRem(18)};
+`;
+
+const DayContainer = styled.div`
+  margin-left: 20px;
 `;
 
 const AfterDday = styled.dd`
   margin-bottom: 30px;
-  font-size: ${({ theme }) => theme.pixelToRem(40)};
+  font-size: ${({ theme }) => theme.pixelToRem(45)};
+  font-weight: 700;
+`;
+
+const StartEndContainer = styled.div`
+  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
+  margin-bottom:10px;
+`;
+
+const StartEnd = styled.p`
+  margin-right: 10px;
+  padding: 8px;
+  background-color: ${({ theme }) => theme.colors.blue};
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
   font-weight: 700;
 `;
 
 const StartDay = styled.dd`
-  margin-bottom: 15px;
-  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  font-size: ${({ theme }) => theme.pixelToRem(17.5)};
 `;
 
-const EndDay = styled(StartDay.withComponent('dd'))`
-  margin-bottom: 50px;
+const EndDay = styled(StartDay.withComponent('dd'))``;
+
+const TotalTimeContainer = styled.div`
+  ${({ theme }) => theme.flexbox('row', 'flex-start', 'flex-end')}
+  margin: 40px 0 20px 0;
+`;
+
+const TotalTimeText = styled.p`
+  font-size: ${({ theme }) => theme.pixelToRem(16)};
+  font-weight: 700;
+  margin-right: 10px;
 `;
 
 const TotalTime = styled.dd`
-  margin-bottom: 30px;
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  font-size: ${({ theme }) => theme.pixelToRem(16)};
+  font-weight: 700;
 `;
 
 const BatchOnUser = styled.dd`
   ${({ theme }) => theme.flexbox()}
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
 `;
 
 const UserStatus = styled.div`
+  font-weight: 700;
   margin-right: 15px;
 `;
 

@@ -118,9 +118,10 @@ const Container = styled.button`
         }
       }};
 
-  &:active {
-    opacity: 0.5;
-  }
+    &:active {
+      opacity: 0.5;
+    }
 
-  transition: background-color 0.3s, opacity 0.1s;
+    transition: background-color 0.3s, opacity 0.1s;
+  }
 `;

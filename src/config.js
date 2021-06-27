@@ -1,4 +1,4 @@
-const BASE_URL = 'http://15.164.163.99:8000';
+const BASE_URL = 'http://3.35.175.170:8000';
 const API_URLS = {
   SIGNIN: `${BASE_URL}/users/info`,
   LOGIN: `${BASE_URL}/users/login`,
