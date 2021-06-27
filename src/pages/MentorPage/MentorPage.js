@@ -20,13 +20,13 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
-    // fetch(`${API_URLS.MENTOR_PAGE}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     Authorization: sessionStorage.getItem('wrtoken'),
-    //   },
-    // })
-    fetch('data/MentorPageData.json')
+    fetch(`${API_URLS.MENTOR_PAGE}`, {
+      method: 'GET',
+      headers: {
+        Authorization: sessionStorage.getItem('wrtoken'),
+      },
+    })
+      // fetch('data/MentorPageData.json')
       .then(res => res.json())
       .then(res => {
         if (res.message === 'LOGIN_REQUIRED') {
