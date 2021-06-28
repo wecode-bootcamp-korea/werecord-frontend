@@ -108,7 +108,7 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
               placeholder="ex) 2021-06-19"
               onChange={handleInput}
               name="startDay"
-              maxLength="10"
+              max="2100-01-01"
               value={editBatchInformation.startDay}
             ></Input>
           </Content>
@@ -119,7 +119,7 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
               placeholder="ex) 2021-09-21"
               onChange={handleInput}
               name="endDay"
-              maxLength="10"
+              max="2100-01-01"
               value={editBatchInformation.endDay}
             ></Input>
           </Content>

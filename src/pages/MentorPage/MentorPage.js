@@ -368,11 +368,19 @@ const BatchName = styled.dt`
   ${({ theme }) => theme.tablet`
   left: 5px;
   bottom: -20px;
+  margin-bottom: 20px;
+
   `}
 `;
 
 const MentorContainer = styled.div`
   ${({ theme }) => theme.flexbox()}
+
+  ${({ theme }) => theme.tablet`
+    position: absolute;
+    bottom: -50px;
+    left: -55%;
+  `}
 `;
 
 const MentorText = styled.dd`
@@ -381,6 +389,9 @@ const MentorText = styled.dd`
   bottom: 70px;
   font-size: ${({ theme }) => theme.pixelToRem(18)};
   font-weight: 700;
+
+  ${({ theme }) => theme.tablet`
+  `}
 `;
 
 const MentorName = styled.dd`
@@ -390,9 +401,7 @@ const MentorName = styled.dd`
   font-size: ${({ theme }) => theme.pixelToRem(18)};
 
   ${({ theme }) => theme.tablet`
-  display: none;
-  left 0;
-  bottom: 20px;
+  position: relative;
   font-size: ${({ theme }) => theme.pixelToRem(15)};
   `}
 `;
@@ -401,11 +410,24 @@ const AfterDday = styled.dd`
   margin-bottom: 30px;
   font-size: ${({ theme }) => theme.pixelToRem(45)};
   font-weight: 700;
+
+  ${({ theme }) => theme.tablet`
+  margin-bottom: 15px;
+  font-size: ${({ theme }) => theme.pixelToRem(30)};
+  text-align: center;
+
+  `}
 `;
 
 const StartEndContainer = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-  margin-bottom:10px;
+  position: relative;
+  right: 10px;
+  margin-bottom: 10px;
+
+  ${({ theme }) => theme.tablet`
+  display: none;
+  `}
 `;
 
 const StartEnd = styled.p`
@@ -431,6 +453,10 @@ const TotalTimeText = styled.p`
   font-size: ${({ theme }) => theme.pixelToRem(16)};
   font-weight: 700;
   margin-right: 10px;
+
+  ${({ theme }) => theme.tablet`
+    display: none;
+  `}
 `;
 
 const TotalTime = styled.dd`
@@ -447,7 +473,7 @@ const BatchOnUser = styled.dd`
   font-size: ${({ theme }) => theme.pixelToRem(20)};
 
   ${({ theme }) => theme.tablet`
-    margin: 0 0 20px 10px;
+    margin: 0 0 20px 0px;
     position: relative;
     bottom: 20px;
   `}
