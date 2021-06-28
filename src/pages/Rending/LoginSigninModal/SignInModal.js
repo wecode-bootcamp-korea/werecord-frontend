@@ -75,7 +75,6 @@ const SignInModal = props => {
         }
       });
   };
-
   return (
     <ModalContainer>
       <MainLogo>&gt;we-record</MainLogo>
