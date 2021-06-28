@@ -43,7 +43,8 @@ const ModalContainer = styled.section`
 `;
 
 const MainLogo = styled.div`
-  margin-bottom: 25px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
   border-bottom: 1px solid black;
   line-height: 1.5;
   font-weight: 700;
@@ -51,7 +52,7 @@ const MainLogo = styled.div`
 `;
 
 const LoginText = styled.p`
-  margin-bottom: 3px;
+  margin-bottom: 5px;
   font-size: 11px;
   font-weight: 700;
 `;

@@ -110,20 +110,23 @@ const SignInModal = props => {
               placeholder="이름을 입력해주세요."
             />
           </SignInForm>
-          <SignInForm>
-            <SignInTitle check={userInfo.user_type === '멘토'}>
-              기수 *
-            </SignInTitle>
-            <SignInInput
-              className="batch"
-              check={userInfo.user_type === '멘토'}
-              disabled={isAbleInput()}
-              onChange={getInputValue}
-              name="batch"
-              type="number"
-              placeholder="숫자로만 입력해주세요. ex)21"
-            />
-          </SignInForm>
+          {userInfo.user_type === '수강생' && (
+            <SignInForm>
+              <SignInTitle check={userInfo.user_type === '멘토'}>
+                기수 *
+              </SignInTitle>
+              <SignInInput
+                className="batch"
+                check={userInfo.user_type === '멘토'}
+                disabled={isAbleInput()}
+                onChange={getInputValue}
+                name="batch"
+                type="number"
+                placeholder="숫자로만 입력해주세요. ex)21"
+              />
+            </SignInForm>
+          )}
+
           <SignInForm>
             <SignInTitle>포지션 *</SignInTitle>
             <PositionSelect name="position" onChange={getInputValue}>
@@ -161,7 +164,7 @@ const SignInModal = props => {
         </SignInContent>
         <Button
           fontSize="12"
-          version="white"
+          type="white"
           disabled={!isAbleButton()}
           clickEvent={postUserData}
           useRef={submitButton}
@@ -178,7 +181,7 @@ const ModalContainer = styled.section`
   ${({ theme }) => theme.flexbox()};
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 60px 50px;
 `;
 
 const MainLogo = styled.div`
@@ -263,9 +266,6 @@ const SignInInput = styled.input`
   width: 90%;
   font-size: 15px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
-  /* .batch{
-    input::-webkit-input-placeholder { color: #f00; } */
-  /* } */
 
   ${({ theme }) => theme.tablet`
     font-size: 12px;

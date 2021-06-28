@@ -16,9 +16,9 @@ export default function PeersBox({ myBatchInfo }) {
       <Container>
         <ScrollBoxTop>
           <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
-          <div onClick={() => setIsMentorModalOn(!isMentorModalOn)}>
-            담임멘토
-          </div>
+          <ScrollBoxMentor onClick={() => setIsMentorModalOn(!isMentorModalOn)}>
+            💁🏻‍♂️담임멘토
+          </ScrollBoxMentor>
         </ScrollBoxTop>
         <StyledSlider {...settings}>
           {myBatchInfo.peers.map(peers => (
@@ -75,8 +75,15 @@ const ScrollBoxTitle = Styled.h1`
 
 `;
 
+const ScrollBoxMentor = Styled.div`
+  color: ${({ theme }) => theme.colors.black};
+font-size:15px;
+cursor:pointer;`;
+
 const StyledSlider = Styled(Slider)`
   margin-top: 30px;
+  color: ${({ theme }) => theme.colors.black};
+
 `;
 
 const settings = {

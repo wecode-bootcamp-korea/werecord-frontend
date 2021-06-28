@@ -28,4 +28,18 @@ const ModalContainer = styled.section`
   }
 `;
 
-const ContentSection = styled.div``;
+const ContentSection = styled.div`
+  ${({ theme }) => theme.flexbox('column', 'start', 'stretch')};
+  margin-left: 50px;
+
+  p {
+    margin-right: 40px;
+    font-size: 16px;
+    font-weight: 700;
+
+    ${({ theme }) => theme.tablet`
+      font-size: 13px;
+      font-weight: 400;
+    `}
+  }
+`;

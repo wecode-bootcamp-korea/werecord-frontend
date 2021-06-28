@@ -205,7 +205,7 @@ const MybatchNumber = Styled.div`
 const MyBatchTime = Styled.div`
   position: relative;
   margin-top: 20px;
-  font-size: 60px;
+  font-size: 50px;
 
   ${({ theme }) => theme.tablet`
     margin-top: 10px;
@@ -264,7 +264,8 @@ const BestPersons = Styled.div`
 const PrizeGuide = Styled.div`
   ${({ theme }) => theme.flexbox('column', 'center', 'center')};
   line-height: 15;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 700;
 
   ${({ theme }) => theme.tablet`
     font-size: 10px;

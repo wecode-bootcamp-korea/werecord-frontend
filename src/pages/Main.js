@@ -246,7 +246,7 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
     });
 };
 
-const checkStart = setIsCommentModoal => {
+const checkStart = setIsCommentModal => {
   fetch(`${API_URLS.MAIN}/start`, {
     method: 'POST',
     headers: {
@@ -256,14 +256,14 @@ const checkStart = setIsCommentModoal => {
     .then(res => res.json())
     .then(({ message, result }) => {
       if (message === 'ALREADY_RECORD_ERROR') {
-        setIsCommentModoal(prev => ({
+        setIsCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '이미 출근하셨습니다.',
         }));
       }
       if (message === 'LOCATION_ERROR') {
-        setIsCommentModoal(prev => ({
+        setIsCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '위코드에 계시나요?',
@@ -275,7 +275,7 @@ const checkStart = setIsCommentModoal => {
     });
 };
 
-const checkStop = (setIsCommentModoal, setStopModalPopUp) => {
+const checkStop = (setIsCommentModal, setStopModalPopUp) => {
   fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
@@ -285,35 +285,35 @@ const checkStop = (setIsCommentModoal, setStopModalPopUp) => {
     .then(res => res.json())
     .then(({ message, result }) => {
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
-        setIsCommentModoal(prev => ({
+        setIsCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '출근이 아직 되지 않았습니다.',
         }));
       }
       if (message === 'ALREADY_RECORD_ERROR') {
-        setIsCommentModoal(prev => ({
+        setIsCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '이미 퇴근하셨습니다.',
         }));
       }
       if (message === 'LOCATION_ERROR') {
-        setIsCommentModoal(prev => ({
+        setIsCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '위코드에 계시나요?',
         }));
       }
       if (message === 'CLOSE_TIME_ERROR') {
-        setIsCommentModoal(prev => ({
+        setIsCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '출근하신지 1분이 지나지 않았습니다.',
         }));
       }
       if (result) {
-        setIsCommentModoal(prev => ({
+        setIsCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: result.comment,

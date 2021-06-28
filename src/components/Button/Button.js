@@ -22,6 +22,7 @@ export default function Button({
 
 const Container = styled.button`
   padding: 10px 20px;
+  width: 100%;
   color: ${({ theme, type, disabled }) => {
     if (type === 'white') {
       if (disabled) {
@@ -118,9 +119,10 @@ const Container = styled.button`
         }
       }};
 
-  &:active {
-    opacity: 0.5;
-  }
+    &:active {
+      opacity: 0.5;
+    }
 
-  transition: background-color 0.3s, opacity 0.1s;
+    transition: background-color 0.3s, opacity 0.1s;
+  }
 `;
