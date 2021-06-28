@@ -58,7 +58,7 @@ export default function BarChart({ weeklyRecordsData }) {
     },
     title: {
       display: true,
-      text: '이번 주간 기록',
+      text: '주간 기록',
       fontSize: 18,
       fontColor: 'white',
     },

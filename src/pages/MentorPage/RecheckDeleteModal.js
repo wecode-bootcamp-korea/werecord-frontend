@@ -6,10 +6,8 @@ export default function RecheckDeleteModal({ deleteAccount }) {
     <ModalContainer>
       <MainLogo>&gt;we-record</MainLogo>
       <RecheckDeleteSection>
-        <RecheckDeleteHeader>회원탈퇴</RecheckDeleteHeader>
-        <RecheckDeleteBtn onClick={deleteAccount}>
-          정말 탈퇴하시겠어요?
-        </RecheckDeleteBtn>
+        <RecheckDeleteHeader>정말 탈퇴하시겠어요?🥺</RecheckDeleteHeader>
+        <RecheckDeleteBtn onClick={deleteAccount}>탈퇴하기</RecheckDeleteBtn>
       </RecheckDeleteSection>
     </ModalContainer>
   );
@@ -35,18 +33,24 @@ const RecheckDeleteSection = Styled.div`
 
 const RecheckDeleteHeader = Styled.h1`
   color: ${({ theme }) => theme.colors.black};
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 70px;
+  margin-bottom: 20px;
 `;
 
 const RecheckDeleteBtn = Styled.button`
   padding: 5px 20px;
-  color: ${({ theme }) => theme.colors.red};
+  font-size: 14px;
+  border: 1px solid ${({ theme }) => theme.colors.black};
+  border-radius: 3px;
+  color: ${({ theme }) => theme.colors.black};
   transition: all 0.3s ease;
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.1);
+  background-color: ${({ theme }) => theme.colors.red};
+  border: 1px solid ${({ theme }) => theme.colors.red};
+  color: ${({ theme }) => theme.colors.white};
+    
   }
 `;
