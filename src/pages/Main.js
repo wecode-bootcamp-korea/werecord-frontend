@@ -48,9 +48,9 @@ export default function Main() {
           <TimeDescription>{showNowTime(time)}</TimeDescription>
         </TimeSection>
         <StartSection>
-          <StudentName>{userInfo.name}</StudentName>
+          <StudentName>{`${userInfo.name}님`}</StudentName>
           {!userInfo.isOn ? (
-            <StartTime>님 오늘도 상쾌하게 시작해볼까요?</StartTime>
+            <StartTime>오늘도 상쾌하게 시작해볼까요?</StartTime>
           ) : (
             <StartTime>{showStartTime(userInfo)}</StartTime>
           )}
@@ -98,10 +98,18 @@ const Container = styled.section`
   margin: 0 auto;
   padding: 0 142px;
   background-color: ${({ theme }) => theme.colors.backgroundColor};
+
+  ${({ theme }) => theme.tablet`
+    padding: 0;
+  `}
 `;
 
 const TimeSection = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
+
+  ${({ theme }) => theme.tablet`
+    display: none;
+  `}
 `;
 
 const TimeDescription = styled.h1`
@@ -116,6 +124,12 @@ const StartSection = styled.section`
   margin-top: 30px;
   font-size: ${({ theme }) => theme.pixelToRem(35)};
   font-weight: 500;
+
+  ${({ theme }) => theme.tablet`
+    margin: 0 auto;
+    margin-bottom: 100px;
+    font-size: 20px;
+  `}
 `;
 
 const StudentName = styled.h2`
@@ -123,6 +137,10 @@ const StudentName = styled.h2`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColor};
   background-color: ${({ theme }) => theme.colors.blue};
+
+  ${({ theme }) => theme.tablet`
+    display: none;
+  `}
 `;
 
 const StartTime = styled.h2`
@@ -132,20 +150,29 @@ const StartTime = styled.h2`
 const ButtonAnimationSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   margin-top: 100px;
+
+  ${({ theme }) => theme.tablet`
+    ${theme.flexbox('column', 'center', 'center')};
+  `}
 `;
 
 const ButtonSection = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
-  width: 35vw;
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
+  width: 550px;
   margin-top: 50px;
   font-size: 50px;
+
+  ${({ theme }) => theme.tablet`
+    order: 2;
+    width: 80vw;
+    margin-top: 120px;
+    font-size: 25px;
+  `}
 `;
 
 const Button = styled.button`
-  margin-right: 20px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColor};
-  font-weight: 700;
   transition: all 0.3s ease;
   cursor: pointer;
 
@@ -163,17 +190,29 @@ const FireAnimationSection = styled.div`
   ${({ theme }) => theme.flexbox()};
   position: relative;
   margin-right: 150px;
+
+  ${({ theme }) => theme.tablet`
+    margin-right: 0;
+  `}
 `;
 
 const FirewoodImg = styled.img`
   position: absolute;
   width: 200px;
+
+  ${({ theme }) => theme.tablet`
+    width: 130px;
+  `}
 `;
 
 const FireGif = styled.img`
   position: absolute;
   width: 700px;
   bottom: -10px;
+
+  ${({ theme }) => theme.tablet`
+    width: 320px;
+  `}
 `;
 
 const StopCommentTitle = styled.div`
@@ -311,7 +350,7 @@ const showNowTime = time => {
 };
 
 const showStartTime = userInfo => {
-  return `님은 ${getTime(userInfo.startTime.split(':')[0])}시 ${
+  return `${getTime(userInfo.startTime.split(':')[0])}시 ${
     userInfo.startTime.split(':')[1]
   }분에 시작하셨습니다.`;
 };

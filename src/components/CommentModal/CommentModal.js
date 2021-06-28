@@ -25,7 +25,6 @@ const ModalContainer = styled.section`
   div {
     ${({ theme }) => theme.flexbox('column', 'start', 'start')};
     color: ${({ theme }) => theme.colors.black};
-    margin-right: 10px;
   }
 `;
 
@@ -37,5 +36,10 @@ const ContentSection = styled.div`
     margin-right: 40px;
     font-size: 16px;
     font-weight: 700;
+
+    ${({ theme }) => theme.tablet`
+      font-size: 13px;
+      font-weight: 400;
+    `}
   }
 `;

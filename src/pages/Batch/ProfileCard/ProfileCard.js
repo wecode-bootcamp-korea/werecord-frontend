@@ -21,6 +21,10 @@ const Container = Styled.li`
   margin: 0 20px;
   cursor: pointer;
 
+  ${({ theme }) => theme.tablet`
+    margin: 0 15px;
+  `}
+
   &:hover {
     opacity: 0.6;
   }
@@ -29,6 +33,12 @@ const Container = Styled.li`
     border-radius: 12px;
     width: 100px;
     height: 100px;
+
+    ${({ theme }) => theme.tablet`
+      margin-top: 30px;
+      width: 60px;
+      height: 60px;
+    `}
   }
 
   .profileName {
@@ -36,17 +46,26 @@ const Container = Styled.li`
     position: relative;
     font-size: ${({ theme }) => theme.pixelToRem(15)};
 
+    ${({ theme }) => theme.tablet`
+      font-size: 12px;
+      color: ${({ theme }) => theme.colors.white};
+    `}
+
     &:after {
       content: '';
       position: absolute;
       top: 2px;
-      
+      margin-left: 5px;
       width: 12px;
       height: 12px;
       border-radius: 50%;
       background-color: ${({ isOn, theme }) =>
         isOn ? theme.colors.blue : theme.colors.red};
-      z-index: 1;
+
+      ${({ theme }) => theme.tablet`
+        width: 7px;
+        height: 7px;
+      `}
     }
   }
 `;

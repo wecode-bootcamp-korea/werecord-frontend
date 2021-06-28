@@ -28,8 +28,8 @@ const Rending = () => {
       )}
       <MainLogo alt="logo" src="/images/logo.png"></MainLogo>
       <FadeIn delay={600} transitionDuration={1000}>
-        <SubLogo alt="sublogo" src="/images/우리는.png" />
-        <SubLogo alt="sublogo" src="/images/기록합니다.png" />
+        <SubLogo alt="sublogo" src="/images/우리는.png" location="top" />
+        <SubLogo alt="sublogo" src="/images/기록합니다.png" location="bottom" />
       </FadeIn>
       <LoginImg
         onClick={() => setIsLogInModalOn(!isLogInModalOn)}
@@ -57,9 +57,22 @@ const MainLogo = styled.img`
   padding-right: 50px;
   right: 10px;
   width: 330px;
+
+  ${({ theme }) => theme.tablet`
+    width: 150px;
+    padding-right: 0;
+  `}
 `;
 
-const SubLogo = styled.img``;
+const SubLogo = styled.img`
+  ${({ theme, location }) =>
+    location === 'top'
+      ? theme.tablet`
+    width: 100px;
+  `
+      : theme.tablet`
+  width: 135px;`}
+`;
 
 const LoginImg = styled.img`
   position: absolute;
@@ -67,4 +80,8 @@ const LoginImg = styled.img`
   top: 10px;
   right: 30px;
   cursor: pointer;
+
+  ${({ theme }) => theme.tablet`
+    width: 50px;
+  `}
 `;

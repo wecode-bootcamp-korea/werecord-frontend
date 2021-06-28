@@ -87,7 +87,7 @@ export default function Mypage() {
               <TotalWecode>함께 하셨습니다.</TotalWecode>
             </UserSpendingTime>
             <TimeContents>
-              <ul>
+              <div>
                 <AverageTimeContent>
                   <Label>⏳ 내 평균 시작 시간</Label>
                   <Time>{getAverageTime('start')}</Time>
@@ -96,7 +96,7 @@ export default function Mypage() {
                   <Label>⌛ 내 평균 종료 시간</Label>
                   <Time>{getAverageTime('end')}</Time>
                 </AverageTimeContent>
-              </ul>
+              </div>
               <AfterDday>
                 <Label>&gt; wecode</Label>
                 <Date>D+{getInformation('record', 'wecode_d_day')}</Date>
@@ -127,18 +127,29 @@ export default function Mypage() {
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
   margin: 120px auto 0;
-  padding: 80px 150px 0;
+  padding: 40px 150px 0;
   max-width: 1440px;
   transform: scale(1.05);
 
   article:first-child {
     height: 100%;
   }
+
+  ${({ theme }) => theme.tablet` 
+  ${({ theme }) => theme.flexbox('column')}
+  padding: 0;
+  `}
 `;
 
 const UserProfile = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
   margin-bottom: 35px;
+
+  ${({ theme }) => theme.tablet` 
+  ${({ theme }) => theme.flexbox('row', 'center')}
+  margin-top: 30px;
+  
+  `}
 `;
 
 const Img = styled.img`
@@ -179,10 +190,11 @@ const UserSpendingTime = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(50)};
   font-weight: 700;
   line-height: ${({ theme }) => theme.pixelToRem(70)};
-`;
 
-const UserName = styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(70)};
+  ${({ theme }) => theme.tablet` 
+    display: none;  
+
+  `}
 `;
 
 const TotalspendingHour = styled.div`
@@ -215,11 +227,23 @@ const Hour = styled.div`
   animation-delay: 0.3s;
   animation-fill-mode: backwards;
   animation-duration: 1s;
+
+  ${({ theme }) => theme.tablet` 
+  padding: 0px 5px;
+
+  `}
 `;
 
 const SecondContents = styled.article`
   width: 500px;
   height: 100%;
+
+  ${({ theme }) => theme.tablet` 
+    position: relative;
+    transform: scale(0.6);
+    height: 300px;
+
+  `}
 `;
 
 const TimeGraphContents = styled.div`
@@ -228,14 +252,20 @@ const TimeGraphContents = styled.div`
   }
 `;
 
-const AverageTimeContent = styled.li`
+const AverageTimeContent = styled.div`
   margin-bottom: 40px;
   margin-right: 100px;
-  font-size: ${({ theme }) => theme.pixelToRem(30)};
+
+  ${({ theme }) => theme.tablet` 
+    margin-right: 0;
+  `}
 `;
 
 const TimeContents = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')}
+  ${({ theme }) => theme.tablet` 
+  ${({ theme }) => theme.flexbox()}
+  `}
 `;
 
 const Label = styled.div`
@@ -243,6 +273,10 @@ const Label = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(23)};
   text-align: center;
   font-weight: 700;
+
+  ${({ theme }) => theme.tablet`
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  `}
 `;
 
 const Time = styled(Label.withComponent('div'))`
@@ -256,6 +290,8 @@ const Date = styled.div`
 `;
 
 const AfterDday = styled.div`
-  margin-left: 50px;
-  ${({ theme }) => theme.flexbox('column', 'flex-start', 'flex-start')}
+  ${({ theme }) => theme.flexbox('column')}
+  ${({ theme }) => theme.tablet` 
+  display: none;
+  `}
 `;

@@ -37,6 +37,10 @@ const Container = Styled.main`
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 142px;
+
+  ${({ theme }) => theme.tablet`
+    padding: 0;
+  `}
 `;
 
 const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
@@ -51,7 +55,6 @@ const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
         setBatchInfo(result);
       });
   }
-
   if (matchBatchNum) {
     fetch(`${API_URLS.BATCH}/${matchBatchNum}`, {
       headers: {
