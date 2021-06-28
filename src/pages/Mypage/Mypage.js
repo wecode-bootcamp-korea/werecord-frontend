@@ -125,7 +125,7 @@ export default function Mypage() {
 }
 
 const ContentsContainer = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'space-between')}
+  ${({ theme }) => theme.flexbox('row', 'space-between')};
   margin: 80px auto 0;
   padding: 50px 65px 0;
   max-width: 1440px;

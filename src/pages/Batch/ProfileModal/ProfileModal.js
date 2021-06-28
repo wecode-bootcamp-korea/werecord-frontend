@@ -15,7 +15,7 @@ export default function ProfileModal({ peersInfo }) {
     <Container>
       <ModalTitle>Profile </ModalTitle>
       <UserCard>
-        <img alt="user1" src={peer_profile_image_url || DEFAULT_IMG} />
+        <img alt="user1" src={peer_profile_image_url} />
         <div className="userInfo">
           <UserPosition>
             <UserName>{peer_name}님</UserName>
@@ -155,5 +155,3 @@ i{
   }
 }
 `;
-
-const DEFAULT_IMG = '/images/Profile/test1.jpeg';

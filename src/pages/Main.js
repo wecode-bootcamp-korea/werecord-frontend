@@ -158,7 +158,7 @@ const ButtonAnimationSection = styled.section`
 
 const ButtonSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
-  width: 35vw;
+  width: 550px;
   margin-top: 50px;
   font-size: 50px;
 
@@ -246,7 +246,7 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
     });
 };
 
-const checkStart = setIsCommentMdoal => {
+const checkStart = setIsCommentModoal => {
   fetch(`${API_URLS.MAIN}/start`, {
     method: 'POST',
     headers: {
@@ -256,14 +256,14 @@ const checkStart = setIsCommentMdoal => {
     .then(res => res.json())
     .then(({ message, result }) => {
       if (message === 'ALREADY_RECORD_ERROR') {
-        setIsCommentMdoal(prev => ({
+        setIsCommentModoal(prev => ({
           ...prev,
           isOn: true,
           comment: '이미 출근하셨습니다.',
         }));
       }
       if (message === 'LOCATION_ERROR') {
-        setIsCommentMdoal(prev => ({
+        setIsCommentModoal(prev => ({
           ...prev,
           isOn: true,
           comment: '위코드에 계시나요?',
@@ -275,7 +275,7 @@ const checkStart = setIsCommentMdoal => {
     });
 };
 
-const checkStop = (setIsCommentMdoal, setStopModalPopUp) => {
+const checkStop = (setIsCommentModoal, setStopModalPopUp) => {
   fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
@@ -285,35 +285,35 @@ const checkStop = (setIsCommentMdoal, setStopModalPopUp) => {
     .then(res => res.json())
     .then(({ message, result }) => {
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
-        setIsCommentMdoal(prev => ({
+        setIsCommentModoal(prev => ({
           ...prev,
           isOn: true,
           comment: '출근이 아직 되지 않았습니다.',
         }));
       }
       if (message === 'ALREADY_RECORD_ERROR') {
-        setIsCommentMdoal(prev => ({
+        setIsCommentModoal(prev => ({
           ...prev,
           isOn: true,
           comment: '이미 퇴근하셨습니다.',
         }));
       }
       if (message === 'LOCATION_ERROR') {
-        setIsCommentMdoal(prev => ({
+        setIsCommentModoal(prev => ({
           ...prev,
           isOn: true,
           comment: '위코드에 계시나요?',
         }));
       }
       if (message === 'CLOSE_TIME_ERROR') {
-        setIsCommentMdoal(prev => ({
+        setIsCommentModoal(prev => ({
           ...prev,
           isOn: true,
           comment: '출근하신지 1분이 지나지 않았습니다.',
         }));
       }
       if (result) {
-        setIsCommentMdoal(prev => ({
+        setIsCommentModoal(prev => ({
           ...prev,
           isOn: true,
           comment: result.comment,
