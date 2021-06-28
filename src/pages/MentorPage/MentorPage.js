@@ -26,7 +26,6 @@ export default function MentorPage({ history }) {
         Authorization: sessionStorage.getItem('wrtoken'),
       },
     })
-      // fetch('data/MentorPageData.json')
       .then(res => res.json())
       .then(res => {
         if (res.message === 'LOGIN_REQUIRED') {
@@ -351,6 +350,10 @@ const Contents = styled.dl`
   &:active {
     opacity: 0.7;
   }
+`;
+
+const DayContainer = styled.div`
+  margin-left: 20px;
 `;
 
 const BatchName = styled.dt`
