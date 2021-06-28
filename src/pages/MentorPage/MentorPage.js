@@ -382,11 +382,12 @@ const MentorText = styled.dd`
   font-size: ${({ theme }) => theme.pixelToRem(18)};
   font-weight: 700;
 `;
+
 const MentorName = styled.dd`
   position: relative;
-  left: 205px;
-  bottom: 60px;
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  left: 190px;
+  bottom: 70px;
+  font-size: ${({ theme }) => theme.pixelToRem(18)};
 
   ${({ theme }) => theme.tablet`
   display: none;
@@ -433,8 +434,8 @@ const TotalTimeText = styled.p`
 `;
 
 const TotalTime = styled.dd`
-  margin-bottom: 30px;
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  font-size: ${({ theme }) => theme.pixelToRem(16)};
+  font-weight: 700;
 
   ${({ theme }) => theme.tablet`
     display: none;
@@ -443,7 +444,7 @@ const TotalTime = styled.dd`
 
 const BatchOnUser = styled.dd`
   ${({ theme }) => theme.flexbox()}
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
 
   ${({ theme }) => theme.tablet`
     margin: 0 0 20px 10px;

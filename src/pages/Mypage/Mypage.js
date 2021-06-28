@@ -290,7 +290,7 @@ const Date = styled.div`
 `;
 
 const AfterDday = styled.div`
-  ${({ theme }) => theme.flexbox('column')}
+  ${({ theme }) => theme.flexbox('column', 'start', 'start')}
   ${({ theme }) => theme.tablet` 
   display: none;
   `}
