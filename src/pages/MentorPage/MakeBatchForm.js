@@ -61,7 +61,7 @@ export default function MakeBatchForm({ isModalOff }) {
       })
         .then(res => res.json())
         .then(batchMakingStatus => {
-          if (batchMakingStatus.message === 'ALREADY_EXIT_ERROR') {
+          if (batchMakingStatus.message === 'ALREADY_EXIST_ERROR') {
             alert('이미 존재하는 기수입니다!');
           } else if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
             alert('시작일과 종료일을 확인해주시기 바랍니다!');
@@ -99,11 +99,21 @@ export default function MakeBatchForm({ isModalOff }) {
           </Content>
           <Content>
             <Label>시작일</Label>
-            <Input type="date" onChange={handleInput} name="startDay"></Input>
+            <Input
+              type="date"
+              onChange={handleInput}
+              name="startDay"
+              max="2100-01-01"
+            ></Input>
           </Content>
           <Content>
             <Label>종료일</Label>
-            <Input type="date" onChange={handleInput} name="endDay"></Input>
+            <Input
+              type="date"
+              onChange={handleInput}
+              name="endDay"
+              max="2100-01-01"
+            ></Input>
           </Content>
           <Content>
             <Label>담당 멘토</Label>

@@ -215,7 +215,7 @@ const BtnContainer = styled.div`
   ${({ theme }) => theme.tablet`
    display: none;
    transform: scale(0.8);
-   background-color: gray;
+   background-color: ${({ theme }) => theme.colors.white};
    border-radius: 5px;
    padding: 20px;
 
@@ -228,7 +228,7 @@ const BtnContainer = styled.div`
     top: -6px;
     left: 122px;
     content: '';
-    background-color: gray;
+    background-color: ${({ theme }) => theme.colors.white};
     transform: rotate(45deg);
   }
    
@@ -242,7 +242,7 @@ const GoToMyPageBtn = styled.button`
   margin-right: 24px;
   padding: 10px 20px;
   color: ${({ theme }) => theme.colors.white};
-  background: ${({ theme }) => theme.colors.black};
+  background: ${({ theme }) => theme.colors.backgroundColor};
   font-size: ${({ theme }) => theme.pixelToRem(14)};
   font-weight: bold;
   border: 1px solid ${({ theme }) => theme.colors.white};
@@ -251,6 +251,7 @@ const GoToMyPageBtn = styled.button`
 
   &:hover {
     color: ${({ theme }) => theme.colors.black};
+    border: 1px solid ${({ theme }) => theme.colors.black};
     background-color: ${({ theme }) => theme.colors.white};
   }
 
@@ -265,6 +266,20 @@ const GoToMyPageBtn = styled.button`
     margin-right: 0;
     font-size: ${({ theme }) => theme.pixelToRem(17)};
 
+    color: ${({ theme }) => theme.colors.black};
+    background: ${({ theme }) => theme.colors.white};
+    border: 1px solid ${({ theme }) => theme.colors.black};
+
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.white};
+      border: 1px solid ${({ theme }) => theme.colors.white};
+      background-color: ${({ theme }) => theme.colors.backgroundColor};
+  }
+
+    &:active {
+      opacity: 0.8;
+  }
   `}
 `;
 
