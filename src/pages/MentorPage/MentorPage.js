@@ -47,33 +47,63 @@ export default function MentorPage({ history }) {
 
   // 슬라이더 로직 - 시작
   const goToPrevious = () => {
-    const batchLength = Math.ceil(batchInformation.length / 3);
-    if (count.current === 0) {
-      count.current = batchLength;
+    if (window.outerWidth > 765) {
+      const batchLength = Math.ceil(batchInformation.length / 3);
+      if (count.current === 0) {
+        count.current = batchLength;
+      }
+      count.current--;
+      sliderList.current.style.transform = `translate(-${
+        1380 * count.current
+      }px, 0)`;
+    } else {
+      const batchLength = batchInformation.length;
+      if (count.current === 0) {
+        count.current = batchLength;
+      }
+      count.current--;
+      sliderList.current.style.transform = `translate(-${
+        310 * count.current
+      }px, 0)`;
     }
-    count.current--;
-    sliderList.current.style.transform = `translate(-${
-      1380 * count.current
-    }px, 0)`;
   };
 
   const goToNext = () => {
-    const batchLength = Math.ceil(batchInformation.length / 3);
-    const batchEvenLength = batchLength % 2 === 0;
+    if (window.outerWidth > 765) {
+      const batchLength = Math.ceil(batchInformation.length / 3);
+      const batchEvenLength = batchLength % 2 === 0;
 
-    if (batchEvenLength) {
-      const batchOddLength = batchLength - 1;
-      if (count.current === batchOddLength) {
-        count.current = -1;
+      if (batchEvenLength) {
+        const batchOddLength = batchLength - 1;
+        if (count.current === batchOddLength) {
+          count.current = -1;
+        }
+      } else if (!batchEvenLength) {
+        if (count.current === batchLength - 1) count.current = -1;
       }
-    } else if (!batchEvenLength) {
-      if (count.current === batchLength - 1) count.current = -1;
-    }
 
-    count.current++;
-    sliderList.current.style.transform = `translate(-${
-      1380 * count.current
-    }px, 0)`;
+      count.current++;
+      sliderList.current.style.transform = `translate(-${
+        1380 * count.current
+      }px, 0)`;
+    } else {
+      const batchLength = batchInformation.length;
+      const batchEvenLength = batchLength % 2 === 0;
+
+      if (batchEvenLength) {
+        const batchOddLength = batchLength - 1;
+        if (count.current === batchOddLength) {
+          count.current = -1;
+        }
+      } else if (!batchEvenLength) {
+        if (count.current === batchLength - 1) count.current = -1;
+      }
+
+      count.current++;
+      sliderList.current.style.transform = `translate(-${
+        310 * count.current
+      }px, 0)`;
+    }
   };
   // 슬라이더 로직 - 끝 (리팩토링 예정)
 
@@ -183,7 +213,6 @@ export default function MentorPage({ history }) {
               />
             </Modal>
           )}
-          {}
         </BatchInformationContainer>
       </ContentsContainer>
     </FadeIn>
@@ -201,6 +230,14 @@ const ContentsContainer = styled.section`
   padding: 60px 0;
   max-width: 1440px;
   overflow: hidden;
+
+  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.flexbox('column', 'start')}
+  position: relative;
+  width: 100%;
+  top: -159px;
+
+  `}
 `;
 
 const MoveBtnContainer = styled.div`
@@ -208,12 +245,22 @@ const MoveBtnContainer = styled.div`
   width: 500px;
   top: 65px;
   position: absolute;
+
+  ${({ theme }) => theme.tablet`
+    margin-top: 145px;
+    width: 250px;
+  `}
 `;
+
 const LeftBtn = styled.button`
   color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.pixelToRem(30)};
   cursor: pointer;
   transition: 0.3s transform;
+
+  ${({ theme }) => theme.tablet`
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  `}
 
   &:active {
     opacity: 0.5;
@@ -223,6 +270,7 @@ const LeftBtn = styled.button`
     transform: scale(1.3);
   }
 `;
+
 const RightBtn = LeftBtn.withComponent('button');
 
 const Title = styled.h1`
@@ -230,12 +278,21 @@ const Title = styled.h1`
   font-weight: 700;
   font-size: ${({ theme }) => theme.pixelToRem(35)};
   text-align: center;
+
+  ${({ theme }) => theme.tablet`
+    margin-top: 150px;
+    font-size: ${({ theme }) => theme.pixelToRem(20)};
+  `}
 `;
 
 const BatchInformationContainer = styled.ul`
   ${({ theme }) => theme.flexbox('row', 'start')}
   width: 1380px;
   transition: transform 0.5s;
+
+  ${({ theme }) => theme.tablet`
+    margin-left: 1072px;
+  `}
 `;
 
 const List = styled.li`
@@ -252,6 +309,13 @@ const Contents = styled.dl`
   border: 2px solid ${({ theme }) => theme.colors.white};
   text-align: left;
   transition: 0.3s transform, 0.3s box-shadow, 0.2s opacity;
+
+  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.flexbox('column')}
+    margin-bottom: 10px;
+    width: 250px;
+    height: 50vh;
+  `}
 
   &:after {
     content: '';
@@ -288,6 +352,10 @@ const Contents = styled.dl`
   }
 `;
 
+const DayContainer = styled.div`
+  margin-left: 20px;
+`;
+
 const BatchName = styled.dt`
   margin-bottom: 30px;
   padding: 10px;
@@ -296,6 +364,11 @@ const BatchName = styled.dt`
   bottom: 50px;
   font-size: ${({ theme }) => theme.pixelToRem(60)};
   font-weight: 700;
+
+  ${({ theme }) => theme.tablet`
+  left: 5px;
+  bottom: -20px;
+  `}
 `;
 
 const MentorContainer = styled.div`
@@ -311,13 +384,16 @@ const MentorText = styled.dd`
 `;
 const MentorName = styled.dd`
   position: relative;
-  left: 190px;
-  bottom: 70px;
-  font-size: ${({ theme }) => theme.pixelToRem(18)};
-`;
+  left: 205px;
+  bottom: 60px;
+  font-size: ${({ theme }) => theme.pixelToRem(25)};
 
-const DayContainer = styled.div`
-  margin-left: 20px;
+  ${({ theme }) => theme.tablet`
+  display: none;
+  left 0;
+  bottom: 20px;
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
+  `}
 `;
 
 const AfterDday = styled.dd`
@@ -357,18 +433,32 @@ const TotalTimeText = styled.p`
 `;
 
 const TotalTime = styled.dd`
-  font-size: ${({ theme }) => theme.pixelToRem(16)};
-  font-weight: 700;
+  margin-bottom: 30px;
+  font-size: ${({ theme }) => theme.pixelToRem(25)};
+
+  ${({ theme }) => theme.tablet`
+    display: none;
+  `}
 `;
 
 const BatchOnUser = styled.dd`
   ${({ theme }) => theme.flexbox()}
-  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  font-size: ${({ theme }) => theme.pixelToRem(25)};
+
+  ${({ theme }) => theme.tablet`
+    margin: 0 0 20px 10px;
+    position: relative;
+    bottom: 20px;
+  `}
 `;
 
 const UserStatus = styled.div`
   font-weight: 700;
   margin-right: 15px;
+
+  ${({ theme }) => theme.tablet`
+    display: none;
+  `}
 `;
 
 const OnUser = styled.div`
@@ -406,6 +496,10 @@ const EditBtn = styled.button`
   &:active {
     opacity: 0.8;
   }
+
+  ${({ theme }) => theme.tablet`
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  `}
 `;
 
 const CloseBtn = styled(EditBtn.withComponent('button'))`
