@@ -171,7 +171,9 @@ const BestPersons = Styled.div`
 const PrizeGuide = Styled.div`
   ${({ theme }) => theme.flexbox('column', 'center', 'center')};
   line-height: 15;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 700;
+
 `;
 
 const firstPlace = keyframes`

@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import API_URLS from '../../../config';
+
 const GoogleLogin = props => {
   const history = useHistory();
   useEffect(() => {
@@ -82,12 +83,20 @@ const GoogleButton = styled.button`
   background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.blue};
+    border: 1px solid ${({ theme }) => theme.colors.blue};
+    color: ${({ theme }) => theme.colors.white};
+  }
 `;
 const GoogleLogo = styled.img`
   margin: 5px;
   width: 20px;
   height: 20px;
 `;
+
 const GoogleLoginText = styled.p`
   margin: 5px;
   font-size: 16px;

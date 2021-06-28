@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import Button from '../../components/Button/Button';
+import Styled from 'styled-components';
 import API_URLS from '../../config';
 
 export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
@@ -23,25 +22,56 @@ export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
     });
   };
   return (
-    <Container>
-      <Title>정말 삭제하시겠습니까?</Title>
-      <Button
-        version="white"
-        clickEvent={() => {
-          handleDelete();
-        }}
-      >
-        삭제
-      </Button>
-    </Container>
+    <ModalContainer>
+      <MainLogo>&gt;we-record</MainLogo>
+      <RecheckDeleteSection>
+        <RecheckDeleteHeader>정말 삭제하시겠어요?</RecheckDeleteHeader>
+        <RecheckDeleteBtn onClick={() => handleDelete()}>
+          삭제하기
+        </RecheckDeleteBtn>
+      </RecheckDeleteSection>
+    </ModalContainer>
   );
 }
 
-const Container = styled.div``;
+const ModalContainer = Styled.section`
+  ${({ theme }) => theme.flexbox()};
+  width: 100%;
+  height: 100%;
+`;
 
-const Title = styled.h1`
-  margin: 40px 0;
-  color: ${({ theme }) => theme.colors.red};
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+const MainLogo = Styled.div`
+  font-size: 25px;
+  padding: 30px;
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
+`;
+
+const RecheckDeleteSection = Styled.div`
+  ${({ theme }) => theme.flexbox('column', 'start', 'stretch')};
+  padding: 30px;
+`;
+
+const RecheckDeleteHeader = Styled.h1`
+  color: ${({ theme }) => theme.colors.black};
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+`;
+
+const RecheckDeleteBtn = Styled.button`
+  padding: 5px 20px;
+  font-size: 14px;
+  border: 1px solid ${({ theme }) => theme.colors.black};
+  border-radius: 3px;
+  color: ${({ theme }) => theme.colors.black};
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+  background-color: ${({ theme }) => theme.colors.red};
+  border: 1px solid ${({ theme }) => theme.colors.red};
+  color: ${({ theme }) => theme.colors.white};
+    
+  }
 `;

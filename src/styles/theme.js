@@ -43,6 +43,7 @@ const colors = {
   green: '#41b979',
   backgroundColor: '#212121',
   fontColor: '#dedede',
+  orange: '#FF9900',
 };
 
 const theme = {
