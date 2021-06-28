@@ -22,6 +22,7 @@ export default function Button({
 
 const Container = styled.button`
   padding: 10px 20px;
+  width: 100%;
   color: ${({ theme, type, disabled }) => {
     if (type === 'white') {
       if (disabled) {

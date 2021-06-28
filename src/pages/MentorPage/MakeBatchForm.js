@@ -83,10 +83,10 @@ export default function MakeBatchForm({ isModalOff }) {
   };
 
   return (
-    <article>
-      <Title>새 기수 생성 ✏️</Title>
+    <Container>
+      <MainLogo>&gt;we-record</MainLogo>
       <BatchContainer>
-        <MainLogo>&gt;we-record</MainLogo>
+        <Title>새 기수 생성 ✏️</Title>
         <NewBatchInformation>
           <Content>
             <Label>기수</Label>
@@ -98,11 +98,11 @@ export default function MakeBatchForm({ isModalOff }) {
             ></Input>
           </Content>
           <Content>
-            <Label>시작일 </Label>
+            <Label>시작일</Label>
             <Input type="date" onChange={handleInput} name="startDay"></Input>
           </Content>
           <Content>
-            <Label>종료일</Label>\
+            <Label>종료일</Label>
             <Input type="date" onChange={handleInput} name="endDay"></Input>
           </Content>
           <Content>
@@ -122,39 +122,39 @@ export default function MakeBatchForm({ isModalOff }) {
           >
             기수생성
           </Button>
-          {/* <MakeBatchBtn
-            disabled={!checkBatchBtnValid()}
-            onClick={handleBatchMaking}
-            isOn={!checkBatchBtnValid()}
-          >
-            기수 생성
-          </MakeBatchBtn> */}
-          <CheckValid display={checkBatchBtnValid()}>
+          {/* <CheckValid display={checkBatchBtnValid()}>
             * 형식에 맞게 작성해주세요!
-          </CheckValid>
+          </CheckValid> */}
         </NewBatchInformation>
       </BatchContainer>
-    </article>
+    </Container>
   );
 }
 
+const Container = styled.section`
+  ${({ theme }) => theme.flexbox()}
+  padding:80px 10px;
+`;
+
 const Content = styled.div`
-  margin-bottom: 30px;
+  ${({ theme }) => theme.flexbox('column', 'flex-start', 'flex-start')}
+  margin-bottom: 15px;
+  width: 100%;
 `;
 
 const Title = styled.h1`
-  margin: 50px 0 40px 60px;
+  margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
 `;
 
 const BatchContainer = styled.div`
-  ${({ theme }) => theme.flexbox()}
+  ${({ theme }) => theme.flexbox('column', 'start', 'start')}
 `;
+
 const MainLogo = styled.div`
-  margin-right: 20px;
-  margin-bottom: 40px;
+  margin-right: 40px;
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
@@ -165,16 +165,16 @@ const NewBatchInformation = styled.form`
 `;
 
 const Label = styled.label`
-  margin: 0 20px 5px;
   color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.pixelToRem(16)};
   font-weight: 700;
+  margin-bottom: 10px;
 `;
 
 const Input = styled.input`
   font-size: ${({ theme }) => theme.pixelToRem(14)};
-  padding-bottom: 5px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
+  width: 100%;
 `;
 
 const CheckValid = styled.div`

@@ -110,20 +110,23 @@ const SignInModal = props => {
               placeholder="이름을 입력해주세요."
             />
           </SignInForm>
-          <SignInForm>
-            <SignInTitle check={userInfo.user_type === '멘토'}>
-              기수 *
-            </SignInTitle>
-            <SignInInput
-              className="batch"
-              check={userInfo.user_type === '멘토'}
-              disabled={isAbleInput()}
-              onChange={getInputValue}
-              name="batch"
-              type="number"
-              placeholder="숫자로만 입력해주세요. ex)21"
-            />
-          </SignInForm>
+          {userInfo.user_type === '수강생' && (
+            <SignInForm>
+              <SignInTitle check={userInfo.user_type === '멘토'}>
+                기수 *
+              </SignInTitle>
+              <SignInInput
+                className="batch"
+                check={userInfo.user_type === '멘토'}
+                disabled={isAbleInput()}
+                onChange={getInputValue}
+                name="batch"
+                type="number"
+                placeholder="숫자로만 입력해주세요. ex)21"
+              />
+            </SignInForm>
+          )}
+
           <SignInForm>
             <SignInTitle>포지션 *</SignInTitle>
             <PositionSelect name="position" onChange={getInputValue}>
@@ -178,7 +181,7 @@ const ModalContainer = styled.section`
   ${({ theme }) => theme.flexbox()};
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 60px 50px;
 `;
 
 const MainLogo = styled.div`
@@ -187,6 +190,7 @@ const MainLogo = styled.div`
   font-size: 25px;
   font-weight: 700;
 `;
+
 const SignInContainer = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
   margin-top: 20px;

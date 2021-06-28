@@ -393,7 +393,7 @@ const EditAndCloseBtn = styled.div`
 `;
 
 const EditBtn = styled.button`
-  margin-right: 30px;
+  margin-right: 15px;
   color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   transition: 0.3s color, 0.3s transform;
@@ -410,7 +410,7 @@ const EditBtn = styled.button`
 
 const CloseBtn = styled(EditBtn.withComponent('button'))`
   transition: 0.3s color, 0.3s transform;
-
+  margin-right: 25px;
   &:hover {
     color: ${({ theme }) => theme.colors.red};
   }
