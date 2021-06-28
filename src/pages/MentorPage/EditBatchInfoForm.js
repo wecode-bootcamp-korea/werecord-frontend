@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import API_URLS from '../../config';
+import Button from '../../components/Button/Button';
 
 export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
   const [editBatchInformation, setEditBatchInformation] = useState({
@@ -85,83 +86,112 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
   };
 
   return (
-    <article>
-      <Title>기수 정보 수정 📝</Title>
-      <EditBatchInformation>
-        <Content>
-          <Label>기수</Label>
-          <Input
-            placeholder="ex) 5기 => 5, 20기 => 20"
-            maxLength="2"
-            onChange={handleInput}
-            name="batchNumber"
-            value={editBatchInformation.batchNumber}
-          ></Input>
-        </Content>
-        <Content>
-          <Label>시작일</Label>
-          <Input
-            placeholder="ex) 2021-06-19"
-            onChange={handleInput}
-            name="startDay"
-            maxLength="10"
-            value={editBatchInformation.startDay}
-          ></Input>
-        </Content>
-        <Content>
-          <Label>종료일</Label>
-          <Input
-            placeholder="ex) 2021-09-21"
-            onChange={handleInput}
-            name="endDay"
-            maxLength="10"
-            value={editBatchInformation.endDay}
-          ></Input>
-        </Content>
-        <Content>
-          <Label>담당 멘토</Label>
-          <Input
-            placeholder="ex) 홍길동"
-            onChange={handleInput}
-            name="mentorName"
-            value={editBatchInformation.mentorName}
-          ></Input>
-        </Content>
-        <EditBatchBtn
-          disabled={!checkBatchBtnValid()}
-          onClick={handleBatchEdit}
-          isOn={!checkBatchBtnValid()}
-        >
-          정보 수정
-        </EditBatchBtn>
-        <CheckValid display={checkBatchBtnValid()}>
-          * 형식에 맞게 작성해주세요!
-        </CheckValid>
-      </EditBatchInformation>
-    </article>
+    <Container>
+      <MainLogo>&gt;we-record</MainLogo>
+      <BatchContainer>
+        <Title>기수 정보 수정 ✏️</Title>
+        <EditBatchInformation>
+          <Content>
+            <Label>기수</Label>
+            <Input
+              placeholder="ex)20기 > 20"
+              maxLength="2"
+              onChange={handleInput}
+              name="batchNumber"
+              value={editBatchInformation.batchNumber}
+            ></Input>
+          </Content>
+          <Content>
+            <Label>시작일</Label>
+            <Input
+              type="date"
+              placeholder="ex) 2021-06-19"
+              onChange={handleInput}
+              name="startDay"
+              maxLength="10"
+              value={editBatchInformation.startDay}
+            ></Input>
+          </Content>
+          <Content>
+            <Label>종료일</Label>
+            <Input
+              type="date"
+              placeholder="ex) 2021-09-21"
+              onChange={handleInput}
+              name="endDay"
+              maxLength="10"
+              value={editBatchInformation.endDay}
+            ></Input>
+          </Content>
+          <Content>
+            <Label>담당 멘토</Label>
+            <Input
+              placeholder="ex) 홍길동"
+              onChange={handleInput}
+              name="mentorName"
+              value={editBatchInformation.mentorName}
+            ></Input>
+          </Content>
+          <Button
+            fontSize="12"
+            type="white"
+            disabled={!checkBatchBtnValid()}
+            isOn={!checkBatchBtnValid()}
+            clickEvent={handleBatchEdit}
+          >
+            정보 수정
+          </Button>
+          {/* <CheckValid display={checkBatchBtnValid()}>
+            * 형식에 맞게 작성해주세요!
+          </CheckValid> */}
+        </EditBatchInformation>
+      </BatchContainer>
+    </Container>
   );
 }
 
+const Container = styled.section`
+  ${({ theme }) => theme.flexbox()}
+  padding:100px 10px;
+`;
+
+const BatchContainer = styled.div`
+  ${({ theme }) => theme.flexbox('column', 'start', 'start')}
+`;
+
 const Content = styled.div`
+  ${({ theme }) => theme.flexbox('column', 'start', 'start')}
+  width:100%;
   margin-bottom: 30px;
 `;
 
-const Title = styled.h1`
-  margin: 35px 0 60px;
-  color: ${({ theme }) => theme.colors.black};
+const MainLogo = styled.div`
+  margin-right: 40px;
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
 `;
-const EditBatchInformation = styled.form``;
+
+const Title = styled.h1`
+  margin: 35px 0 40px;
+  color: ${({ theme }) => theme.colors.black};
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  font-weight: 700;
+`;
+const EditBatchInformation = styled.form`
+  ${({ theme }) => theme.flexbox('column', 'start', 'start')}
+  width:100%;
+`;
 
 const Label = styled.label`
-  margin: 0 15px 5px;
+  margin: 0 0 10px;
   color: ${({ theme }) => theme.colors.black};
-  font-size: ${({ theme }) => theme.pixelToRem(18)};
+  font-size: ${({ theme }) => theme.pixelToRem(16)};
   font-weight: 700;
 `;
 
 const Input = styled.input`
+  width: 100%;
   padding-bottom: 5px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
 `;

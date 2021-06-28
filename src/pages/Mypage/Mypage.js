@@ -83,8 +83,8 @@ export default function Mypage() {
                 시간
               </TotalspendingHour>
               <br />
-              &gt; wecode와 <br />
-              함께 하셨습니다.
+              <TotalWecode>&gt; wecode와</TotalWecode>
+              <TotalWecode>함께 하셨습니다.</TotalWecode>
             </UserSpendingTime>
             <TimeContents>
               <div>
@@ -126,8 +126,8 @@ export default function Mypage() {
 
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
-  margin: 80px auto 0;
-  padding: 50px 65px 0;
+  margin: 120px auto 0;
+  padding: 80px 150px 0;
   max-width: 1440px;
   transform: scale(1.05);
 
@@ -142,7 +142,7 @@ const ContentsContainer = styled.section`
 `;
 
 const UserProfile = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'flex-start')}
+  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
   margin-bottom: 35px;
 
   ${({ theme }) => theme.tablet` 
@@ -154,24 +154,24 @@ const UserProfile = styled.div`
 
 const Img = styled.img`
   margin-right: 25px;
-  width: 85px;
-  height: 85px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 `;
 
 const UserInformation = styled.dl`
   dt {
-    margin-bottom: 20px;
+    margin-bottom: 17px;
     position: relative;
     top: 10px;
-    font-size: ${({ theme }) => theme.pixelToRem(30)};
+    font-size: ${({ theme }) => theme.pixelToRem(25)};
     font-weight: 700;
   }
 `;
 
 const EditBtn = styled.dd`
   padding-left: 1px;
-  font-size: ${({ theme }) => theme.pixelToRem(16)};
+  font-size: ${({ theme }) => theme.pixelToRem(14)};
   cursor: pointer;
 
   &:hover {
@@ -199,9 +199,14 @@ const UserSpendingTime = styled.div`
 
 const TotalspendingHour = styled.div`
   display: inline-block;
-  margin: 35px 0 20px;
+  margin: 35px 0 30px;
   padding: 0 10px 0 0;
-  font-size: ${({ theme }) => theme.pixelToRem(85)};
+  font-size: ${({ theme }) => theme.pixelToRem(80)};
+`;
+
+const TotalWecode = styled.div`
+  font-size: 40px;
+  line-height: 58px;
 `;
 
 const boxAnimation = keyframes`
@@ -216,7 +221,7 @@ const boxAnimation = keyframes`
 const Hour = styled.div`
   display: inline-block;
   margin: 0 15px;
-  padding: 10px 10px;
+  padding: 10px;
   background-color: ${({ theme }) => theme.colors.blue};
   animation-name: ${boxAnimation};
   animation-delay: 0.3s;
@@ -258,16 +263,14 @@ const AverageTimeContent = styled.div`
 
 const TimeContents = styled.div`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')}
-
   ${({ theme }) => theme.tablet` 
   ${({ theme }) => theme.flexbox()}
-
   `}
 `;
 
 const Label = styled.div`
   margin-bottom: 10px;
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
+  font-size: ${({ theme }) => theme.pixelToRem(23)};
   text-align: center;
   font-weight: 700;
 
@@ -288,9 +291,7 @@ const Date = styled.div`
 
 const AfterDday = styled.div`
   ${({ theme }) => theme.flexbox('column')}
-
   ${({ theme }) => theme.tablet` 
   display: none;
-
   `}
 `;
