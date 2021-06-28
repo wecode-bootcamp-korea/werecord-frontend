@@ -15,7 +15,7 @@ export default function ProfileModal({ peersInfo }) {
     <Container>
       <ModalTitle>Profile </ModalTitle>
       <UserCard>
-        <img alt="user1" src={peer_profile_image_url || DEFAULT_IMG} />
+        <img alt="user1" src={peer_profile_image_url} />
         <div className="userInfo">
           <UserPosition>
             <UserName>{peer_name}님</UserName>
@@ -25,12 +25,16 @@ export default function ProfileModal({ peersInfo }) {
             peer_birthday === null ? '생일이 입력되지 않았어요!' : peer_birthday
           }`}</UserBirth>
           <div>
-            <GitAddress href={peer_github} target="_blank">
-              <i class="fab fa-github-square"></i>
-            </GitAddress>
-            <BlogAddress href={peer_blog} target="_blank">
-              <i class="fab fa-vimeo"></i>
-            </BlogAddress>
+            {peer_github && (
+              <GitAddress href={peer_github} target="_blank">
+                <i class="fab fa-github-square"></i>
+              </GitAddress>
+            )}
+            {peer_blog && (
+              <BlogAddress href={peer_blog} target="_blank">
+                <i class="fab fa-vimeo"></i>
+              </BlogAddress>
+            )}
           </div>
           <div></div>
         </div>
@@ -62,6 +66,11 @@ const UserCard = Styled.div`
     height: 150px;
     margin-right:10px;
     border-radius: 50%;
+
+    ${({ theme }) => theme.tablet`
+      width: 100px;
+      height: 100px;
+    `}
   }
 
   .userInfo {
@@ -77,12 +86,19 @@ const UserPosition = Styled.div`
 const UserName = Styled.div`
   font-size: 25px;
   font-weight:700;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 17px;
+  `}
 `;
 
 const UserBirth = Styled.div`
   margin: 10px 0 15px 0;
   font-size: 15px;
 
+  ${({ theme }) => theme.tablet`
+    font-size: 11px;
+  `}
 `;
 
 const UserInfo = Styled.div`
@@ -99,6 +115,10 @@ const UserInfo = Styled.div`
 const Content = Styled.span`
 margin-left: 10px;
 font-size: 15px;
+
+${({ theme }) => theme.tablet`
+  font-size: 11px;
+`}
 `;
 
 const GitAddress = Styled.a`
@@ -107,6 +127,10 @@ i {
   margin-right:10px ;
   color: ${({ theme }) => theme.colors.backgroundColor};
   transition: all 0.1s ease;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 17px;
+  `}
 
   &:hover {
     color: #7C007C;
@@ -121,11 +145,13 @@ i{
   color: ${({ theme }) => theme.colors.backgroundColor};
   transition: all 0.3s ease;
 
+  ${({ theme }) => theme.tablet`
+    font-size: 17px;
+  `}
+
   &:hover {
     color: #20C997;
     transform: scale(1.1);
   }
 }
 `;
-
-const DEFAULT_IMG = '/images/Profile/test1.jpeg';

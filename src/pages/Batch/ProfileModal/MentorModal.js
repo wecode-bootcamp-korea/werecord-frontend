@@ -28,10 +28,10 @@ export default function MentorModal({ mentorInfo }) {
           }`}</UserBirth>
           <div>
             <GitAddress href={mentor_github} target="_blank">
-              <i class="fab fa-github-square"></i>
+              <i classMame="fab fa-github-square"></i>
             </GitAddress>
             <BlogAddress href={mentor_blog} target="_blank">
-              <i class="fab fa-vimeo"></i>
+              <i classMame="fab fa-vimeo"></i>
             </BlogAddress>
           </div>
           <div></div>

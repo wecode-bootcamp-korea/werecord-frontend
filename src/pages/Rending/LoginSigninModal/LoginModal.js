@@ -5,7 +5,7 @@ import GoogleLogin from './GoogleLogin';
 const LoginModal = props => {
   return (
     <ModalContainer>
-      <div>
+      <div className="logo">
         <MainLogo>&gt;we-record</MainLogo>
         <LoginText>하루하루가 모여 내가 됩니다.</LoginText>
         <LoginText>정신없이 지나간 소중한 오늘을</LoginText>
@@ -28,6 +28,12 @@ const ModalContainer = styled.section`
   height: 100%;
   margin: 70px auto;
   padding: 20px 30px;
+
+  .logo {
+    ${({ theme }) => theme.tablet`
+      display: none;
+    `}
+  }
 
   div {
     ${({ theme }) => theme.flexbox('column', 'start', 'start')};
@@ -54,6 +60,10 @@ const LoginText = styled.p`
 const LoginSection = styled.div`
   ${({ theme }) => theme.flexbox('column', 'start', 'stretch')};
   margin-left: 50px;
+
+  ${({ theme }) => theme.tablet`
+  margin-left: 10px;
+  `}
 `;
 
 const LoginHeader = styled.h1`
