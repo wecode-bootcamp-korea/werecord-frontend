@@ -67,6 +67,11 @@ const UserCard = Styled.div`
     height: 150px;
     margin-right:10px;
     border-radius: 50%;
+
+    ${({ theme }) => theme.tablet`
+      width: 100px;
+      height: 100px;
+    `}
   }
 
   .userInfo {
@@ -79,15 +84,23 @@ const UserPosition = Styled.div`
   ${({ theme }) => theme.flexbox('row', 'start', 'flex-end')}
   margin-bottom:5px;
 `;
+
 const UserName = Styled.div`
   font-size: 25px;
   font-weight:700;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 18px;
+  `}
 `;
 
 const UserBirth = Styled.div`
   margin: 10px 0 15px 0;
   font-size: 15px;
 
+  ${({ theme }) => theme.tablet`
+    font-size: 11px;
+  `}
 `;
 
 const UserInfo = Styled.div`

@@ -41,19 +41,40 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
             )}
             {secondPrize && (
               <BestPerson rank={2}>
-                <BestGrade>{secondPrize.user_name}님</BestGrade>
+                <BestGrade>
+                  {secondPrize.user_name}님
+                  <BestGradeTime>
+                    {`${Math.floor(
+                      secondPrize.user_last_week_total_time / 3600
+                    )}시간`}
+                  </BestGradeTime>
+                </BestGrade>
                 <p>🥈</p>
               </BestPerson>
             )}
             {firstPrize && (
               <BestPerson rank={1}>
-                <BestGrade>{firstPrize.user_name}님</BestGrade>
+                <BestGrade>
+                  {firstPrize.user_name}님
+                  <BestGradeTime>
+                    {`${Math.floor(
+                      firstPrize.user_last_week_total_time / 3600
+                    )}시간`}
+                  </BestGradeTime>
+                </BestGrade>
                 <p>🥇</p>
               </BestPerson>
             )}
             {thirdPrize && (
               <BestPerson rank={3}>
-                <BestGrade>{thirdPrize.user_name}님</BestGrade>
+                <BestGrade>
+                  {thirdPrize.user_name}님
+                  <BestGradeTime>
+                    {`${Math.floor(
+                      thirdPrize.user_last_week_total_time / 3600
+                    )}시간`}
+                  </BestGradeTime>
+                </BestGrade>
                 <p>🥉</p>
               </BestPerson>
             )}
@@ -111,8 +132,7 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
 
 const Container = Styled.div`
   ${({ theme }) => theme.flexbox()};
-  margin-top:100px ;
-  margin-bottom:50px;
+  margin-top: 10px;
 
   ${({ theme }) => theme.tablet`
     display: none;
@@ -235,14 +255,19 @@ const BestPersonTitle = Styled.div`
 `;
 
 const BestGrade = Styled.div`
-  ${({ theme }) => theme.flexbox('row', 'space-around', 'center')};
-  font-size: 20px;
+  ${({ theme }) => theme.flexbox('row', 'space-around', 'flex-end')};
   position: relative;
   top: -60%;
+  font-size: 18px;
 
   ${({ theme }) => theme.tablet`
     font-size: 14px;
   `}
+`;
+
+const BestGradeTime = Styled.div`
+  margin-left: 3px;
+  font-size: 12px;
 `;
 
 const BestPersons = Styled.div`
@@ -252,6 +277,10 @@ const BestPersons = Styled.div`
   border-radius: 12px;
   width: 448px;
   height: 220px;
+
+  .firstPrizeTotalTime {
+    font-size: 20px;
+  }
 
   ${({ theme }) => theme.tablet`
     width: 100vw;
@@ -303,8 +332,8 @@ const BestPerson = Styled.div`
   ${({ theme }) => theme.flexbox('column')};
   width: 100%;
   margin: 0 1px;
-  font-size:35px;
-  font-weight:700;
+  font-size: 35px;
+  font-weight: 700;
   height: ${props =>
     props.rank === 1 ? '90%' : props.rank === 2 ? '55%' : '40%'};
   background-color: #0066ff;

@@ -88,7 +88,7 @@ const StyledSlider = Styled(Slider)`
   }
 `;
 
-function SamplePrevArrow(props) {
+function PrevArrow(props) {
   const { className, style, onClick } = props;
   return (
     <i
@@ -99,7 +99,7 @@ function SamplePrevArrow(props) {
   );
 }
 
-function SampleNextArrow(props) {
+function NextArrow(props) {
   const { className, style, onClick } = props;
   return (
     <div
@@ -119,8 +119,8 @@ const settings = {
   slidesToScroll: 7,
   arrows: true,
   draggable: true,
-  prevArrow: <SamplePrevArrow />,
-  nextArrow: <SampleNextArrow />,
+  prevArrow: <PrevArrow />,
+  nextArrow: <NextArrow />,
   responsive: [
     {
       breakpoint: 1024,
@@ -134,7 +134,7 @@ const TabletContainer = Styled.section`
 
   ${({ theme }) => theme.tablet`
     display: block;
-    ${({ theme }) => theme.flexbox('column')}
+    ${({ theme }) => theme.flexbox('column', 'center', 'center')}
   `}
 `;
 
@@ -148,6 +148,6 @@ const TableBottomTitle = Styled.h1`
 `;
 
 const PeersContainer = Styled.ul`
-  ${({ theme }) => theme.flexbox()};
+  ${({ theme }) => theme.flexbox('row', 'center', 'center')};
   flex-wrap: wrap;
 `;

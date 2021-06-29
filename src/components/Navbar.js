@@ -295,7 +295,7 @@ const GoToMentorPageBtn = GoToMyPageBtn.withComponent('button');
 
 const LogoutBtn = styled(GoToMyPageBtn.withComponent('button'))`
   margin-right: 0;
-  padding: 10px 10px;
+  padding: 10px 20px;
 `;
 
 const MobileBtnList = styled.button`

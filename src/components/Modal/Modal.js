@@ -53,6 +53,7 @@ const CloseBtn = Styled.div`
   font-size: 22px;
   color: ${({ theme }) => theme.colors.backgroundColor};
   cursor: pointer;
+  z-index: 1;
 
   &:hover {
     opacity: 0.6;

@@ -14,7 +14,9 @@ const MadeByModal = props => {
             <GitAddress href="" target="_blank">
               <i className="fab fa-github-square"></i>
             </GitAddress>
-            <i className="fab fa-vimeo"></i>
+            <BlogAddress>
+              <i className="fab fa-vimeo"></i>
+            </BlogAddress>
           </ProfileContainer>
           <ProfileContainer>
             <Name>이다슬</Name>
@@ -30,7 +32,9 @@ const MadeByModal = props => {
             <GitAddress href="" target="_blank">
               <i className="fab fa-github-square"></i>
             </GitAddress>
-            <i className="fab fa-vimeo"></i>
+            <BlogAddress>
+              <i className="fab fa-vimeo"></i>
+            </BlogAddress>
           </ProfileContainer>
         </IntroduceContainer>
         <IntroduceContainer>
@@ -40,14 +44,18 @@ const MadeByModal = props => {
             <GitAddress href="" target="_blank">
               <i className="fab fa-github-square"></i>
             </GitAddress>
-            <i className="fab fa-vimeo"></i>
+            <BlogAddress>
+              <i className="fab fa-vimeo"></i>
+            </BlogAddress>
           </ProfileContainer>
           <ProfileContainer>
             <Name>최대환</Name>
             <GitAddress href="" target="_blank">
               <i className="fab fa-github-square"></i>
             </GitAddress>
-            <i className="fab fa-vimeo"></i>
+            <BlogAddress>
+              <i className="fab fa-vimeo"></i>
+            </BlogAddress>
           </ProfileContainer>
         </IntroduceContainer>
       </MemberContainer>
@@ -79,6 +87,11 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colors.black};
   font-weight: 700;
   font-size: 20px;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 16px;
+    line-height: 1.2;
+  `}
 `;
 
 const ProjectDescription = styled.p`
@@ -92,6 +105,11 @@ const ProfileContainer = styled.div`
     width: 20px;
     color: black;
     margin-right: 5px;
+
+    ${({ theme }) => theme.tablet`
+      margin-right: 0;
+      font-size: 13px;
+    `}
   }
 `;
 const IntroduceContainer = styled.div`
@@ -103,13 +121,25 @@ const Content = styled.div`
   color: ${({ theme }) => theme.colors.black};
   font-weight: 700;
   margin-bottom: 5px;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 14px;
+  `}
 `;
 
 const Name = styled.div`
   font-size: 15px;
   margin-bottom: 3px;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 13px;
+  `}
 `;
 
-const GitAddress = styled.a``;
+const GitAddress = styled.a`
+  font-size: 13px;
+`;
 
-const BlogAddress = styled.a``;
+const BlogAddress = styled.a`
+  font-size: 13px;
+`;
