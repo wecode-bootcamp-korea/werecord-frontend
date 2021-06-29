@@ -33,6 +33,7 @@ const OutsideModal = Styled.div`
   width: 100%;
   height: 100vh;
   background-color: rgba(33, 33, 33, 0.9);
+  z-index: 9999;
 `;
 
 const InsideModal = Styled.div`
@@ -52,6 +53,7 @@ const CloseBtn = Styled.div`
   font-size: 22px;
   color: ${({ theme }) => theme.colors.backgroundColor};
   cursor: pointer;
+  z-index: 1;
 
   &:hover {
     opacity: 0.6;

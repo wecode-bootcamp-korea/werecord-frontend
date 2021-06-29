@@ -16,10 +16,6 @@ const Rending = () => {
     setIsLogInModalOn(!isLogInModalOn);
   };
 
-  const handleMadeByModal = () => {
-    setIsMadeByModalOn(!isMadeByModalOn);
-  };
-
   return (
     <Container>
       {isLogInModalOn && (
@@ -46,12 +42,12 @@ const Rending = () => {
         onClick={() => setIsLogInModalOn(!isLogInModalOn)}
         alt="loginimg"
         src="/images/login.png"
-      ></LoginImg>
+      />
       <MadeByImg
         onClick={() => setIsMadeByModalOn(!isMadeByModalOn)}
         alt="madebyimg"
         src="/images/madeby.png"
-      ></MadeByImg>
+      />
     </Container>
   );
 };
@@ -106,6 +102,9 @@ const MadeByImg = styled.img`
   position: absolute;
   width: 120px;
   top: 88%;
-  left: 89%;
   cursor: pointer;
+
+  ${({ theme }) => theme.tablet`
+    width: 70px;
+  `}
 `;

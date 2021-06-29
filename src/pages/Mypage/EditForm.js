@@ -131,13 +131,23 @@ const Title = styled.div`
   margin-bottom: 35px;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
+
+  ${({ theme }) => theme.tablet`
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 17px;
+`}
 `;
 
 const Container = styled.form`
   ${({ theme }) => theme.flexbox('row', 'center', 'center')}
   position: relative;
-  padding: 80px 50px 50px 50px;
+  margin: 80px 50px 50px 50px;
   color: #212121;
+
+  ${({ theme }) => theme.tablet`
+    margin: 0;
+  `}
 `;
 
 const MainLogo = styled.div`
@@ -146,16 +156,28 @@ const MainLogo = styled.div`
   color: ${({ theme }) => theme.colors.black};
   margin-right: 0px;
   padding: 30px;
+
+  ${({ theme }) => theme.tablet`
+    display: none;
+  `}
 `;
 
 const ContentContainer = styled.div`
   width: 50%;
+
+  ${({ theme }) => theme.tablet`
+    width: 90%;
+  `}
 `;
 
 const Label = styled.label`
   font-size: 17px;
   margin-bottom: 10px;
   font-weight: 700;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 14px;
+  `}
 `;
 
 const Input = styled.input`
@@ -175,6 +197,10 @@ const SelectBox = styled.select`
 const Content = styled.div`
   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
   margin-bottom: 25px;
+
+  ${({ theme }) => theme.tablet`
+    margin-bottom: 15px;
+  `}
 `;
 
 const SelectBirthDay = styled.div`

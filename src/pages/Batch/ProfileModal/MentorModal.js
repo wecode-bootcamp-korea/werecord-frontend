@@ -21,11 +21,14 @@ export default function MentorModal({ mentorInfo }) {
             <UserName>{mentor_name}님</UserName>
             <Content>{mentor_position}</Content>
           </UserPosition>
-          <UserBirth>{`🎂 ${
-            mentor_birthday === null
+          <UserBirth>
+            🎂
+            {mentor_birthday === null
               ? '생일이 입력되지 않았어요!'
-              : mentor_birthday
-          }`}</UserBirth>
+              : `${mentor_birthday.split('-')[1]}월 ${
+                  mentor_birthday.split('-')[2]
+                }일`}
+          </UserBirth>
           <div>
             <GitAddress href={mentor_github} target="_blank">
               <i classMame="fab fa-github-square"></i>
@@ -64,6 +67,11 @@ const UserCard = Styled.div`
     height: 150px;
     margin-right:10px;
     border-radius: 50%;
+
+    ${({ theme }) => theme.tablet`
+      width: 100px;
+      height: 100px;
+    `}
   }
 
   .userInfo {
@@ -76,15 +84,23 @@ const UserPosition = Styled.div`
   ${({ theme }) => theme.flexbox('row', 'start', 'flex-end')}
   margin-bottom:5px;
 `;
+
 const UserName = Styled.div`
   font-size: 25px;
   font-weight:700;
+
+  ${({ theme }) => theme.tablet`
+    font-size: 18px;
+  `}
 `;
 
 const UserBirth = Styled.div`
   margin: 10px 0 15px 0;
   font-size: 15px;
 
+  ${({ theme }) => theme.tablet`
+    font-size: 11px;
+  `}
 `;
 
 const UserInfo = Styled.div`

@@ -94,7 +94,9 @@ function SendTimeModal({ attendanceStatus, setOff, checkOffWorkDate }) {
 }
 export default React.memo(SendTimeModal);
 
-const Container = Styled.div``;
+const Container = Styled.div`
+  margin-bottom: 25px;
+`;
 
 const ModalTitle = Styled.h1`
   padding: 33px 0;
