@@ -74,7 +74,7 @@ export default function BarChart({ weeklyRecordsData }) {
       labels: ['월', '화', '수', '목', '금'],
       datasets: [
         {
-          label: 'Spending Time in Wecode',
+          label: '위코드에서 보낸 시간',
           data: [
             secondsToHour(weeklyRecordsData, '0'),
             secondsToHour(weeklyRecordsData, '1'),

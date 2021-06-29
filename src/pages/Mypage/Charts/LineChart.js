@@ -85,7 +85,7 @@ export default function LineChart({ totalAccumulateRecordsData }) {
       labels: setLabelData(totalAccumulateRecordsData),
       datasets: [
         {
-          label: 'Spending Time in Wecode',
+          label: '위코드에서 보낸 총 누적 시간',
           data: setAccumulateHoursData(totalAccumulateRecordsData),
           fill: true,
           tension: 0.1,
