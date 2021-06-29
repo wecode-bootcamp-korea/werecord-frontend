@@ -21,11 +21,14 @@ export default function MentorModal({ mentorInfo }) {
             <UserName>{mentor_name}님</UserName>
             <Content>{mentor_position}</Content>
           </UserPosition>
-          <UserBirth>{`🎂 ${
-            mentor_birthday === null
+          <UserBirth>
+            🎂
+            {mentor_birthday === null
               ? '생일이 입력되지 않았어요!'
-              : mentor_birthday
-          }`}</UserBirth>
+              : `${mentor_birthday.split('-')[1]}월 ${
+                  mentor_birthday.split('-')[2]
+                }일`}
+          </UserBirth>
           <div>
             <GitAddress href={mentor_github} target="_blank">
               <i classMame="fab fa-github-square"></i>

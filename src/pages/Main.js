@@ -22,7 +22,7 @@ export default function Main() {
   const [isCommentModal, setIsCommentModal] = useState({});
   const [stopModalPopUp, setStopModalPopUp] = useState(false);
 
-  const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-06-25');
+  const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-04-12');
   const [sendModalOff, setSendModalOff] = useState(false);
   const memoDate = useMemo(() => getTodayDate(), []);
 
@@ -232,7 +232,7 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
     .then(({ message, result }) => {
       if (message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
         setUserInfo(prev => ({ ...prev, normalAttendance: true }));
-        setCheckOffWorkDate('helo');
+        setCheckOffWorkDate(result);
       }
       if (result) {
         const { user_name, user_status, user_start_time } = result;

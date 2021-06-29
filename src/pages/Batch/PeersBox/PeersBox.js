@@ -72,28 +72,61 @@ const ScrollBoxTitle = Styled.h1`
   font-size: 20px;
   color: ${({ theme }) => theme.colors.black};
   font-weight: 700;
-
 `;
 
 const ScrollBoxMentor = Styled.div`
   color: ${({ theme }) => theme.colors.black};
-font-size:15px;
-cursor:pointer;`;
+  font-size:15px;
+  cursor:pointer;`;
 
 const StyledSlider = Styled(Slider)`
   margin-top: 30px;
   color: ${({ theme }) => theme.colors.black};
 
+  .slick-prev:before, .slick-next:before {
+    color: black;
+  }
 `;
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <i
+      className={`fas fa-caret-left ${className}`}
+      style={{ ...style, display: 'block' }}
+      onClick={onClick}
+    />
+  );
+}
+
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: 'block' }}
+      onClick={onClick}
+    />
+  );
+}
 
 const settings = {
   slide: 'li',
   dots: true,
   infinite: false,
   speed: 500,
-  slidesToShow: 8,
-  slidesToScroll: 8,
+  slidesToShow: 7,
+  slidesToScroll: 7,
+  arrows: true,
   draggable: true,
+  prevArrow: <SamplePrevArrow />,
+  nextArrow: <SampleNextArrow />,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: { slidesToShow: 4, slidesToScroll: 4, dots: true },
+    },
+  ],
 };
 
 const TabletContainer = Styled.section`

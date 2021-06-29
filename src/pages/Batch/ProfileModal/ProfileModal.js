@@ -21,9 +21,14 @@ export default function ProfileModal({ peersInfo }) {
             <UserName>{peer_name}님</UserName>
             <Content>{peer_position}</Content>
           </UserPosition>
-          <UserBirth>{`🎂 ${
-            peer_birthday === null ? '생일이 입력되지 않았어요!' : peer_birthday
-          }`}</UserBirth>
+          <UserBirth>
+            🎂
+            {peer_birthday === null
+              ? '생일이 입력되지 않았어요!'
+              : `${peer_birthday.split('-')[1]}월 ${
+                  peer_birthday.split('-')[2]
+                }일`}
+          </UserBirth>
           <div>
             {peer_github && (
               <GitAddress href={peer_github} target="_blank">
