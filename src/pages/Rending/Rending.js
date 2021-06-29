@@ -4,14 +4,20 @@ import FadeIn from 'react-fade-in';
 import Modal from '../../components/Modal/Modal';
 import LoginModal from './LoginSigninModal/LoginModal';
 import SignInModal from './LoginSigninModal/SignInModal';
+import MadeByModal from './LoginSigninModal/MadeByModal';
 
 const Rending = () => {
   const [isLogInModalOn, setIsLogInModalOn] = useState(false);
   const [isSignModalOn, setIsSignModalOn] = useState(false);
+  const [isMadeByModalOn, setIsMadeByModalOn] = useState(false);
 
   const changeModalValue = () => {
     setIsSignModalOn(!isSignModalOn);
     setIsLogInModalOn(!isLogInModalOn);
+  };
+
+  const handleMadeByModal = () => {
+    setIsMadeByModalOn(!isMadeByModalOn);
   };
 
   return (
@@ -26,6 +32,11 @@ const Rending = () => {
           <SignInModal />
         </Modal>
       )}
+      {isMadeByModalOn && (
+        <Modal setOff={setIsMadeByModalOn}>
+          <MadeByModal />
+        </Modal>
+      )}
       <MainLogo alt="logo" src="/images/logo.png"></MainLogo>
       <FadeIn delay={600} transitionDuration={1000}>
         <SubLogo alt="sublogo" src="/images/우리는.png" location="top" />
@@ -36,6 +47,11 @@ const Rending = () => {
         alt="loginimg"
         src="/images/login.png"
       ></LoginImg>
+      <MadeByImg
+        onClick={() => setIsMadeByModalOn(!isMadeByModalOn)}
+        alt="madebyimg"
+        src="/images/madeby.png"
+      ></MadeByImg>
     </Container>
   );
 };
@@ -84,4 +100,12 @@ const LoginImg = styled.img`
   ${({ theme }) => theme.tablet`
     width: 50px;
   `}
+`;
+
+const MadeByImg = styled.img`
+  position: absolute;
+  width: 120px;
+  top: 88%;
+  left: 89%;
+  cursor: pointer;
 `;
