@@ -67,7 +67,7 @@ export default function Main() {
         </ButtonAnimationSection>
 
         {checkObjData(isCommentModal) && (
-          <Modal setOff={setIsCommentModal}>
+          <Modal setOff={setIsCommentModal} isCommentModal={true}>
             {stopModalPopUp && (
               <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
             )}

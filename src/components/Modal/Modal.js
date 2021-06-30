@@ -2,10 +2,14 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import Styled from 'styled-components';
 
-export default function Modal({ setOff, children }) {
+export default function Modal({ setOff, isCommentModal, children }) {
   const handleModal = e => {
     const isclickedInside = e.target.closest('.modal');
     const isclickedBtn = e.target.closest('.closeBtn');
+
+    if (isCommentModal) {
+      window.location.replace('/main');
+    }
 
     if (setOff) {
       if (!isclickedInside) return setOff(false);
