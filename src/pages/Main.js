@@ -207,7 +207,7 @@ const FirewoodImg = styled.img`
 
 const FireGif = styled.img`
   position: absolute;
-  width: 700px;
+  width: 300px;
   bottom: -10px;
 
   ${({ theme }) => theme.tablet`
