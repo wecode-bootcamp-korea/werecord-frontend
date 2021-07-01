@@ -67,7 +67,7 @@ export default function Main() {
         </ButtonAnimationSection>
 
         {checkObjData(isCommentModal) && (
-          <Modal setOff={setIsCommentModal}>
+          <Modal setOff={setIsCommentModal} isCommentModal={true}>
             {stopModalPopUp && (
               <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
             )}
@@ -207,7 +207,7 @@ const FirewoodImg = styled.img`
 
 const FireGif = styled.img`
   position: absolute;
-  width: 700px;
+  width: 300px;
   bottom: -10px;
 
   ${({ theme }) => theme.tablet`
