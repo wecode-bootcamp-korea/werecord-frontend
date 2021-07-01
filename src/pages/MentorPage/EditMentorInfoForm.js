@@ -196,7 +196,6 @@ export default function EditContents({ isModalOff }) {
           >
             수정
           </Button>
-          {/* <SubmitBtn onClick={modifyUserData}>수정</SubmitBtn> */}
         </ContentContainer>
       </Container>
       <LeaveBtn onClick={() => setRecheckDelete(true)}>탈퇴</LeaveBtn>
@@ -211,8 +210,8 @@ export default function EditContents({ isModalOff }) {
 }
 
 const Title = styled.div`
-  text-align: left;
   margin-bottom: 35px;
+  text-align: left;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
 `;
@@ -225,11 +224,11 @@ const Container = styled.form`
 `;
 
 const MainLogo = styled.div`
+  margin-right: 0px;
+  padding: 30px;
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
-  margin-right: 0px;
-  padding: 30px;
 `;
 
 const ContentContainer = styled.div`
@@ -237,21 +236,21 @@ const ContentContainer = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: 17px;
   margin-bottom: 10px;
+  font-size: 17px;
   font-weight: 700;
 `;
 
 const Input = styled.input`
-  font-size: 15px;
-  width: 90%;
   padding-bottom: 5px;
+  width: 90%;
+  font-size: 15px;
   border-bottom: 1px solid black;
 `;
 
 const SelectBox = styled.select`
-  width: 90%;
   padding: 3px 10px;
+  width: 90%;
   font-size: 16px;
   outline: none;
 `;
@@ -263,22 +262,16 @@ const Content = styled.div`
 
 const SelectBirthDay = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-  width: 90%;
   padding: 5px;
+  width: 90%;
   border-bottom: 1px solid black;
-`;
-
-const SubmitBtn = styled.button`
-  font-size: ${({ theme }) => theme.pixelToRem(20)};
-  font-weight: 700;
-  cursor: pointer;
 `;
 
 const LeaveBtn = styled.div`
   position: relative;
+  padding: 3px 3px;
   bottom: 20px;
   right: 230px;
-  padding: 3px 3px;
   font-size: 12px;
   color: red;
   cursor: pointer;
@@ -287,64 +280,3 @@ const LeaveBtn = styled.div`
     opacity: 0.3;
   }
 `;
-// const Title = styled.div`
-//   margin-bottom: 35px;
-//   font-size: ${({ theme }) => theme.pixelToRem(25)};
-//   font-weight: 700;
-// `;
-
-// const Container = styled.form`
-//   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
-//   width: 80%;
-//   position: relative;
-//   padding: 40px;
-//   color: #212121;
-// `;
-// const Label = styled.label`
-//   margin-right: 15px;
-//   margin-bottom: 5px;
-//   font-weight: 700;
-// `;
-
-// const Input = styled.input`
-//   width: 300px;
-//   padding-bottom: 5px;
-//   border-bottom: 1px solid black;
-// `;
-
-// const SelectBox = styled.select`
-//   width: 300px;
-//   padding: 3px 10px;
-//   font-size: 16px;
-// `;
-
-// const Content = styled.div`
-//   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
-//   margin-bottom: 25px;
-// `;
-
-// const SelectBirthDay = styled.div`
-//   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-//   width: 300px;
-//   padding: 5px;
-//   border-bottom: 1px solid black;
-// `;
-
-// const SubmitBtn = styled.button`
-//   position: absolute;
-//   right: -30px;
-//   bottom: 50px;
-//   font-size: ${({ theme }) => theme.pixelToRem(20)};
-//   font-weight: 700;
-//   cursor: pointer;
-// `;
-
-// const LeaveBtn = styled.button`
-//   padding: 3px 3px;
-//   color: red;
-//   cursor: pointer;
-
-//   &:active {
-//     opacity: 0.3;
-//   }
-// `;

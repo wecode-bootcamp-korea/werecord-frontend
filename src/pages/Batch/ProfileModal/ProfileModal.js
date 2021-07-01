@@ -55,10 +55,10 @@ const Container = Styled.section`
 
 const ModalTitle = Styled.h1`
   padding: 25px 0 25px 20px;
-  border-bottom: 1px solid gray;
   text-align:left;
   font-weight:700;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
+  border-bottom: 1px solid gray;
   color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
@@ -112,7 +112,7 @@ const UserInfo = Styled.div`
   padding: 30px;
   font-size: 25px;
   div {
-    margin-botton:20px;
+    margin-bottom:20px;
   }
 
 `;

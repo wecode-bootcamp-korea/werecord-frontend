@@ -81,7 +81,6 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
           </BestPersons>
         </PersonRanking>
       </Container>
-
       <TabletContainer onClick={() => setChangeBatchInfo(!changeBatchInfo)}>
         {changeBatchInfo ? (
           <BatchRanking>
@@ -169,22 +168,22 @@ const BestBatchTitle = Styled.span`
   margin-left:20px;
   padding: 20px;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
-  color: ${({ theme }) => theme.colors.black};
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
   background-color: #FF9800;
 `;
 
 const BestBatchTime = Styled.span`
   ${({ theme }) => theme.flexbox('column')};
   position: relative;
+  padding:10px;
+  margin-left:40px;
   left:50px;
   top:-10px;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
-  margin-left:40px;
   font-weight: 700;
-  padding:10px;
-  background-color:white;
   color:black;
+  background-color:white;
 `;
 
 const MyBatch = Styled.article`
@@ -203,7 +202,7 @@ const MyBatch = Styled.article`
 `;
 
 const MybatchText = Styled.div`
-  font-size: 60px;
+  font-size: ${({ theme }) => theme.pixelToRem(60)};
   margin-right: 10px;
 
   ${({ theme }) => theme.tablet`
@@ -214,8 +213,8 @@ const MybatchText = Styled.div`
 
 const MybatchNumber = Styled.div`
   padding: 10px;
-  background-color: ${({ theme }) => theme.colors.blue};
   font-size: 60px;
+  background-color: ${({ theme }) => theme.colors.blue};
 
   ${({ theme }) => theme.tablet`
     font-size: 30px;
@@ -239,8 +238,8 @@ const PersonRanking = Styled.article`
   width: 50%;
 
   ${({ theme }) => theme.tablet`
-    width: 100vw;
     margin-top: 50px;
+    width: 100vw;
   `}
 `;
 
@@ -273,19 +272,19 @@ const BestGradeTime = Styled.div`
 const BestPersons = Styled.div`
   ${({ theme }) => theme.flexbox('row', 'center', 'flex-end')}
   margin-top: 30px;
-  padding: 30px;
-  border-radius: 12px;
   width: 448px;
   height: 220px;
+  padding: 30px;
+  border-radius: 12px;
 
   .firstPrizeTotalTime {
     font-size: 20px;
   }
 
   ${({ theme }) => theme.tablet`
+    margin-top: 20px;
     width: 100vw;
     height: 130px;
-    margin-top: 20px;
     padding: 0 30px;;
   `}
 `;

@@ -21,18 +21,12 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
     return datePattern.test(value);
   };
 
-  // const checkMentorNameValid = value => {
-  //   if (value.length > 0) return true;
-  // };
-
   const checkBatchBtnValid = () => {
-    const { batchNumber, startDay, endDay, mentorName } = editBatchInformation;
+    const { batchNumber, startDay, endDay } = editBatchInformation;
     return (
       checkBatchNumberInputValid(batchNumber) &&
       checkDateInputValid(startDay) &&
       checkDateInputValid(endDay)
-      // &&
-      // checkMentorNameValid(mentorName)
     );
   };
 
@@ -141,9 +135,6 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
           >
             정보 수정
           </Button>
-          {/* <CheckValid display={checkBatchBtnValid()}>
-            * 형식에 맞게 작성해주세요!
-          </CheckValid> */}
         </EditBatchInformation>
       </BatchContainer>
     </Container>
@@ -161,8 +152,8 @@ const BatchContainer = styled.div`
 
 const Content = styled.div`
   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
-  width:100%;
   margin-bottom: 30px;
+  width: 100%;
 `;
 
 const MainLogo = styled.div`
@@ -174,9 +165,9 @@ const MainLogo = styled.div`
 
 const Title = styled.h1`
   margin: 35px 0 40px;
-  color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
 `;
 const EditBatchInformation = styled.form`
   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
@@ -185,40 +176,13 @@ const EditBatchInformation = styled.form`
 
 const Label = styled.label`
   margin: 0 0 10px;
-  color: ${({ theme }) => theme.colors.black};
   font-size: ${({ theme }) => theme.pixelToRem(16)};
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const Input = styled.input`
-  width: 100%;
   padding-bottom: 5px;
+  width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
-`;
-
-const CheckValid = styled.div`
-  display: ${({ display }) => display && 'none'};
-  color: ${({ theme }) => theme.colors.red};
-  font-size: ${({ theme }) => theme.pixelToRem(12)};
-  font-weight: 700;
-`;
-
-const EditBatchBtn = styled.button`
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  font-weight: 700;
-  border: 1px solid ${({ theme, isOn }) => (isOn ? 'gray' : theme.colors.black)};
-  border-radius: 3px;
-  transition: 0.3s background-color;
-  ${({ isOn }) => isOn || 'cursor: pointer'};
-
-  &:hover {
-    color: ${({ theme, isOn }) => isOn || theme.colors.white};
-    background-color: ${({ theme, isOn }) =>
-      isOn || theme.colors.backgroundColor};
-  }
-
-  &:active {
-    opacity: 0.8;
-  }
 `;

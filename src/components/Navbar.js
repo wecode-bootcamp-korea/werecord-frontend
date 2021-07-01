@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import Modal from '../components/Modal/Modal';
@@ -27,14 +27,6 @@ export default function Navbar() {
     }
   };
 
-  const Logout = () => {
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      alert('로그아웃되었습니다');
-      history.push('/');
-    });
-  };
-
   const handleMobileBtnlist = () => {
     !mobileNavBtnDisplayOn
       ? setMobileNavBtnDisplayOn(true)
@@ -56,7 +48,6 @@ export default function Navbar() {
                 메인 페이지
               </GoToMainPageBtn>
             )}
-
             {!isCheckMentor && location.pathname !== '/mypage' && (
               <GoToMyPageBtn
                 onClick={() => {
@@ -148,11 +139,11 @@ const showContainerAnimation = keyframes`
 
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
+  position: fixed;
   padding: 12px 24px;
   height: 60px;
   width: 100%;
   top: 0;
-  position: fixed;
   border-bottom: 1px solid ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.backgroundColor};
   animation-name: ${showContainerAnimation};
@@ -213,28 +204,28 @@ const MobileLogo = styled.div`
 
 const BtnContainer = styled.div`
   ${({ theme }) => theme.tablet`
-   display: none;
-   transform: scale(0.8);
-   background-color: ${({ theme }) => theme.colors.white};
-   border-radius: 5px;
-   padding: 20px;
+  display: none;
+  padding: 20px;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: 5px;
+  transform: scale(0.8);
 
-   &:after {
+  &:after {
     display: block;
     position: absolute;
-    left: 4px;
     width: 15px;
     height: 15px;
     top: -6px;
+    left: 4px;
     left: 122px;
-    content: '';
     background-color: ${({ theme }) => theme.colors.white};
+    content: '';
     transform: rotate(45deg);
   }
-   
-   ${({ handleMobileBtnList, theme }) =>
-     handleMobileBtnList &&
-     'display: flex;  flex-direction: column; position: absolute; right: -10px; top: 38px;'}
+
+  ${({ handleMobileBtnList, theme }) =>
+    handleMobileBtnList &&
+    'display: flex;  flex-direction: column; position: absolute; right: -10px; top: 38px;'}
   `}
 `;
 
@@ -265,7 +256,6 @@ const GoToMyPageBtn = styled.button`
     margin-bottom: 13px;    
     margin-right: 0;
     font-size: ${({ theme }) => theme.pixelToRem(17)};
-
     color: ${({ theme }) => theme.colors.black};
     background: ${({ theme }) => theme.colors.white};
     border: 1px solid ${({ theme }) => theme.colors.black};

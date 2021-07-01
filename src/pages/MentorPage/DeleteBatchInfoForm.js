@@ -41,8 +41,8 @@ const ModalContainer = Styled.section`
 `;
 
 const MainLogo = Styled.div`
-  font-size: 25px;
   padding: 30px;
+  font-size: 25px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
 `;
@@ -53,10 +53,10 @@ const RecheckDeleteSection = Styled.div`
 `;
 
 const RecheckDeleteHeader = Styled.h1`
-  color: ${({ theme }) => theme.colors.black};
+  margin-bottom: 20px;
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 20px;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const RecheckDeleteBtn = Styled.button`
@@ -69,9 +69,9 @@ const RecheckDeleteBtn = Styled.button`
   cursor: pointer;
 
   &:hover {
-  background-color: ${({ theme }) => theme.colors.red};
   border: 1px solid ${({ theme }) => theme.colors.red};
   color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.red};
     
   }
 `;

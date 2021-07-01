@@ -38,7 +38,6 @@ export default function PeersBox({ myBatchInfo }) {
           </Modal>
         )}
       </Container>
-
       <TabletContainer>
         <TableBottomTitle>출결 현황</TableBottomTitle>
         <PeersContainer>
@@ -70,8 +69,8 @@ const ScrollBoxTop = Styled.div`
 
 const ScrollBoxTitle = Styled.h1`
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.black};
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const ScrollBoxMentor = Styled.div`
@@ -139,10 +138,10 @@ const TabletContainer = Styled.section`
 `;
 
 const TableBottomTitle = Styled.h1`
-  width: 100vw;
   margin-bottom: 20px;
   padding: 10px 5px;
   text-align: center;
+  width: 100vw;
   color: ${({ theme }) => theme.colors.black};
   background-color: ${({ theme }) => theme.colors.white};
 `;
