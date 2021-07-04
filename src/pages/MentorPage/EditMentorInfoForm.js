@@ -16,6 +16,7 @@ export default function EditContents({ isModalOff }) {
     birthday: '',
     profile_image_url: [],
   });
+  // eslint-disable-next-line no-unused-vars
   const [userId, setUserId] = useState('');
   const [imgFile, setImgFile] = useState('');
   const { name, position, blog, github, birthday } = userForm;
@@ -268,12 +269,6 @@ const SelectBirthDay = styled.div`
   border-bottom: 1px solid black;
 `;
 
-const SubmitBtn = styled.button`
-  font-size: ${({ theme }) => theme.pixelToRem(20)};
-  font-weight: 700;
-  cursor: pointer;
-`;
-
 const LeaveBtn = styled.div`
   position: relative;
   bottom: 20px;
@@ -287,64 +282,3 @@ const LeaveBtn = styled.div`
     opacity: 0.3;
   }
 `;
-// const Title = styled.div`
-//   margin-bottom: 35px;
-//   font-size: ${({ theme }) => theme.pixelToRem(25)};
-//   font-weight: 700;
-// `;
-
-// const Container = styled.form`
-//   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
-//   width: 80%;
-//   position: relative;
-//   padding: 40px;
-//   color: #212121;
-// `;
-// const Label = styled.label`
-//   margin-right: 15px;
-//   margin-bottom: 5px;
-//   font-weight: 700;
-// `;
-
-// const Input = styled.input`
-//   width: 300px;
-//   padding-bottom: 5px;
-//   border-bottom: 1px solid black;
-// `;
-
-// const SelectBox = styled.select`
-//   width: 300px;
-//   padding: 3px 10px;
-//   font-size: 16px;
-// `;
-
-// const Content = styled.div`
-//   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
-//   margin-bottom: 25px;
-// `;
-
-// const SelectBirthDay = styled.div`
-//   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-//   width: 300px;
-//   padding: 5px;
-//   border-bottom: 1px solid black;
-// `;
-
-// const SubmitBtn = styled.button`
-//   position: absolute;
-//   right: -30px;
-//   bottom: 50px;
-//   font-size: ${({ theme }) => theme.pixelToRem(20)};
-//   font-weight: 700;
-//   cursor: pointer;
-// `;
-
-// const LeaveBtn = styled.button`
-//   padding: 3px 3px;
-//   color: red;
-//   cursor: pointer;
-
-//   &:active {
-//     opacity: 0.3;
-//   }
-// `;

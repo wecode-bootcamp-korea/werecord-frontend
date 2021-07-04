@@ -26,7 +26,7 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
   // };
 
   const checkBatchBtnValid = () => {
-    const { batchNumber, startDay, endDay, mentorName } = editBatchInformation;
+    const { batchNumber, startDay, endDay } = editBatchInformation;
     return (
       checkBatchNumberInputValid(batchNumber) &&
       checkDateInputValid(startDay) &&
@@ -194,31 +194,4 @@ const Input = styled.input`
   width: 100%;
   padding-bottom: 5px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
-`;
-
-const CheckValid = styled.div`
-  display: ${({ display }) => display && 'none'};
-  color: ${({ theme }) => theme.colors.red};
-  font-size: ${({ theme }) => theme.pixelToRem(12)};
-  font-weight: 700;
-`;
-
-const EditBatchBtn = styled.button`
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  font-weight: 700;
-  border: 1px solid ${({ theme, isOn }) => (isOn ? 'gray' : theme.colors.black)};
-  border-radius: 3px;
-  transition: 0.3s background-color;
-  ${({ isOn }) => isOn || 'cursor: pointer'};
-
-  &:hover {
-    color: ${({ theme, isOn }) => isOn || theme.colors.white};
-    background-color: ${({ theme, isOn }) =>
-      isOn || theme.colors.backgroundColor};
-  }
-
-  &:active {
-    opacity: 0.8;
-  }
 `;

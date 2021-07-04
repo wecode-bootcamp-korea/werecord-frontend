@@ -5,6 +5,7 @@ export default function ProfileCard({ modalOn, peersInfo }) {
   const { peer_status, peer_name, peer_profile_image_url } = peersInfo;
   const onProfileModal = useCallback(() => {
     modalOn(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

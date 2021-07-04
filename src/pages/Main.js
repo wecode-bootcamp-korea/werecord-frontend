@@ -211,7 +211,7 @@ const FireGif = styled.img`
   bottom: -10px;
 
   ${({ theme }) => theme.tablet`
-    width: 320px;
+    width: 150px;
   `}
 `;
 
