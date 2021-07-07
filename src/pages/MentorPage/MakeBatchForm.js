@@ -21,18 +21,12 @@ export default function MakeBatchForm({ isModalOff }) {
     return datePattern.test(value);
   };
 
-  // const checkMentorNameValid = value => {
-  //   if (value.length === (3 || 4)) return true;
-  // };
-
   const checkBatchBtnValid = () => {
-    const { batchNumber, startDay, endDay, mentorName } = newBatchInformation;
+    const { batchNumber, startDay, endDay } = newBatchInformation;
     return (
       checkBatchNumberInputValid(batchNumber) &&
       checkDateInputValid(startDay) &&
       checkDateInputValid(endDay)
-      // &&
-      // checkMentorNameValid(mentorName)
     );
   };
 
@@ -185,32 +179,4 @@ const Input = styled.input`
   font-size: ${({ theme }) => theme.pixelToRem(14)};
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   width: 100%;
-`;
-
-const CheckValid = styled.div`
-  display: ${({ display }) => display && 'none'};
-  margin-top: 20px;
-  color: ${({ theme }) => theme.colors.red};
-  font-size: ${({ theme }) => theme.pixelToRem(12)};
-  font-weight: 700;
-`;
-
-const MakeBatchBtn = styled.button`
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  font-weight: 700;
-  border: 1px solid ${({ theme, isOn }) => (isOn ? 'gray' : theme.colors.black)};
-  border-radius: 3px;
-  transition: 0.3s background-color;
-  ${({ isOn }) => isOn || 'cursor: pointer'};
-
-  &:hover {
-    color: ${({ theme, isOn }) => isOn || theme.colors.white};
-    background-color: ${({ theme, isOn }) =>
-      isOn || theme.colors.backgroundColor};
-  }
-
-  &:active {
-    opacity: 0.8;
-  }
 `;

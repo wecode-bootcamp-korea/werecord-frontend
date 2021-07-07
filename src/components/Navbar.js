@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import Modal from '../components/Modal/Modal';
@@ -25,14 +25,6 @@ export default function Navbar() {
       sessionStorage.clear();
       goToPage();
     }
-  };
-
-  const Logout = () => {
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      alert('로그아웃되었습니다');
-      history.push('/');
-    });
   };
 
   const handleMobileBtnlist = () => {

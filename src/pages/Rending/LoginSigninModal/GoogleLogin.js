@@ -7,6 +7,7 @@ const GoogleLogin = props => {
   const history = useHistory();
   useEffect(() => {
     googleLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const googleButton = useRef();
   const googleLogin = () => {
@@ -56,7 +57,8 @@ const GoogleLogin = props => {
                 props.changeModalValue();
               }
               return res;
-            });
+            })
+            .then(res => console.log(res));
         },
         function (error) {
           alert(JSON.stringify(error, undefined, 2));
