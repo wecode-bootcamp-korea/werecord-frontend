@@ -18,6 +18,8 @@ export default function Navbar() {
     setMobileNavBtnDisplayOn(false);
   };
 
+  const goToMainPage = () => !isCheckMentor && goToPage('main');
+
   const batch = sessionStorage.getItem('batch');
 
   const handleLogout = () => {
@@ -40,15 +42,23 @@ export default function Navbar() {
     <>
       {location.pathname !== '/' && (
         <Container>
-          <Logo>&gt; we-record</Logo>
-          <MobileLogo>&gt; we</MobileLogo>
+          <Logo
+            onClick={() => {
+              goToMainPage('main');
+            }}
+            isCheckMentor={isCheckMentor}
+          >
+            &gt; we-record
+          </Logo>
+          <MobileLogo
+            onClick={() => {
+              goToMainPage('main');
+            }}
+            isCheckMentor={isCheckMentor}
+          >
+            &gt; we
+          </MobileLogo>
           <BtnContainer handleMobileBtnList={mobileNavBtnDisplayOn}>
-            {!isCheckMentor && location.pathname !== '/main' && (
-              <GoToMainPageBtn onClick={() => goToPage('main')}>
-                메인 페이지
-              </GoToMainPageBtn>
-            )}
-
             {!isCheckMentor && location.pathname !== '/mypage' && (
               <GoToMyPageBtn
                 onClick={() => {
@@ -156,7 +166,9 @@ const Logo = styled.div`
   position: relative;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
   font-weight: bold;
-  cursor: default;
+  cursor: ${({ isCheckMentor }) => (!isCheckMentor ? 'pointer' : 'default')};
+
+  transition: all 0.3s;
 
   ${({ theme }) => theme.mobile`
     display: none;
@@ -175,6 +187,14 @@ const Logo = styled.div`
     animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.14, 1.04, 1, 0.98);
   }
+
+  &:hover {
+    ${({ isCheckMentor }) => !isCheckMentor && 'opacity: 0.7'}
+  }
+
+  &:active {
+    ${({ isCheckMentor }) => !isCheckMentor && 'opacity: 0.5'}
+  }
 `;
 
 const MobileLogo = styled.div`
@@ -182,7 +202,7 @@ const MobileLogo = styled.div`
   position: relative;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
   font-weight: bold;
-  cursor: default;
+  cursor: ${({ isCheckMentor }) => !isCheckMentor && 'pointer'};
 
   ${({ theme }) => theme.mobile`
     display: block;
@@ -200,6 +220,14 @@ const MobileLogo = styled.div`
     animation-name: ${logoAnimation};
     animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.14, 1.04, 1, 0.98);
+  }
+
+  &:hover {
+    ${({ isCheckMentor }) => !isCheckMentor && 'opacity: 0.7'}
+  }
+
+  &:active {
+    ${({ isCheckMentor }) => !isCheckMentor && 'opacity: 0.5'}
   }
 `;
 
@@ -224,7 +252,7 @@ const BtnContainer = styled.div`
     transform: rotate(45deg);
   }
    
-   ${({ handleMobileBtnList, theme }) =>
+   ${({ handleMobileBtnList }) =>
      handleMobileBtnList &&
      'display: flex;  flex-direction: column; position: absolute; right: -10px; top: 38px;'}
   `}
@@ -278,8 +306,6 @@ const GoToMyPageBtn = styled.button`
 const EditMentorInfo = GoToMyPageBtn.withComponent('button');
 
 const MakeBatchBtn = GoToMyPageBtn.withComponent('button');
-
-const GoToMainPageBtn = GoToMyPageBtn.withComponent('button');
 
 const GoToBatchPageBtn = GoToMyPageBtn.withComponent('button');
 
