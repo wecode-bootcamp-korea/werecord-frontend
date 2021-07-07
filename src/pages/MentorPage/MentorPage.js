@@ -231,7 +231,7 @@ const ContentsContainer = styled.section`
   max-width: 1440px;
   overflow: hidden;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   ${({ theme }) => theme.flexbox('column', 'start')}
   position: relative;
   width: 100%;
@@ -246,7 +246,7 @@ const MoveBtnContainer = styled.div`
   top: 65px;
   position: absolute;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-top: 145px;
     width: 250px;
   `}
@@ -258,7 +258,7 @@ const LeftBtn = styled.button`
   cursor: pointer;
   transition: 0.3s transform;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   `}
 
@@ -279,7 +279,7 @@ const Title = styled.h1`
   font-size: ${({ theme }) => theme.pixelToRem(35)};
   text-align: center;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-top: 150px;
     font-size: ${({ theme }) => theme.pixelToRem(20)};
   `}
@@ -290,7 +290,7 @@ const BatchInformationContainer = styled.ul`
   width: 1380px;
   transition: transform 0.5s;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-left: 1072px;
   `}
 `;
@@ -310,7 +310,7 @@ const Contents = styled.dl`
   text-align: left;
   transition: 0.3s transform, 0.3s box-shadow, 0.2s opacity;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   ${({ theme }) => theme.flexbox('column')}
     margin-bottom: 10px;
     width: 250px;
@@ -365,7 +365,7 @@ const BatchName = styled.dt`
   font-size: ${({ theme }) => theme.pixelToRem(60)};
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   left: 5px;
   bottom: -20px;
   margin-bottom: 20px;
@@ -376,7 +376,7 @@ const BatchName = styled.dt`
 const MentorContainer = styled.div`
   ${({ theme }) => theme.flexbox()}
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     position: absolute;
     bottom: -50px;
     left: -55%;
@@ -390,7 +390,7 @@ const MentorText = styled.dd`
   font-size: ${({ theme }) => theme.pixelToRem(18)};
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   `}
 `;
 
@@ -400,7 +400,7 @@ const MentorName = styled.dd`
   bottom: 70px;
   font-size: ${({ theme }) => theme.pixelToRem(18)};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   position: relative;
   font-size: ${({ theme }) => theme.pixelToRem(15)};
   `}
@@ -411,7 +411,7 @@ const AfterDday = styled.dd`
   font-size: ${({ theme }) => theme.pixelToRem(45)};
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   margin-bottom: 15px;
   font-size: ${({ theme }) => theme.pixelToRem(30)};
   text-align: center;
@@ -425,7 +425,7 @@ const StartEndContainer = styled.div`
   right: 10px;
   margin-bottom: 10px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   display: none;
   `}
 `;
@@ -454,7 +454,7 @@ const TotalTimeText = styled.p`
   font-weight: 700;
   margin-right: 10px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 `;
@@ -463,7 +463,7 @@ const TotalTime = styled.dd`
   font-size: ${({ theme }) => theme.pixelToRem(16)};
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 `;
@@ -472,7 +472,7 @@ const BatchOnUser = styled.dd`
   ${({ theme }) => theme.flexbox()}
   font-size: ${({ theme }) => theme.pixelToRem(20)};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin: 0 0 20px 0px;
     position: relative;
     bottom: 20px;
@@ -483,7 +483,7 @@ const UserStatus = styled.div`
   font-weight: 700;
   margin-right: 15px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 `;
@@ -524,7 +524,7 @@ const EditBtn = styled.button`
     opacity: 0.8;
   }
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   `}
 `;

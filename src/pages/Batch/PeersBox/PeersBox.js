@@ -39,7 +39,7 @@ export default function PeersBox({ myBatchInfo }) {
         )}
       </Container>
 
-      <TabletContainer>
+      <MobileContainer>
         <TableBottomTitle>출결 현황</TableBottomTitle>
         <PeersContainer>
           {myBatchInfo.peers.map(peers => (
@@ -48,7 +48,7 @@ export default function PeersBox({ myBatchInfo }) {
             </div>
           ))}
         </PeersContainer>
-      </TabletContainer>
+      </MobileContainer>
     </>
   );
 }
@@ -59,7 +59,7 @@ const Container = Styled.section`
   border-radius: 3px;
   background-color: #fefefe;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 `;
@@ -129,10 +129,10 @@ const settings = {
   ],
 };
 
-const TabletContainer = Styled.section`
+const MobileContainer = Styled.section`
   display: none;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: block;
     ${({ theme }) => theme.flexbox('column', 'center', 'center')}
   `}

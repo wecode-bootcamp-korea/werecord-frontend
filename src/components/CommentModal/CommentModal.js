@@ -37,7 +37,7 @@ const ContentSection = styled.div`
     font-size: 16px;
     font-weight: 700;
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       font-size: 13px;
       font-weight: 400;
     `}
