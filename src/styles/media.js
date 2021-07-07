@@ -4,6 +4,7 @@ const breakpoint = {
   mobile: 425,
   tablet: 768,
   desktop: 1024,
+  middle_desktop: 1280,
   large_desktop: 1440,
 };
 

@@ -39,7 +39,7 @@ const Container = Styled.main`
   margin: 0 auto;
   padding: 0 142px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     padding: 0;
   `}
 `;
