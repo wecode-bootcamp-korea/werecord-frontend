@@ -23,15 +23,18 @@ export default function Main() {
   const [stopModalPopUp, setStopModalPopUp] = useState(false);
 
   const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-04-12');
+  // eslint-disable-next-line no-unused-vars
   const [sendModalOff, setSendModalOff] = useState(false);
   const memoDate = useMemo(() => getTodayDate(), []);
 
   const useCallbackStartTime = useCallback(
     () => checkStart(setIsCommentModal),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isCommentModal]
   );
   const useCallbackStopTime = useCallback(
     () => checkStop(setIsCommentModal, setStopModalPopUp),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isCommentModal, stopModalPopUp]
   );
 
@@ -67,7 +70,7 @@ export default function Main() {
         </ButtonAnimationSection>
 
         {checkObjData(isCommentModal) && (
-          <Modal setOff={setIsCommentModal}>
+          <Modal setOff={setIsCommentModal} isCommentModal={true}>
             {stopModalPopUp && (
               <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
             )}
@@ -207,11 +210,11 @@ const FirewoodImg = styled.img`
 
 const FireGif = styled.img`
   position: absolute;
-  width: 700px;
+  width: 300px;
   bottom: -10px;
 
   ${({ theme }) => theme.tablet`
-    width: 320px;
+    width: 150px;
   `}
 `;
 

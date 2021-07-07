@@ -16,6 +16,7 @@ export default function EditContents({ isModalOff }) {
     birthday: '',
     profile_image_url: [],
   });
+  // eslint-disable-next-line no-unused-vars
   const [userId, setUserId] = useState('');
   const [imgFile, setImgFile] = useState('');
   const { name, position, blog, github, birthday } = userForm;

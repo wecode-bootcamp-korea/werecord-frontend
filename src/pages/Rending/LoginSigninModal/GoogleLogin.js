@@ -7,6 +7,7 @@ const GoogleLogin = props => {
   const history = useHistory();
   useEffect(() => {
     googleLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const googleButton = useRef();
   const googleLogin = () => {

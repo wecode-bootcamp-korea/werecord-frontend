@@ -39,6 +39,7 @@ export default function MentorPage({ history }) {
         alert('관리자에게 문의바랍니다!');
         history.push('/');
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getRandomImage = arr => {
@@ -128,7 +129,6 @@ export default function MentorPage({ history }) {
           {batchInformation.map((batch, index) => {
             const {
               batch_id,
-              batch_name,
               batch_start_day,
               batch_end_day,
               batch_total_time,

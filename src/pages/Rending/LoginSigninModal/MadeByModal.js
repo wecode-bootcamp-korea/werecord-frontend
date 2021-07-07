@@ -94,10 +94,6 @@ const Title = styled.h1`
   `}
 `;
 
-const ProjectDescription = styled.p`
-  ${({ theme }) => theme.flexbox()}
-`;
-
 const ProfileContainer = styled.div`
   ${({ theme }) => theme.flexbox('row', 'start', 'start')}
 

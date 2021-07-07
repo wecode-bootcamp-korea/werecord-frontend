@@ -10,6 +10,7 @@ export default function EditContents() {
   const [imgFile, setImgFile] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
   const { name, position, blog, github, birthday } = userForm;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const callbackIsModalOn = useCallback(() => setIsModalOn(true), [isModalOn]);
 
   useEffect(() => {
@@ -208,12 +209,6 @@ const SelectBirthDay = styled.div`
   width: 90%;
   padding: 5px;
   border-bottom: 1px solid black;
-`;
-
-const SubmitBtn = styled.button`
-  font-size: ${({ theme }) => theme.pixelToRem(20)};
-  font-weight: 700;
-  cursor: pointer;
 `;
 
 const LeaveBtn = styled.div`
