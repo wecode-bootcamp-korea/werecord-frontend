@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { keyframes } from 'styled-components';
 import FadeIn from 'react-fade-in';
-import LineChart from '../Mypage/Charts/LineChart';
-import BarChart from '../Mypage/Charts/BarChart';
+import BarHighChart from './Charts/BarHighChart';
+import LineHighChart from './Charts/LineHighChart';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
 import EditForm from '../Mypage/EditForm';
@@ -110,12 +110,11 @@ export default function Mypage() {
           </article>
           <SecondContents>
             <TimeGraphContents>
-              <div>
-                <BarChart
-                  weeklyRecordsData={getInformation('record', 'weekly_record')}
-                />
-              </div>
-              <LineChart
+              <BarHighChart
+                weeklyRecordsData={getInformation('record', 'weekly_record')}
+              />
+
+              <LineHighChart
                 totalAccumulateRecordsData={getInformation(
                   'record',
                   'total_accumulate_records'
@@ -149,7 +148,7 @@ const ContentsContainer = styled.section`
 
 const UserProfile = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-  margin-bottom: 35px;
+  margin-bottom: 60px;
 
   ${({ theme }) => theme.mobile` 
   ${({ theme }) => theme.flexbox('row', 'center')}
@@ -254,7 +253,7 @@ const SecondContents = styled.article`
 
 const TimeGraphContents = styled.div`
   div:first-child {
-    margin-bottom: 80px;
+    margin-bottom: 30px;
   }
 `;
 
