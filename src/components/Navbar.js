@@ -158,7 +158,7 @@ const Logo = styled.div`
   font-weight: bold;
   cursor: default;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 
@@ -184,7 +184,7 @@ const MobileLogo = styled.div`
   font-weight: bold;
   cursor: default;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: block;
   `}
 
@@ -204,7 +204,7 @@ const MobileLogo = styled.div`
 `;
 
 const BtnContainer = styled.div`
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
    display: none;
    transform: scale(0.8);
    background-color: ${({ theme }) => theme.colors.white};
@@ -253,7 +253,7 @@ const GoToMyPageBtn = styled.button`
 
   transition: transform 0.3s, background-color 0.3s, opacity 0.15s;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-bottom: 13px;    
     margin-right: 0;
     font-size: ${({ theme }) => theme.pixelToRem(17)};
@@ -298,7 +298,7 @@ const MobileBtnList = styled.button`
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   cursor: pointer;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: block;
   `}
 `;

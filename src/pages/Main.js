@@ -102,7 +102,7 @@ const Container = styled.section`
   padding: 0 142px;
   background-color: ${({ theme }) => theme.colors.backgroundColor};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     padding: 0;
   `}
 `;
@@ -110,7 +110,7 @@ const Container = styled.section`
 const TimeSection = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 `;
@@ -128,7 +128,7 @@ const StartSection = styled.section`
   font-size: ${({ theme }) => theme.pixelToRem(35)};
   font-weight: 500;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin: 0 auto;
     margin-bottom: 100px;
     font-size: 20px;
@@ -141,7 +141,7 @@ const StudentName = styled.h2`
   color: ${({ theme }) => theme.colors.fontColor};
   background-color: ${({ theme }) => theme.colors.blue};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 `;
@@ -154,7 +154,7 @@ const ButtonAnimationSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   margin-top: 100px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${theme.flexbox('column', 'center', 'center')};
   `}
 `;
@@ -165,7 +165,7 @@ const ButtonSection = styled.section`
   margin-top: 50px;
   font-size: 50px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     order: 2;
     width: 80vw;
     margin-top: 120px;
@@ -194,7 +194,7 @@ const FireAnimationSection = styled.div`
   position: relative;
   margin-right: 150px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-right: 0;
   `}
 `;
@@ -203,7 +203,7 @@ const FirewoodImg = styled.img`
   position: absolute;
   width: 200px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 130px;
   `}
 `;
@@ -213,7 +213,7 @@ const FireGif = styled.img`
   width: 300px;
   bottom: -10px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 150px;
   `}
 `;

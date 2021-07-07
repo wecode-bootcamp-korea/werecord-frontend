@@ -1,8 +1,10 @@
 import { css } from 'styled-components';
 
 const breakpoint = {
-  tablet: 765,
-  desktop: 1080,
+  mobile: 425,
+  tablet: 768,
+  desktop: 1024,
+  large_desktop: 1440,
 };
 
 export default Object.keys(breakpoint).reduce((acc, device) => {

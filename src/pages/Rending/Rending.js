@@ -70,7 +70,7 @@ const MainLogo = styled.img`
   right: 10px;
   width: 330px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 150px;
     padding-right: 0;
   `}
@@ -79,10 +79,10 @@ const MainLogo = styled.img`
 const SubLogo = styled.img`
   ${({ theme, location }) =>
     location === 'top'
-      ? theme.tablet`
+      ? theme.mobile`
     width: 100px;
   `
-      : theme.tablet`
+      : theme.mobile`
   width: 135px;`}
 `;
 
@@ -93,7 +93,7 @@ const LoginImg = styled.img`
   right: 30px;
   cursor: pointer;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 50px;
   `}
 `;
@@ -104,7 +104,7 @@ const MadeByImg = styled.img`
   top: 88%;
   cursor: pointer;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 70px;
   `}
 `;
