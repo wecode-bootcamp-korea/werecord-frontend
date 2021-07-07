@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import FadeIn from 'react-fade-in';
 import Styled from 'styled-components';

@@ -23,15 +23,18 @@ export default function Main() {
   const [stopModalPopUp, setStopModalPopUp] = useState(false);
 
   const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-04-12');
+  // eslint-disable-next-line no-unused-vars
   const [sendModalOff, setSendModalOff] = useState(false);
   const memoDate = useMemo(() => getTodayDate(), []);
 
   const useCallbackStartTime = useCallback(
     () => checkStart(setIsCommentModal),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isCommentModal]
   );
   const useCallbackStopTime = useCallback(
     () => checkStop(setIsCommentModal, setStopModalPopUp),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isCommentModal, stopModalPopUp]
   );
 
