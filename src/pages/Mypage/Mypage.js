@@ -163,6 +163,7 @@ const Img = styled.img`
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const UserInformation = styled.dl`
