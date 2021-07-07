@@ -32,4 +32,4 @@ jobs:
       - name: Build
         run: yarn build
       - name: Deploy
-        run: aws s3 sync ./build s3://http://we-record.s3-website.ap-northeast-2.amazonaws.com
+        run: aws s3 sync ./build s3://we-record
