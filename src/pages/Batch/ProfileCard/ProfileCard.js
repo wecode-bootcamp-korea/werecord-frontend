@@ -34,6 +34,7 @@ const Container = Styled.li`
     border-radius: 12px;
     width: 100px;
     height: 100px;
+    object-fit: cover;
 
     ${({ theme }) => theme.mobile`
       margin-top: 30px;
