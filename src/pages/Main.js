@@ -18,6 +18,8 @@ export default function Main() {
     isOn: false,
     startTime: '00:00',
     normalAttendance: false,
+    isStart: false,
+    isStop: false,
   });
   const [isCommentModal, setIsCommentModal] = useState({});
   const [stopModalPopUp, setStopModalPopUp] = useState(false);
@@ -52,15 +54,20 @@ export default function Main() {
         </TimeSection>
         <StartSection>
           <StudentName>{`${userInfo.name}님`}</StudentName>
-          {!userInfo.isOn ? (
-            <StartTime>오늘도 상쾌하게 시작해볼까요?</StartTime>
-          ) : (
-            <StartTime>{showStartTime(userInfo)}</StartTime>
-          )}
+          <StartTime>{greetings(userInfo)}</StartTime>
         </StartSection>
         <ButtonAnimationSection>
           <ButtonSection>
-            <Button onClick={useCallbackStartTime}>START</Button>
+            {!userInfo.isOn && userInfo.isStart ? (
+              <Button onClick={checkRestart}>RESTART</Button>
+            ) : (
+              <Button
+                onClick={useCallbackStartTime}
+                disabled={userInfo.isOn && userInfo.isStart}
+              >
+                START
+              </Button>
+            )}
             <Button onClick={checkPause}>PAUSE</Button>
             <Button onClick={useCallbackStopTime}>STOP</Button>
           </ButtonSection>
@@ -176,7 +183,8 @@ const ButtonSection = styled.section`
 
 const Button = styled.button`
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.fontColor};
+  color: ${({ theme, disabled }) =>
+    !disabled ? theme.colors.fontColor : 'gray'};
   transition: all 0.3s ease;
   cursor: pointer;
 
@@ -239,13 +247,21 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
         setCheckOffWorkDate(result);
       }
       if (result) {
-        const { user_name, user_status, user_start_time } = result;
-        setUserInfo(prev => ({
-          ...prev,
-          name: user_name,
-          isOn: user_status,
-          startTime: user_start_time,
-        }));
+        const {
+          user_name,
+          user_status,
+          user_start_time,
+          start_status,
+          stop_status,
+        } = result;
+        // setUserInfo(prev => ({
+        //   ...prev,
+        //   name: user_name,
+        //   isOn: user_status,
+        //   startTime: user_start_time,
+        //   isStart: start_status,
+        //   isStop: stop_status,
+        // }));
       }
     });
 };
@@ -328,7 +344,21 @@ const checkStop = (setIsCommentModal, setStopModalPopUp) => {
 };
 
 const checkPause = () => {
-  fetch();
+  fetch(`${API_URLS.MAIN}/pause`, {
+    method: 'POST',
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  });
+};
+
+const checkRestart = () => {
+  fetch(`${API_URLS.MAIN}/restart`, {
+    method: 'POST',
+    headers: {
+      Authorization: sessionStorage.getItem('wrtoken'),
+    },
+  });
 };
 
 const getTimePasses = setTime => {
@@ -361,4 +391,22 @@ const showStartTime = userInfo => {
   return `${getTime(userInfo.startTime.split(':')[0])}시 ${
     userInfo.startTime.split(':')[1]
   }분에 시작하셨습니다.`;
+};
+
+const greetings = userInfo => {
+  if (!userInfo.isOn && !userInfo.isStart) {
+    return '오늘도 상쾌하게 시작해볼까요?';
+  }
+
+  if (!userInfo.isOn && userInfo.isStart && !userInfo.isStop) {
+    return '은 일시 정지 중 입니다.';
+  }
+
+  if (userInfo.isStart && userInfo.isStop) {
+    return '오늘 하루도 힘찬 코딩하셨나요?';
+  }
+
+  if (userInfo.isOn && userInfo.isStart) {
+    return showStartTime(userInfo);
+  }
 };
