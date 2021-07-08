@@ -31,13 +31,19 @@ export default function Main() {
 
   const useCallbackStartTime = useCallback(
     () => checkStart(setIsCommentModal),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCommentModal]
+    []
   );
   const useCallbackStopTime = useCallback(
     () => checkStop(setIsCommentModal, setStopModalPopUp),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCommentModal, stopModalPopUp]
+    []
+  );
+  const useCallbackPauseTime = useCallback(
+    () => checkPause(setIsCommentModal),
+    []
+  );
+  const useCallbackRestartTime = useCallback(
+    () => checkRestart(setIsCommentModal),
+    []
   );
 
   useEffect(() => {
@@ -59,7 +65,7 @@ export default function Main() {
         <ButtonAnimationSection>
           <ButtonSection>
             {!userInfo.isOn && userInfo.isStart ? (
-              <Button onClick={checkRestart}>RESTART</Button>
+              <Button onClick={useCallbackRestartTime}>RESTART</Button>
             ) : (
               <Button
                 onClick={useCallbackStartTime}
@@ -68,7 +74,7 @@ export default function Main() {
                 START
               </Button>
             )}
-            <Button onClick={checkPause}>PAUSE</Button>
+            <Button onClick={useCallbackPauseTime}>PAUSE</Button>
             <Button onClick={useCallbackStopTime}>STOP</Button>
           </ButtonSection>
           <FireAnimationSection>
@@ -254,14 +260,14 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
           start_status,
           stop_status,
         } = result;
-        // setUserInfo(prev => ({
-        //   ...prev,
-        //   name: user_name,
-        //   isOn: user_status,
-        //   startTime: user_start_time,
-        //   isStart: start_status,
-        //   isStop: stop_status,
-        // }));
+        setUserInfo(prev => ({
+          ...prev,
+          name: user_name,
+          isOn: user_status,
+          startTime: user_start_time,
+          isStart: start_status,
+          isStop: stop_status,
+        }));
       }
     });
 };
@@ -343,13 +349,23 @@ const checkStop = (setIsCommentModal, setStopModalPopUp) => {
     });
 };
 
-const checkPause = () => {
+const checkPause = setIsCommentModal => {
   fetch(`${API_URLS.MAIN}/pause`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
-  });
+  })
+    .then(res => res.json())
+    .then(({ message }) => {
+      if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
+        setIsCommentModal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: 'START를 먼저 누르세요.',
+        }));
+      }
+    });
 };
 
 const checkRestart = () => {
