@@ -61,6 +61,7 @@ export default function Main() {
         <ButtonAnimationSection>
           <ButtonSection>
             <Button onClick={useCallbackStartTime}>START</Button>
+            <Button onClick={checkPause}>PAUSE</Button>
             <Button onClick={useCallbackStopTime}>STOP</Button>
           </ButtonSection>
           <FireAnimationSection>
@@ -163,7 +164,7 @@ const ButtonSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   width: 550px;
   margin-top: 50px;
-  font-size: 50px;
+  font-size: 40px;
 
   ${({ theme }) => theme.mobile`
     order: 2;
@@ -324,6 +325,10 @@ const checkStop = (setIsCommentModal, setStopModalPopUp) => {
         setStopModalPopUp(true);
       }
     });
+};
+
+const checkPause = () => {
+  fetch();
 };
 
 const getTimePasses = setTime => {
