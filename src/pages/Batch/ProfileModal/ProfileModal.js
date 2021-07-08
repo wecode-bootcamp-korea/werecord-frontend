@@ -71,6 +71,7 @@ const UserCard = Styled.div`
     height: 150px;
     margin-right:10px;
     border-radius: 50%;
+    object-fit: cover;
 
     ${({ theme }) => theme.mobile`
       width: 100px;
