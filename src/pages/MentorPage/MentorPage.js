@@ -20,6 +20,7 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
+    fetch('data/MentorPageData.json');
     fetch(`${API_URLS.MENTOR_PAGE}`, {
       method: 'GET',
       headers: {
@@ -42,74 +43,6 @@ export default function MentorPage({ history }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getRandomImage = arr => {
-    return arr[Math.floor(Math.random() * arr.length)];
-  };
-
-  // 슬라이더 로직 - 시작
-  const goToPrevious = () => {
-    if (window.outerWidth > 765) {
-      const batchLength = Math.ceil(batchInformation.length / 3);
-      if (count.current === 0) {
-        count.current = batchLength;
-      }
-      count.current--;
-      sliderList.current.style.transform = `translate(-${
-        1380 * count.current
-      }px, 0)`;
-    } else {
-      const batchLength = batchInformation.length;
-      if (count.current === 0) {
-        count.current = batchLength;
-      }
-      count.current--;
-      sliderList.current.style.transform = `translate(-${
-        310 * count.current
-      }px, 0)`;
-    }
-  };
-
-  const goToNext = () => {
-    if (window.outerWidth > 765) {
-      const batchLength = Math.ceil(batchInformation.length / 3);
-      const batchEvenLength = batchLength % 2 === 0;
-
-      if (batchEvenLength) {
-        const batchOddLength = batchLength - 1;
-        if (count.current === batchOddLength) {
-          count.current = -1;
-        }
-      } else if (!batchEvenLength) {
-        if (count.current === batchLength - 1) count.current = -1;
-      }
-
-      count.current++;
-      sliderList.current.style.transform = `translate(-${
-        1380 * count.current
-      }px, 0)`;
-    } else {
-      const batchLength = batchInformation.length;
-      const batchEvenLength = batchLength % 2 === 0;
-
-      if (batchEvenLength) {
-        const batchOddLength = batchLength - 1;
-        if (count.current === batchOddLength) {
-          count.current = -1;
-        }
-      } else if (!batchEvenLength) {
-        if (count.current === batchLength - 1) count.current = -1;
-      }
-
-      count.current++;
-      sliderList.current.style.transform = `translate(-${
-        310 * count.current
-      }px, 0)`;
-    }
-  };
-  // 슬라이더 로직 - 끝 (리팩토링 예정)
-
-  const calculateDday = value => (value > 0 ? `+ ${value}` : `- ${value * -1}`);
-
   const handleModalAfterBatchDelete = () => setDeleteBatchInformation(false);
   const handleModalAfterBatchEdit = () => setEditBatchInformation(false);
 
@@ -117,10 +50,18 @@ export default function MentorPage({ history }) {
     <FadeIn>
       <ContentsContainer>
         <MoveBtnContainer>
-          <LeftBtn onClick={goToPrevious}>
+          <LeftBtn
+            onClick={() => {
+              goToPrevious(count, batchInformation, sliderList);
+            }}
+          >
             <i className="fas fa-arrow-left"></i>
           </LeftBtn>
-          <RightBtn onClick={goToNext}>
+          <RightBtn
+            onClick={() => {
+              goToNext(count, batchInformation, sliderList);
+            }}
+          >
             <i className="fas fa-arrow-right"></i>
           </RightBtn>
         </MoveBtnContainer>
@@ -140,7 +81,7 @@ export default function MentorPage({ history }) {
             return (
               <List key={index}>
                 <Contents
-                  images={getRandomImage(IMAGES)}
+                  images={getRandomBackgroundImage(IMAGES)}
                   onClick={() => {
                     goToBatchPage(batch_id);
                   }}
@@ -236,7 +177,6 @@ const ContentsContainer = styled.section`
   position: relative;
   width: 100%;
   top: -159px;
-
   `}
 `;
 
@@ -289,6 +229,10 @@ const BatchInformationContainer = styled.ul`
   ${({ theme }) => theme.flexbox('row', 'start')}
   width: 1380px;
   transition: transform 0.5s;
+
+  ${({ theme }) => theme.tablet`
+    margin-left: 920px;
+  `}
 
   ${({ theme }) => theme.mobile`
     margin-left: 1072px;
@@ -536,3 +480,95 @@ const CloseBtn = styled(EditBtn.withComponent('button'))`
     color: ${({ theme }) => theme.colors.red};
   }
 `;
+
+const calculateDday = value => (value > 0 ? `+ ${value}` : `- ${value * -1}`);
+
+const getRandomBackgroundImage = arr => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};
+
+const goToPrevious = (sliderCount, contents, target) => {
+  if (window.outerWidth > 1024) {
+    const batchLength = Math.ceil(contents.length / 3);
+    if (sliderCount.current === 0) {
+      sliderCount.current = batchLength;
+    }
+    sliderCount.current--;
+    target.current.style.transform = `translate(-${
+      1380 * sliderCount.current
+    }px, 0)`;
+  } else if (window.outerWidth <= 1024 && window.outerWidth > 425) {
+    const batchLength = contents.length;
+    if (sliderCount.current === 0) {
+      sliderCount.current = batchLength;
+    }
+    sliderCount.current--;
+    target.current.style.transform = `translate(-${
+      460 * sliderCount.current
+    }px, 0)`;
+  } else if (window.outerWidth <= 425) {
+    const batchLength = contents.length;
+    if (sliderCount.current === 0) {
+      sliderCount.current = batchLength;
+    }
+    sliderCount.current--;
+    target.current.style.transform = `translate(-${
+      310 * sliderCount.current
+    }px, 0)`;
+  }
+};
+
+const goToNext = (sliderCount, contents, target) => {
+  if (window.outerWidth > 1024) {
+    const batchLength = Math.ceil(contents.length / 3);
+    const batchEvenLength = batchLength % 2 === 0;
+
+    if (batchEvenLength) {
+      const batchOddLength = batchLength - 1;
+      if (sliderCount.current === batchOddLength) {
+        sliderCount.current = -1;
+      }
+    } else if (!batchEvenLength) {
+      if (sliderCount.current === batchLength - 1) sliderCount.current = -1;
+    }
+
+    sliderCount.current++;
+    target.current.style.transform = `translate(-${
+      1380 * sliderCount.current
+    }px, 0)`;
+  } else if (window.outerWidth <= 1024 && window.outerWidth > 425) {
+    const batchLength = contents.length;
+    const batchEvenLength = batchLength % 2 === 0;
+
+    if (batchEvenLength) {
+      const batchOddLength = batchLength - 1;
+      if (sliderCount.current === batchOddLength) {
+        sliderCount.current = -1;
+      }
+    } else if (!batchEvenLength) {
+      if (sliderCount.current === batchLength - 1) sliderCount.current = -1;
+    }
+
+    sliderCount.current++;
+    target.current.style.transform = `translate(-${
+      460 * sliderCount.current
+    }px, 0)`;
+  } else if (window.outerWidth <= 425) {
+    const batchLength = contents.length;
+    const batchEvenLength = batchLength % 2 === 0;
+
+    if (batchEvenLength) {
+      const batchOddLength = batchLength - 1;
+      if (sliderCount.current === batchOddLength) {
+        sliderCount.current = -1;
+      }
+    } else if (!batchEvenLength) {
+      if (sliderCount.current === batchLength - 1) sliderCount.current = -1;
+    }
+
+    sliderCount.current++;
+    target.current.style.transform = `translate(-${
+      310 * sliderCount.current
+    }px, 0)`;
+  }
+};
