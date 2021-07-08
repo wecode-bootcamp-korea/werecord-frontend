@@ -49,6 +49,7 @@ export default function Main() {
   useEffect(() => {
     getTimePasses(setTime);
     fetchUserData(setUserInfo, setCheckOffWorkDate);
+    return () => clearInterval(getTimePasses(setTime));
   }, []);
 
   return (
@@ -410,14 +411,13 @@ const checkRestart = () => {
 };
 
 const getTimePasses = setTime => {
-  const goTime = setInterval(() => {
+  setInterval(() => {
     setTime(prev => ({
       ...prev,
       hour: dayjs().hour(),
       minutes: dayjs().minute(),
     }));
   }, 1000);
-  return () => clearInterval(goTime);
 };
 
 const getTodayDate = () => {
