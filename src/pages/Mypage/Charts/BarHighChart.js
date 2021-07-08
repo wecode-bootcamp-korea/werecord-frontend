@@ -1,4 +1,5 @@
 import React from 'react';
+import Styled from 'styled-components';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 

@@ -106,7 +106,7 @@ const LoginImg = styled.img`
   cursor: pointer;
 
   ${({ theme }) => theme.tablet`
-    width: 100px;
+    width: 60px;
   `}
 
   ${({ theme }) => theme.mobile`

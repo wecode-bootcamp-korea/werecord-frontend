@@ -226,7 +226,7 @@ const FirewoodImg = styled.img`
   width: 200px;
 
   ${({ theme }) => theme.middle_desktop`
-    width: 160px;
+    width: 130px;
   `}
 
   ${({ theme }) => theme.mobile`
@@ -239,7 +239,7 @@ const FireGif = styled.img`
   width: 300px;
   bottom: -10px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.middle_desktop`
     width: 170px;
   `}
 
