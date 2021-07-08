@@ -133,7 +133,7 @@ const Title = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   margin-top: 30px;
   margin-bottom: 20px;
   font-size: 17px;
@@ -146,7 +146,7 @@ const Container = styled.form`
   margin: 80px 50px 50px 50px;
   color: #212121;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin: 0;
   `}
 `;
@@ -158,7 +158,7 @@ const MainLogo = styled.div`
   margin-right: 0px;
   padding: 30px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 `;
@@ -166,7 +166,7 @@ const MainLogo = styled.div`
 const ContentContainer = styled.div`
   width: 50%;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 90%;
   `}
 `;
@@ -176,7 +176,7 @@ const Label = styled.label`
   margin-bottom: 10px;
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 14px;
   `}
 `;
@@ -199,7 +199,7 @@ const Content = styled.div`
   ${({ theme }) => theme.flexbox('column', 'start', 'start')}
   margin-bottom: 25px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-bottom: 15px;
   `}
 `;

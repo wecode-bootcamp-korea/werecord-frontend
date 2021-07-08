@@ -189,7 +189,7 @@ const MainLogo = styled.div`
   font-size: 25px;
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
   `}
 `;
@@ -206,7 +206,7 @@ const SignIntext = styled.div`
   font-weight: 700;
   text-align: left;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-top: 7px 0 16px 0px;
     font-size: 10px;
   `}
@@ -219,7 +219,7 @@ const SignInHeader = styled.h1`
   font-weight: 700;
   font-size: 20px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 16px;
   `}
 `;
@@ -240,7 +240,7 @@ const SignInForm = styled.li`
       margin-right: 20px;
       color: black;
 
-      ${({ theme }) => theme.tablet`
+      ${({ theme }) => theme.mobile`
         font-size: 12px;
       `}
     }
@@ -256,7 +256,7 @@ const SignInTitle = styled.span`
   font-size: 17px;
   text-align: left;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 13px;
   `}
 `;
@@ -266,7 +266,7 @@ const SignInInput = styled.input`
   font-size: 15px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 12px;
   `}
 `;
@@ -281,7 +281,7 @@ const PositionSelect = styled.select`
   border-radius: 2px;
   outline: none;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 11px;
   `}
 `;

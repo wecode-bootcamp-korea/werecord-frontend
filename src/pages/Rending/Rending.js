@@ -71,8 +71,12 @@ const MainLogo = styled.img`
   width: 330px;
 
   ${({ theme }) => theme.tablet`
-    width: 150px;
+    width: 250px;
     padding-right: 0;
+  `}
+
+  ${({ theme }) => theme.mobile`
+    width: 150px;
   `}
 `;
 
@@ -80,10 +84,18 @@ const SubLogo = styled.img`
   ${({ theme, location }) =>
     location === 'top'
       ? theme.tablet`
-    width: 100px;
+    width: 230px;
   `
       : theme.tablet`
-  width: 135px;`}
+  width: 260px;`};
+
+  ${({ theme, location }) =>
+    location === 'top'
+      ? theme.mobile`
+    width: 100px;
+  `
+      : theme.mobile`
+  width: 135px;`};
 `;
 
 const LoginImg = styled.img`
@@ -94,6 +106,10 @@ const LoginImg = styled.img`
   cursor: pointer;
 
   ${({ theme }) => theme.tablet`
+    width: 60px;
+  `}
+
+  ${({ theme }) => theme.mobile`
     width: 50px;
   `}
 `;
@@ -105,6 +121,10 @@ const MadeByImg = styled.img`
   cursor: pointer;
 
   ${({ theme }) => theme.tablet`
+    width: 130px;
+  `}
+
+  ${({ theme }) => theme.mobile`
     width: 70px;
   `}
 `;

@@ -22,7 +22,7 @@ const Container = Styled.li`
   margin: 0 20px;
   cursor: pointer;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin: 0 15px;
   `}
 
@@ -34,8 +34,9 @@ const Container = Styled.li`
     border-radius: 12px;
     width: 100px;
     height: 100px;
+    object-fit: cover;
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       margin-top: 30px;
       width: 60px;
       height: 60px;
@@ -47,7 +48,7 @@ const Container = Styled.li`
     position: relative;
     font-size: ${({ theme }) => theme.pixelToRem(15)};
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       font-size: 12px;
       color: ${({ theme }) => theme.colors.white};
     `}
@@ -63,7 +64,7 @@ const Container = Styled.li`
       background-color: ${({ isOn, theme }) =>
         isOn ? theme.colors.blue : theme.colors.red};
 
-      ${({ theme }) => theme.tablet`
+      ${({ theme }) => theme.mobile`
         width: 7px;
         height: 7px;
       `}
