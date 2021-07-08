@@ -30,7 +30,7 @@ const ModalContainer = styled.section`
   padding: 20px 30px;
 
   .logo {
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       display: none;
     `}
   }
@@ -61,7 +61,7 @@ const LoginSection = styled.div`
   ${({ theme }) => theme.flexbox('column', 'start', 'stretch')};
   margin-left: 50px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
   margin-left: 10px;
   `}
 `;

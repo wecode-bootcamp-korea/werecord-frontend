@@ -88,7 +88,7 @@ const Title = styled.h1`
   font-weight: 700;
   font-size: 20px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 16px;
     line-height: 1.2;
   `}
@@ -102,7 +102,7 @@ const ProfileContainer = styled.div`
     color: black;
     margin-right: 5px;
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       margin-right: 0;
       font-size: 13px;
     `}
@@ -118,7 +118,7 @@ const Content = styled.div`
   font-weight: 700;
   margin-bottom: 5px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 14px;
   `}
 `;
@@ -127,7 +127,7 @@ const Name = styled.div`
   font-size: 15px;
   margin-bottom: 3px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 13px;
   `}
 `;
