@@ -1,10 +1,14 @@
 {
   "result": {
     "user_information": {
-      "user_id": 1,
-      "user_name": "용용이",
-      "user_profile_image_url": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
-      "user_total_time": 1104412
+      "start_status": true,
+      "stop_status": false,
+      "user_id": 3,
+      "user_name": "이다슬",
+      "user_profile_image_url": "https://werecord.s3.ap-northeast-2.amazonaws.com/643b2cec-c7de-47e8-99bf-851e8f7e6b1f",
+      "user_start_time": null,
+      "user_start_time2": "13:13:44.108",
+      "user_total_time": 954
     },
     "record_information": {
       "weekly_record": {

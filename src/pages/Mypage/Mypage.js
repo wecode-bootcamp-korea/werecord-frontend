@@ -3,14 +3,16 @@ import { keyframes } from 'styled-components';
 import FadeIn from 'react-fade-in';
 import BarHighChart from './Charts/BarHighChart';
 import LineHighChart from './Charts/LineHighChart';
-import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
 import EditForm from '../Mypage/EditForm';
+import styled from 'styled-components';
+import dayjs from 'dayjs';
 import API_URLS from '../../config';
 
 export default function Mypage() {
   const [userInformation, setUserInformation] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
+  const currentTime = dayjs().format('HH:mm:ss');
 
   useEffect(() => {
     fetch(`${API_URLS.MY_PAGE}`, {
@@ -26,6 +28,41 @@ export default function Mypage() {
 
   const getInformation = (category, data) => {
     return userInformation[`${category}_information`][`${data}`];
+  };
+
+  const secondToHour = second => Math.round(second / 360) / 10;
+
+  const convertHourAndMinuteToSeconds = (currentTime, startTime, totalTime) => {
+    const [currentHour, currentMinute, currentSecond] = currentTime
+      .split(':')
+      .map(time => Number(time));
+    const [startHour, startMinute, startSecond] = startTime
+      .split(':')
+      .map(time => Math.round(time));
+    const convertedCurrentSecondTime =
+      currentHour * 3600 + currentMinute * 60 + currentSecond;
+    const convertedStartSecondTime =
+      startHour * 3600 + startMinute * 60 + startSecond;
+
+    return totalTime + (convertedCurrentSecondTime - convertedStartSecondTime);
+  };
+
+  const getCurrentTotalTime = () => {
+    const { start_status, stop_status, user_start_time, user_total_time } =
+      userInformation['user_information'];
+    if (
+      (start_status && stop_status && !user_start_time) ||
+      (start_status && !stop_status && !user_start_time)
+    )
+      return secondToHour(user_total_time);
+    if (start_status && !stop_status && user_start_time)
+      return secondToHour(
+        convertHourAndMinuteToSeconds(
+          currentTime,
+          user_start_time,
+          user_total_time
+        )
+      );
   };
 
   const getAverageTime = type => {
@@ -57,8 +94,6 @@ export default function Mypage() {
     }
   };
 
-  const secondToHour = second => Math.round(second / 360) / 10;
-
   return (
     <FadeIn transitionDuration={1000}>
       {userInformation && (
@@ -81,10 +116,7 @@ export default function Mypage() {
             </UserProfile>
             <UserSpendingTime>
               <TotalspendingHour>
-                총
-                <Hour>
-                  {secondToHour(getInformation('user', 'user_total_time'))}
-                </Hour>
+                총<Hour>{getCurrentTotalTime()}</Hour>
                 시간
               </TotalspendingHour>
               <br />
@@ -113,7 +145,6 @@ export default function Mypage() {
               <BarHighChart
                 weeklyRecordsData={getInformation('record', 'weekly_record')}
               />
-
               <LineHighChart
                 totalAccumulateRecordsData={getInformation(
                   'record',
