@@ -57,8 +57,7 @@ const GoogleLogin = props => {
                 props.changeModalValue();
               }
               return res;
-            })
-            .then(res => console.log(res));
+            });
         },
         function (error) {
           alert(JSON.stringify(error, undefined, 2));
