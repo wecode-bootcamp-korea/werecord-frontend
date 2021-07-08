@@ -366,6 +366,7 @@ const checkPause = setIsCommentModal => {
         }));
       }
     });
+  window.location.replace('/main');
 };
 
 const checkRestart = () => {
@@ -375,6 +376,7 @@ const checkRestart = () => {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
   });
+  window.location.replace('/main');
 };
 
 const getTimePasses = setTime => {

@@ -3,19 +3,8 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 export default function LineHighChart({ totalAccumulateRecordsData }) {
-  const setLabelData = totalAccumulateRecordsData =>
-    Object.keys(totalAccumulateRecordsData).map(
-      day => `${parseInt(day) + 1}회차`
-    );
-
   const setAccumulateHoursData = totalAccumulateRecordsData =>
     totalAccumulateRecordsData.map(hours => Math.round(hours / 360) / 10);
-
-  const getMaxyAxesValue = () => {
-    const lastAccumulatedTime =
-      totalAccumulateRecordsData[totalAccumulateRecordsData.length - 1];
-    return Math.round((Math.round(lastAccumulatedTime / 360) + 100) / 10) + 10;
-  };
 
   const options = {
     chart: {
