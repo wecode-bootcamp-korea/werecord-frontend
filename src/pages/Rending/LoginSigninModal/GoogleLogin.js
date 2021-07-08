@@ -34,30 +34,23 @@ const GoogleLogin = props => {
             .then(res => {
               sessionStorage.setItem('wrtoken', res.werecord_token);
               sessionStorage.setItem('user_type', res.user_info.user_type);
-              sessionStorage.setItem('batch', res.user_info.batch);
               sessionStorage.setItem(
                 'profile_image_url',
                 res.user_info.profile_image_url
               );
-              if (res.user_info.user_id) {
+              // 신규고객일때 new_user는 true, 기존일때는 false
+              if (!res.user_info.new_user) {
                 if (res.user_info.user_type === '수강생') {
                   history.push('/main');
                 }
                 if (res.user_info.user_type === '멘토') {
                   history.push('/mentorpage');
-                } else if (res.user_info.user_type === '') {
-                  props.changeModalValue();
                 }
-                if (res.user_info.user_type === '') {
-                  props.changeModalValue();
-                }
-              } else if (res.user_info.user_id === '') {
-                alert('신규 가입 회원입니다');
+              } else {
                 props.changeModalValue();
               }
               return res;
-            })
-            .then(res => console.log(res));
+            });
         },
         function (error) {
           alert(JSON.stringify(error, undefined, 2));
