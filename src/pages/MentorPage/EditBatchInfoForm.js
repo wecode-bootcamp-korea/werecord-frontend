@@ -141,9 +141,6 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
           >
             정보 수정
           </Button>
-          {/* <CheckValid display={checkBatchBtnValid()}>
-            * 형식에 맞게 작성해주세요!
-          </CheckValid> */}
         </EditBatchInformation>
       </BatchContainer>
     </Container>
@@ -152,7 +149,12 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox()}
-  padding:100px 10px;
+  margin: 100px 10px;
+
+  ${({ theme }) => theme.mobile`
+    margin: 10px 0;
+    margin-bottom: 20px;
+  `}
 `;
 
 const BatchContainer = styled.div`
@@ -170,6 +172,10 @@ const MainLogo = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
+
+  ${({ theme }) => theme.mobile`
+    display: none;
+  `}
 `;
 
 const Title = styled.h1`

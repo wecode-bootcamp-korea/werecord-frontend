@@ -162,6 +162,10 @@ const MainLogo = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
+
+  ${({ theme }) => theme.mobile`
+    display: none;
+  `}
 `;
 
 const NewBatchInformation = styled.form`

@@ -160,6 +160,7 @@ export default function EditContents({ isModalOff }) {
           <Content>
             <Label>생일</Label>
             <SelectBirthDay>
+              s
               <input
                 type="date"
                 name="birthday"
@@ -197,7 +198,6 @@ export default function EditContents({ isModalOff }) {
           >
             수정
           </Button>
-          {/* <SubmitBtn onClick={modifyUserData}>수정</SubmitBtn> */}
         </ContentContainer>
       </Container>
       <LeaveBtn onClick={() => setRecheckDelete(true)}>탈퇴</LeaveBtn>
@@ -216,6 +216,11 @@ const Title = styled.div`
   margin-bottom: 35px;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
+
+  ${({ theme }) => theme.mobile`
+    font-size: 16px;
+    margin-bottom: 20px;
+  `}
 `;
 
 const Container = styled.form`
@@ -223,6 +228,10 @@ const Container = styled.form`
   position: relative;
   margin: 80px 50px 50px 50px;
   color: #212121;
+
+  ${({ theme }) => theme.mobile`
+    margin: 10px;
+  `}
 `;
 
 const MainLogo = styled.div`
@@ -231,16 +240,29 @@ const MainLogo = styled.div`
   color: ${({ theme }) => theme.colors.black};
   margin-right: 0px;
   padding: 30px;
+
+  ${({ theme }) => theme.mobile`
+    display: none;
+  `}
 `;
 
 const ContentContainer = styled.div`
   width: 50%;
+
+  ${({ theme }) => theme.mobile`
+    width: 80%;
+  `}
 `;
 
 const Label = styled.label`
   font-size: 17px;
   margin-bottom: 10px;
   font-weight: 700;
+
+  ${({ theme }) => theme.mobile`
+    font-size: 12px;
+    margin-bottom: 7px;
+  `}
 `;
 
 const Input = styled.input`
@@ -248,6 +270,11 @@ const Input = styled.input`
   width: 90%;
   padding-bottom: 5px;
   border-bottom: 1px solid black;
+
+  ${({ theme }) => theme.mobile`
+    width: 100%;
+    font-size: 11px;
+  `}
 `;
 
 const SelectBox = styled.select`
@@ -255,6 +282,10 @@ const SelectBox = styled.select`
   padding: 3px 10px;
   font-size: 16px;
   outline: none;
+
+  ${({ theme }) => theme.mobile`
+    font-size: 11px;
+  `}
 `;
 
 const Content = styled.div`
@@ -267,6 +298,10 @@ const SelectBirthDay = styled.div`
   width: 90%;
   padding: 5px;
   border-bottom: 1px solid black;
+
+  ${({ theme }) => theme.mobile`
+    font-size: 11px;
+  `}
 `;
 
 const LeaveBtn = styled.div`
@@ -281,4 +316,8 @@ const LeaveBtn = styled.div`
   &:active {
     opacity: 0.3;
   }
+
+  ${({ theme }) => theme.mobile`
+    position: static;
+  `}
 `;
