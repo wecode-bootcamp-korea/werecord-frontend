@@ -131,17 +131,16 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
 }
 
 const Container = Styled.div`
-  ${({ theme }) => theme.flexbox()};
+  ${({ theme }) => theme.flexbox('row', 'space-around', 'center')};
   margin-top: 10px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     display: none;
   `}
 `;
 
 const RankingArea = Styled.section`
   ${({ theme }) => theme.flexbox('column', 'space-between', 'flex-start')};
-  margin-right:90px;
 `;
 
 const BatchRanking = Styled.div`
@@ -159,7 +158,7 @@ const WhoBestBatch = Styled.div`
   ${({ theme }) => theme.flexbox()};
   }
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     display: none;
   `}
 `;
@@ -172,6 +171,10 @@ const BestBatchTitle = Styled.span`
   color: ${({ theme }) => theme.colors.black};
   font-weight: 700;
   background-color: #FF9800;
+
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 18px;
+  `}
 `;
 
 const BestBatchTime = Styled.span`
@@ -185,6 +188,10 @@ const BestBatchTime = Styled.span`
   padding:10px;
   background-color:white;
   color:black;
+
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 18px;
+  `}
 `;
 
 const MyBatch = Styled.article`
@@ -197,7 +204,7 @@ const MyBatch = Styled.article`
   ${({ theme }) => theme.flexbox()};
   }
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     ${({ theme }) => theme.flexbox('column', 'center', 'center')};
   `}
 `;
@@ -206,7 +213,11 @@ const MybatchText = Styled.div`
   font-size: 60px;
   margin-right: 10px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 30px;
+  `}
+
+  ${({ theme }) => theme.tablet`
     margin-right: 5px;
     font-size: 30px;
   `}
@@ -217,7 +228,11 @@ const MybatchNumber = Styled.div`
   background-color: ${({ theme }) => theme.colors.blue};
   font-size: 60px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 30px;
+  `}
+
+  ${({ theme }) => theme.tablet`
     font-size: 30px;
   `}
 `;
@@ -227,7 +242,11 @@ const MyBatchTime = Styled.div`
   margin-top: 20px;
   font-size: 50px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 30px;
+  `}
+
+  ${({ theme }) => theme.tablet`
     margin-top: 10px;
     font-size: 30px;
   `}
@@ -236,9 +255,8 @@ const MyBatchTime = Styled.div`
 const PersonRanking = Styled.article`
   ${({ theme }) => theme.flexbox('column', 'center', 'center')};
   margin-top: 80px;
-  width: 50%;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     width: 100vw;
     margin-top: 50px;
   `}
@@ -249,7 +267,11 @@ const BestPersonTitle = Styled.div`
   margin-bottom : 30px;
   font-weight: 700;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 23px;
+  `}
+
+  ${({ theme }) => theme.tablet`
     font-size: 30px;
   `}
 `;
@@ -260,7 +282,7 @@ const BestGrade = Styled.div`
   top: -60%;
   font-size: 18px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     font-size: 14px;
   `}
 `;
@@ -268,6 +290,10 @@ const BestGrade = Styled.div`
 const BestGradeTime = Styled.div`
   margin-left: 3px;
   font-size: 12px;
+
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 10px;
+  `}
 `;
 
 const BestPersons = Styled.div`
@@ -282,7 +308,12 @@ const BestPersons = Styled.div`
     font-size: 20px;
   }
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.middle_desktop`
+    width: 290px;
+    height: 170px;
+  `}
+
+  ${({ theme }) => theme.tablet`
     width: 100vw;
     height: 130px;
     margin-top: 20px;
@@ -295,8 +326,12 @@ const PrizeGuide = Styled.div`
   line-height: 15;
   font-size: 18px;
   font-weight: 700;
+  
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 14px;
+  `}
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     font-size: 10px;
   `}
 `;
@@ -348,7 +383,11 @@ const BestPerson = Styled.div`
         position: relative;
         top:-10px;
 
-        ${({ theme }) => theme.mobile`
+        ${({ theme }) => theme.middle_desktop`
+          font-size: 30px;
+        `}
+
+        ${({ theme }) => theme.tablet`
           font-size: 25px;
         `}
       }
@@ -360,7 +399,7 @@ const MobileContainer = Styled.section`
   margin-top: 50px ;
   margin-bottom: 50px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     display: block;
     ${({ theme }) => theme.flexbox()};
   `}

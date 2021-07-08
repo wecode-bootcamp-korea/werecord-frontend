@@ -102,7 +102,7 @@ const Container = styled.section`
   padding: 0 142px;
   background-color: ${({ theme }) => theme.colors.backgroundColor};
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     padding: 0;
   `}
 `;
@@ -110,7 +110,7 @@ const Container = styled.section`
 const TimeSection = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     display: none;
   `}
 `;
@@ -120,6 +120,10 @@ const TimeDescription = styled.h1`
   font-size: ${({ theme }) => theme.pixelToRem(80)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColor};
+
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 50px;
+  `}
 `;
 
 const StartSection = styled.section`
@@ -128,8 +132,17 @@ const StartSection = styled.section`
   font-size: ${({ theme }) => theme.pixelToRem(35)};
   font-weight: 500;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 20px;
+  `}
+
+  ${({ theme }) => theme.tablet`
     margin: 0 auto;
+    margin-bottom: 200px;
+    font-size: 35px;
+  `}
+
+  ${({ theme }) => theme.mobile`
     margin-bottom: 100px;
     font-size: 20px;
   `}
@@ -141,7 +154,7 @@ const StudentName = styled.h2`
   color: ${({ theme }) => theme.colors.fontColor};
   background-color: ${({ theme }) => theme.colors.blue};
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     display: none;
   `}
 `;
@@ -154,7 +167,7 @@ const ButtonAnimationSection = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   margin-top: 100px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.tablet`
     ${theme.flexbox('column', 'center', 'center')};
   `}
 `;
@@ -165,10 +178,18 @@ const ButtonSection = styled.section`
   margin-top: 50px;
   font-size: 50px;
 
-  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.middle_desktop`
+    width: 380px;
+    font-size: 30px;
+  `}
+
+  ${({ theme }) => theme.tablet`
     order: 2;
     width: 80vw;
     margin-top: 120px;
+  `}
+
+  ${({ theme }) => theme.mobile`
     font-size: 25px;
   `}
 `;
@@ -192,16 +213,21 @@ const Button = styled.button`
 const FireAnimationSection = styled.div`
   ${({ theme }) => theme.flexbox()};
   position: relative;
+  margin-left: 100px;
   margin-right: 150px;
 
-  ${({ theme }) => theme.mobile`
-    margin-right: 0;
+  ${({ theme }) => theme.tablet`
+    margin: 0;
   `}
 `;
 
 const FirewoodImg = styled.img`
   position: absolute;
   width: 200px;
+
+  ${({ theme }) => theme.middle_desktop`
+    width: 130px;
+  `}
 
   ${({ theme }) => theme.mobile`
     width: 130px;
@@ -212,6 +238,10 @@ const FireGif = styled.img`
   position: absolute;
   width: 300px;
   bottom: -10px;
+
+  ${({ theme }) => theme.middle_desktop`
+    width: 170px;
+  `}
 
   ${({ theme }) => theme.mobile`
     width: 150px;

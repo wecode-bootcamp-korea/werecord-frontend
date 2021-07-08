@@ -170,7 +170,7 @@ const ContentsContainer = styled.section`
     height: 100%;
   }
 
-  ${({ theme }) => theme.mobile` 
+  ${({ theme }) => theme.tablet` 
   ${({ theme }) => theme.flexbox('column')}
   padding: 0;
   width: 300px;
@@ -181,10 +181,9 @@ const UserProfile = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
   margin-bottom: 60px;
 
-  ${({ theme }) => theme.mobile` 
+  ${({ theme }) => theme.tablet` 
   ${({ theme }) => theme.flexbox('row', 'center')}
   margin-top: 30px;
-  
   `}
 `;
 
@@ -202,6 +201,10 @@ const UserInformation = styled.dl`
     top: 10px;
     font-size: ${({ theme }) => theme.pixelToRem(25)};
     font-weight: 700;
+
+    ${({ theme }) => theme.middle_desktop`
+      font-size: 20px;
+    `}
   }
 `;
 
@@ -219,6 +222,10 @@ const EditBtn = styled.dd`
   &:active {
     opacity: 0.5;
   }
+
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 11px;
+  `}
 `;
 
 const UserSpendingTime = styled.div`
@@ -227,9 +234,13 @@ const UserSpendingTime = styled.div`
   font-weight: 700;
   line-height: ${({ theme }) => theme.pixelToRem(70)};
 
-  ${({ theme }) => theme.mobile` 
-    display: none;  
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 30px;
+    line-height: 40px;
+  `}
 
+  ${({ theme }) => theme.tablet` 
+    display: none;  
   `}
 `;
 
@@ -238,11 +249,20 @@ const TotalspendingHour = styled.div`
   margin: 35px 0 30px;
   padding: 0 10px 0 0;
   font-size: ${({ theme }) => theme.pixelToRem(80)};
+
+  ${({ theme }) => theme.middle_desktop`
+    margin: 0;
+    font-size: 50px;
+  `}
 `;
 
 const TotalWecode = styled.div`
   font-size: 40px;
   line-height: 58px;
+
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 30px;
+  `}
 `;
 
 const boxAnimation = keyframes`
@@ -264,9 +284,8 @@ const Hour = styled.div`
   animation-fill-mode: backwards;
   animation-duration: 1s;
 
-  ${({ theme }) => theme.mobile` 
+  ${({ theme }) => theme.tablet` 
   padding: 0px 5px;
-
   `}
 `;
 
@@ -274,11 +293,14 @@ const SecondContents = styled.article`
   width: 500px;
   height: 100%;
 
-  ${({ theme }) => theme.mobile` 
+  ${({ theme }) => theme.middle_desktop`
+    width: 330px
+  `}
+
+  ${({ theme }) => theme.tablet` 
     position: relative;
     transform: scale(0.6);
     height: 300px;
-
   `}
 `;
 
@@ -292,14 +314,19 @@ const AverageTimeContent = styled.div`
   margin-bottom: 40px;
   margin-right: 100px;
 
-  ${({ theme }) => theme.mobile` 
+  ${({ theme }) => theme.middle_desktop`
+    margin-right: 50px;
+  `}
+
+  ${({ theme }) => theme.tablet` 
     margin-right: 0;
   `}
 `;
 
 const TimeContents = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')}
-  ${({ theme }) => theme.mobile` 
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')};
+
+  ${({ theme }) => theme.tablet` 
   ${({ theme }) => theme.flexbox()}
   `}
 `;
@@ -310,8 +337,8 @@ const Label = styled.div`
   text-align: center;
   font-weight: 700;
 
-  ${({ theme }) => theme.mobile`
-  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 18px;
   `}
 `;
 
@@ -323,11 +350,16 @@ const Time = styled(Label.withComponent('div'))`
 const Date = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(80)};
   font-weight: 700;
+
+  ${({ theme }) => theme.middle_desktop`
+    font-size: 50px;
+  `}
 `;
 
 const AfterDday = styled.div`
-  ${({ theme }) => theme.flexbox('column', 'start', 'start')}
-  ${({ theme }) => theme.mobile` 
+  ${({ theme }) => theme.flexbox('column', 'start', 'start')};
+
+  ${({ theme }) => theme.tablet` 
   display: none;
   `}
 `;

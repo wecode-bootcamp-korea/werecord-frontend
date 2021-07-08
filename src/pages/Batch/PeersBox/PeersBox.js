@@ -123,6 +123,10 @@ const settings = {
   nextArrow: <NextArrow />,
   responsive: [
     {
+      breakpoint: 1280,
+      settings: { slidesToShow: 6, slidesToScroll: 6, dots: true },
+    },
+    {
       breakpoint: 1024,
       settings: { slidesToShow: 4, slidesToScroll: 4, dots: true },
     },
