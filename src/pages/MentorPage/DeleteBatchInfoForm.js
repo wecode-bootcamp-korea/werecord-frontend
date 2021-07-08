@@ -45,6 +45,10 @@ const MainLogo = Styled.div`
   padding: 30px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
+
+  ${({ theme }) => theme.mobile`
+    display: none;
+  `}
 `;
 
 const RecheckDeleteSection = Styled.div`
