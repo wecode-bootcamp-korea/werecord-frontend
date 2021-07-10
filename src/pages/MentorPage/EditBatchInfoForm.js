@@ -21,18 +21,12 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
     return datePattern.test(value);
   };
 
-  // const checkMentorNameValid = value => {
-  //   if (value.length > 0) return true;
-  // };
-
   const checkBatchBtnValid = () => {
     const { batchNumber, startDay, endDay } = editBatchInformation;
     return (
       checkBatchNumberInputValid(batchNumber) &&
       checkDateInputValid(startDay) &&
       checkDateInputValid(endDay)
-      // &&
-      // checkMentorNameValid(mentorName)
     );
   };
 

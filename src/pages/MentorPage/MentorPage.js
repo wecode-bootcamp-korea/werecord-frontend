@@ -67,77 +67,78 @@ export default function MentorPage({ history }) {
         </MoveBtnContainer>
         <Title>진행중인 기수 현황</Title>
         <BatchInformationContainer ref={sliderList}>
-          {batchInformation.map((batch, index) => {
-            const {
-              batch_id,
-              batch_start_day,
-              batch_end_day,
-              batch_total_time,
-              wecode_d_day,
-              batch_on_user_number,
-              batch_total_user_number,
-              mentor_name,
-            } = batch;
-            return (
-              <List key={index}>
-                <Contents
-                  images={getRandomBackgroundImage(IMAGES)}
-                  onClick={() => {
-                    goToBatchPage(batch_id);
-                  }}
-                >
-                  <BatchName>{batch_id}기</BatchName>
-                  <MentorContainer>
-                    <MentorText>💁🏻‍♂️ 담임멘토</MentorText>
-                    <MentorName>{mentor_name}</MentorName>
-                  </MentorContainer>
-                  <DayContainer>
-                    <AfterDday>D {calculateDday(wecode_d_day)}</AfterDday>
-                    <StartEndContainer>
-                      <StartEnd>시작일</StartEnd>
-                      <StartDay>{batch_start_day}</StartDay>
-                    </StartEndContainer>
-                    <StartEndContainer>
-                      <StartEnd>종료일</StartEnd>
-                      <EndDay>{batch_end_day}</EndDay>
-                    </StartEndContainer>
-                    <TotalTimeContainer>
-                      <TotalTimeText>누적</TotalTimeText>
-                      <TotalTime>
-                        {convertSecondsToHours(batch_total_time)} 시간
-                      </TotalTime>
-                    </TotalTimeContainer>
-                    <BatchOnUser>
-                      <UserStatus>현재 출석 현황</UserStatus>
-                      <OnUser count={batch_on_user_number}>
-                        {batch_on_user_number}
-                      </OnUser>
-                      <Slash>/</Slash>
-                      <TotalUser>{batch_total_user_number}</TotalUser>
-                    </BatchOnUser>
-                  </DayContainer>
-                </Contents>
-                <EditAndCloseBtn>
-                  <EditBtn
+          {batchInformation &&
+            batchInformation.map((batch, index) => {
+              const {
+                batch_id,
+                batch_start_day,
+                batch_end_day,
+                batch_total_time,
+                wecode_d_day,
+                batch_on_user_number,
+                batch_total_user_number,
+                mentor_name,
+              } = batch;
+              return (
+                <List key={index}>
+                  <Contents
+                    images={getRandomBackgroundImage(IMAGES)}
                     onClick={() => {
-                      setEditBatchInformation(true);
-                      setPrevBatchInformation(batch);
+                      goToBatchPage(batch_id);
                     }}
                   >
-                    <i className="fas fa-cog"></i>
-                  </EditBtn>
-                  <CloseBtn
-                    onClick={() => {
-                      setDeleteBatchInformation(true);
-                      setDeleteBatchNumber(batch_id);
-                    }}
-                  >
-                    <i className="fas fa-times"></i>
-                  </CloseBtn>
-                </EditAndCloseBtn>
-              </List>
-            );
-          })}
+                    <BatchName>{batch_id}기</BatchName>
+                    <MentorContainer>
+                      <MentorText>💁🏻‍♂️ 담임멘토</MentorText>
+                      <MentorName>{mentor_name}</MentorName>
+                    </MentorContainer>
+                    <DayContainer>
+                      <AfterDday>D {calculateDday(wecode_d_day)}</AfterDday>
+                      <StartEndContainer>
+                        <StartEnd>시작일</StartEnd>
+                        <StartDay>{batch_start_day}</StartDay>
+                      </StartEndContainer>
+                      <StartEndContainer>
+                        <StartEnd>종료일</StartEnd>
+                        <EndDay>{batch_end_day}</EndDay>
+                      </StartEndContainer>
+                      <TotalTimeContainer>
+                        <TotalTimeText>누적</TotalTimeText>
+                        <TotalTime>
+                          {convertSecondsToHours(batch_total_time)} 시간
+                        </TotalTime>
+                      </TotalTimeContainer>
+                      <BatchOnUser>
+                        <UserStatus>현재 출석 현황</UserStatus>
+                        <OnUser count={batch_on_user_number}>
+                          {batch_on_user_number}
+                        </OnUser>
+                        <Slash>/</Slash>
+                        <TotalUser>{batch_total_user_number}</TotalUser>
+                      </BatchOnUser>
+                    </DayContainer>
+                  </Contents>
+                  <EditAndCloseBtn>
+                    <EditBtn
+                      onClick={() => {
+                        setEditBatchInformation(true);
+                        setPrevBatchInformation(batch);
+                      }}
+                    >
+                      <i className="fas fa-cog"></i>
+                    </EditBtn>
+                    <CloseBtn
+                      onClick={() => {
+                        setDeleteBatchInformation(true);
+                        setDeleteBatchNumber(batch_id);
+                      }}
+                    >
+                      <i className="fas fa-times"></i>
+                    </CloseBtn>
+                  </EditAndCloseBtn>
+                </List>
+              );
+            })}
           {deleteBatchInformation && (
             <Modal setOff={setDeleteBatchInformation}>
               <DeleteBatchInfoForm

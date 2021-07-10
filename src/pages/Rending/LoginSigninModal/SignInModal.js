@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import Button from '../../../components/Button/Button';
@@ -18,7 +18,17 @@ const SignInModal = props => {
     profile_image_url: sessionStorage.getItem('profile_image_url'),
   });
 
+  const [studentRadioButton, setStudentRadioButton] = useState(false);
+  const [mentorRadioButton, setMentorRadioButton] = useState(false);
   const submitButton = useRef();
+
+  useEffect(() => {
+    if (sessionStorage.user_type === '수강생') {
+      setMentorRadioButton(true);
+    } else if (sessionStorage.user_type === '멘토') {
+      setStudentRadioButton(true);
+    }
+  }, []);
 
   //입력 완료 버튼 클릭가능하게 할지
   const isAbleButton = () => {
@@ -90,6 +100,7 @@ const SignInModal = props => {
                 type="radio"
                 name="user_type"
                 value="수강생"
+                disabled={studentRadioButton}
               />
               <p>학생</p>
               <SignInRadioInput
@@ -97,6 +108,7 @@ const SignInModal = props => {
                 type="radio"
                 name="user_type"
                 value="멘토"
+                disabled={mentorRadioButton}
               />
               <p>멘토</p>
             </div>
