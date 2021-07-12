@@ -8,7 +8,7 @@ import CommentModal from '../components/CommentModal/CommentModal';
 import checkObjData from './Util/checkObjData';
 import API_URLS from '../config';
 
-export default function Main() {
+export default function Main({ history }) {
   const [time, setTime] = useState({
     hour: dayjs().hour(),
     minutes: dayjs().minute(),
@@ -30,27 +30,31 @@ export default function Main() {
   const memoDate = useMemo(() => getTodayDate(), []);
 
   const useCallbackStartTime = useCallback(
-    () => checkStart(setIsCommentModal),
+    () => checkStart(setIsCommentModal, history),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   const useCallbackStopTime = useCallback(
-    () => checkStop(setIsCommentModal, setStopModalPopUp),
+    () => checkStop(setIsCommentModal, setStopModalPopUp, history),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   const useCallbackPauseTime = useCallback(
-    () => checkPause(setIsCommentModal),
+    () => checkPause(setIsCommentModal, history),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   const useCallbackRestartTime = useCallback(
-    () => checkRestart(setIsCommentModal),
+    () => checkRestart(history),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
   useEffect(() => {
     getTimePasses(setTime);
-    fetchUserData(setUserInfo, setCheckOffWorkDate);
+    fetchUserData(setUserInfo, setCheckOffWorkDate, history);
     return () => clearInterval(getTimePasses(setTime));
-  }, []);
+  }, [history]);
 
   return (
     <FadeIn transitionDuration={1000}>
@@ -271,7 +275,7 @@ const StopCommentTitle = styled.div`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
+const fetchUserData = (setUserInfo, setCheckOffWorkDate, history) => {
   fetch(`${API_URLS.MAIN}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
@@ -279,10 +283,16 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
   })
     .then(res => res.json())
     .then(({ message, result }) => {
+      if (message === 'REFRESH_TOKEN_EXPIRED') {
+        sessionStorage.clear();
+        history.push('/');
+      }
+
       if (message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
         setUserInfo(prev => ({ ...prev, normalAttendance: true }));
         setCheckOffWorkDate(result);
       }
+
       if (result) {
         const {
           user_name,
@@ -303,7 +313,7 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
     });
 };
 
-const checkStart = setIsCommentModal => {
+const checkStart = (setIsCommentModal, history) => {
   fetch(`${API_URLS.MAIN}/start`, {
     method: 'POST',
     headers: {
@@ -312,6 +322,11 @@ const checkStart = setIsCommentModal => {
   })
     .then(res => res.json())
     .then(({ message, result }) => {
+      if (message === 'REFRESH_TOKEN_EXPIRED') {
+        sessionStorage.clear();
+        history.push('/');
+      }
+
       if (message === 'ALREADY_RECORD_ERROR') {
         setIsCommentModal(prev => ({
           ...prev,
@@ -332,7 +347,7 @@ const checkStart = setIsCommentModal => {
     });
 };
 
-const checkStop = (setIsCommentModal, setStopModalPopUp) => {
+const checkStop = (setIsCommentModal, setStopModalPopUp, history) => {
   fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
@@ -341,6 +356,11 @@ const checkStop = (setIsCommentModal, setStopModalPopUp) => {
   })
     .then(res => res.json())
     .then(({ message, result }) => {
+      if (message === 'REFRESH_TOKEN_EXPIRED') {
+        sessionStorage.clear();
+        history.push('/');
+      }
+
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
         setIsCommentModal(prev => ({
           ...prev,
@@ -380,7 +400,7 @@ const checkStop = (setIsCommentModal, setStopModalPopUp) => {
     });
 };
 
-const checkPause = setIsCommentModal => {
+const checkPause = (setIsCommentModal, history) => {
   fetch(`${API_URLS.MAIN}/pause`, {
     method: 'POST',
     headers: {
@@ -389,6 +409,10 @@ const checkPause = setIsCommentModal => {
   })
     .then(res => res.json())
     .then(({ message }) => {
+      if (message === 'REFRESH_TOKEN_EXPIRED') {
+        sessionStorage.clear();
+        history.push('/');
+      }
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
         setIsCommentModal(prev => ({
           ...prev,
@@ -400,14 +424,22 @@ const checkPause = setIsCommentModal => {
   window.location.replace('/main');
 };
 
-const checkRestart = () => {
+const checkRestart = history => {
   fetch(`${API_URLS.MAIN}/restart`, {
     method: 'POST',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
-  });
-  window.location.replace('/main');
+  })
+    .then(res => res.json())
+    .then(res => {
+      if (res.message === 'REFRESH_TOKEN_EXPIRED') {
+        sessionStorage.clear();
+        history.push('/');
+      } else {
+        window.location.replace('/main');
+      }
+    });
 };
 
 const getTimePasses = setTime => {

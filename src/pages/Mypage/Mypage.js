@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import API_URLS from '../../config';
 
-export default function Mypage() {
+export default function Mypage({ history }) {
   const [userInformation, setUserInformation] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
   const currentTime = dayjs().format('HH:mm:ss');
@@ -21,9 +21,15 @@ export default function Mypage() {
       },
     })
       .then(res => res.json())
-      .then(({ result }) => {
-        setUserInformation(result);
+      .then(({ result, message }) => {
+        if (message === 'REFRESH_TOKEN_EXPIRED') {
+          sessionStorage.clear();
+          history.push('/');
+        } else {
+          setUserInformation(result);
+        }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getInformation = (category, data) => {
