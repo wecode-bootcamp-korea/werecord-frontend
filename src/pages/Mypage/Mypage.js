@@ -57,8 +57,8 @@ export default function Mypage({ history }) {
     const { start_status, stop_status, user_start_time, user_total_time } =
       userInformation['user_information'];
     if (
-      (start_status && stop_status && !user_start_time) ||
-      (start_status && !stop_status && !user_start_time)
+      ((start_status || !start_status) && stop_status && !user_start_time) ||
+      ((start_status || !start_status) && !stop_status && !user_start_time)
     )
       return secondToHour(user_total_time);
     if (start_status && !stop_status && user_start_time)
