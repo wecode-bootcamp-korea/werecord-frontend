@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import styled from 'styled-components';
 import API_URLS from '../../config';
@@ -21,6 +22,7 @@ export default function EditContents({ isModalOff }) {
   const [imgFile, setImgFile] = useState('');
   const { name, position, blog, github, birthday } = userForm;
   const [recheckDelete, setRecheckDelete] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     fetch(`${API_URLS.MENTOR_INFO}`, {
@@ -31,29 +33,35 @@ export default function EditContents({ isModalOff }) {
     })
       .then(res => res.json())
       .then(userData => {
-        const {
-          name,
-          position,
-          blog,
-          github,
-          batch,
-          birthday,
-          user_type,
-          user_id,
-        } = userData.data;
+        if (userData.message === 'REFRESH_TOKEN_EXPIRED') {
+          sessionStorage.clear();
+          history.push('/');
+        } else {
+          const {
+            name,
+            position,
+            blog,
+            github,
+            batch,
+            birthday,
+            user_type,
+            user_id,
+          } = userData.data;
 
-        setUserForm(prev => ({
-          ...prev,
-          name,
-          position,
-          blog,
-          batch,
-          github,
-          birthday,
-          user_type,
-        }));
-        setUserId(user_id);
+          setUserForm(prev => ({
+            ...prev,
+            name,
+            position,
+            blog,
+            batch,
+            github,
+            birthday,
+            user_type,
+          }));
+          setUserId(user_id);
+        }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const modifyUserData = e => {
@@ -71,8 +79,8 @@ export default function EditContents({ isModalOff }) {
       body: userData,
     })
       .then(res => res.json())
-      .then(res => {
-        if (res.message === 'SUCCESS') {
+      .then(({ message }) => {
+        if (message === 'SUCCESS') {
           alert('성공적으로 수정했습니다!');
           isModalOff();
         }

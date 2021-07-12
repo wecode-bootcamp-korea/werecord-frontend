@@ -1,8 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Styled from 'styled-components';
 import API_URLS from '../../config';
 
 export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
+  const history = useHistory();
+
   const handleDelete = () => {
     fetch(`${API_URLS.BATCH_MANAGEMENT}/${deleteBatchNumber}`, {
       method: 'DELETE',
@@ -12,7 +15,10 @@ export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
         Accept: 'application/json',
       },
     }).then(({ status }) => {
-      if (status === 204) {
+      if (status === 401) {
+        sessionStorage.clear();
+        history.push('/');
+      } else if (status === 204) {
         alert('정상적으로 삭제가 완료되었습니다!');
         window.location.replace('/mentorpage');
       } else if (status === 400) {
@@ -21,6 +27,7 @@ export default function DeleteBatchInfoForm({ deleteBatchNumber, isModalOff }) {
       }
     });
   };
+
   return (
     <ModalContainer>
       <MainLogo>&gt;we-record</MainLogo>

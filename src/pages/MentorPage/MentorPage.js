@@ -20,7 +20,6 @@ export default function MentorPage({ history }) {
   };
 
   useEffect(() => {
-    fetch('data/MentorPageData.json');
     fetch(`${API_URLS.MENTOR_PAGE}`, {
       method: 'GET',
       headers: {
@@ -28,17 +27,16 @@ export default function MentorPage({ history }) {
       },
     })
       .then(res => res.json())
-      .then(res => {
-        if (res.message === 'LOGIN_REQUIRED') {
+      .then(({ result, message }) => {
+        if (message === 'REFRESH_TOKEN_EXPIRED') {
+          sessionStorage.clear();
+          history.push('/');
+        } else if (message === 'LOGIN_REQUIRED') {
           alert('접근 권한이 없습니다!');
           history.push('/mypage');
         } else {
-          setBatchInformation(res.result);
+          setBatchInformation(result);
         }
-      })
-      .catch(() => {
-        alert('관리자에게 문의바랍니다!');
-        history.push('/');
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

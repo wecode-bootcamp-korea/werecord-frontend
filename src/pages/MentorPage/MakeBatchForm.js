@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/Button/Button';
 import API_URLS from '../../config';
@@ -10,6 +11,7 @@ export default function MakeBatchForm({ isModalOff }) {
     endDay: '',
     mentorName: '',
   });
+  const history = useHistory();
 
   const checkBatchNumberInputValid = value => {
     const batchNumberPattern = /^[0-9]*$/;
@@ -54,18 +56,19 @@ export default function MakeBatchForm({ isModalOff }) {
         }),
       })
         .then(res => res.json())
-        .then(batchMakingStatus => {
-          if (batchMakingStatus.message === 'ALREADY_EXIST_ERROR') {
+        .then(({ message }) => {
+          if (message === 'REFRESH_TOKEN_EXPIRED') {
+            sessionStorage.clear();
+            history.push('/');
+          } else if (message === 'ALREADY_EXIST_ERROR') {
             alert('이미 존재하는 기수입니다!');
-          } else if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
+          } else if (message === 'RECHECK_DATE_ERROR') {
             alert('시작일과 종료일을 확인해주시기 바랍니다!');
-          } else if (batchMakingStatus.message === 'DATE_FORM_ERROR') {
+          } else if (message === 'DATE_FORM_ERROR') {
             alert('날짜를 확인해주시기 바랍니다!');
-          } else if (batchMakingStatus.message === 'JSON_DECODE_ERROR') {
+          } else if (message === 'JSON_DECODE_ERROR') {
             alert('데이터 양식에 맞지 않습니다!');
-          } else if (
-            batchMakingStatus.message === 'RECHECK_MENTOR_NAME_ERROR'
-          ) {
+          } else if (message === 'RECHECK_MENTOR_NAME_ERROR') {
             alert('멘토 이름을 확인해주시기 바랍니다!');
           } else {
             alert(`성공적으로 ${batchNumber}기를 생성하였습니다!`);
