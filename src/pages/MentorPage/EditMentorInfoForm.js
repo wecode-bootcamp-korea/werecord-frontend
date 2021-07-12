@@ -61,6 +61,7 @@ export default function EditContents({ isModalOff }) {
           setUserId(user_id);
         }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const modifyUserData = e => {
