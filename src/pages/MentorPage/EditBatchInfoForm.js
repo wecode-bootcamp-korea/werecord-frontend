@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import API_URLS from '../../config';
 import Button from '../../components/Button/Button';
@@ -10,6 +11,7 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
     endDay: prevBatchInformation['batch_end_day'],
     mentorName: prevBatchInformation['mentor_name'],
   });
+  const history = useHistory();
 
   const checkBatchNumberInputValid = value => {
     const batchNumberPattern = /^[0-9]*$/;
@@ -21,18 +23,12 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
     return datePattern.test(value);
   };
 
-  // const checkMentorNameValid = value => {
-  //   if (value.length > 0) return true;
-  // };
-
   const checkBatchBtnValid = () => {
     const { batchNumber, startDay, endDay } = editBatchInformation;
     return (
       checkBatchNumberInputValid(batchNumber) &&
       checkDateInputValid(startDay) &&
       checkDateInputValid(endDay)
-      // &&
-      // checkMentorNameValid(mentorName)
     );
   };
 
@@ -63,16 +59,17 @@ export default function MakeBatchForm({ isModalOff, prevBatchInformation }) {
         }
       )
         .then(res => res.json())
-        .then(batchMakingStatus => {
-          if (batchMakingStatus.message === 'RECHECK_DATE_ERROR') {
+        .then(({ message }) => {
+          if (message === 'REFRESH_TOKEN_EXPIRED') {
+            sessionStorage.clear();
+            history.push('/');
+          } else if (message === 'RECHECK_DATE_ERROR') {
             alert('시작일과 종료일을 확인해주시기 바랍니다!');
-          } else if (batchMakingStatus.message === 'DATE_FORM_ERROR') {
+          } else if (message === 'DATE_FORM_ERROR') {
             alert('날짜를 확인해주시기 바랍니다!');
-          } else if (batchMakingStatus.message === 'JSON_DECODE_ERROR') {
+          } else if (message === 'JSON_DECODE_ERROR') {
             alert('데이터 양식에 맞지 않습니다!');
-          } else if (
-            batchMakingStatus.message === 'RECHECK_MENTOR_NAME_ERROR'
-          ) {
+          } else if (message === 'RECHECK_MENTOR_NAME_ERROR') {
             alert('멘토 이름을 확인해주시기 바랍니다!');
           } else {
             alert(

@@ -7,14 +7,14 @@ import PeersBox from './PeersBox/PeersBox';
 import checkObjData from '../Util/checkObjData';
 import API_URLS from '../../config';
 
-export default function Batch({ match }) {
+export default function Batch({ match, history }) {
   const [batchInfo, setBatchInfo] = useState({});
   const { winner_batch_information, my_batch_information } = batchInfo;
 
   useEffect(() => {
     const batchNum = sessionStorage.getItem('batch');
     const matchBatchNum = match.params.id;
-    chooseUserType(batchNum, matchBatchNum, setBatchInfo);
+    chooseUserType(batchNum, matchBatchNum, setBatchInfo, history);
   }, []);
 
   return (
@@ -44,7 +44,7 @@ const Container = Styled.main`
   `}
 `;
 
-const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
+const chooseUserType = (batchNum, matchBatchNum, setBatchInfo, history) => {
   if (sessionStorage.getItem('user_type') === '수강생') {
     fetch(`${API_URLS.BATCH}/${batchNum}`, {
       headers: {
@@ -52,8 +52,13 @@ const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
       },
     })
       .then(res => res.json())
-      .then(({ result }) => {
-        setBatchInfo(result);
+      .then(({ result, message }) => {
+        if (message === 'REFRESH_TOKEN_EXPIRED') {
+          sessionStorage.clear();
+          history.push('/');
+        } else {
+          setBatchInfo(result);
+        }
       });
   }
   if (matchBatchNum) {
@@ -63,8 +68,13 @@ const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
       },
     })
       .then(res => res.json())
-      .then(({ result }) => {
-        setBatchInfo(result);
+      .then(({ result, message }) => {
+        if (message === 'REFRESH_TOKEN_EXPIRED') {
+          sessionStorage.clear();
+          history.push('/');
+        } else {
+          setBatchInfo(result);
+        }
       });
   }
 };

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
 import RecheckDeleteModal from '../MentorPage/RecheckDeleteModal';
@@ -12,14 +13,16 @@ export default function EditContents() {
   const { name, position, blog, github, birthday } = userForm;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const callbackIsModalOn = useCallback(() => setIsModalOn(true), [isModalOn]);
+  const history = useHistory();
 
   useEffect(() => {
-    getUserDataFetch(setUserForm);
+    getUserDataFetch(setUserForm, history);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const modifyUserData = e => {
     e.preventDefault();
-    sendImgData(userForm, imgFile);
+    sendImgData(userForm, imgFile, history);
   };
 
   const handleInput = e => {
@@ -113,14 +116,17 @@ export default function EditContents() {
           >
             수정
           </Button>
-          {/* <SubmitBtn onClick={modifyUserData}>수정</SubmitBtn> */}
           <LeaveBtn onClick={callbackIsModalOn}>탈퇴</LeaveBtn>
         </ContentContainer>
       </Container>
 
       {isModalOn && (
         <Modal>
-          <RecheckDeleteModal deleteAccount={recheckLeave} />
+          <RecheckDeleteModal
+            deleteAccount={() => {
+              recheckLeave(history);
+            }}
+          />
         </Modal>
       )}
     </>
@@ -225,27 +231,33 @@ const LeaveBtn = styled.div`
   }
 `;
 
-const getUserDataFetch = setUserForm => {
+const getUserDataFetch = (setUserForm, history) => {
   fetch(`${API_URLS.EDIT_PROFILE}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
   })
     .then(res => res.json())
-    .then(({ data }) => {
-      setUserForm(data);
+    .then(({ data, message }) => {
+      if (message === 'REFRESH_TOKEN_EXPIRED') {
+        sessionStorage.clear();
+        history.push('/');
+      } else {
+        setUserForm(data);
+      }
     });
 };
 
-const recheckLeave = e => {
-  e.preventDefault();
+const recheckLeave = history => {
   fetch(`${API_URLS.EDIT_PROFILE}`, {
     method: 'DELETE',
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
     },
-  }).then(res => {
-    if (res.status === 204) {
+  }).then(({ status }) => {
+    if (status === 401) {
+      history.push('/');
+    } else if (status === 204) {
       alert('성공적으로 탈퇴되었습니다!');
       sessionStorage.clear();
       window.location.replace('/');
@@ -253,7 +265,7 @@ const recheckLeave = e => {
   });
 };
 
-const sendImgData = (userForm, imgFile) => {
+const sendImgData = (userForm, imgFile, history) => {
   const userInfo = JSON.stringify(userForm);
   const userData = new FormData();
   userData.append('info', userInfo);
@@ -267,8 +279,12 @@ const sendImgData = (userForm, imgFile) => {
     body: userData,
   })
     .then(res => res.json())
-    .then(
-      ({ message }) =>
-        message === 'SUCCESS' && window.location.replace('/mypage')
-    );
+    .then(({ message }) => {
+      if (message === 'SUCCESS') {
+        window.location.replace('/mypage');
+      } else if (message === 'REFRESH_TOKEN_EXPIRED') {
+        sessionStorage.clear();
+        history.push('/');
+      }
+    });
 };
