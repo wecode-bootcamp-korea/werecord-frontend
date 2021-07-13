@@ -70,7 +70,7 @@ export default function Main({ history }) {
         </StartSection>
         <ButtonAnimationSection>
           <ButtonSection>
-            {!userInfo.isOn && userInfo.isStart ? (
+            {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
               <Button onClick={useCallbackRestartTime}>RESTART</Button>
             ) : (
               <Button
@@ -80,10 +80,8 @@ export default function Main({ history }) {
                 START
               </Button>
             )}
-            {!userInfo.isOn && userInfo.isStart ? (
+            {userInfo.isOn && (
               <Button onClick={useCallbackPauseTime}>PAUSE</Button>
-            ) : (
-              ''
             )}
             <Button onClick={useCallbackStopTime} disabled={userInfo.isStop}>
               STOP
@@ -333,7 +331,6 @@ const checkStart = (setIsCommentModal, setUserInfo, history) => {
         sessionStorage.clear();
         history.push('/');
       }
-
       if (message === 'ALREADY_RECORD_ERROR') {
         setIsCommentModal(prev => ({
           ...prev,
@@ -487,9 +484,11 @@ const showNowTime = time => {
 };
 
 const showStartTime = userInfo => {
-  return `${getTime(userInfo.startTime.split(':')[0])}시 ${
-    userInfo.startTime.split(':')[1]
-  }분에 시작하셨습니다.`;
+  if (userInfo.startTime) {
+    return `${getTime(userInfo.startTime.split(':')[0])}시 ${
+      userInfo.startTime.split(':')[1]
+    }분에 시작하셨습니다.`;
+  }
 };
 
 const greetings = userInfo => {
