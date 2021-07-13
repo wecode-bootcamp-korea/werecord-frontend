@@ -22,7 +22,7 @@ export default function Main({ history }) {
     isStop: false,
   });
   const [isCommentModal, setIsCommentModal] = useState({});
-  const [stopModalPopUp, setStopModalPopUp] = useState(false);
+  const [stopModalOn, setStopModalOn] = useState(false);
 
   const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-04-12');
   // eslint-disable-next-line no-unused-vars
@@ -30,22 +30,22 @@ export default function Main({ history }) {
   const memoDate = useMemo(() => getTodayDate(), []);
 
   const useCallbackStartTime = useCallback(
-    () => checkStart(setIsCommentModal, history),
+    () => checkStart(setIsCommentModal, setUserInfo, history),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   const useCallbackStopTime = useCallback(
-    () => checkStop(setIsCommentModal, setStopModalPopUp, history),
+    () => checkStop(setIsCommentModal, setStopModalOn, history),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   const useCallbackPauseTime = useCallback(
-    () => checkPause(setIsCommentModal, history),
+    () => checkPause(setIsCommentModal, setUserInfo, history),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   const useCallbackRestartTime = useCallback(
-    () => checkRestart(history),
+    () => checkRestart(setUserInfo, history),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
@@ -54,7 +54,8 @@ export default function Main({ history }) {
     getTimePasses(setTime);
     fetchUserData(setUserInfo, setCheckOffWorkDate, history);
     return () => clearInterval(getTimePasses(setTime));
-  }, [history]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userInfo]);
 
   return (
     <FadeIn transitionDuration={1000}>
@@ -79,8 +80,14 @@ export default function Main({ history }) {
                 START
               </Button>
             )}
-            <Button onClick={useCallbackPauseTime}>PAUSE</Button>
-            <Button onClick={useCallbackStopTime}>STOP</Button>
+            {!userInfo.isOn && userInfo.isStart ? (
+              <Button onClick={useCallbackPauseTime}>PAUSE</Button>
+            ) : (
+              ''
+            )}
+            <Button onClick={useCallbackStopTime} disabled={userInfo.isStop}>
+              STOP
+            </Button>
           </ButtonSection>
           <FireAnimationSection>
             <FirewoodImg alt="firewoodimg" src="/images/firewood.png" />
@@ -89,8 +96,8 @@ export default function Main({ history }) {
         </ButtonAnimationSection>
 
         {checkObjData(isCommentModal) && (
-          <Modal setOff={setIsCommentModal} isCommentModal={stopModalPopUp}>
-            {stopModalPopUp && (
+          <Modal setOff={setIsCommentModal} isCommentModal={stopModalOn}>
+            {stopModalOn && (
               <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
             )}
             <CommentModal comment={isCommentModal} />
@@ -313,7 +320,7 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate, history) => {
     });
 };
 
-const checkStart = (setIsCommentModal, history) => {
+const checkStart = (setIsCommentModal, setUserInfo, history) => {
   fetch(`${API_URLS.MAIN}/start`, {
     method: 'POST',
     headers: {
@@ -342,12 +349,16 @@ const checkStart = (setIsCommentModal, history) => {
         }));
       }
       if (result) {
-        window.location.replace('/main');
+        setUserInfo(prev => ({
+          ...prev,
+          isOn: true,
+          isStart: true,
+        }));
       }
     });
 };
 
-const checkStop = (setIsCommentModal, setStopModalPopUp, history) => {
+const checkStop = (setIsCommentModal, setStopModalOn, history) => {
   fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
@@ -360,7 +371,6 @@ const checkStop = (setIsCommentModal, setStopModalPopUp, history) => {
         sessionStorage.clear();
         history.push('/');
       }
-
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
         setIsCommentModal(prev => ({
           ...prev,
@@ -395,12 +405,12 @@ const checkStop = (setIsCommentModal, setStopModalPopUp, history) => {
           isOn: true,
           comment: result.comment,
         }));
-        setStopModalPopUp(true);
+        setStopModalOn(true);
       }
     });
 };
 
-const checkPause = (setIsCommentModal, history) => {
+const checkPause = (setIsCommentModal, setUserInfo, history) => {
   fetch(`${API_URLS.MAIN}/pause`, {
     method: 'POST',
     headers: {
@@ -420,11 +430,16 @@ const checkPause = (setIsCommentModal, history) => {
           comment: 'START를 먼저 누르세요.',
         }));
       }
+      if (message === 'SUCCESS') {
+        setUserInfo(prev => ({
+          ...prev,
+          isStart: false,
+        }));
+      }
     });
-  window.location.replace('/main');
 };
 
-const checkRestart = history => {
+const checkRestart = (setUserInfo, history) => {
   fetch(`${API_URLS.MAIN}/restart`, {
     method: 'POST',
     headers: {
@@ -432,12 +447,16 @@ const checkRestart = history => {
     },
   })
     .then(res => res.json())
-    .then(res => {
-      if (res.message === 'REFRESH_TOKEN_EXPIRED') {
+    .then(({ message }) => {
+      if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
         history.push('/');
-      } else {
-        window.location.replace('/main');
+      }
+      if (message === 'SUCCESS') {
+        setUserInfo(prev => ({
+          ...prev,
+          isOn: true,
+        }));
       }
     });
 };

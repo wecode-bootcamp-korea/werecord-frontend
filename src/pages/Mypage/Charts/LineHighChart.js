@@ -25,7 +25,7 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
       allowDecimals: false,
       labels: {
         formatter: function () {
-          return `${this.value}회차`;
+          return `${this.value}일`;
         },
         style: {
           color: 'white',
