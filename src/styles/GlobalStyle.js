@@ -6,8 +6,6 @@ const GlobalStyle = createGlobalStyle`
   
   :root{
     font-size: 16px;
-    color: #ffffff;
-    background-color: #212121;
   }
   
   * {
@@ -28,7 +26,7 @@ input {
   font-size: inherit;
 }
 
-ul,li {
+ul,li,ol {
   list-style: none;
   
 }
