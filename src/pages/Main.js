@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import dayjs from 'dayjs';
+import React, { useState, useEffect } from 'react';
 import FadeIn from 'react-fade-in';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 import CommentModal from '../components/CommentModal/CommentModal';
+import ShowNowTime from './Main/ShowNowTime/ShowNowTime';
+import CountTime from './Main/CountTime/CountTime';
+import SnapShotBtn from './Main/SnapShotBtn/SnapShotBtn';
 import checkObjData from './Util/checkObjData';
 import API_URLS from '../config';
 
 export default function Main({ history }) {
-  const [time, setTime] = useState({
-    hour: dayjs().hour(),
-    minutes: dayjs().minute(),
-  });
   const [userInfo, setUserInfo] = useState({
     name: '위코드',
     isOn: false,
@@ -27,198 +25,98 @@ export default function Main({ history }) {
   const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-04-12');
   // eslint-disable-next-line no-unused-vars
   const [sendModalOff, setSendModalOff] = useState(false);
-  const memoDate = useMemo(() => getTodayDate(), []);
-
-  const useCallbackStartTime = useCallback(
-    () => checkStart(setIsCommentModal, setUserInfo, history),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-  const useCallbackStopTime = useCallback(
-    () => checkStop(setIsCommentModal, setStopModalOn, history),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-  const useCallbackPauseTime = useCallback(
-    () => checkPause(setIsCommentModal, setUserInfo, history),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-  const useCallbackRestartTime = useCallback(
-    () => checkRestart(setUserInfo, history),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   useEffect(() => {
-    getTimePasses(setTime);
     fetchUserData(setUserInfo, setCheckOffWorkDate, history);
-    return () => clearInterval(getTimePasses(setTime));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo]);
+  }, []);
 
   return (
     <FadeIn transitionDuration={1000}>
       <Container>
-        <TimeSection>
-          <TimeDescription>{memoDate}</TimeDescription>
-          <TimeDescription>{showNowTime(time)}</TimeDescription>
-        </TimeSection>
-        <StartSection>
-          <StudentName>{`${userInfo.name}님`}</StudentName>
-          <StartTime>{greetings(userInfo)}</StartTime>
-        </StartSection>
-        <ButtonAnimationSection>
+        <LeftArea>
+          <SnapShotBtn />
+          <ShowNowTime />
+          <CountTime />
           <ButtonSection>
             {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
-              <Button onClick={useCallbackRestartTime}>RESTART</Button>
+              <Button onClick={() => checkRestart(setUserInfo, history)}>
+                RESTART
+              </Button>
             ) : (
               <Button
-                onClick={useCallbackStartTime}
+                onClick={() =>
+                  checkStart(setIsCommentModal, setUserInfo, history)
+                }
                 disabled={userInfo.isOn && userInfo.isStart}
               >
                 START
               </Button>
             )}
             {userInfo.isOn && (
-              <Button onClick={useCallbackPauseTime}>PAUSE</Button>
+              <Button
+                onClick={() =>
+                  checkPause(setIsCommentModal, setUserInfo, history)
+                }
+              >
+                PAUSE
+              </Button>
             )}
-            <Button onClick={useCallbackStopTime} disabled={userInfo.isStop}>
+            <Button
+              onClick={() =>
+                checkStop(setIsCommentModal, setStopModalOn, history)
+              }
+              disabled={userInfo.isStop}
+            >
               STOP
             </Button>
           </ButtonSection>
-          <FireAnimationSection>
-            <FirewoodImg alt="firewoodimg" src="/images/firewood.png" />
-            {userInfo.isOn && <FireGif alt="firegif" src="/images/fire.gif" />}
-          </FireAnimationSection>
-        </ButtonAnimationSection>
 
-        {checkObjData(isCommentModal) && (
-          <Modal setOff={setIsCommentModal} isCommentModal={stopModalOn}>
-            {stopModalOn && (
-              <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
-            )}
-            <CommentModal comment={isCommentModal} />
-          </Modal>
-        )}
+          {checkObjData(isCommentModal) && (
+            <Modal setOff={setIsCommentModal} isCommentModal={stopModalOn}>
+              {stopModalOn && (
+                <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
+              )}
+              <CommentModal comment={isCommentModal} />
+            </Modal>
+          )}
 
-        {userInfo.normalAttendance && (
-          <Modal>
-            <SendTimeModal
-              setOff={setSendModalOff}
-              attendanceStatus={setUserInfo}
-              checkOffWorkDate={checkOffWorkDate}
-            />
-          </Modal>
-        )}
+          {userInfo.normalAttendance && (
+            <Modal>
+              <SendTimeModal
+                setOff={setSendModalOff}
+                attendanceStatus={setUserInfo}
+                checkOffWorkDate={checkOffWorkDate}
+              />
+            </Modal>
+          )}
+        </LeftArea>
+        <MainImg alt="mainImg" src="/images/main/Saly-15.png" />
       </Container>
     </FadeIn>
   );
 }
 
-const WEEK = ['일', '월', '화', '수', '목', '금', '토'];
-
 const Container = styled.section`
-  ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
-  max-width: 1440px;
-  height: 100vh;
-  margin: 0 auto;
-  padding: 0 142px;
+  ${({ theme }) => theme.flexbox('row', 'center')};
+  padding-top: 150px;
   background-color: ${({ theme }) => theme.colors.backgroundColor};
-
-  ${({ theme }) => theme.tablet`
-    padding: 0;
-  `}
 `;
 
-const TimeSection = styled.section`
-  ${({ theme }) => theme.flexbox('column', 'center', 'stretch')};
-
-  ${({ theme }) => theme.tablet`
-    display: none;
-  `}
-`;
-
-const TimeDescription = styled.h1`
-  margin-bottom: 10px;
-  font-size: ${({ theme }) => theme.pixelToRem(80)};
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.fontColor};
-
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 50px;
-  `}
-`;
-
-const StartSection = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'start', 'center')};
-  margin-top: 30px;
-  font-size: ${({ theme }) => theme.pixelToRem(35)};
-  font-weight: 500;
-
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 20px;
-  `}
-
-  ${({ theme }) => theme.tablet`
-    margin: 0 auto;
-    margin-bottom: 200px;
-    font-size: 35px;
-  `}
-
-  ${({ theme }) => theme.mobile`
-    margin-bottom: 100px;
-    font-size: 20px;
-  `}
-`;
-
-const StudentName = styled.h2`
-  padding: 8px;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.fontColor};
-  background-color: ${({ theme }) => theme.colors.blue};
-
-  ${({ theme }) => theme.tablet`
-    display: none;
-  `}
-`;
-
-const StartTime = styled.h2`
-  color: ${({ theme }) => theme.colors.fontColor};
-`;
-
-const ButtonAnimationSection = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
-  margin-top: 100px;
-
-  ${({ theme }) => theme.tablet`
-    ${theme.flexbox('column', 'center', 'center')};
-  `}
+const LeftArea = styled.div`
+  margin-right: 217px;
 `;
 
 const ButtonSection = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
-  width: 550px;
-  margin-top: 50px;
-  font-size: 40px;
-
-  ${({ theme }) => theme.middle_desktop`
-    width: 380px;
-    font-size: 30px;
-  `}
-
-  ${({ theme }) => theme.tablet`
-    order: 2;
-    width: 80vw;
-    margin-top: 120px;
-  `}
-
-  ${({ theme }) => theme.mobile`
-    font-size: 20px;
-  `}
+  ${({ theme }) => theme.flexbox('row', 'flex-start')};
 `;
 
 const Button = styled.button`
+  margin-right: 20px;
+  padding: 10px;
+  border: 1px solid ${({ theme }) => theme.colors.white};
+  border-radius: 12px;
+  font-size: 24px;
   font-weight: 700;
   color: ${({ theme, disabled }) =>
     !disabled ? theme.colors.fontColor : 'gray'};
@@ -235,42 +133,9 @@ const Button = styled.button`
   }
 `;
 
-const FireAnimationSection = styled.div`
-  ${({ theme }) => theme.flexbox()};
-  position: relative;
-  margin-left: 100px;
-  margin-right: 150px;
-
-  ${({ theme }) => theme.tablet`
-    margin: 0;
-  `}
-`;
-
-const FirewoodImg = styled.img`
-  position: absolute;
-  width: 200px;
-
-  ${({ theme }) => theme.middle_desktop`
-    width: 130px;
-  `}
-
-  ${({ theme }) => theme.mobile`
-    width: 130px;
-  `}
-`;
-
-const FireGif = styled.img`
-  position: absolute;
-  width: 300px;
-  bottom: -10px;
-
-  ${({ theme }) => theme.middle_desktop`
-    width: 170px;
-  `}
-
-  ${({ theme }) => theme.mobile`
-    width: 150px;
-  `}
+const MainImg = styled.img`
+  width: 350px;
+  margin-top: 20px;
 `;
 
 const StopCommentTitle = styled.div`
@@ -315,7 +180,8 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate, history) => {
           isStop: stop_status,
         }));
       }
-    });
+    })
+    .catch(error => console.log(error));
 };
 
 const checkStart = (setIsCommentModal, setUserInfo, history) => {
@@ -352,7 +218,8 @@ const checkStart = (setIsCommentModal, setUserInfo, history) => {
           isStart: true,
         }));
       }
-    });
+    })
+    .catch(error => console.log(error));
 };
 
 const checkStop = (setIsCommentModal, setStopModalOn, history) => {
@@ -404,7 +271,8 @@ const checkStop = (setIsCommentModal, setStopModalOn, history) => {
         }));
         setStopModalOn(true);
       }
-    });
+    })
+    .catch(error => console.log(error));
 };
 
 const checkPause = (setIsCommentModal, setUserInfo, history) => {
@@ -433,7 +301,8 @@ const checkPause = (setIsCommentModal, setUserInfo, history) => {
           isStart: false,
         }));
       }
-    });
+    })
+    .catch(error => console.log(error));
 };
 
 const checkRestart = (setUserInfo, history) => {
@@ -455,56 +324,6 @@ const checkRestart = (setUserInfo, history) => {
           isOn: true,
         }));
       }
-    });
-};
-
-const getTimePasses = setTime => {
-  setInterval(() => {
-    setTime(prev => ({
-      ...prev,
-      hour: dayjs().hour(),
-      minutes: dayjs().minute(),
-    }));
-  }, 1000);
-};
-
-const getTodayDate = () => {
-  return `지금은 ${dayjs().month() + 1}월 ${dayjs().date()}일 ${
-    WEEK[dayjs().day()]
-  }요일`;
-};
-
-const getTime = timeHour => {
-  const hour = timeHour;
-  return hour > 12 ? `오후 ${hour - 12}` : `오전 ${hour}`;
-};
-
-const showNowTime = time => {
-  return `${getTime(time.hour)}시 ${time.minutes}분입니다.`;
-};
-
-const showStartTime = userInfo => {
-  if (userInfo.startTime) {
-    return `${getTime(userInfo.startTime.split(':')[0])}시 ${
-      userInfo.startTime.split(':')[1]
-    }분에 시작하셨습니다.`;
-  }
-};
-
-const greetings = userInfo => {
-  if (!userInfo.isOn && !userInfo.isStart) {
-    return '오늘도 상쾌하게 시작해볼까요?';
-  }
-
-  if (!userInfo.isOn && userInfo.isStart && !userInfo.isStop) {
-    return '은 일시 정지 중 입니다.';
-  }
-
-  if (userInfo.isStart && userInfo.isStop) {
-    return '오늘 하루도 힘찬 코딩하셨나요?';
-  }
-
-  if (userInfo.isOn && userInfo.isStart) {
-    return showStartTime(userInfo);
-  }
+    })
+    .catch(error => console.log(error));
 };
