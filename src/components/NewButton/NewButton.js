@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function NewButton({ children }) {
-  return <Button>{children}</Button>;
+export default function NewButton({ children, onClick }) {
+  const handleClick = () => {
+    onClick();
+  };
+
+  return <Button onClick={handleClick}>{children}</Button>;
 }
 
 const Button = styled.button`
