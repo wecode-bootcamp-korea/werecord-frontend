@@ -42,7 +42,7 @@ const colors = {
   red: '#ef6253',
   green: '#41b979',
   purple: '#514AB8',
-  pink: 'FD92AE',
+  pink: '#FD92AE',
   orange: '#FF9900',
   backgroundColor: '#212121',
   fontColor: '#dedede',

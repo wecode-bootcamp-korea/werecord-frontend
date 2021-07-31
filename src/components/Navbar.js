@@ -49,35 +49,28 @@ export default function Navbar() {
             }}
             isCheckMentor={isCheckMentor}
           >
-            &gt; we-record
+            We record
           </StyledLogo>
-          <StyledMobileLogo
-            onClick={() => {
-              goToMainPage('main');
-            }}
-            isCheckMentor={isCheckMentor}
-          >
-            &gt; we
-          </StyledMobileLogo>
           <StyledBtnContainer handleMobileBtnList={mobileNavBtnDisplayOn}>
             {!isCheckMentor && location.pathname !== '/mypage' && (
-              <StyledGoToMyPageBtn
+              <Button
                 onClick={() => {
                   goToPage('mypage');
                 }}
+                borderColor={location.pathname}
               >
                 마이 페이지
-              </StyledGoToMyPageBtn>
+              </Button>
             )}
             {isCheckMentor && location.pathname === '/mentorpage' && (
-              <StyledEditMentorInfo
+              <Button
                 onClick={() => {
                   setMakeBatchModalOn(false);
                   setEditMentorInfoModalOn(true);
                 }}
               >
                 내정보 수정
-              </StyledEditMentorInfo>
+              </Button>
             )}
             {editMentorInfoModalOn && (
               <Modal setOff={setEditMentorInfoModalOn}>
@@ -87,14 +80,15 @@ export default function Navbar() {
               </Modal>
             )}
             {isCheckMentor && location.pathname === '/mentorpage' && (
-              <StyledMakeBatchBtn
+              <Button
                 onClick={() => {
                   setMakeBatchModalOn(true);
                   setEditMentorInfoModalOn(false);
                 }}
+                borderColor={location.pathname}
               >
                 기수 생성
-              </StyledMakeBatchBtn>
+              </Button>
             )}
             {makeBatchModalOn && (
               <Modal setOff={setMakeBatchModalOn}>
@@ -102,24 +96,26 @@ export default function Navbar() {
               </Modal>
             )}
             {isCheckMentor && location.pathname !== '/mentorpage' && (
-              <StyledGoToMentorPageBtn
+              <Button
                 onClick={() => {
                   goToPage('mentorpage');
                 }}
+                borderColor={location.pathname}
               >
                 멘토 페이지
-              </StyledGoToMentorPageBtn>
+              </Button>
             )}
             {!isCheckMentor && !location.pathname.includes('/batch/') && (
-              <StyledGoToBatchPageBtn
+              <Button
                 onClick={() => {
                   goToPage(`batch/${batch}`);
                 }}
+                borderColor={location.pathname}
               >
                 기수 페이지
-              </StyledGoToBatchPageBtn>
+              </Button>
             )}
-            <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
+            <Button onClick={handleLogout}>로그아웃</Button>
           </StyledBtnContainer>
           <StyledMobileBtnList onClick={handleMobileBtnlist}>
             <i className="fas fa-bars"></i>
@@ -151,50 +147,39 @@ const showContainerAnimation = keyframes`
 
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')}
-  padding: 12px 24px;
+  padding: 54px 200px;
   height: 60px;
   width: 100%;
   top: 0;
   position: fixed;
-  background-color: ${({ theme }) => theme.colors.pink};
+  background-color: transparent;
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
   z-index: 100;
 `;
 
-const StyledLogo = styled.div`
-  position: relative;
-  font-size: ${({ theme }) => theme.pixelToRem(30)};
-  font-weight: bold;
-  cursor: ${({ isCheckMentor }) => (!isCheckMentor ? 'pointer' : 'default')};
-
-  transition: all 0.3s;
-
-  ${({ theme }) => theme.mobile`
-    display: none;
-  `}
-
-  &:before {
-    display: block;
-    position: absolute;
-    width: 68px;
-    height: 30px;
-    top: 3px;
-    content: '';
-    opacity: 0.5;
-    background-color: #dedede;
-    animation-name: ${logoAnimation};
-    animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.14, 1.04, 1, 0.98);
-  }
+const Button = styled.button`
+  margin-right: 30px;
+  padding: 6px;
+  color: ${({ theme }) => theme.colors.buttonAndLogo};
+  font-size: ${({ theme }) => theme.pixelToRem(13)};
+  font-weight: 700;
+  transition: color 0.3s;
+  border-radius: 20px;
 
   &:hover {
-    ${({ isCheckMentor }) => !isCheckMentor && 'opacity: 0.7'}
+    color: ${({ theme }) => theme.colors.white};
+    cursor: pointer;
   }
 
   &:active {
-    ${({ isCheckMentor }) => !isCheckMentor && 'opacity: 0.5'}
+    opacity: 0.5;
   }
+`;
+
+const StyledLogo = styled(Button.withComponent('button'))`
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  font-weight: 700;
 `;
 
 const StyledMobileLogo = styled.div`
@@ -232,6 +217,10 @@ const StyledMobileLogo = styled.div`
 `;
 
 const StyledBtnContainer = styled.div`
+  button:last-child {
+    margin-right: 0;
+  }
+
   ${({ theme }) => theme.mobile`
    display: none;
    transform: scale(0.8);
@@ -301,19 +290,6 @@ const StyledGoToMyPageBtn = styled.button`
       opacity: 0.8;
   }
   `}
-`;
-
-const StyledEditMentorInfo = StyledGoToMyPageBtn.withComponent('button');
-
-const StyledMakeBatchBtn = StyledGoToMyPageBtn.withComponent('button');
-
-const StyledGoToBatchPageBtn = StyledGoToMyPageBtn.withComponent('button');
-
-const StyledGoToMentorPageBtn = StyledGoToMyPageBtn.withComponent('button');
-
-const LogoutBtn = styled(StyledGoToMyPageBtn.withComponent('button'))`
-  margin-right: 0;
-  padding: 10px 20px;
 `;
 
 const StyledMobileBtnList = styled.button`
