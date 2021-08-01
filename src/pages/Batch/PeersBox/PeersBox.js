@@ -55,7 +55,6 @@ const ScrollBoxTitle = Styled.h1`
 `;
 
 const StyledSlider = Styled(Slider)`
-  margin-top: 30px;
   color: ${({ theme }) => theme.colors.black};
 
   .slick-prev:before, .slick-next:before {
@@ -96,37 +95,4 @@ const settings = {
   draggable: true,
   prevArrow: <PrevArrow />,
   nextArrow: <NextArrow />,
-  responsive: [
-    {
-      breakpoint: 1280,
-      settings: { slidesToShow: 6, slidesToScroll: 6, dots: true },
-    },
-    {
-      breakpoint: 1024,
-      settings: { slidesToShow: 4, slidesToScroll: 4, dots: true },
-    },
-  ],
 };
-
-const MobileContainer = Styled.section`
-  display: none;
-
-  ${({ theme }) => theme.mobile`
-    display: block;
-    ${({ theme }) => theme.flexbox('column', 'center', 'center')}
-  `}
-`;
-
-const TableBottomTitle = Styled.h1`
-  width: 100vw;
-  margin-bottom: 20px;
-  padding: 10px 5px;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.black};
-  background-color: ${({ theme }) => theme.colors.white};
-`;
-
-const PeersContainer = Styled.ul`
-  ${({ theme }) => theme.flexbox('row', 'center', 'center')};
-  flex-wrap: wrap;
-`;

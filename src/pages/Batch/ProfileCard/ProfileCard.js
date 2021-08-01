@@ -16,7 +16,7 @@ export default function ProfileCard({ modalOn, peersInfo }) {
 const Container = Styled.li`
   ${({ theme }) => theme.flexbox('column')};
   position: relative;
-  margin-top: 30px;
+  margin: 30px auto;
   width: 80px;
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
