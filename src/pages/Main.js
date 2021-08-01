@@ -29,7 +29,7 @@ export default function Main({ history }) {
   useEffect(() => {
     fetchUserData(setUserInfo, setCheckOffWorkDate, history);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userInfo]);
 
   return (
     <FadeIn transitionDuration={1000}>
@@ -41,14 +41,14 @@ export default function Main({ history }) {
           <ButtonSection>
             {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
               <Button onClick={() => checkRestart(setUserInfo, history)}>
-                RESTART
+                RE START
               </Button>
             ) : (
               <Button
                 onClick={() =>
                   checkStart(setIsCommentModal, setUserInfo, history)
                 }
-                disabled={userInfo.isOn && userInfo.isStart}
+                disabled={userInfo.isStop | (userInfo.isOn && userInfo.isStart)}
               >
                 START
               </Button>
@@ -66,7 +66,10 @@ export default function Main({ history }) {
               onClick={() =>
                 checkStop(setIsCommentModal, setStopModalOn, history)
               }
-              disabled={userInfo.isStop}
+              disabled={
+                (!userInfo.isStart && !userInfo.isStop) |
+                (!userInfo.isOn && userInfo.isStop)
+              }
             >
               STOP
             </Button>
@@ -100,7 +103,6 @@ export default function Main({ history }) {
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('row', 'center')};
   padding-top: 150px;
-  background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
 const LeftArea = styled.div`
@@ -118,8 +120,7 @@ const Button = styled.button`
   border-radius: 12px;
   font-size: 24px;
   font-weight: 700;
-  color: ${({ theme, disabled }) =>
-    !disabled ? theme.colors.fontColor : 'gray'};
+  color: ${({ theme }) => theme.colors.white};
   transition: all 0.3s ease;
   cursor: pointer;
 
@@ -131,6 +132,10 @@ const Button = styled.button`
   &:active {
     opacity: 0.3;
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    `background: rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.7)`}
 `;
 
 const MainImg = styled.img`
