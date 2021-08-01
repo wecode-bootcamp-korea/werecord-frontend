@@ -10,11 +10,9 @@ import SnapShotBtn from './Main/SnapShotBtn/SnapShotBtn';
 import checkObjData from './Util/checkObjData';
 import API_URLS from '../config';
 
-export default function Main({ history }) {
+export default function Main() {
   const [userInfo, setUserInfo] = useState({
-    name: '위코드',
     isOn: false,
-    startTime: '00:00',
     normalAttendance: false,
     isStart: false,
     isStop: false,
@@ -23,12 +21,10 @@ export default function Main({ history }) {
   const [stopModalOn, setStopModalOn] = useState(false);
 
   const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-04-12');
-  // eslint-disable-next-line no-unused-vars
   const [sendModalOff, setSendModalOff] = useState(false);
 
   useEffect(() => {
-    fetchUserData(setUserInfo, setCheckOffWorkDate, history);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchUserData(setUserInfo, setCheckOffWorkDate);
   }, []);
 
   return (
@@ -40,14 +36,12 @@ export default function Main({ history }) {
           <CountTime />
           <ButtonSection>
             {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
-              <Button onClick={() => checkRestart(setUserInfo, history)}>
+              <Button onClick={() => checkRestart(setUserInfo)}>
                 RE START
               </Button>
             ) : (
               <Button
-                onClick={() =>
-                  checkStart(setIsCommentModal, setUserInfo, history)
-                }
+                onClick={() => checkStart(setIsCommentModal, setUserInfo)}
                 disabled={userInfo.isStop | (userInfo.isOn && userInfo.isStart)}
               >
                 START
@@ -55,17 +49,13 @@ export default function Main({ history }) {
             )}
             {userInfo.isOn && (
               <Button
-                onClick={() =>
-                  checkPause(setIsCommentModal, setUserInfo, history)
-                }
+                onClick={() => checkPause(setIsCommentModal, setUserInfo)}
               >
                 PAUSE
               </Button>
             )}
             <Button
-              onClick={() =>
-                checkStop(setIsCommentModal, setStopModalOn, history)
-              }
+              onClick={() => checkStop(setIsCommentModal, setStopModalOn)}
               disabled={
                 (!userInfo.isStart && !userInfo.isStop) |
                 (!userInfo.isOn && userInfo.isStop)
@@ -87,6 +77,7 @@ export default function Main({ history }) {
           {userInfo.normalAttendance && (
             <Modal>
               <SendTimeModal
+                isOn={sendModalOff}
                 setOff={setSendModalOff}
                 attendanceStatus={setUserInfo}
                 checkOffWorkDate={checkOffWorkDate}
@@ -150,7 +141,7 @@ const StopCommentTitle = styled.div`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-const fetchUserData = (setUserInfo, setCheckOffWorkDate, history) => {
+const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
   fetch(`${API_URLS.MAIN}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
@@ -160,7 +151,7 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate, history) => {
     .then(({ message, result }) => {
       if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
-        history.push('/');
+        window.location.href = '/';
       }
 
       if (message === 'NEED_TO_RECORD_ENDTIME_ERROR') {
@@ -169,18 +160,11 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate, history) => {
       }
 
       if (result) {
-        const {
-          user_name,
-          user_status,
-          user_start_time,
-          start_status,
-          stop_status,
-        } = result;
+        const { user_status, start_status, stop_status } = result;
+
         setUserInfo(prev => ({
           ...prev,
-          name: user_name,
           isOn: user_status,
-          startTime: user_start_time,
           isStart: start_status,
           isStop: stop_status,
         }));
@@ -189,7 +173,7 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate, history) => {
     .catch(error => console.log(error));
 };
 
-const checkStart = (setIsCommentModal, setUserInfo, history) => {
+const checkStart = (setIsCommentModal, setUserInfo) => {
   fetch(`${API_URLS.MAIN}/start`, {
     method: 'POST',
     headers: {
@@ -200,7 +184,7 @@ const checkStart = (setIsCommentModal, setUserInfo, history) => {
     .then(({ message, result }) => {
       if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
-        history.push('/');
+        window.location.href = '/';
       }
       if (message === 'ALREADY_RECORD_ERROR') {
         setIsCommentModal(prev => ({
@@ -227,7 +211,7 @@ const checkStart = (setIsCommentModal, setUserInfo, history) => {
     .catch(error => console.log(error));
 };
 
-const checkStop = (setIsCommentModal, setStopModalOn, history) => {
+const checkStop = (setIsCommentModal, setStopModalOn) => {
   fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
@@ -238,7 +222,7 @@ const checkStop = (setIsCommentModal, setStopModalOn, history) => {
     .then(({ message, result }) => {
       if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
-        history.push('/');
+        window.location.href = '/';
       }
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
         setIsCommentModal(prev => ({
@@ -280,7 +264,7 @@ const checkStop = (setIsCommentModal, setStopModalOn, history) => {
     .catch(error => console.log(error));
 };
 
-const checkPause = (setIsCommentModal, setUserInfo, history) => {
+const checkPause = (setIsCommentModal, setUserInfo) => {
   fetch(`${API_URLS.MAIN}/pause`, {
     method: 'POST',
     headers: {
@@ -291,7 +275,7 @@ const checkPause = (setIsCommentModal, setUserInfo, history) => {
     .then(({ message }) => {
       if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
-        history.push('/');
+        window.location.href = '/';
       }
       if (message === 'NEED_TO_RECORD_STARTTIME_ERROR') {
         setIsCommentModal(prev => ({
@@ -303,14 +287,14 @@ const checkPause = (setIsCommentModal, setUserInfo, history) => {
       if (message === 'SUCCESS') {
         setUserInfo(prev => ({
           ...prev,
-          isStart: false,
+          isOn: false,
         }));
       }
     })
     .catch(error => console.log(error));
 };
 
-const checkRestart = (setUserInfo, history) => {
+const checkRestart = setUserInfo => {
   fetch(`${API_URLS.MAIN}/restart`, {
     method: 'POST',
     headers: {
@@ -321,7 +305,7 @@ const checkRestart = (setUserInfo, history) => {
     .then(({ message }) => {
       if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
-        history.push('/');
+        window.location.href = '/';
       }
       if (message === 'SUCCESS') {
         setUserInfo(prev => ({
