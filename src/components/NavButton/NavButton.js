@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function NewButton({ children, onClick }) {
+export default function NavButton({ children, onClick }) {
   const handleClick = () => {
     onClick();
   };
