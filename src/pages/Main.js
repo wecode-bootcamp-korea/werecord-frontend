@@ -29,7 +29,7 @@ export default function Main({ history }) {
   useEffect(() => {
     fetchUserData(setUserInfo, setCheckOffWorkDate, history);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo]);
+  }, []);
 
   return (
     <FadeIn transitionDuration={1000}>

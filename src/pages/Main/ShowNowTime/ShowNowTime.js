@@ -51,12 +51,17 @@ const getTodayDate = () => {
 };
 
 const getTime = time => {
-  const hour = time;
+  const { hour } = time;
+
   return hour > 12
     ? `${WEEK[dayjs().day()]}요일 오후`
     : `${WEEK[dayjs().day()]}요일 오전`;
 };
 
 const showNowTime = time => {
-  return `${time.hour}시 ${time.minutes}분 입니다.`;
+  const { hour } = time;
+
+  return hour > 12
+    ? `${hour - 12}시 ${time.minutes}분 입니다.`
+    : `${hour}시 ${time.minutes}분 입니다.`;
 };
