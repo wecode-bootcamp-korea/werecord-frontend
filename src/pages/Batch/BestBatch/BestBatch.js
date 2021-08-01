@@ -7,6 +7,7 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
   const [firstPrize, secondPrize, thirdPrize] = myBatchInfo.ghost_ranking;
   const [changeBatchInfo, setChangeBatchInfo] = useState(false);
   const best_batchs_time = [780, 1109, 1289];
+  const best_batchs_name = ['20기', '21기', '22기'];
 
   return (
     <Container>
@@ -16,67 +17,36 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
         {makeMyBatchTotalTime(batch_total_time)}
       </MyBatchTime>
       <BestBatchTime>
-        <h1>최고 기록을 향한 여정</h1>
+        <SubTitles>최고 기록을 향한 여정</SubTitles>
         <BestBatchs>
-          <FirstBatch>{best_batchs_time[2]}시간</FirstBatch>
+          <FirstBatch>
+            {best_batchs_time[2]}시간
+            <Balloon>{best_batchs_name[0]}</Balloon>
+          </FirstBatch>
           <SecondBatch
             width={(best_batchs_time[1] / best_batchs_time[2]) * 100}
           >
             {best_batchs_time[1]}시간
+            <Balloon>{best_batchs_name[1]}</Balloon>
           </SecondBatch>
           <ThirdBatch width={(best_batchs_time[0] / best_batchs_time[2]) * 100}>
             {best_batchs_time[0]}시간
+            <Balloon>{best_batchs_name[2]}</Balloon>
           </ThirdBatch>
         </BestBatchs>
       </BestBatchTime>
       <PersonRanking>
-        <BestPersonTitle>지난주 지박령</BestPersonTitle>
-        <BestPersons>
-          {!firstPrize && (
-            <PrizeGuide>
-              👻 다음주에 첫 지박령 순위가 발표될 예정입니다!
-            </PrizeGuide>
-          )}
-          {secondPrize && (
-            <BestPerson rank={2}>
-              <BestGrade>
-                {secondPrize.user_name}님
-                <BestGradeTime>
-                  {`${Math.floor(
-                    secondPrize.user_last_week_total_time / 3600
-                  )}시간`}
-                </BestGradeTime>
-              </BestGrade>
-              <p>🥈</p>
-            </BestPerson>
-          )}
-          {firstPrize && (
-            <BestPerson rank={1}>
-              <BestGrade>
-                {firstPrize.user_name}님
-                <BestGradeTime>
-                  {`${Math.floor(
-                    firstPrize.user_last_week_total_time / 3600
-                  )}시간`}
-                </BestGradeTime>
-              </BestGrade>
-              <p>🥇</p>
-            </BestPerson>
-          )}
-          {thirdPrize && (
-            <BestPerson rank={3}>
-              <BestGrade>
-                {thirdPrize.user_name}님
-                <BestGradeTime>
-                  {`${Math.floor(
-                    thirdPrize.user_last_week_total_time / 3600
-                  )}시간`}
-                </BestGradeTime>
-              </BestGrade>
-              <p>🥉</p>
-            </BestPerson>
-          )}
-        </BestPersons>
+        <SubTitles>지난주 지박령 순위</SubTitles>
+        <GradeInMate>
+          <img alt="mate" src="/images/Profile/test1.jpeg" />
+          <MateInfo>
+            <div className="grade">1위</div>
+            <PersonName>
+              <div className="name">홍길동</div>
+              <div className="hour">89시간</div>
+            </PersonName>
+          </MateInfo>
+        </GradeInMate>
       </PersonRanking>
     </Container>
   );
@@ -87,16 +57,24 @@ const Container = Styled.div`
   margin-top: 168px;
 `;
 
-const BestBatchTime = Styled.div`
+const MyBatchTime = Styled.section`
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 75px;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+const SubTitles = Styled.h1`
+  margin-left: 20px;
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.white};
+  opacity: 0.6;
+`;
+
+const BestBatchTime = Styled.section`
   width: 100%;
   margin-top: 61px;
-
-  h1 {
-    font-size: ${({ theme }) => theme.pixelToRem(15)};
-    color: ${({ theme }) => theme.colors.white};
-    opacity: 0.6;
-  }
-  ${({ theme }) => theme.flexbox('column')};
   font-size: ${({ theme }) => theme.pixelToRem(30)};
 `;
 
@@ -145,161 +123,78 @@ const ThirdBatch = Styled.div`
   color: ${({ theme }) => theme.colors.white};
   text-align: right;
   line-height: 50px;
-  background: ${({ theme }) => theme.colors.green}
+  background: ${({ theme }) => theme.colors.purple}
 `;
 
-const MyBatchTime = Styled.div`
-  font-size: 60px;
+const Balloon = Styled.div`
+  position: absolute; 
+  top: -70px;
+  right: 0;
+  width: 52px; 
+  height: 52px;
+  border-radius: 50%;
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
   font-weight: 700;
-  line-height: 75px;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.black};
+  background: ${({ theme }) => theme.colors.white};
+
+  &:after { 
+    border-top: 20px solid ${({ theme }) => theme.colors.white}; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent; 
+    border-bottom: 0px solid transparent; 
+    content:""; 
+    ${({ theme }) => theme.posCenterX('absolute')}
+    bottom: -10px;
+}
 `;
 
-const PersonRanking = Styled.article`
-  ${({ theme }) => theme.flexbox('column', 'center', 'center')};
-  margin-top: 80px;
-
-  ${({ theme }) => theme.tablet`
-    width: 100vw;
-    margin-top: 50px;
-  `}
+const PersonRanking = Styled.ul`
+  margin-top: 42px;
 `;
 
-const BestPersonTitle = Styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(38)};
-  margin-bottom : 30px;
-  font-weight: 700;
+const GradeInMate = Styled.li`
+  ${({ theme }) => theme.flexbox('row', 'flex-start')}
+  width: 200px;
+  height: 92px;
+  margin-top: 20px;
+  border-radius: 20px;
+  background: ${({ theme }) => theme.colors.white};
 
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 23px;
-  `}
-
-  ${({ theme }) => theme.tablet`
-    font-size: 30px;
-  `}
+  img {
+    width: 52px;
+    height: 52px;
+    margin-left: 20px;
+    border: 1px solid ${({ theme }) => theme.colors.purple};
+    border-radius: 50%;
+  }
 `;
 
-const BestGrade = Styled.div`
-  ${({ theme }) => theme.flexbox('row', 'space-around', 'flex-end')};
-  position: relative;
-  top: -60%;
-  font-size: 18px;
+const MateInfo = Styled.div`
+  ${({ theme }) => theme.flexbox('column', 'flex-start', 'flex-start')};
+  margin-left: 10px;
 
-  ${({ theme }) => theme.tablet`
-    font-size: 14px;
-  `}
-`;
-
-const BestGradeTime = Styled.div`
-  margin-left: 3px;
-  font-size: 12px;
-
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 10px;
-  `}
-`;
-
-const BestPersons = Styled.div`
-  ${({ theme }) => theme.flexbox('row', 'center', 'flex-end')}
-  margin-top: 30px;
-  padding: 30px;
-  border-radius: 12px;
-  width: 448px;
-  height: 220px;
-
-  .firstPrizeTotalTime {
+  .grade {
+    margin-bottom: 10px;
     font-size: 20px;
+    font-weight: 700;
+    line-height: 20px;
+    color: ${({ theme }) => theme.colors.purple};
   }
-
-  ${({ theme }) => theme.middle_desktop`
-    width: 290px;
-    height: 170px;
-  `}
-
-  ${({ theme }) => theme.tablet`
-    width: 100vw;
-    height: 130px;
-    margin-top: 20px;
-    padding: 0 30px;;
-  `}
 `;
 
-const PrizeGuide = Styled.div`
-  ${({ theme }) => theme.flexbox('column', 'center', 'center')};
-  line-height: 15;
-  font-size: 18px;
+const PersonName = Styled.div`
+  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
   font-weight: 700;
-  
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 14px;
-  `}
+  color: ${({ theme }) => theme.colors.purple};
 
-  ${({ theme }) => theme.tablet`
-    font-size: 10px;
-  `}
-`;
-
-const firstPlace = keyframes`
-  0% {
-    height: 0%;
-  }
-  100% {
-    height: 90%;
+  .name {
+    margin-right: 10px;
+    font-weight: normal;
   }
 `;
-
-const secondPlace = keyframes`
-  0% {
-    height: 0%;
-  }
-  100% {
-    height: 55%;
-  }
-`;
-
-const thirdPlace = keyframes`
-  0% {
-    height: 0%;
-  }
-  100% {
-    height: 40%;
-  }
-`;
-
-const BestPerson = Styled.div`
-  ${({ theme }) => theme.flexbox('column')};
-  width: 100%;
-  margin: 0 1px;
-  font-size: 35px;
-  font-weight: 700;
-  height: ${props =>
-    props.rank === 1 ? '90%' : props.rank === 2 ? '55%' : '40%'};
-  background-color: #0066ff;
-  animation: ${props =>
-    props.rank === 1
-      ? firstPlace
-      : props.rank === 2
-      ? secondPlace
-      : thirdPlace} 1s linear;
-
-      p {
-        position: relative;
-        top:-10px;
-
-        ${({ theme }) => theme.middle_desktop`
-          font-size: 30px;
-        `}
-
-        ${({ theme }) => theme.tablet`
-          font-size: 25px;
-        `}
-      }
-`;
-
-const makeWinnerTotalTime = (batchName, batchTotalTime) => {
-  return `${batchName}기 ${Math.floor(
-    batchTotalTime / 3600
-  ).toLocaleString()}시간 달성 !`;
-};
 
 const makeMyBatchTotalTime = batchTotalTime => {
   return `${Math.floor(batchTotalTime / 3600).toLocaleString()}시간 기록 중  `;
