@@ -13,13 +13,8 @@ export default function PeersBox({ myBatchInfo }) {
 
   return (
     <>
+      <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
       <Container>
-        <ScrollBoxTop>
-          <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
-          <ScrollBoxMentor onClick={() => setIsMentorModalOn(!isMentorModalOn)}>
-            💁🏻‍♂️담임멘토
-          </ScrollBoxMentor>
-        </ScrollBoxTop>
         <StyledSlider {...settings}>
           {myBatchInfo.peers.map(peers => (
             <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
@@ -27,6 +22,7 @@ export default function PeersBox({ myBatchInfo }) {
             </div>
           ))}
         </StyledSlider>
+
         {isPeerModalOn && (
           <Modal setOff={setIsPeerModalOn}>
             <ProfileModal peersInfo={peerData} />
@@ -38,46 +34,25 @@ export default function PeersBox({ myBatchInfo }) {
           </Modal>
         )}
       </Container>
-
-      <MobileContainer>
-        <TableBottomTitle>출결 현황</TableBottomTitle>
-        <PeersContainer>
-          {myBatchInfo.peers.map(peers => (
-            <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
-              <ProfileCard modalOn={setIsPeerModalOn} peersInfo={peers} />
-            </div>
-          ))}
-        </PeersContainer>
-      </MobileContainer>
     </>
   );
 }
 
 const Container = Styled.section`
+  height: 160px;
   margin-top: 20px;
-  padding: 30px;
-  border-radius: 3px;
-  background-color: #fefefe;
-
-  ${({ theme }) => theme.mobile`
-    display: none;
-  `}
-`;
-
-const ScrollBoxTop = Styled.div`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
+  border-radius: 20px;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const ScrollBoxTitle = Styled.h1`
-  font-size: 20px;
-  color: ${({ theme }) => theme.colors.black};
+  margin-top: 42px;
+  margin-left: 20px;
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.white};
+  opacity: 0.6;
 `;
-
-const ScrollBoxMentor = Styled.div`
-  color: ${({ theme }) => theme.colors.black};
-  font-size:15px;
-  cursor:pointer;`;
 
 const StyledSlider = Styled(Slider)`
   margin-top: 30px;
@@ -115,8 +90,8 @@ const settings = {
   dots: true,
   infinite: false,
   speed: 500,
-  slidesToShow: 7,
-  slidesToScroll: 7,
+  slidesToShow: 8,
+  slidesToScroll: 8,
   arrows: true,
   draggable: true,
   prevArrow: <PrevArrow />,
