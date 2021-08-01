@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
 
 body {
   font-family: 'Noto Sans KR', sans-serif;
+  background: #fd92ae;
 }
 
 button,
