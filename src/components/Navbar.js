@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import MakeBatchForm from '../pages/MentorPage/MakeBatchForm';
 import EditMentorInfoForm from '../pages/MentorPage/EditMentorInfoForm';
+
+import styled, { keyframes } from 'styled-components';
 
 export default function Navbar() {
   const [makeBatchModalOn, setMakeBatchModalOn] = useState(false);

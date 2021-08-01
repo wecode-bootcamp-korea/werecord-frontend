@@ -46,6 +46,7 @@ const colors = {
   orange: '#FF9900',
   backgroundColor: '#212121',
   fontColor: '#dedede',
+  buttonAndLogo: '#514AB8',
 };
 
 const theme = {
