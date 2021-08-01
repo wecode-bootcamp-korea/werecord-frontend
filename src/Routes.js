@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Main from './pages/Main';
 import Navbar from '../src/components/Navbar';
+import Footer from './components/Footer/Footer';
 import Rending from './pages/Rending/Rending';
 import GoogleLogin from './pages/Rending/LoginSigninModal/GoogleLogin';
 import Batch from './pages/Batch/Batch';
@@ -22,6 +23,7 @@ export default function Routes() {
         <Route exact path="/mentorpage" component={MentorPage} />
         <Route exact path="*" component={NotFoundPage} />
       </Switch>
+      <Footer />
     </Router>
   );
 }
