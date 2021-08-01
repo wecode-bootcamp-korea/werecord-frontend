@@ -11,6 +11,15 @@ export default function PeersBox({ myBatchInfo }) {
   const [isMentorModalOn, setIsMentorModalOn] = useState(false);
   const [peerData, setPeerData] = useState({});
 
+  const settings = {
+    slide: 'li',
+    infinite: false,
+    speed: 500,
+    slidesToShow: 8,
+    slidesToScroll: 8,
+    draggable: true,
+  };
+
   return (
     <>
       <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
@@ -55,44 +64,7 @@ const ScrollBoxTitle = Styled.h1`
 `;
 
 const StyledSlider = Styled(Slider)`
-  color: ${({ theme }) => theme.colors.black};
-
   .slick-prev:before, .slick-next:before {
-    color: black;
+    color: ${({ theme }) => theme.colors.purple};
   }
 `;
-
-function PrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <i
-      className={`fas fa-caret-left ${className}`}
-      style={{ ...style, display: 'block' }}
-      onClick={onClick}
-    />
-  );
-}
-
-function NextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: 'block' }}
-      onClick={onClick}
-    />
-  );
-}
-
-const settings = {
-  slide: 'li',
-  dots: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 8,
-  slidesToScroll: 8,
-  arrows: true,
-  draggable: true,
-  prevArrow: <PrevArrow />,
-  nextArrow: <NextArrow />,
-};
