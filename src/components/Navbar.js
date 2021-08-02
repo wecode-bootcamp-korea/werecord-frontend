@@ -45,11 +45,12 @@ export default function Navbar() {
         <Container>
           <StyledLogo
             onClick={() => {
-              goToMainPage('main');
+              goToMainPage('/main');
             }}
             isCheckMentor={isCheckMentor}
+            isMain={location.pathname}
           >
-            We record
+            We Record
           </StyledLogo>
           <StyledBtnContainer handleMobileBtnList={mobileNavBtnDisplayOn}>
             {!isCheckMentor && location.pathname !== '/mypage' && (
@@ -146,12 +147,8 @@ const showContainerAnimation = keyframes`
 `;
 
 const Container = styled.nav`
-  ${({ theme }) => theme.flexbox('row', 'space-between')}
-  padding: 54px 200px;
-  height: 60px;
-  width: 100%;
-  top: 0;
-  position: fixed;
+  ${({ theme }) => theme.flexbox('row', 'space-between')};
+  margin-top: 54px;
   background-color: transparent;
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
@@ -180,6 +177,7 @@ const Button = styled.button`
 const StyledLogo = styled(Button.withComponent('button'))`
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
+  color: ${({ isMain }) => isMain === '/main' && 'white'};
 `;
 
 const StyledMobileLogo = styled.div`

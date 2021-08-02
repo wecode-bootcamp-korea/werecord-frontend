@@ -92,8 +92,8 @@ export default function Main() {
 }
 
 const Container = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'center')};
-  padding-top: 150px;
+  ${({ theme }) => theme.flexbox('row', 'space-between')};
+  margin-top: 70px;
 `;
 
 const LeftArea = styled.div`
@@ -130,8 +130,8 @@ const Button = styled.button`
 `;
 
 const MainImg = styled.img`
-  width: 350px;
-  margin-top: 20px;
+  width: 370px;
+  margin-right: 80px;
 `;
 
 const StopCommentTitle = styled.div`

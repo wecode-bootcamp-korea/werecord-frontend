@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
 
 body {
   max-width: 1440px;
-  margin: 0 auto;
+  margin: 0 200px;
   font-family: 'Noto Sans KR', sans-serif;
   background: #fd92ae;
 }
