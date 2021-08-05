@@ -50,7 +50,7 @@ const colors = {
 
   // button-Color
   regularBtnFontColorWhite: '#ffffff',
-  regularBtnBordderColorWhite: '#ffffff',
+  regularBtnBorderColorWhite: '#ffffff',
 
   hoverBtnBgWhite: '#ffffff',
   hoverBtnFontColorPurple: '#514AB8',

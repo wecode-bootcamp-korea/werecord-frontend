@@ -34,7 +34,7 @@ export default function Main() {
           <SnapShotBtn />
           <ShowNowTime />
           <CountTime />
-          <ButtonSection>
+          <BtnArea>
             {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
               <Button onClick={() => checkRestart(setUserInfo)}>
                 RE START
@@ -63,7 +63,7 @@ export default function Main() {
             >
               STOP
             </Button>
-          </ButtonSection>
+          </BtnArea>
 
           {checkObjData(isCommentModal) && (
             <Modal setOff={setIsCommentModal} isCommentModal={stopModalOn}>
@@ -93,35 +93,45 @@ export default function Main() {
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
-  margin: 70px 200px 0 200px;
+  margin: ${({ theme }) => theme.pixelToRem(70)}
+    ${({ theme }) => theme.pixelToRem(200)} 0
+    ${({ theme }) => theme.pixelToRem(200)};
 `;
 
 const LeftArea = styled.div`
-  /* margin-right: 217px; */
+  ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.flexbox('column')}
+    width: 100%;
+  `};
 `;
 
-const ButtonSection = styled.section`
+const BtnArea = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start')};
 `;
 
 const Button = styled.button`
-  margin-right: 20px;
-  padding: 10px;
-  border: 1px solid ${({ theme }) => theme.colors.white};
-  border-radius: 12px;
-  font-size: 24px;
+  margin-right: ${({ theme }) => theme.pixelToRem(20)};
+  padding: 8px 20px;
+  border: 1px solid ${({ theme }) => theme.colors.regularBtnBorderColorWhite};
+  border-radius: 20px;
+  font-size: ${({ theme }) => theme.pixelToRem(24)};
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.white};
+  line-height: ${({ theme }) => theme.pixelToRem(40)};
+  color: ${({ theme }) => theme.colors.regularBtnFontColorWhite};
   transition: all 0.3s ease;
   cursor: pointer;
 
   &:hover {
-    opacity: 0.7;
-    transform: scale(1.05);
+    color: ${({ theme }) => theme.colors.hoverBtnFontColorPurple};
+    background: ${({ theme }) => theme.colors.hoverBtnBgWhite};
+
+    ${({ disabled }) =>
+      disabled &&
+      `background: rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.7)`}
   }
 
   &:active {
-    opacity: 0.3;
+    opacity: 0.7;
   }
 
   ${({ disabled }) =>
@@ -130,8 +140,14 @@ const Button = styled.button`
 `;
 
 const MainImg = styled.img`
-  width: 370px;
-  margin-top: 50px;
+  width: ${({ theme }) => theme.pixelToRem(370)};
+  margin-top: ${({ theme }) => theme.pixelToRem(50)};
+
+  ${({ theme }) => theme.tablet`
+    position: absolute;
+    opacity: 0.1;
+    z-index: -1;
+  `};
 `;
 
 const StopCommentTitle = styled.div`

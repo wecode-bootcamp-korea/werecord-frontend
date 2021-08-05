@@ -28,10 +28,11 @@ export default function ShowNowTime() {
 
 const Container = Styled.h1`
   margin-bottom: 40px;
-  color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.pixelToRem(60)};
+  font-family: 'Noto Sans KR';
   font-weight: 700;
-  line-height: 75px;
+  line-height: ${({ theme }) => theme.pixelToRem(75)};
+  color: ${({ theme }) => theme.colors.fontColorWhite};
 `;
 
 const getTimePasses = setTime => {
