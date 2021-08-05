@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
-import theme from './theme';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -8,19 +7,23 @@ const GlobalStyle = createGlobalStyle`
   :root{
     font-size: 16px;
   }
+
+  html {
+    font-family: 'Noto Sans', 'sans-serif';
+  }
   
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Noto Sans', 'sans-serif';
     font: inherit;
   }
 
   body {
     max-width: 1440px;
     margin: 0 auto;
-    background: ${theme.colors.pink};
+    background: ${({ theme }) => theme.colors.pink};
   }
 
   button,
