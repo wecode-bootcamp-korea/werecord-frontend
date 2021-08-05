@@ -7,8 +7,6 @@ const flexbox = (direction = 'row', justify = 'center', align = 'center') => {
   `;
 };
 
-const pixelToRem = size => `${size / 16}rem`;
-
 const posCenterX = (type = 'absolute') => {
   return `
   position: ${type};
@@ -34,28 +32,49 @@ const posCenter = (type = 'absolute') => {
   `;
 };
 
+// Rem
+const pixelToRem = size => `${size / 16}rem`;
+const MobilePixelToRem = size => `${size / 13}rem`;
+
+// Colors
 const colors = {
   black: '#000000',
   white: '#ffffff',
-  blue: '#0066ff',
-  gray: '#F6F4F1',
-  red: '#ef6253',
-  green: '#41b979',
   purple: '#514AB8',
   pink: '#FD92AE',
-  orange: '#FF9900',
-  backgroundColor: '#212121',
-  fontColor: '#dedede',
-  buttonAndLogo: '#514AB8',
+
+  // font-Color
+  fontColorPurple: '#514AB8',
+  fontColorWhite: '#ffffff',
+  fontColorLightWhite: 'rgba(255, 255, 255, 0.6)',
+
+  // button-Color
+  buttonBgWhite: '#ffffff',
+  buttonBgLightWhite: 'rgba(255, 255, 255, 0.3)',
+
+  // input-Color
+  inputRegularBgWhite: '#ffffff',
+  inputRegularBorderWhite: '#E0E0E0',
+
+  inputHoverBorderLightPurple: 'rgba(81, 74, 184, 0.6)',
+
+  inputFocusBorderPurple: '#514AB8',
+
+  inputDisabledBgDarkWhite: '#F8F8F8',
+  inputDisabledBorderWhite: '#E0E0E0',
+
+  footerColorWhite: 'rgba(255, 255, 255, 0.8)',
+  chartRowLine: 'rgba(255, 255, 255, 0.5)',
 };
 
 const theme = {
-  colors,
   flexbox,
-  pixelToRem,
   posCenterX,
   posCenterY,
   posCenter,
+  pixelToRem,
+  MobilePixelToRem,
+  colors,
 };
 
 export default theme;
