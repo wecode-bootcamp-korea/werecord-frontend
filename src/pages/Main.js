@@ -93,11 +93,11 @@ export default function Main() {
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
-  margin-top: 70px;
+  margin: 70px 200px 0 200px;
 `;
 
 const LeftArea = styled.div`
-  margin-right: 217px;
+  /* margin-right: 217px; */
 `;
 
 const ButtonSection = styled.section`
@@ -131,7 +131,7 @@ const Button = styled.button`
 
 const MainImg = styled.img`
   width: 370px;
-  margin-right: 80px;
+  margin-top: 50px;
 `;
 
 const StopCommentTitle = styled.div`
