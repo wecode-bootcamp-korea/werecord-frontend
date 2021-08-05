@@ -10,8 +10,8 @@ import 'slick-carousel/slick/slick-theme.css';
 
 ReactDOM.render(
   <>
-    <GlobalStyle />
     <ThemeProvider theme={{ ...theme, ...media }}>
+      <GlobalStyle />
       <Routes />
     </ThemeProvider>
   </>,
