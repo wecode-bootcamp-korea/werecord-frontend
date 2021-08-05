@@ -49,19 +49,25 @@ const colors = {
   fontColorLightWhite: 'rgba(255, 255, 255, 0.6)',
 
   // button-Color
-  buttonBgWhite: '#ffffff',
-  buttonBgLightWhite: 'rgba(255, 255, 255, 0.3)',
+  regularBtnFontColorWhite: '#ffffff',
+  regularBtnBordderColorWhite: '#ffffff',
+
+  hoverBtnBgWhite: '#ffffff',
+  hoverBtnFontColorPurple: '#514AB8',
+
+  disabledBtnFontColorLightWhite: 'rgba(255, 255, 255, 0.7)',
+  disabledBtnBgLightWhite: 'rgba(255, 255, 255, 0.3)',
 
   // input-Color
-  inputRegularBgWhite: '#ffffff',
-  inputRegularBorderWhite: '#E0E0E0',
+  regularInputBgWhite: '#ffffff',
+  regularInputBorderWhite: '#E0E0E0',
 
-  inputHoverBorderLightPurple: 'rgba(81, 74, 184, 0.6)',
+  hoverInputBorderLightPurple: 'rgba(81, 74, 184, 0.6)',
 
-  inputFocusBorderPurple: '#514AB8',
+  focusInputBorderPurple: '#514AB8',
 
-  inputDisabledBgDarkWhite: '#F8F8F8',
-  inputDisabledBorderWhite: '#E0E0E0',
+  disabledInputBgDarkWhite: '#F8F8F8',
+  disabledInputBorderWhite: '#E0E0E0',
 
   footerColorWhite: 'rgba(255, 255, 255, 0.8)',
   chartRowLine: 'rgba(255, 255, 255, 0.5)',
