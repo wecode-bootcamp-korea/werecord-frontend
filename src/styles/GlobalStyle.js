@@ -21,7 +21,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    max-width: 1440px;
     margin: 0 auto;
     background: ${({ theme }) => theme.colors.pink};
   }
