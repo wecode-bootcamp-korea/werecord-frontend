@@ -11,6 +11,12 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-family: 'Noto Sans', 'sans-serif';
   }
+
+  html, body { height: 100%; }
+body {
+  background:radial-gradient(ellipse at center, rgba(255,254,234,1) 0%, rgba(255,254,234,1) 35%, #B7E8EB 100%);
+  overflow: hidden;
+}
   
   * {
     box-sizing: border-box;
@@ -22,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0 auto;
-    background: ${({ theme }) => theme.colors.pink};
+    background: linear-gradient(180deg, #FD92AE 0%, #E7F5FF 100%);
   }
 
   button,
