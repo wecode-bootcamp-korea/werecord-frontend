@@ -1,9 +1,9 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function SnapShotBtn() {
+export default function SnapShotBtn({ screenCaptureModalOn }) {
   return (
-    <Container>
+    <Container onClick={() => screenCaptureModalOn(true)}>
       <Img alt="snapshot" src="/images/main/Vector.png" />
       이미지로 저장하기
     </Container>

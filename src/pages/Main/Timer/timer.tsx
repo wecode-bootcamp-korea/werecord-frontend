@@ -10,8 +10,9 @@ dynamicStyle.type = 'text/css';
 interface FlipclockProps {
   seconds: number;
   isOn: boolean;
+  modal: boolean;
 }
-const Flipclock: React.FC<FlipclockProps> = ({ seconds, isOn }) => {
+const Flipclock: React.FC<FlipclockProps> = ({ seconds, isOn, modal }) => {
   useEffect(() => {
     const head = document.querySelector('head') as HTMLHeadElement;
     dynamicStyle.innerHTML = flipclockStyle();
@@ -31,16 +32,31 @@ const Flipclock: React.FC<FlipclockProps> = ({ seconds, isOn }) => {
   } = useClockDigit({ seconds, isOn });
 
   return (
-    <div className="react-simple-flipclock">
-      <CountdownTimerItem translateY={hour1TranslateY} />
-      <CountdownTimerItem translateY={hour2TranslateY} />
-      <span className="countdown-separator">:</span>
-      <CountdownTimerItem translateY={minute1TranslateY} />
-      <CountdownTimerItem translateY={minute2TranslateY} />
-      <span className="countdown-separator">:</span>
-      <CountdownTimerItem translateY={second1TranslateY} />
-      <CountdownTimerItem translateY={second2TranslateY} />
-    </div>
+    <>
+      {!modal ? (
+        <div className="react-simple-flipclock">
+          <CountdownTimerItem modal={false} translateY={hour1TranslateY} />
+          <CountdownTimerItem modal={false} translateY={hour2TranslateY} />
+          <span className="countdown-separator">:</span>
+          <CountdownTimerItem modal={false} translateY={minute1TranslateY} />
+          <CountdownTimerItem modal={false} translateY={minute2TranslateY} />
+          <span className="countdown-separator">:</span>
+          <CountdownTimerItem modal={false} translateY={second1TranslateY} />
+          <CountdownTimerItem modal={false} translateY={second2TranslateY} />
+        </div>
+      ) : (
+        <div className="react-simple-flipclock-modal">
+          <CountdownTimerItem modal={true} translateY={hour1TranslateY} />
+          <CountdownTimerItem modal={true} translateY={hour2TranslateY} />
+          <span className="countdown-separator-modal">:</span>
+          <CountdownTimerItem modal={true} translateY={minute1TranslateY} />
+          <CountdownTimerItem modal={true} translateY={minute2TranslateY} />
+          <span className="countdown-separator-modal">:</span>
+          <CountdownTimerItem modal={true} translateY={second1TranslateY} />
+          <CountdownTimerItem modal={true} translateY={second2TranslateY} />
+        </div>
+      )}
+    </>
   );
 };
 

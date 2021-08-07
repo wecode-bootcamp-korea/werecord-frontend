@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import dayjs from 'dayjs';
 import Styled from 'styled-components';
 
-export default function ShowNowTime() {
+export default function ShowNowTime({ modal }) {
   const [time, setTime] = useState({
     hour: 0,
     minutes: 0,
@@ -16,7 +16,7 @@ export default function ShowNowTime() {
   }, []);
 
   return (
-    <Container>
+    <Container modal={modal}>
       {memoDate}
       <br />
       {getTime(time)}
@@ -33,6 +33,9 @@ const Container = Styled.h1`
   font-weight: 700;
   line-height: ${({ theme }) => theme.pixelToRem(75)};
   color: ${({ theme }) => theme.colors.fontColorWhite};
+
+  ${({ modal }) =>
+    modal && `margin: 20px 0 25px 50px; font-size: 40px; line-height: 50px;`}
 `;
 
 const getTimePasses = setTime => {

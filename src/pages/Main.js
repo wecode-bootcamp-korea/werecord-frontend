@@ -5,8 +5,8 @@ import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 import CommentModal from '../components/CommentModal/CommentModal';
 import ShowNowTime from './Main/ShowNowTime/ShowNowTime';
-import CountTime from './Main/CountTime/CountTime';
 import SnapShotBtn from './Main/SnapShotBtn/SnapShotBtn';
+import Timer from './Main/Timer/timer';
 import checkObjData from './Util/checkObjData';
 import API_URLS from '../config';
 
@@ -19,6 +19,7 @@ export default function Main() {
   });
   const [isCommentModal, setIsCommentModal] = useState({});
   const [stopModalOn, setStopModalOn] = useState(false);
+  const [isScreenCaptureModal, setIsScreenCaptureModal] = useState(false);
 
   const [checkOffWorkDate, setCheckOffWorkDate] = useState('2021-04-12');
   const [sendModalOff, setSendModalOff] = useState(false);
@@ -28,74 +29,101 @@ export default function Main() {
   }, []);
 
   return (
-    <FadeIn transitionDuration={1000}>
-      <Container>
-        <LeftArea>
-          <SnapShotBtn />
-          <ShowNowTime />
-          <CountTime />
-          <BtnArea>
-            {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
-              <Button onClick={() => checkRestart(setUserInfo)}>
-                RE START
-              </Button>
-            ) : (
-              <Button
-                onClick={() => checkStart(setIsCommentModal, setUserInfo)}
-                disabled={userInfo.isStop | (userInfo.isOn && userInfo.isStart)}
-              >
-                START
-              </Button>
-            )}
-            {userInfo.isOn && (
-              <Button
-                onClick={() => checkPause(setIsCommentModal, setUserInfo)}
-              >
-                PAUSE
-              </Button>
-            )}
-            <Button
-              onClick={() => checkStop(setIsCommentModal, setStopModalOn)}
-              disabled={
-                (!userInfo.isStart && !userInfo.isStop) |
-                (!userInfo.isOn && userInfo.isStop)
-              }
-            >
-              STOP
-            </Button>
-          </BtnArea>
-
-          {checkObjData(isCommentModal) && (
-            <Modal setOff={setIsCommentModal} isCommentModal={stopModalOn}>
-              {stopModalOn && (
-                <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
+    <>
+      <FadeIn transitionDuration={1000}>
+        <Container>
+          <LeftArea>
+            <SnapShotBtn
+              isScreenCaptureModalOn={isScreenCaptureModal}
+              screenCaptureModalOn={setIsScreenCaptureModal}
+            />
+            <ShowNowTime />
+            <Timer modal={false} seconds={100} isOn={userInfo.isOn} />
+            <BtnArea>
+              {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
+                <Button onClick={() => checkRestart(setUserInfo)}>
+                  RE START
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => checkStart(setIsCommentModal, setUserInfo)}
+                  disabled={
+                    userInfo.isStop | (userInfo.isOn && userInfo.isStart)
+                  }
+                >
+                  START
+                </Button>
               )}
-              <CommentModal comment={isCommentModal} />
-            </Modal>
-          )}
+              {userInfo.isOn && (
+                <Button
+                  onClick={() => checkPause(setIsCommentModal, setUserInfo)}
+                >
+                  PAUSE
+                </Button>
+              )}
+              <Button
+                onClick={() => checkStop(setIsCommentModal, setStopModalOn)}
+                disabled={
+                  (!userInfo.isStart && !userInfo.isStop) |
+                  (!userInfo.isOn && userInfo.isStop)
+                }
+              >
+                STOP
+              </Button>
+            </BtnArea>
 
-          {userInfo.normalAttendance && (
-            <Modal>
-              <SendTimeModal
-                isOn={sendModalOff}
-                setOff={setSendModalOff}
-                attendanceStatus={setUserInfo}
-                checkOffWorkDate={checkOffWorkDate}
-              />
-            </Modal>
-          )}
-        </LeftArea>
-        <MainImg alt="mainImg" src="/images/main/Saly-15.png" />
-      </Container>
-    </FadeIn>
+            {checkObjData(isCommentModal) && (
+              <Modal setOff={setIsCommentModal} isCommentModal={stopModalOn}>
+                {stopModalOn && (
+                  <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
+                )}
+                <CommentModal comment={isCommentModal} />
+              </Modal>
+            )}
+
+            {userInfo.normalAttendance && (
+              <Modal>
+                <SendTimeModal
+                  isOn={sendModalOff}
+                  setOff={setSendModalOff}
+                  attendanceStatus={setUserInfo}
+                  checkOffWorkDate={checkOffWorkDate}
+                />
+              </Modal>
+            )}
+          </LeftArea>
+          <MainImg alt="mainImg" src="/images/main/Saly-15.png" />
+        </Container>
+      </FadeIn>
+
+      {isScreenCaptureModal && (
+        <ScreenCapureModal>
+          <InsideModal>
+            <LeftArea>
+              <ShowNowTime modal={true} />
+              <Timer modal={true} seconds={100} isOn={userInfo.isOn} />
+            </LeftArea>
+            <MainImg
+              modal={true}
+              alt="mainImg"
+              src="/images/main/Saly-15.png"
+            />
+            <SaveImg>
+              <img alt="snapshot" src="/images/main/Vector.png" />
+              이미지로 저장하기
+            </SaveImg>
+          </InsideModal>
+        </ScreenCapureModal>
+      )}
+    </>
   );
 }
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
-  margin: ${({ theme }) => theme.pixelToRem(70)}
-    ${({ theme }) => theme.pixelToRem(200)} 0
-    ${({ theme }) => theme.pixelToRem(200)};
+  max-width: 1440px;
+  margin: 70px auto 0 auto;
+  padding: 0 200px;
 `;
 
 const LeftArea = styled.div`
@@ -143,6 +171,8 @@ const MainImg = styled.img`
   width: ${({ theme }) => theme.pixelToRem(370)};
   margin-top: ${({ theme }) => theme.pixelToRem(50)};
 
+  ${({ modal }) => modal && `width: 220px; margin: 30px 35px;`}
+
   ${({ theme }) => theme.tablet`
     position: absolute;
     opacity: 0.1;
@@ -155,6 +185,38 @@ const StopCommentTitle = styled.div`
   font-size: 20px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
+`;
+
+const ScreenCapureModal = styled.section`
+  ${({ theme }) => theme.flexbox('column')}
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+`;
+
+const InsideModal = styled.div`
+  ${({ theme }) => theme.flexbox('row')};
+  position: relative;
+  border: 3px solid ${({ theme }) => theme.colors.white};
+  border-radius: 20px;
+  background: ${({ theme }) => theme.colors.pink};
+`;
+
+const SaveImg = styled.div`
+  ${({ theme }) => theme.flexbox('row')};
+  position: absolute;
+  right: 20px;
+  bottom: -40px;
+  font-size: 13px;
+  font-family: Noto Sans KR;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+  cursor: pointer;
+
+  img {
+    margin-right: 6px;
+  }
 `;
 
 const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
@@ -183,6 +245,8 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
           isOn: user_status,
           isStart: start_status,
           isStop: stop_status,
+          // 마지막 startTime
+          // 총 누적 시간
         }));
       }
     })
@@ -221,6 +285,7 @@ const checkStart = (setIsCommentModal, setUserInfo) => {
           ...prev,
           isOn: true,
           isStart: true,
+          // 첫 스타트 타임
         }));
       }
     })
@@ -273,6 +338,7 @@ const checkStop = (setIsCommentModal, setStopModalOn) => {
           ...prev,
           isOn: true,
           comment: result.comment,
+          // 총 누적 시간
         }));
         setStopModalOn(true);
       }
@@ -304,6 +370,7 @@ const checkPause = (setIsCommentModal, setUserInfo) => {
         setUserInfo(prev => ({
           ...prev,
           isOn: false,
+          // 총 누적시간
         }));
       }
     })
@@ -327,6 +394,8 @@ const checkRestart = setUserInfo => {
         setUserInfo(prev => ({
           ...prev,
           isOn: true,
+          // 총 누적 시간
+          // 마지막 스타트 시간
         }));
       }
     })
