@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import FadeIn from 'react-fade-in';
+import html2canvas from 'html2canvas';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 import CommentModal from '../components/CommentModal/CommentModal';
 import ShowNowTime from './Main/ShowNowTime/ShowNowTime';
 import SnapShotBtn from './Main/SnapShotBtn/SnapShotBtn';
-import Timer from './Main/Timer/timer';
+import Flipclock from './Main/Flipclock/Flipclock';
 import checkObjData from './Util/checkObjData';
 import API_URLS from '../config';
 
@@ -16,7 +18,10 @@ export default function Main() {
     normalAttendance: false,
     isStart: false,
     isStop: false,
+    lastStartTime: '',
+    totalTime: 0,
   });
+
   const [isCommentModal, setIsCommentModal] = useState({});
   const [stopModalOn, setStopModalOn] = useState(false);
   const [isScreenCaptureModal, setIsScreenCaptureModal] = useState(false);
@@ -38,7 +43,14 @@ export default function Main() {
               screenCaptureModalOn={setIsScreenCaptureModal}
             />
             <ShowNowTime />
-            <Timer modal={false} seconds={100} isOn={userInfo.isOn} />
+            <Flipclock
+              seconds={
+                userInfo.isOn
+                  ? countingTime(userInfo.totalTime, userInfo.lastStartTime)
+                  : userInfo.totalTime
+              }
+              isOn={userInfo.isOn}
+            />
             <BtnArea>
               {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
                 <Button onClick={() => checkRestart(setUserInfo)}>
@@ -98,17 +110,17 @@ export default function Main() {
 
       {isScreenCaptureModal && (
         <ScreenCapureModal>
-          <InsideModal>
+          <InsideModal id="captureArea">
             <LeftArea>
               <ShowNowTime modal={true} />
-              <Timer modal={true} seconds={100} isOn={userInfo.isOn} />
+              <Flipclock modal={true} seconds={10000} isOn={userInfo.isOn} />
             </LeftArea>
             <MainImg
               modal={true}
               alt="mainImg"
               src="/images/main/Saly-15.png"
             />
-            <SaveImg>
+            <SaveImg onClick={() => ScreenCapture()}>
               <img alt="snapshot" src="/images/main/Vector.png" />
               이미지로 저장하기
             </SaveImg>
@@ -176,7 +188,7 @@ const MainImg = styled.img`
   ${({ theme }) => theme.tablet`
     position: absolute;
     opacity: 0.1;
-    z-index: -1;
+    z-index: -1;s
   `};
 `;
 
@@ -238,15 +250,21 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
       }
 
       if (result) {
-        const { user_status, start_status, stop_status } = result;
+        const {
+          user_status,
+          start_status,
+          stop_status,
+          // last_start_time,
+          // total_time,
+        } = result;
 
         setUserInfo(prev => ({
           ...prev,
           isOn: user_status,
           isStart: start_status,
           isStop: stop_status,
-          // 마지막 startTime
-          // 총 누적 시간
+          // lastStartTime: null,
+          // totalTime: 0,
         }));
       }
     })
@@ -285,7 +303,7 @@ const checkStart = (setIsCommentModal, setUserInfo) => {
           ...prev,
           isOn: true,
           isStart: true,
-          // 첫 스타트 타임
+          // lastStartTime: result.start_at,
         }));
       }
     })
@@ -338,7 +356,7 @@ const checkStop = (setIsCommentModal, setStopModalOn) => {
           ...prev,
           isOn: true,
           comment: result.comment,
-          // 총 누적 시간
+          // totalTime: result.total_time,
         }));
         setStopModalOn(true);
       }
@@ -354,7 +372,7 @@ const checkPause = (setIsCommentModal, setUserInfo) => {
     },
   })
     .then(res => res.json())
-    .then(({ message }) => {
+    .then(({ message, result }) => {
       if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
         window.location.href = '/';
@@ -370,7 +388,7 @@ const checkPause = (setIsCommentModal, setUserInfo) => {
         setUserInfo(prev => ({
           ...prev,
           isOn: false,
-          // 총 누적시간
+          // totalTime: result.total_time,
         }));
       }
     })
@@ -385,7 +403,7 @@ const checkRestart = setUserInfo => {
     },
   })
     .then(res => res.json())
-    .then(({ message }) => {
+    .then(({ message, result }) => {
       if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
         window.location.href = '/';
@@ -394,10 +412,48 @@ const checkRestart = setUserInfo => {
         setUserInfo(prev => ({
           ...prev,
           isOn: true,
-          // 총 누적 시간
-          // 마지막 스타트 시간
+          lastStartTime: result.restart.at,
+          totalTime: result.total_time,
         }));
       }
     })
     .catch(error => console.log(error));
+};
+
+const ScreenCapture = () => {
+  html2canvas(document.getElementById('captureArea'))
+    .then(function (canvas) {
+      saveAs(canvas.toDataURL(), 'file-name.jpg');
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+};
+
+function saveAs(uri, filename) {
+  var link = document.createElement('a');
+  if (typeof link.download === 'string') {
+    link.href = uri;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    window.open(uri);
+  }
+}
+
+const countingTime = (totalTime, lastStartTime) => {
+  const changeSecond =
+    lastStartTime &&
+    Number(lastStartTime.split(':')[0]) * 3600 +
+      Number(lastStartTime.split(':')[1]) * 60 +
+      Number(lastStartTime.split(':')[2].split('.')[0]);
+
+  const nowTime =
+    dayjs().hour() * 3600 + dayjs().minute() * 60 + dayjs().second();
+
+  const result = nowTime - changeSecond + totalTime;
+
+  return result;
 };

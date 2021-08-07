@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { flipclockStyle } from './styled';
 import { useClockDigit } from './hooks';
-import CountdownTimerItem from './Timer/timer';
+import CountdownTimerItem from './Flipclock/Flipclock';
 
 const dynamicStyle = document.createElement('style');
 dynamicStyle.type = 'text/css';
