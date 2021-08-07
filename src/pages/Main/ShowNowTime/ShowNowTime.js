@@ -35,7 +35,8 @@ const Container = Styled.h1`
   color: ${({ theme }) => theme.colors.fontColorWhite};
 
   ${({ modal }) =>
-    modal && `margin: 20px 0 25px 50px; font-size: 40px; line-height: 50px;`}
+    modal &&
+    `margin-top: 15px; margin-bottom: 25px; font-size: 40px; line-height: 50px;`}
 `;
 
 const getTimePasses = setTime => {

@@ -113,14 +113,23 @@ export default function Main() {
           <InsideModal id="captureArea">
             <LeftArea>
               <ShowNowTime modal={true} />
-              <Flipclock modal={true} seconds={10000} isOn={userInfo.isOn} />
+              <ModalTime>
+                <div className="time">{changeTime(10000)[0]}</div>
+                <div className="time">{changeTime(10000)[1]}</div>
+                <div className="separator">:</div>
+                <div className="time">{changeTime(10000)[3]}</div>
+                <div className="time">{changeTime(10000)[4]}</div>
+                <div className="separator">:</div>
+                <div className="time">{changeTime(10000)[6]}</div>
+                <div className="time">{changeTime(10000)[7]}</div>
+              </ModalTime>
             </LeftArea>
             <MainImg
               modal={true}
               alt="mainImg"
               src="/images/main/Saly-15.png"
             />
-            <SaveImg onClick={() => ScreenCapture()}>
+            <SaveImg onClick={() => ScreenCapture(setIsScreenCaptureModal)}>
               <img alt="snapshot" src="/images/main/Vector.png" />
               이미지로 저장하기
             </SaveImg>
@@ -183,7 +192,7 @@ const MainImg = styled.img`
   width: ${({ theme }) => theme.pixelToRem(370)};
   margin-top: ${({ theme }) => theme.pixelToRem(50)};
 
-  ${({ modal }) => modal && `width: 220px; margin: 30px 35px;`}
+  ${({ modal }) => modal && `width: 220px;  margin: 0 0 0 35px;`}
 
   ${({ theme }) => theme.tablet`
     position: absolute;
@@ -209,8 +218,9 @@ const ScreenCapureModal = styled.section`
 `;
 
 const InsideModal = styled.div`
-  ${({ theme }) => theme.flexbox('row')};
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')};
   position: relative;
+  padding: 40px 50px;
   border: 3px solid ${({ theme }) => theme.colors.white};
   border-radius: 20px;
   background: ${({ theme }) => theme.colors.pink};
@@ -228,6 +238,29 @@ const SaveImg = styled.div`
 
   img {
     margin-right: 6px;
+  }
+`;
+
+const ModalTime = styled.div`
+  ${({ theme }) => theme.flexbox('row')};
+  font-size: 50px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+
+  .time {
+    margin: 0 2px;
+    padding: 7px 6px;
+    border-radius: 10px;
+    line-height: 50px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .time:first-child {
+    margin-left: 0;
+  }
+
+  .separator {
+    padding-bottom: 8px;
   }
 `;
 
@@ -420,7 +453,7 @@ const checkRestart = setUserInfo => {
     .catch(error => console.log(error));
 };
 
-const ScreenCapture = () => {
+const ScreenCapture = setIsScreenCaptureModal => {
   html2canvas(document.getElementById('captureArea'))
     .then(function (canvas) {
       saveAs(canvas.toDataURL(), 'file-name.jpg');
@@ -428,6 +461,7 @@ const ScreenCapture = () => {
     .catch(function (err) {
       console.log(err);
     });
+  setIsScreenCaptureModal(false);
 };
 
 function saveAs(uri, filename) {
@@ -457,3 +491,25 @@ const countingTime = (totalTime, lastStartTime) => {
 
   return result;
 };
+
+const changeTime = countingTime => {
+  let hour = Math.floor(countingTime / 3600);
+  let minute = Math.floor((countingTime % 3600) / 60);
+  let second = (countingTime % 3600) % 60;
+
+  if (String(hour).length === 1) {
+    hour = `0${hour}`;
+  }
+
+  if (String(minute).length === 1) {
+    minute = `0${minute}`;
+  }
+
+  if (String(second).length === 1) {
+    second = `0${second}`;
+  }
+
+  return `${hour}:${minute}:${second}`;
+};
+
+console.log(changeTime(10000));
