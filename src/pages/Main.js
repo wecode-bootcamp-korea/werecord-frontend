@@ -99,10 +99,10 @@ export default function Main({ history }) {
 }
 
 const Container = styled.section`
-  position: relative;
-  z-index: 99;
   ${({ theme }) => theme.flexbox('row', 'center')};
+  position: relative;
   padding-top: 150px;
+  z-index: 99;
 `;
 
 const LeftArea = styled.div`
