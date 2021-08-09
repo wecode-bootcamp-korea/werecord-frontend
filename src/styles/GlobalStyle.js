@@ -1,5 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import dayjs from 'dayjs';
+
+const times = dayjs().hour();
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -9,9 +12,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
+    height: 100%;
     font-family: 'Noto Sans', 'sans-serif';
   }
-  
+
   * {
     box-sizing: border-box;
     margin: 0;
@@ -22,7 +26,26 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0 auto;
-    background: ${({ theme }) => theme.colors.pink};
+    height: 100%;
+    overflow: hidden;
+    background: ${
+      times >= 22 && 'linear-gradient(180deg, #9A8ADB 0%, #7C9BEA 100%)'
+    };
+    background: ${
+      times < 22 && 'linear-gradient(180deg, #FFC49D 0%, #9A8ADB 100%)'
+    };
+    background: ${
+      times < 18 && `linear-gradient(180deg, #E7F5FF 0%, #FFC49D 100%)`
+    };
+    background: ${
+      times < 12 && 'linear-gradient(180deg, #FD92AE 0%, #E7F5FF 100%)'
+    };
+    background: ${
+      times < 9 && 'linear-gradient(180deg, #7C9BEA 0%, #FD92AE 100%)'
+    };
+    background: ${
+      times < 4 && 'linear-gradient(180deg, #9A8ADB 0%, #7C9BEA 100%)'
+    };
   }
 
   button,
