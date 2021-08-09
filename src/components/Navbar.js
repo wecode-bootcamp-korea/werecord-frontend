@@ -141,15 +141,16 @@ const showContainerAnimation = keyframes`
   from {
     opacity: 0
   }
-  to{
+  to {
     opacity: 1
   }
 `;
 
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
-  margin-top: 54px;
-  background-color: transparent;
+  max-width: 1440px;
+  margin: 54px auto 0 auto;
+  padding: 0 200px;
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
   z-index: 100;
@@ -157,27 +158,36 @@ const Container = styled.nav`
 
 const Button = styled.button`
   margin-right: 30px;
-  padding: 6px;
-  color: ${({ theme }) => theme.colors.buttonAndLogo};
+  padding: 7px;
+  border: 1px solid transparent;
+  color: ${({ theme }) => theme.colors.fontColorPurple};
   font-size: ${({ theme }) => theme.pixelToRem(13)};
   font-weight: 700;
-  transition: color 0.3s;
+  font-family: Noto Sans KR;
+  transition: all 0.3s;
   border-radius: 20px;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.fontColorWhite};
+    border-radius: 20px;
     cursor: pointer;
   }
 
   &:active {
-    opacity: 0.5;
+    color: ${({ theme }) => theme.colors.fontColorWhite};
+    border: 1px solid ${({ theme }) => theme.colors.white};
   }
 `;
 
 const StyledLogo = styled(Button.withComponent('button'))`
+  border: none;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
   color: ${({ isMain }) => isMain === '/main' && 'white'};
+
+  &:hover {
+    border: none;
+  }
 `;
 
 const StyledMobileLogo = styled.div`

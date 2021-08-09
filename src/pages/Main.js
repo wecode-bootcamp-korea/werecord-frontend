@@ -18,7 +18,7 @@ export default function Main() {
     normalAttendance: false,
     isStart: false,
     isStop: false,
-    lastStartTime: '',
+    lastStartTime: null,
     totalTime: 0,
   });
 
@@ -114,14 +114,14 @@ export default function Main() {
             <LeftArea>
               <ShowNowTime modal={true} />
               <ModalTime>
-                <div className="time">{changeTime(10000)[0]}</div>
-                <div className="time">{changeTime(10000)[1]}</div>
+                <div className="time">{changeTime(userInfo.totalTime)[0]}</div>
+                <div className="time">{changeTime(userInfo.totalTime)[1]}</div>
                 <div className="separator">:</div>
-                <div className="time">{changeTime(10000)[3]}</div>
-                <div className="time">{changeTime(10000)[4]}</div>
+                <div className="time">{changeTime(userInfo.totalTime)[3]}</div>
+                <div className="time">{changeTime(userInfo.totalTime)[4]}</div>
                 <div className="separator">:</div>
-                <div className="time">{changeTime(10000)[6]}</div>
-                <div className="time">{changeTime(10000)[7]}</div>
+                <div className="time">{changeTime(userInfo.totalTime)[6]}</div>
+                <div className="time">{changeTime(userInfo.totalTime)[7]}</div>
               </ModalTime>
             </LeftArea>
             <MainImg
@@ -287,8 +287,8 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
           user_status,
           start_status,
           stop_status,
-          // last_start_time,
-          // total_time,
+          total_time,
+          last_start_time,
         } = result;
 
         setUserInfo(prev => ({
@@ -296,8 +296,8 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
           isOn: user_status,
           isStart: start_status,
           isStop: stop_status,
-          // lastStartTime: null,
-          // totalTime: 0,
+          lastStartTime: last_start_time,
+          totalTime: total_time,
         }));
       }
     })
@@ -336,7 +336,7 @@ const checkStart = (setIsCommentModal, setUserInfo) => {
           ...prev,
           isOn: true,
           isStart: true,
-          // lastStartTime: result.start_at,
+          lastStartTime: result.start_at,
         }));
       }
     })
@@ -389,7 +389,7 @@ const checkStop = (setIsCommentModal, setStopModalOn) => {
           ...prev,
           isOn: true,
           comment: result.comment,
-          // totalTime: result.total_time,
+          totalTime: result.total_time,
         }));
         setStopModalOn(true);
       }
@@ -417,11 +417,11 @@ const checkPause = (setIsCommentModal, setUserInfo) => {
           comment: 'START를 먼저 누르세요.',
         }));
       }
-      if (message === 'SUCCESS') {
+      if (result) {
         setUserInfo(prev => ({
           ...prev,
           isOn: false,
-          // totalTime: result.total_time,
+          totalTime: result.total_time,
         }));
       }
     })
@@ -441,11 +441,11 @@ const checkRestart = setUserInfo => {
         sessionStorage.clear();
         window.location.href = '/';
       }
-      if (message === 'SUCCESS') {
+      if (result) {
         setUserInfo(prev => ({
           ...prev,
           isOn: true,
-          lastStartTime: result.restart.at,
+          lastStartTime: result.restart_at,
           totalTime: result.total_time,
         }));
       }
@@ -511,5 +511,3 @@ const changeTime = countingTime => {
 
   return `${hour}:${minute}:${second}`;
 };
-
-console.log(changeTime(10000));
