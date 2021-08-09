@@ -5,7 +5,6 @@ import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 import CommentModal from '../components/CommentModal/CommentModal';
 import ShowNowTime from './Main/ShowNowTime/ShowNowTime';
-import CountTime from './Main/CountTime/CountTime';
 import SnapShotBtn from './Main/SnapShotBtn/SnapShotBtn';
 import checkObjData from './Util/checkObjData';
 import API_URLS from '../config';
@@ -37,7 +36,6 @@ export default function Main({ history }) {
         <LeftArea>
           <SnapShotBtn />
           <ShowNowTime />
-          <CountTime />
           <ButtonSection>
             {!userInfo.isOn && userInfo.isStart && !userInfo.isStop ? (
               <Button onClick={() => checkRestart(setUserInfo, history)}>
@@ -102,7 +100,9 @@ export default function Main({ history }) {
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('row', 'center')};
+  position: relative;
   padding-top: 150px;
+  z-index: 99;
 `;
 
 const LeftArea = styled.div`
