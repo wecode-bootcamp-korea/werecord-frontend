@@ -7,7 +7,7 @@ import Modal from '../components/Modal/Modal';
 import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
 import CommentModal from '../components/CommentModal/CommentModal';
 import ShowNowTime from './Main/ShowNowTime/ShowNowTime';
-import SnapShotBtn from './Main/SnapShotBtn/SnapShotBtn';
+import ScreenCaptureBtn from './Main/ScreenCaptureBtn/ScreenCaptureBtn';
 import Flipclock from './Main/Flipclock/Flipclock';
 import checkObjData from './Util/checkObjData';
 import API_URLS from '../config';
@@ -38,7 +38,7 @@ export default function Main() {
       <FadeIn transitionDuration={1000}>
         <Container>
           <LeftArea>
-            <SnapShotBtn
+            <ScreenCaptureBtn
               isScreenCaptureModalOn={isScreenCaptureModal}
               screenCaptureModalOn={setIsScreenCaptureModal}
             />
@@ -143,8 +143,15 @@ export default function Main() {
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
   max-width: 1440px;
-  margin: 70px auto 0 auto;
+  position: relative;
+  margin: 30px auto;
   padding: 0 200px;
+  z-index: 99;
+
+  ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.flexbox('row')};
+    padding: 0 50px;
+  `}
 `;
 
 const LeftArea = styled.div`
@@ -185,7 +192,12 @@ const Button = styled.button`
 
   ${({ disabled }) =>
     disabled &&
-    `background: rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.7)`}
+    `background: rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.7)`};
+
+  ${({ theme }) => theme.tablet`
+    padding: 4px 14px;
+    font-size: 18px;
+  `};
 `;
 
 const MainImg = styled.img`
@@ -215,15 +227,28 @@ const ScreenCapureModal = styled.section`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
 `;
 
+const HOUR = dayjs().hour();
 const InsideModal = styled.div`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')};
   position: relative;
   padding: 40px 50px;
   border: 3px solid ${({ theme }) => theme.colors.white};
   border-radius: 20px;
-  background: ${({ theme }) => theme.colors.pink};
+  background: ${HOUR >= 22 &&
+  'linear-gradient(180deg, #9A8ADB 0%, #7C9BEA 100%)'};
+  background: ${HOUR < 22 &&
+  'linear-gradient(180deg, #FFC49D 0%, #9A8ADB 100%)'};
+  background: ${HOUR < 18 &&
+  `linear-gradient(180deg, #E7F5FF 0%, #FFC49D 100%)`};
+  background: ${HOUR < 12 &&
+  'linear-gradient(180deg, #FD92AE 0%, #E7F5FF 100%)'};
+  background: ${HOUR < 9 &&
+  'linear-gradient(180deg, #7C9BEA 0%, #FD92AE 100%)'};
+  background: ${HOUR < 4 &&
+  'linear-gradient(180deg, #9A8ADB 0%, #7C9BEA 100%)'};
 `;
 
 const SaveImg = styled.div`

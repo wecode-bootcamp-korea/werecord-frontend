@@ -147,13 +147,17 @@ const showContainerAnimation = keyframes`
 `;
 
 const Container = styled.nav`
-  ${({ theme }) => theme.flexbox('row', 'space-between')};
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   max-width: 1440px;
-  margin: 54px auto 0 auto;
-  padding: 0 200px;
+  margin: 0 auto;
+  padding: 60px 200px;
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
   z-index: 100;
+
+  ${({ theme }) => theme.tablet`
+    padding: 0 50px;
+  `}
 `;
 
 const Button = styled.button`
@@ -300,7 +304,7 @@ const StyledGoToMyPageBtn = styled.button`
   `}
 `;
 
-const StyledMobileBtnList = styled.button`
+const StyledMobileBtnList = styled.div`
   display: none;
   position: relative;
   top: 5px;

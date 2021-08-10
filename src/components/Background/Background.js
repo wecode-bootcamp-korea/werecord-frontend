@@ -11,24 +11,23 @@ export default function Background() {
 }
 
 const Container = styled.div`
-  .ocean {
-    position: absolute;
-  }
+  z-index: 1;
 
   .wave {
-    background: url(/images/bgImage/wave1.png) repeat-x;
-    position: absolute;
+    width: 6000px;
+    height: 80%;
+    position: fixed;
     bottom: 0;
-    width: px;
-    height: 85%;
-    animation: wave 20s ease infinite;
+    background: url(/images/bgImage/wave1.png) repeat-x;
+    background-position: top;
+    animation: wave 60s linear infinite;
   }
 
   .wave:nth-of-type(2) {
     background: url(/images/bgImage/wave2.png) repeat-x;
     height: 75%;
     bottom: 0;
-    animation: wave 18s ease infinite;
+    animation: wave 50s linear infinite;
   }
 
   @keyframes wave {
@@ -36,7 +35,7 @@ const Container = styled.div`
       margin-left: 0;
     }
     100% {
-      margin-left: -1762px;
+      margin-left: -1764px;
     }
   }
 `;

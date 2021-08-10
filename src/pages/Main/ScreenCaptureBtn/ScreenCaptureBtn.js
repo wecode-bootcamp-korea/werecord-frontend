@@ -1,7 +1,7 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function SnapShotBtn({ screenCaptureModalOn }) {
+export default function ScreenCaptureBtn({ screenCaptureModalOn }) {
   return (
     <Container onClick={() => screenCaptureModalOn(true)}>
       <Img alt="snapshot" src="/images/main/Vector.png" />

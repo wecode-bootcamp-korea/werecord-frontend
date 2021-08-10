@@ -25,9 +25,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    margin: 0 auto;
     height: 100%;
-    overflow: hidden;
+    margin: 0 auto;
+    overflow-x: hidden;
     background: ${
       times >= 22 && 'linear-gradient(180deg, #9A8ADB 0%, #7C9BEA 100%)'
     };
