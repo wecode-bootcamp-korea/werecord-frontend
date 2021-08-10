@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    height: 100%;
+    min-height: 100%;
     font-family: 'Noto Sans', 'sans-serif';
   }
 
@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    height: 100%;
+    min-height: 100%;
     margin: 0 auto;
     overflow-x: hidden;
     background: ${

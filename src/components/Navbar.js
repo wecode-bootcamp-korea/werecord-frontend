@@ -149,8 +149,8 @@ const showContainerAnimation = keyframes`
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   max-width: 1440px;
-  margin: 0 auto;
-  padding: 60px 200px;
+  margin: 60px auto;
+  padding: 0 200px;
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
   z-index: 100;
@@ -168,7 +168,7 @@ const Button = styled.button`
   font-size: ${({ theme }) => theme.pixelToRem(13)};
   font-weight: 700;
   font-family: Noto Sans KR;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   border-radius: 20px;
 
   &:hover {

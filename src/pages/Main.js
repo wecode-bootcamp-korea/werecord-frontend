@@ -114,14 +114,50 @@ export default function Main() {
             <LeftArea>
               <ShowNowTime modal={true} />
               <ModalTime>
-                <div className="time">{changeTime(userInfo.totalTime)[0]}</div>
-                <div className="time">{changeTime(userInfo.totalTime)[1]}</div>
+                <div className="time">
+                  {userInfo.isOn
+                    ? changeTime(
+                        countingTime(userInfo.totalTime, userInfo.lastStartTime)
+                      )[0]
+                    : changeTime(userInfo.totalTime)[0]}
+                </div>
+                <div className="time">
+                  {userInfo.isOn
+                    ? changeTime(
+                        countingTime(userInfo.totalTime, userInfo.lastStartTime)
+                      )[1]
+                    : changeTime(userInfo.totalTime)[1]}
+                </div>
                 <div className="separator">:</div>
-                <div className="time">{changeTime(userInfo.totalTime)[3]}</div>
-                <div className="time">{changeTime(userInfo.totalTime)[4]}</div>
+                <div className="time">
+                  {userInfo.isOn
+                    ? changeTime(
+                        countingTime(userInfo.totalTime, userInfo.lastStartTime)
+                      )[3]
+                    : changeTime(userInfo.totalTime)[3]}
+                </div>
+                <div className="time">
+                  {userInfo.isOn
+                    ? changeTime(
+                        countingTime(userInfo.totalTime, userInfo.lastStartTime)
+                      )[4]
+                    : changeTime(userInfo.totalTime)[4]}
+                </div>
                 <div className="separator">:</div>
-                <div className="time">{changeTime(userInfo.totalTime)[6]}</div>
-                <div className="time">{changeTime(userInfo.totalTime)[7]}</div>
+                <div className="time">
+                  {userInfo.isOn
+                    ? changeTime(
+                        countingTime(userInfo.totalTime, userInfo.lastStartTime)
+                      )[6]
+                    : changeTime(userInfo.totalTime)[6]}
+                </div>
+                <div className="time">
+                  {userInfo.isOn
+                    ? changeTime(
+                        countingTime(userInfo.totalTime, userInfo.lastStartTime)
+                      )[7]
+                    : changeTime(userInfo.totalTime)[7]}
+                </div>
               </ModalTime>
             </LeftArea>
             <MainImg
@@ -150,6 +186,7 @@ const Container = styled.section`
 
   ${({ theme }) => theme.tablet`
     ${({ theme }) => theme.flexbox('row')};
+    margin-top: 150px;
     padding: 0 50px;
   `}
 `;
@@ -361,7 +398,7 @@ const checkStart = (setIsCommentModal, setUserInfo) => {
           ...prev,
           isOn: true,
           isStart: true,
-          lastStartTime: result.start_at,
+          lastStartTime: `${dayjs().hour()}:${dayjs().minute()}:${dayjs().second()}`,
         }));
       }
     })

@@ -20,6 +20,11 @@ const Container = Styled.footer`
   padding: 0 200px;
   color: ${({ theme }) => theme.colors.white};
 
+  ${({ theme }) => theme.tablet`
+    margin-top: 160px;
+    padding: 0 50px;
+  `}
+
   .rightArea {
     ${({ theme }) => theme.flexbox('row')};
   }
