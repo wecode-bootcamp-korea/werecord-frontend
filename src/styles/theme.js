@@ -7,8 +7,6 @@ const flexbox = (direction = 'row', justify = 'center', align = 'center') => {
   `;
 };
 
-const pixelToRem = size => `${size / 16}rem`;
-
 const posCenterX = (type = 'absolute') => {
   return `
   position: ${type};
@@ -34,28 +32,55 @@ const posCenter = (type = 'absolute') => {
   `;
 };
 
+// Rem
+const pixelToRem = size => `${size / 16}rem`;
+const MobilePixelToRem = size => `${size / 13}rem`;
+
+// Colors
 const colors = {
   black: '#000000',
   white: '#ffffff',
-  blue: '#0066ff',
-  gray: '#F6F4F1',
-  red: '#ef6253',
-  green: '#41b979',
   purple: '#514AB8',
   pink: '#FD92AE',
-  orange: '#FF9900',
-  backgroundColor: '#212121',
-  fontColor: '#dedede',
-  buttonAndLogo: '#514AB8',
+
+  // font-Color
+  fontColorPurple: '#514AB8',
+  fontColorWhite: '#ffffff',
+  fontColorLightWhite: 'rgba(255, 255, 255, 0.6)',
+
+  // button-Color
+  regularBtnFontColorWhite: '#ffffff',
+  regularBtnBorderColorWhite: '#ffffff',
+
+  hoverBtnBgWhite: '#ffffff',
+  hoverBtnFontColorPurple: '#514AB8',
+
+  disabledBtnFontColorLightWhite: 'rgba(255, 255, 255, 0.7)',
+  disabledBtnBgLightWhite: 'rgba(255, 255, 255, 0.3)',
+
+  // input-Color
+  regularInputBgWhite: '#ffffff',
+  regularInputBorderWhite: '#E0E0E0',
+
+  hoverInputBorderLightPurple: 'rgba(81, 74, 184, 0.6)',
+
+  focusInputBorderPurple: '#514AB8',
+
+  disabledInputBgDarkWhite: '#F8F8F8',
+  disabledInputBorderWhite: '#E0E0E0',
+
+  footerColorWhite: 'rgba(255, 255, 255, 0.8)',
+  chartRowLine: 'rgba(255, 255, 255, 0.5)',
 };
 
 const theme = {
-  colors,
   flexbox,
-  pixelToRem,
   posCenterX,
   posCenterY,
   posCenter,
+  pixelToRem,
+  MobilePixelToRem,
+  colors,
 };
 
 export default theme;

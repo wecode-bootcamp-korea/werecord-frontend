@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import dayjs from 'dayjs';
 import Styled from 'styled-components';
 
-export default function ShowNowTime() {
+export default function ShowNowTime({ modal }) {
   const [time, setTime] = useState({
     hour: 0,
     minutes: 0,
@@ -16,7 +16,7 @@ export default function ShowNowTime() {
   }, []);
 
   return (
-    <Container>
+    <Container modal={modal}>
       {memoDate}
       <br />
       {getTime(time)}
@@ -28,10 +28,20 @@ export default function ShowNowTime() {
 
 const Container = Styled.h1`
   margin-bottom: 40px;
-  color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.pixelToRem(60)};
+  font-family: 'Noto Sans KR';
   font-weight: 700;
-  line-height: 75px;
+  line-height: ${({ theme }) => theme.pixelToRem(75)};
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+
+  ${({ modal }) =>
+    modal &&
+    `margin-top: 15px; margin-bottom: 25px; font-size: 40px; line-height: 50px;`}
+
+  ${({ theme }) => theme.tablet`
+    font-size: ${({ theme }) => theme.pixelToRem(45)};
+    line-height: ${({ theme }) => theme.pixelToRem(60)};
+  `}
 `;
 
 const getTimePasses = setTime => {
@@ -51,12 +61,17 @@ const getTodayDate = () => {
 };
 
 const getTime = time => {
-  const hour = time;
+  const { hour } = time;
+
   return hour > 12
     ? `${WEEK[dayjs().day()]}요일 오후`
     : `${WEEK[dayjs().day()]}요일 오전`;
 };
 
 const showNowTime = time => {
-  return `${time.hour}시 ${time.minutes}분 입니다.`;
+  const { hour } = time;
+
+  return hour > 12
+    ? `${hour - 12}시 ${time.minutes}분 입니다.`
+    : `${hour}시 ${time.minutes}분 입니다.`;
 };
