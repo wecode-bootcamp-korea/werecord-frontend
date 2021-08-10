@@ -36,16 +36,17 @@ const OutsideModal = Styled.div`
   top: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(33, 33, 33, 0.9);
-  z-index: 9999;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
 `;
 
 const InsideModal = Styled.div`
   position: relative;
-  width: 550px;
-  height: ${props => props.height};
+  width: 400px;
+  height: 240px;
+  border-radius: 20px;
   text-align: center;
-  background-color: ${({ theme }) => theme.colors.white};
+  background: ${({ theme }) => theme.colors.white};
   color: white;
 `;
 

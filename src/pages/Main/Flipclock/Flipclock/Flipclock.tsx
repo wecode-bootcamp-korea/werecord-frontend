@@ -3,7 +3,7 @@ import * as React from 'react';
 interface CountdownTimerItem {
   translateY: number;
 }
-const CountdownTimerItem: React.FC<CountdownTimerItem> = ({ translateY }) => (
+const CountdownTimer: React.FC<CountdownTimerItem> = ({ translateY }) => (
   <div className="countdown-timer-item">
     <div
       className="digit-wrapper"
@@ -26,4 +26,4 @@ const CountdownTimerItem: React.FC<CountdownTimerItem> = ({ translateY }) => (
   </div>
 );
 
-export default CountdownTimerItem;
+export default CountdownTimer;

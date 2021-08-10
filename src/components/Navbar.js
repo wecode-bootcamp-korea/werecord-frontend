@@ -45,11 +45,12 @@ export default function Navbar() {
         <Container>
           <StyledLogo
             onClick={() => {
-              goToMainPage('main');
+              goToMainPage('/main');
             }}
             isCheckMentor={isCheckMentor}
+            isMain={location.pathname}
           >
-            We record
+            We Record
           </StyledLogo>
           <StyledBtnContainer handleMobileBtnList={mobileNavBtnDisplayOn}>
             {!isCheckMentor && location.pathname !== '/mypage' && (
@@ -140,46 +141,57 @@ const showContainerAnimation = keyframes`
   from {
     opacity: 0
   }
-  to{
+  to {
     opacity: 1
   }
 `;
 
 const Container = styled.nav`
-  ${({ theme }) => theme.flexbox('row', 'space-between')}
-  padding: 54px 200px;
-  height: 60px;
-  width: 100%;
-  top: 0;
-  position: fixed;
-  background-color: transparent;
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
+  max-width: 1440px;
+  margin: 60px auto;
+  padding: 0 200px;
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
   z-index: 100;
+
+  ${({ theme }) => theme.tablet`
+    padding: 0 50px;
+  `}
 `;
 
 const Button = styled.button`
   margin-right: 30px;
-  padding: 6px;
-  color: ${({ theme }) => theme.colors.buttonAndLogo};
+  padding: 7px;
+  border: 1px solid transparent;
+  color: ${({ theme }) => theme.colors.fontColorPurple};
   font-size: ${({ theme }) => theme.pixelToRem(13)};
   font-weight: 700;
-  transition: color 0.3s;
+  font-family: Noto Sans KR;
+  transition: all 0.3s ease;
   border-radius: 20px;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.fontColorWhite};
+    border-radius: 20px;
     cursor: pointer;
   }
 
   &:active {
-    opacity: 0.5;
+    color: ${({ theme }) => theme.colors.fontColorWhite};
+    border: 1px solid ${({ theme }) => theme.colors.white};
   }
 `;
 
 const StyledLogo = styled(Button.withComponent('button'))`
+  border: none;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
+  color: ${({ isMain }) => isMain === '/main' && 'white'};
+
+  &:hover {
+    border: none;
+  }
 `;
 
 const StyledMobileLogo = styled.div`
@@ -292,7 +304,7 @@ const StyledGoToMyPageBtn = styled.button`
   `}
 `;
 
-const StyledMobileBtnList = styled.button`
+const StyledMobileBtnList = styled.div`
   display: none;
   position: relative;
   top: 5px;

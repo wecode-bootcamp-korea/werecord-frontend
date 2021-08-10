@@ -1,9 +1,9 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function SnapShotBtn() {
+export default function ScreenCaptureBtn({ screenCaptureModalOn }) {
   return (
-    <Container>
+    <Container onClick={() => screenCaptureModalOn(true)}>
       <Img alt="snapshot" src="/images/main/Vector.png" />
       이미지로 저장하기
     </Container>
@@ -13,8 +13,9 @@ export default function SnapShotBtn() {
 const Container = Styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
   margin-bottom: 30px;
-  color: ${({ theme }) => theme.colors.white};
-  font-size: 13px;
+  font-family: 'Noto Sans KR';
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+  font-size: ${({ theme }) => theme.pixelToRem(13)};
   cursor: pointer;
 `;
 
