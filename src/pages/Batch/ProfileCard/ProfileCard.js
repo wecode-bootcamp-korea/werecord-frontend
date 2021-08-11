@@ -1,14 +1,14 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export default function ProfileCard({ modalOn, peersInfo }) {
+export default function ProfileCard({ peersInfo }) {
   const { peer_status, peer_name, peer_profile_image_url } = peersInfo;
 
   return (
-    <Container onClick={modalOn} isOn={peer_status}>
-      <img alt={peer_name} src={peer_profile_image_url} />
+    <Container isOn={peer_status}>
+      <img alt={peer_name} src={findDefaultImg(peer_profile_image_url)} />
       <div className="profileName">{peer_name}</div>
-      <IsOn />
+      <IsOn isOn={peer_status} />
     </Container>
   );
 }
@@ -19,11 +19,6 @@ const Container = Styled.li`
   margin: 30px auto;
   width: 80px;
   color: ${({ theme }) => theme.colors.black};
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.6;
-  }
 
   img {
     border-radius: 50%;
@@ -47,4 +42,18 @@ const IsOn = Styled.div`
   height: 16px;
   border-radius: 50%;
   background: ${({ theme }) => theme.colors.purple};
+
+  ${({ isOn }) => !isOn && `display: none`};
 `;
+
+const findDefaultImg = peer_profile_image_url => {
+  const haveImg = peer_profile_image_url.indexOf('werecord');
+
+  if (haveImg > 0) {
+    return peer_profile_image_url;
+  }
+
+  if (haveImg < 0) {
+    return `/images/userImgs/userImg${Math.floor(Math.random() * 6)}.png`;
+  }
+};

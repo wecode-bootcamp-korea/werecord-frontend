@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Slider from 'react-slick';
 import Styled from 'styled-components';
 import ProfileCard from '../ProfileCard/ProfileCard';
-import Modal from '../../../components/Modal/Modal';
-import ProfileModal from '../ProfileModal/ProfileModal';
-import MentorModal from '../ProfileModal/MentorModal';
 
 export default function PeersBox({ myBatchInfo }) {
-  const [isPeerModalOn, setIsPeerModalOn] = useState(false);
-  const [isMentorModalOn, setIsMentorModalOn] = useState(false);
-  const [peerData, setPeerData] = useState({});
-
   const settings = {
     slide: 'li',
     infinite: false,
@@ -18,6 +11,30 @@ export default function PeersBox({ myBatchInfo }) {
     slidesToShow: 8,
     slidesToScroll: 8,
     draggable: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
@@ -26,22 +43,11 @@ export default function PeersBox({ myBatchInfo }) {
       <Container>
         <StyledSlider {...settings}>
           {myBatchInfo.peers.map(peers => (
-            <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
-              <ProfileCard modalOn={setIsPeerModalOn} peersInfo={peers} />
+            <div key={peers.peer_id}>
+              <ProfileCard peersInfo={peers} />
             </div>
           ))}
         </StyledSlider>
-
-        {isPeerModalOn && (
-          <Modal setOff={setIsPeerModalOn}>
-            <ProfileModal peersInfo={peerData} />
-          </Modal>
-        )}
-        {isMentorModalOn && (
-          <Modal setOff={setIsMentorModalOn}>
-            <MentorModal mentorInfo={myBatchInfo.mentor} />
-          </Modal>
-        )}
       </Container>
     </>
   );
