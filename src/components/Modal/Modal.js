@@ -2,7 +2,13 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import Styled from 'styled-components';
 
-export default function Modal({ setOff, isCommentModal, children }) {
+export default function Modal({
+  setOff,
+  isCommentModal,
+  children,
+  width,
+  height,
+}) {
   const handleModal = e => {
     const isclickedInside = e.target.closest('.modal');
     const isclickedBtn = e.target.closest('.closeBtn');
@@ -19,9 +25,9 @@ export default function Modal({ setOff, isCommentModal, children }) {
 
   return createPortal(
     <OutsideModal onClick={handleModal}>
-      <InsideModal className="modal">
+      <InsideModal className="modal" width={width} height={height}>
         <CloseBtn onClick={handleModal} className="closeBtn">
-          <i className="fas fa-times" />
+          <img alt="closeBtn" src="/images/modal/closeBtn.png" />
         </CloseBtn>
         {children}
       </InsideModal>
@@ -31,7 +37,6 @@ export default function Modal({ setOff, isCommentModal, children }) {
 }
 
 const OutsideModal = Styled.div`
-  ${({ theme }) => theme.flexbox()};
   position: fixed;
   top: 0;
   width: 100%;
@@ -41,24 +46,24 @@ const OutsideModal = Styled.div`
 `;
 
 const InsideModal = Styled.div`
-  position: relative;
-  width: 400px;
-  height: 240px;
+  ${({ theme }) => theme.posCenter('absolute')};
+  width: ${({ width }) => `${width}px`};
+  height: ${({ height }) => `${height}px`};
   border-radius: 20px;
-  text-align: center;
   background: ${({ theme }) => theme.colors.white};
-  color: white;
 `;
 
 const CloseBtn = Styled.div`
   position: absolute;
-  top: 8px;
-  right: 12px;
-  padding: 10px;
-  font-size: 22px;
-  color: ${({ theme }) => theme.colors.backgroundColor};
+  top: 21px;
+  right: 21px;
   cursor: pointer;
   z-index: 1;
+
+  img {
+    width: 14px;
+    height: 14px;
+  }
 
   &:hover {
     opacity: 0.6;
