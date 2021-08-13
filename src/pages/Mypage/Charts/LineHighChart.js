@@ -9,8 +9,8 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
   const options = {
     chart: {
       type: 'area',
-      backgroundColor: '#212121',
-      height: 330,
+      backgroundColor: 'transparent',
+      height: 380,
     },
 
     title: {
@@ -18,6 +18,7 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
       margin: 20,
       style: {
         color: 'white',
+        fontSize: 15,
         fontWeight: 'bold',
       },
     },
@@ -30,32 +31,24 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
         style: {
           color: 'white',
           fontSize: 12,
-          fontWeight: 'bold',
         },
       },
-      gridLineWidth: 0,
     },
     yAxis: {
       title: {
-        text: '시간 (Hour)',
+        text: '시간',
         margin: 20,
         style: {
           color: 'white',
-          fontSize: 16,
-          fontWeight: 'bold',
+          fontSize: 15,
         },
       },
-      gridLineDashStyle: 'longdash',
-      gridLineColor: '#494949',
+      // tickInterval:s
+      gridLineColor: '#ffffff',
       labels: {
-        style: {
-          color: 'white',
-          fontSize: 13,
-          fontWeight: 'bold',
-        },
+        enabled: false,
       },
     },
-
     plotOptions: {
       series: {
         shadow: true,
@@ -63,9 +56,9 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
       area: {
         pointStart: 1,
         marker: {
-          enabled: true,
+          enabled: false,
           symbol: 'circle',
-          radius: 2,
+          radius: 1,
           states: {
             hover: {
               enabled: true,
@@ -77,15 +70,10 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
     series: [
       {
         name: '총 누적 시간',
-        color: {
-          linearGradient: { x1: 0, x2: 0, y1: 0, y2: 2.5 },
-          stops: [
-            [0, '#0066ff'],
-            [1, 'transparent'],
-          ],
-        },
+        color: '#ffffff',
         showInLegend: false,
-        data: setAccumulateHoursData(totalAccumulateRecordsData),
+        // data: setAccumulateHoursData(totalAccumulateRecordsData),
+        data: [5, 10, 20, 40, 60],
       },
     ],
     credits: {
