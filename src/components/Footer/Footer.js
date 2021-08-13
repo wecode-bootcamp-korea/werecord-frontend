@@ -4,7 +4,7 @@ import Styled from 'styled-components';
 export default function Footer() {
   return (
     <Container>
-      <Logo>{'>'} wecode</Logo>
+      <Logo alt="wecode" src="/images/Footer/footer.png" />
       <div className="rightArea">
         <MadeBy>made by</MadeBy>
         <Producer>제작지원 : 주식회사 그레이스풀레인</Producer>
@@ -30,9 +30,8 @@ const Container = Styled.footer`
   }
 `;
 
-const Logo = Styled.div`
-  font-size: 30px;
-  opacity: 0.7;
+const Logo = Styled.img`
+  width: 120px;
 `;
 
 const Producer = Styled.div`
