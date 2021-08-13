@@ -16,7 +16,7 @@ export default function BarHighChart({ weeklyRecordsData }) {
     }
   };
 
-  const secondsToHour = (data, days) => Math.round(data[days] / 360) / 10;
+  const secondsToHour = (data, days) => Math.floor(data[days] / 360) / 10;
 
   const options = {
     chart: {
@@ -26,7 +26,7 @@ export default function BarHighChart({ weeklyRecordsData }) {
     },
     title: {
       text: '주간 기록',
-      margin: 40,
+      margin: 10,
       style: {
         color: 'white',
         fontSize: 15,
@@ -48,14 +48,10 @@ export default function BarHighChart({ weeklyRecordsData }) {
     },
     yAxis: {
       title: {
-        text: '시간',
-        style: {
-          color: 'white',
-          fontSize: 15,
-        },
+        enabled: false,
       },
       gridLineColor: '#ffffff',
-      // tickInterval: , 눈금선 20개 만드는 식 세우기
+      tickInterval: getMaxTimeInWeeklyTimeData(weeklyRecordsData) / 20,
       labels: {
         enabled: false,
       },
@@ -73,12 +69,11 @@ export default function BarHighChart({ weeklyRecordsData }) {
         name: '요일별 시간 기록',
         showInLegend: false,
         data: [
-          // secondsToHour(weeklyRecordsData, '0'),
-          // secondsToHour(weeklyRecordsData, '1'),
-          // secondsToHour(weeklyRecordsData, '2'),
-          // secondsToHour(weeklyRecordsData, '3'),
-          // secondsToHour(weeklyRecordsData, '4'),
-          40, 40, 50, 20, 2,
+          secondsToHour(weeklyRecordsData, '0'),
+          secondsToHour(weeklyRecordsData, '1'),
+          secondsToHour(weeklyRecordsData, '2'),
+          secondsToHour(weeklyRecordsData, '3'),
+          secondsToHour(weeklyRecordsData, '4'),
         ],
         color: '#ffffff',
       },

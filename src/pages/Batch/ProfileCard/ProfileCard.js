@@ -1,5 +1,6 @@
 import React from 'react';
 import Styled from 'styled-components';
+import findDefaultImg from '../../Util/findDefaultImg';
 
 export default function ProfileCard({ peersInfo }) {
   const { peer_status, peer_name, peer_profile_image_url } = peersInfo;
@@ -45,15 +46,3 @@ const IsOn = Styled.div`
 
   ${({ isOn }) => !isOn && `display: none`};
 `;
-
-const findDefaultImg = peer_profile_image_url => {
-  const haveImg = peer_profile_image_url.indexOf('werecord');
-
-  if (haveImg > 0) {
-    return peer_profile_image_url;
-  }
-
-  if (haveImg < 0) {
-    return `/images/userImgs/userImg${Math.floor(Math.random() * 6)}.png`;
-  }
-};

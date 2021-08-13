@@ -6,6 +6,7 @@ import Modal from '../../components/Modal/Modal';
 import EditForm from '../Mypage/EditForm';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
+import findDefaultImg from '../Util/findDefaultImg';
 import API_URLS from '../../config';
 
 export default function Mypage() {
@@ -34,7 +35,12 @@ export default function Mypage() {
     return userInformation[`${category}_information`][`${data}`];
   };
 
-  const secondToHour = second => Math.round(second / 360) / 10;
+  const secondToHourAndMinute = second => {
+    let hour = Math.floor(second / 3600);
+    let minute = Math.floor((second % 3600) / 60);
+
+    return [hour, minute];
+  };
 
   const convertHourAndMinuteToSeconds = (currentTime, startTime, totalTime) => {
     const [currentHour, currentMinute, currentSecond] = currentTime
@@ -58,9 +64,10 @@ export default function Mypage() {
       ((start_status || !start_status) && stop_status && !user_start_time) ||
       ((start_status || !start_status) && !stop_status && !user_start_time)
     )
-      return secondToHour(user_total_time);
+      return secondToHourAndMinute(user_total_time);
+
     if (start_status && !stop_status && user_start_time)
-      return secondToHour(
+      return secondToHourAndMinute(
         convertHourAndMinuteToSeconds(
           currentTime,
           user_start_time,
@@ -71,7 +78,7 @@ export default function Mypage() {
 
   const getAverageTime = type => {
     if (userInformation['record_information'][`average_${type}_time`] === 0) {
-      return `0시 0분`;
+      return `00:00`;
     } else {
       const hour = Number(
         userInformation['record_information'][`average_${type}_time`].split(
@@ -105,7 +112,9 @@ export default function Mypage() {
           <UserProfile>
             <Img
               alt="profile_image"
-              src={getInformation('user', 'user_profile_image_url')}
+              src={findDefaultImg(
+                getInformation('user', 'user_profile_image_url')
+              )}
             />
             <UserInformation>
               <UserName>{getInformation('user', 'user_name')}</UserName>
@@ -120,7 +129,12 @@ export default function Mypage() {
           <UserSpendingTime>
             <TotalspendingHour>
               위코드와 함께 한<br />
-              {getCurrentTotalTime()}시간
+              {/* {getCurrentTotalTime()}시간 */}
+              {getCurrentTotalTime()[0] > 0 &&
+                `${getCurrentTotalTime()[0]}시간`}{' '}
+              {getCurrentTotalTime()[0] > 0
+                ? `${getCurrentTotalTime()[1]}분`
+                : `${getCurrentTotalTime()[1]}분`}
             </TotalspendingHour>
             <TimeContents>
               <AfterDday>
@@ -137,15 +151,21 @@ export default function Mypage() {
             </TimeContents>
           </UserSpendingTime>
           <TimeGraphContents>
-            <BarHighChart
-              weeklyRecordsData={getInformation('record', 'weekly_record')}
-            />
-            <LineHighChart
-              totalAccumulateRecordsData={getInformation(
-                'record',
-                'total_accumulate_records'
-              )}
-            />
+            <StyledChart>
+              <YAxisTitle>시간</YAxisTitle>
+              <BarHighChart
+                weeklyRecordsData={getInformation('record', 'weekly_record')}
+              />
+            </StyledChart>
+            <StyledChart>
+              <YAxisTitle>시간</YAxisTitle>
+              <LineHighChart
+                totalAccumulateRecordsData={getInformation(
+                  'record',
+                  'total_accumulate_records'
+                )}
+              />
+            </StyledChart>
           </TimeGraphContents>
         </ContentsContainer>
       )}
@@ -159,10 +179,15 @@ const ContentsContainer = styled.section`
   margin: 94px auto;
   padding: 0 200px;
   z-index: 100;
+
+  ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.flexbox('column')};
+    padding: 0;
+  `}
 `;
 
 const UserProfile = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
+  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
 `;
 
 const Img = styled.img`
@@ -203,32 +228,49 @@ const UserSpendingTime = styled.div`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')};
   width: 100%;
   margin-top: 30px;
+
+  ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.flexbox('column')};
+  `}
 `;
 
 const TotalspendingHour = styled.div`
-  width: 48%;
+  width: 47%;
   font-size: ${({ theme }) => theme.pixelToRem(60)};
   font-weight: 700;
   font-family: Noto Sans KR;
   line-height: 75px;
   color: ${({ theme }) => theme.colors.fontColorWhite};
+
+  ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.flexbox('row')};
+    width: 100%;
+    font-size: ${({ theme }) => theme.pixelToRem(45)};
+  `}
 `;
 
 const TimeGraphContents = styled.div`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
   margin-top: 60px;
 
-  & > * {
-    width: 50%;
-  }
+  ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.flexbox('column')};
+    width: 80%;
+  `}
 `;
 
 const TimeContents = styled.div`
-  width: 45%;
+  width: 47%;
   ${({ theme }) => theme.flexbox('column', 'flex-start', 'flex-start')};
+
+  ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.flexbox('column')};
+    margin-top: 40px;
+  `}
 `;
 
 const Label = styled.div`
+  margin-top: 2px;
   margin-right: 10px;
   font-size: ${({ theme }) => theme.pixelToRem(15)};
   color: ${({ theme }) => theme.colors.fontColorWhite};
@@ -250,6 +292,24 @@ const AfterDday = styled.div`
 `;
 
 const AverageTimeContent = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'flex-start')};
+  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
   margin-bottom: 21px;
+`;
+
+const StyledChart = styled.div`
+  position: relative;
+  width: 47%;
+
+  ${({ theme }) => theme.tablet`
+    width: 100%;
+  `}
+`;
+
+const YAxisTitle = styled.div`
+  ${({ theme }) => theme.posCenterY('absolute')};
+  left: -20px;
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
+  font-family: Noto Sans KR;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+  transform: rotate(-90deg);
 `;

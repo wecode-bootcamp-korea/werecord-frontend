@@ -1,22 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import findDefaultImg from '../../Util/findDefaultImg';
 
 export default function GhostCards({ rank }) {
-  const testcase = [
-    { user_id: 1, user_name: '김수연', user_last_week_total_time: 90 },
-    { user_id: 2, user_name: '김대연', user_last_week_total_time: 80 },
-    { user_id: 3, user_name: '서유미', user_last_week_total_time: 70 },
-    { user_id: 4, user_name: '김진협', user_last_week_total_time: 60 },
-    { user_id: 5, user_name: '원효정', user_last_week_total_time: 50 },
-  ];
-
   return (
     <StyledGhostCards className="test">
-      {rank.length === 0 ? (
+      {rank.length !== 0 ? (
         <>
-          {testcase.map((person, index) => (
+          {rank.map((person, index) => (
             <GhostCard>
-              <img alt="mate" src="/images/userImgs/ghostImg.png" />
+              <img
+                alt={person.user_name}
+                src={findDefaultImg(person.user_profile_image_url)}
+              />
               <MateInfo key={index}>
                 <div className="grade">{index + 1}위</div>
                 <PersonName>
@@ -55,7 +51,7 @@ const StyledGhostCards = styled.ul`
 `;
 
 const GhostCard = styled.li`
-  ${({ theme }) => theme.flexbox('row', 'flex-start')};
+  ${({ theme }) => theme.flexbox('row')};
   margin: 20px 10px 0 0;
   padding: 20px;
   border-radius: 20px;
@@ -106,7 +102,7 @@ const MateInfo = styled.div`
 
 const PersonName = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
-  width: 98px;
+  width: 140px;
   font-size: ${({ theme }) => theme.pixelToRem(15)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.purple};

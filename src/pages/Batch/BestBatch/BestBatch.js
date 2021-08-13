@@ -4,7 +4,6 @@ import GhostCards from '../GhostCards/GhostCards';
 
 export default function BestBatch({ winnerInfo, myBatchInfo }) {
   const { batch_total_time } = myBatchInfo;
-  // const [changeBatchInfo, setChangeBatchInfo] = useState(false);
 
   const BEST_BATCHES = winnerInfo.sort(
     (a, b) => b.batch_total_time - a.batch_total_time
@@ -117,7 +116,6 @@ const FirstBatch = styled.div`
   text-align: right;
   line-height: 50px;
   background: ${({ theme }) => theme.colors.white};
-  overflow: hidden;
 
   ${({ theme }) => theme.tablet`
     font-size: 13px;
@@ -138,7 +136,6 @@ const SecondBatch = styled.div`
   text-align: right;
   line-height: 50px;
   background: ${({ theme }) => theme.colors.pink};
-  overflow: hidden;
 
   ${({ theme }) => theme.tablet`
     font-size: 13px;
@@ -159,7 +156,6 @@ const ThirdBatch = styled.div`
   text-align: right;
   line-height: 50px;
   background: ${({ theme }) => theme.colors.purple};
-  overflow: hidden;
 
   ${({ theme }) => theme.tablet`
     font-size: 13px;
@@ -181,8 +177,11 @@ const FirstBalloon = styled.div`
   background: ${({ theme }) => theme.colors.white};
 
   ${({ theme }) => theme.tablet`
+    width: 40px;
+    height: 40px;
+    top: -60px;
     font-size: 13px;
-    line-height: 50px;
+    line-height: 40px;
   `}
 
   &:after {
@@ -210,8 +209,11 @@ const SecondBalloon = styled.div`
   background: ${({ theme }) => theme.colors.pink};
 
   ${({ theme }) => theme.tablet`
+    width: 40px;
+    height: 40px;
+    top: -60px;
     font-size: 13px;
-    line-height: 50px;
+    line-height: 40px;
   `}
 
   &:after {
@@ -239,8 +241,11 @@ const ThirdBalloon = styled.div`
   background: ${({ theme }) => theme.colors.purple};
 
   ${({ theme }) => theme.tablet`
+    width: 40px;
+    height: 40px;
+    top: -60px;
     font-size: 13px;
-    line-height: 50px;
+    line-height: 40px;
   `}
 
   &:after {
