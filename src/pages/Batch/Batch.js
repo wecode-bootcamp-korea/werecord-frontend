@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import FadeIn from 'react-fade-in';
 import Styled from 'styled-components';
@@ -7,14 +6,14 @@ import PeersBox from './PeersBox/PeersBox';
 import checkObjData from '../Util/checkObjData';
 import API_URLS from '../../config';
 
-export default function Batch({ match, history }) {
+export default function Batch({ match }) {
   const [batchInfo, setBatchInfo] = useState({});
-  const { winner_batch_information, my_batch_information } = batchInfo;
+  const { winner_batches_information, my_batch_information } = batchInfo;
 
   useEffect(() => {
     const batchNum = sessionStorage.getItem('batch');
     const matchBatchNum = match.params.id;
-    chooseUserType(batchNum, matchBatchNum, setBatchInfo, history);
+    chooseUserType(batchNum, matchBatchNum, setBatchInfo);
   }, []);
 
   return (
@@ -22,7 +21,7 @@ export default function Batch({ match, history }) {
       <Container>
         {checkObjData(batchInfo) > 0 && (
           <BestBatch
-            winnerInfo={winner_batch_information}
+            winnerInfo={winner_batches_information}
             myBatchInfo={my_batch_information}
           />
         )}
@@ -36,15 +35,17 @@ export default function Batch({ match, history }) {
 
 const Container = Styled.main`
   max-width: 1440px;
+  position: relative;
   margin: 0 auto;
-  padding: 0 142px;
+  padding: 0 200px;
+  z-index: 99;
 
   ${({ theme }) => theme.tablet`
-    padding: 0;
+    padding: 0 50px;
   `}
 `;
 
-const chooseUserType = (batchNum, matchBatchNum, setBatchInfo, history) => {
+const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
   if (sessionStorage.getItem('user_type') === '수강생') {
     fetch(`${API_URLS.BATCH}/${batchNum}`, {
       headers: {
@@ -55,7 +56,7 @@ const chooseUserType = (batchNum, matchBatchNum, setBatchInfo, history) => {
       .then(({ result, message }) => {
         if (message === 'REFRESH_TOKEN_EXPIRED') {
           sessionStorage.clear();
-          history.push('/');
+          window.location.href = '/';
         } else {
           setBatchInfo(result);
         }
@@ -71,7 +72,7 @@ const chooseUserType = (batchNum, matchBatchNum, setBatchInfo, history) => {
       .then(({ result, message }) => {
         if (message === 'REFRESH_TOKEN_EXPIRED') {
           sessionStorage.clear();
-          history.push('/');
+          window.location.href = '/';
         } else {
           setBatchInfo(result);
         }

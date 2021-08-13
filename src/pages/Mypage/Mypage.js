@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { keyframes } from 'styled-components';
 import FadeIn from 'react-fade-in';
 import BarHighChart from './Charts/BarHighChart';
 import LineHighChart from './Charts/LineHighChart';
@@ -9,7 +8,7 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import API_URLS from '../../config';
 
-export default function Mypage({ history }) {
+export default function Mypage() {
   const [userInformation, setUserInformation] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
   const currentTime = dayjs().format('HH:mm:ss');
@@ -24,12 +23,11 @@ export default function Mypage({ history }) {
       .then(({ result, message }) => {
         if (message === 'REFRESH_TOKEN_EXPIRED') {
           sessionStorage.clear();
-          history.push('/');
+          window.location.href = '/';
         } else {
           setUserInformation(result);
         }
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getInformation = (category, data) => {
@@ -86,16 +84,16 @@ export default function Mypage({ history }) {
         )[1];
 
       if (hour < 10) {
-        return `오전 0${hour}시 ${minute}분`;
+        return `AM 0${hour}:${minute}`;
       } else if (hour >= 10 && hour < 12) {
-        return `오전 ${hour}시 ${minute}분`;
+        return `AM ${hour}:${minute}`;
       }
       if (hour === 12) {
-        return `오후 ${hour}시 ${minute}분`;
+        return `PM ${hour}:${minute}`;
       } else if (hour > 12 && hour < 22) {
-        return `오후 0${hour - 12}시 ${minute}분`;
+        return `PM 0${hour - 12}:${minute}`;
       } else if (hour >= 22) {
-        return `오후 ${hour - 12}시 ${minute}분`;
+        return `PM ${hour - 12}:${minute}`;
       }
     }
   };
@@ -104,61 +102,51 @@ export default function Mypage({ history }) {
     <FadeIn transitionDuration={1000}>
       {userInformation && (
         <ContentsContainer>
-          <article>
-            <UserProfile>
-              <Img
-                alt="profile_image"
-                src={getInformation('user', 'user_profile_image_url')}
-              />
-              <UserInformation>
-                <dt>{getInformation('user', 'user_name')}</dt>
-                <EditBtn onClick={() => setIsModalOn(true)}>Edit</EditBtn>
-                {isModalOn && (
-                  <Modal setOff={setIsModalOn}>
-                    <EditForm />
-                  </Modal>
-                )}
-              </UserInformation>
-            </UserProfile>
-            <UserSpendingTime>
-              <TotalspendingHour>
-                총<Hour>{getCurrentTotalTime()}</Hour>
-                시간
-              </TotalspendingHour>
-              <br />
-              <TotalWecode>&gt; wecode와</TotalWecode>
-              <TotalWecode>함께 하셨습니다.</TotalWecode>
-            </UserSpendingTime>
+          <UserProfile>
+            <Img
+              alt="profile_image"
+              src={getInformation('user', 'user_profile_image_url')}
+            />
+            <UserInformation>
+              <UserName>{getInformation('user', 'user_name')}</UserName>
+              <EditBtn onClick={() => setIsModalOn(true)}>edit</EditBtn>
+              {isModalOn && (
+                <Modal setOff={setIsModalOn}>
+                  <EditForm />
+                </Modal>
+              )}
+            </UserInformation>
+          </UserProfile>
+          <UserSpendingTime>
+            <TotalspendingHour>
+              위코드와 함께 한<br />
+              {getCurrentTotalTime()}시간
+            </TotalspendingHour>
             <TimeContents>
-              <div>
-                <AverageTimeContent>
-                  <Label>⏳ 내 평균 시작 시간</Label>
-                  <Time>{getAverageTime('start')}</Time>
-                </AverageTimeContent>
-                <AverageTimeContent>
-                  <Label>⌛ 내 평균 종료 시간</Label>
-                  <Time>{getAverageTime('end')}</Time>
-                </AverageTimeContent>
-              </div>
               <AfterDday>
-                <Label>&gt; wecode</Label>
-                <Date>D+{getInformation('record', 'wecode_d_day')}</Date>
+                D+{getInformation('record', 'wecode_d_day')}
               </AfterDday>
+              <AverageTimeContent>
+                <Label>내 평균 시작 시간</Label>
+                <Time>{getAverageTime('start')}</Time>
+              </AverageTimeContent>
+              <AverageTimeContent>
+                <Label>내 평균 종료 시간</Label>
+                <Time>{getAverageTime('end')}</Time>
+              </AverageTimeContent>
             </TimeContents>
-          </article>
-          <SecondContents>
-            <TimeGraphContents>
-              <BarHighChart
-                weeklyRecordsData={getInformation('record', 'weekly_record')}
-              />
-              <LineHighChart
-                totalAccumulateRecordsData={getInformation(
-                  'record',
-                  'total_accumulate_records'
-                )}
-              />
-            </TimeGraphContents>
-          </SecondContents>
+          </UserSpendingTime>
+          <TimeGraphContents>
+            <BarHighChart
+              weeklyRecordsData={getInformation('record', 'weekly_record')}
+            />
+            <LineHighChart
+              totalAccumulateRecordsData={getInformation(
+                'record',
+                'total_accumulate_records'
+              )}
+            />
+          </TimeGraphContents>
         </ContentsContainer>
       )}
     </FadeIn>
@@ -166,58 +154,38 @@ export default function Mypage({ history }) {
 }
 
 const ContentsContainer = styled.section`
-  ${({ theme }) => theme.flexbox('row', 'space-between')}
-  margin: 80px auto 0;
-  padding: 40px 150px 0;
   max-width: 1440px;
-  transform: scale(1.05);
-
-  article:first-child {
-    height: 100%;
-  }
-
-  ${({ theme }) => theme.tablet` 
-  ${({ theme }) => theme.flexbox('column')}
-  padding: 0;
-  width: 300px;
-  `}
+  position: relative;
+  margin: 94px auto;
+  padding: 0 200px;
+  z-index: 100;
 `;
 
 const UserProfile = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-  margin-bottom: 60px;
-
-  ${({ theme }) => theme.tablet` 
-  ${({ theme }) => theme.flexbox('row', 'center')}
-  margin-top: 30px;
-  `}
 `;
 
 const Img = styled.img`
-  margin-right: 25px;
+  margin-right: 16px;
   width: 80px;
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
 `;
 
-const UserInformation = styled.dl`
-  dt {
-    margin-bottom: 17px;
-    position: relative;
-    top: 10px;
-    font-size: ${({ theme }) => theme.pixelToRem(25)};
-    font-weight: 700;
+const UserInformation = styled.div``;
 
-    ${({ theme }) => theme.middle_desktop`
-      font-size: 20px;
-    `}
-  }
+const UserName = styled.div`
+  margin-bottom: 10px;
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
 `;
 
 const EditBtn = styled.dd`
-  padding-left: 1px;
-  font-size: ${({ theme }) => theme.pixelToRem(14)};
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+  opacity: 0.6;
   cursor: pointer;
 
   &:hover {
@@ -229,144 +197,59 @@ const EditBtn = styled.dd`
   &:active {
     opacity: 0.5;
   }
-
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 11px;
-  `}
 `;
 
 const UserSpendingTime = styled.div`
-  margin-bottom: 80px;
-  font-size: ${({ theme }) => theme.pixelToRem(50)};
-  font-weight: 700;
-  line-height: ${({ theme }) => theme.pixelToRem(70)};
-
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 30px;
-    line-height: 40px;
-  `}
-
-  ${({ theme }) => theme.tablet` 
-    display: none;  
-  `}
+  ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')};
+  width: 100%;
+  margin-top: 30px;
 `;
 
 const TotalspendingHour = styled.div`
-  display: inline-block;
-  margin: 35px 0 30px;
-  padding: 0 10px 0 0;
-  font-size: ${({ theme }) => theme.pixelToRem(80)};
-
-  ${({ theme }) => theme.middle_desktop`
-    margin: 0;
-    font-size: 50px;
-  `}
-`;
-
-const TotalWecode = styled.div`
-  font-size: 40px;
-  line-height: 58px;
-
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 30px;
-  `}
-`;
-
-const boxAnimation = keyframes`
-  from {
-    background-color: transparent;
-  }
-  to{
-    background-color: ${({ theme }) => theme.colors.backgroundColor}
-  }
-`;
-
-const Hour = styled.div`
-  display: inline-block;
-  margin: 0 15px;
-  padding: 10px;
-  background-color: ${({ theme }) => theme.colors.blue};
-  animation-name: ${boxAnimation};
-  animation-delay: 0.3s;
-  animation-fill-mode: backwards;
-  animation-duration: 1s;
-
-  ${({ theme }) => theme.tablet` 
-  padding: 0px 5px;
-  `}
-`;
-
-const SecondContents = styled.article`
-  width: 500px;
-  height: 100%;
-
-  ${({ theme }) => theme.middle_desktop`
-    width: 330px
-  `}
-
-  ${({ theme }) => theme.tablet` 
-    position: relative;
-    transform: scale(0.6);
-    height: 300px;
-  `}
+  width: 48%;
+  font-size: ${({ theme }) => theme.pixelToRem(60)};
+  font-weight: 700;
+  font-family: Noto Sans KR;
+  line-height: 75px;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
 `;
 
 const TimeGraphContents = styled.div`
-  div:first-child {
-    margin-bottom: 30px;
+  ${({ theme }) => theme.flexbox('row', 'space-between')};
+  margin-top: 60px;
+
+  & > * {
+    width: 50%;
   }
 `;
 
-const AverageTimeContent = styled.div`
-  margin-bottom: 40px;
-  margin-right: 100px;
-
-  ${({ theme }) => theme.middle_desktop`
-    margin-right: 50px;
-  `}
-
-  ${({ theme }) => theme.tablet` 
-    margin-right: 0;
-  `}
-`;
-
 const TimeContents = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'flex-start')};
-
-  ${({ theme }) => theme.tablet` 
-  ${({ theme }) => theme.flexbox()}
-  `}
+  width: 45%;
+  ${({ theme }) => theme.flexbox('column', 'flex-start', 'flex-start')};
 `;
 
 const Label = styled.div`
-  margin-bottom: 10px;
-  font-size: ${({ theme }) => theme.pixelToRem(23)};
-  text-align: center;
-  font-weight: 700;
-
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 18px;
-  `}
+  margin-right: 10px;
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+  opacity: 0.6;
 `;
 
-const Time = styled(Label.withComponent('div'))`
-  font-weight: 400;
-  padding-left: 15px;
-`;
-
-const Date = styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(80)};
+const Time = styled.div`
+  font-size: 20px;
   font-weight: 700;
-
-  ${({ theme }) => theme.middle_desktop`
-    font-size: 50px;
-  `}
+  color: ${({ theme }) => theme.colors.fontColorWhite};
 `;
 
 const AfterDday = styled.div`
-  ${({ theme }) => theme.flexbox('column', 'start', 'start')};
+  margin-bottom: 30px;
+  font-size: ${({ theme }) => theme.pixelToRem(60)};
+  font-weight: 700;
+  font-family: Noto Sans KR;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+`;
 
-  ${({ theme }) => theme.tablet` 
-  display: none;
-  `}
+const AverageTimeContent = styled.div`
+  ${({ theme }) => theme.flexbox('row', 'flex-start')};
+  margin-bottom: 21px;
 `;
