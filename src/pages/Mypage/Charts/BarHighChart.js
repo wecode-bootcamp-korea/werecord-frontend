@@ -2,7 +2,7 @@ import React from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-export default function LineHighChart({ weeklyRecordsData }) {
+export default function BarHighChart({ weeklyRecordsData }) {
   const getMaxTimeInWeeklyTimeData = timeData => {
     const weeklyHourArray = Object.values(timeData).map(
       second => Math.round(second / 360) / 10
@@ -21,14 +21,15 @@ export default function LineHighChart({ weeklyRecordsData }) {
   const options = {
     chart: {
       type: 'column',
-      backgroundColor: '#212121',
-      height: 330,
+      backgroundColor: 'transparent',
+      height: 380,
     },
     title: {
       text: '주간 기록',
       margin: 40,
       style: {
         color: 'white',
+        fontSize: 15,
         fontWeight: 'bold',
       },
     },
@@ -41,40 +42,30 @@ export default function LineHighChart({ weeklyRecordsData }) {
       labels: {
         style: {
           color: 'white',
-          fontSize: 16,
-          fontWeight: 'bold',
+          fontSize: 15,
         },
       },
     },
     yAxis: {
-      max: getMaxTimeInWeeklyTimeData(weeklyRecordsData),
       title: {
-        text: '시간 (hour)',
-        margin: 20,
-        style: {
-          color: 'white',
-          fontSize: 16,
-          fontWeight: 'bold',
-        },
-      },
-      gridLineDashStyle: 'longdash',
-      gridLineColor: '#494949',
-      labels: {
+        text: '시간',
         style: {
           color: 'white',
           fontSize: 15,
-          fontWeight: 'bold',
         },
+      },
+      gridLineColor: '#ffffff',
+      // tickInterval: , 눈금선 20개 만드는 식 세우기
+      labels: {
+        enabled: false,
       },
     },
     tooltip: {
-      split: true,
-      valueSuffix: 'hours',
+      valueSuffix: '시간',
     },
     plotOptions: {
       series: {
-        borderColor: '#0066ff',
-        pointWidth: 50,
+        pointWidth: 40,
       },
     },
     series: [
@@ -82,19 +73,14 @@ export default function LineHighChart({ weeklyRecordsData }) {
         name: '요일별 시간 기록',
         showInLegend: false,
         data: [
-          secondsToHour(weeklyRecordsData, '0'),
-          secondsToHour(weeklyRecordsData, '1'),
-          secondsToHour(weeklyRecordsData, '2'),
-          secondsToHour(weeklyRecordsData, '3'),
-          secondsToHour(weeklyRecordsData, '4'),
+          // secondsToHour(weeklyRecordsData, '0'),
+          // secondsToHour(weeklyRecordsData, '1'),
+          // secondsToHour(weeklyRecordsData, '2'),
+          // secondsToHour(weeklyRecordsData, '3'),
+          // secondsToHour(weeklyRecordsData, '4'),
+          40, 40, 50, 20, 2,
         ],
-        color: {
-          linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1.8 },
-          stops: [
-            [0, '#0066ff'],
-            [1, 'transparent'],
-          ],
-        },
+        color: '#ffffff',
       },
     ],
     credits: {
