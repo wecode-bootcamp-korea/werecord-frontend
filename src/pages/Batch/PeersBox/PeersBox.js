@@ -1,157 +1,76 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Slider from 'react-slick';
 import Styled from 'styled-components';
 import ProfileCard from '../ProfileCard/ProfileCard';
-import Modal from '../../../components/Modal/Modal';
-import ProfileModal from '../ProfileModal/ProfileModal';
-import MentorModal from '../ProfileModal/MentorModal';
 
 export default function PeersBox({ myBatchInfo }) {
-  const [isPeerModalOn, setIsPeerModalOn] = useState(false);
-  const [isMentorModalOn, setIsMentorModalOn] = useState(false);
-  const [peerData, setPeerData] = useState({});
+  const settings = {
+    slide: 'li',
+    infinite: false,
+    speed: 500,
+    slidesToShow: 8,
+    slidesToScroll: 8,
+    draggable: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   return (
     <>
+      <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
       <Container>
-        <ScrollBoxTop>
-          <ScrollBoxTitle>출결 현황</ScrollBoxTitle>
-          <ScrollBoxMentor onClick={() => setIsMentorModalOn(!isMentorModalOn)}>
-            💁🏻‍♂️담임멘토
-          </ScrollBoxMentor>
-        </ScrollBoxTop>
         <StyledSlider {...settings}>
           {myBatchInfo.peers.map(peers => (
-            <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
-              <ProfileCard modalOn={setIsPeerModalOn} peersInfo={peers} />
+            <div key={peers.peer_id}>
+              <ProfileCard peersInfo={peers} />
             </div>
           ))}
         </StyledSlider>
-        {isPeerModalOn && (
-          <Modal setOff={setIsPeerModalOn}>
-            <ProfileModal peersInfo={peerData} />
-          </Modal>
-        )}
-        {isMentorModalOn && (
-          <Modal setOff={setIsMentorModalOn}>
-            <MentorModal mentorInfo={myBatchInfo.mentor} />
-          </Modal>
-        )}
       </Container>
-
-      <MobileContainer>
-        <TableBottomTitle>출결 현황</TableBottomTitle>
-        <PeersContainer>
-          {myBatchInfo.peers.map(peers => (
-            <div key={peers.peer_id} onClick={() => setPeerData(peers)}>
-              <ProfileCard modalOn={setIsPeerModalOn} peersInfo={peers} />
-            </div>
-          ))}
-        </PeersContainer>
-      </MobileContainer>
     </>
   );
 }
 
 const Container = Styled.section`
+  height: 160px;
   margin-top: 20px;
-  padding: 30px;
-  border-radius: 3px;
-  background-color: #fefefe;
-
-  ${({ theme }) => theme.mobile`
-    display: none;
-  `}
-`;
-
-const ScrollBoxTop = Styled.div`
-  ${({ theme }) => theme.flexbox('row', 'space-between', 'center')}
-`;
-
-const ScrollBoxTitle = Styled.h1`
-  font-size: 20px;
-  color: ${({ theme }) => theme.colors.black};
-  font-weight: 700;
-`;
-
-const ScrollBoxMentor = Styled.div`
-  color: ${({ theme }) => theme.colors.black};
-  font-size:15px;
-  cursor:pointer;`;
-
-const StyledSlider = Styled(Slider)`
-  margin-top: 30px;
-  color: ${({ theme }) => theme.colors.black};
-
-  .slick-prev:before, .slick-next:before {
-    color: black;
-  }
-`;
-
-function PrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <i
-      className={`fas fa-caret-left ${className}`}
-      style={{ ...style, display: 'block' }}
-      onClick={onClick}
-    />
-  );
-}
-
-function NextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: 'block' }}
-      onClick={onClick}
-    />
-  );
-}
-
-const settings = {
-  slide: 'li',
-  dots: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 7,
-  slidesToScroll: 7,
-  arrows: true,
-  draggable: true,
-  prevArrow: <PrevArrow />,
-  nextArrow: <NextArrow />,
-  responsive: [
-    {
-      breakpoint: 1280,
-      settings: { slidesToShow: 6, slidesToScroll: 6, dots: true },
-    },
-    {
-      breakpoint: 1024,
-      settings: { slidesToShow: 4, slidesToScroll: 4, dots: true },
-    },
-  ],
-};
-
-const MobileContainer = Styled.section`
-  display: none;
-
-  ${({ theme }) => theme.mobile`
-    display: block;
-    ${({ theme }) => theme.flexbox('column', 'center', 'center')}
-  `}
-`;
-
-const TableBottomTitle = Styled.h1`
-  width: 100vw;
-  margin-bottom: 20px;
-  padding: 10px 5px;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.black};
+  border-radius: 20px;
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
-const PeersContainer = Styled.ul`
-  ${({ theme }) => theme.flexbox('row', 'center', 'center')};
-  flex-wrap: wrap;
+const ScrollBoxTitle = Styled.h1`
+  margin-top: 42px;
+  margin-left: 20px;
+  font-size: ${({ theme }) => theme.pixelToRem(15)};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.white};
+  opacity: 0.6;
+`;
+
+const StyledSlider = Styled(Slider)`
+  .slick-prev:before, .slick-next:before {
+    color: ${({ theme }) => theme.colors.purple};
+  }
 `;
