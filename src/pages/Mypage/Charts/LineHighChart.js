@@ -15,7 +15,7 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
 
     title: {
       text: '전체 누적 기록',
-      margin: 20,
+      margin: 10,
       style: {
         color: 'white',
         fontSize: 15,
@@ -36,14 +36,12 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
     },
     yAxis: {
       title: {
-        text: '시간',
-        margin: 20,
-        style: {
-          color: 'white',
-          fontSize: 15,
-        },
+        enabled: false,
       },
-      // tickInterval:s
+      tickInterval:
+        setAccumulateHoursData(totalAccumulateRecordsData)[
+          setAccumulateHoursData(totalAccumulateRecordsData).length - 1
+        ] / 20,
       gridLineColor: '#ffffff',
       labels: {
         enabled: false,
@@ -72,8 +70,7 @@ export default function LineHighChart({ totalAccumulateRecordsData }) {
         name: '총 누적 시간',
         color: '#ffffff',
         showInLegend: false,
-        // data: setAccumulateHoursData(totalAccumulateRecordsData),
-        data: [5, 10, 20, 40, 60],
+        data: setAccumulateHoursData(totalAccumulateRecordsData),
       },
     ],
     credits: {

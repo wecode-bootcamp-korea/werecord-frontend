@@ -47,6 +47,7 @@ const OutsideModal = Styled.div`
 
 const InsideModal = Styled.div`
   ${({ theme }) => theme.posCenter('absolute')};
+  ${({ theme }) => theme.flexbox('column')};
   width: ${({ width }) => `${width}px`};
   height: ${({ height }) => `${height}px`};
   border-radius: 20px;

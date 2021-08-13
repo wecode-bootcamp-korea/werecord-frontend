@@ -23,6 +23,7 @@ export default function Main() {
   });
 
   const [isCommentModal, setIsCommentModal] = useState({});
+  const [startModalOn, setStartModalOn] = useState(false);
   const [stopModalOn, setStopModalOn] = useState(false);
   const [isScreenCaptureModal, setIsScreenCaptureModal] = useState(false);
 
@@ -32,6 +33,16 @@ export default function Main() {
   useEffect(() => {
     fetchUserData(setUserInfo, setCheckOffWorkDate);
   }, []);
+
+  const handleScreenCaptureModal = e => {
+    const isClickedInside = e.target.closest('.modal');
+    const isClickedBtn = e.target.closest('.captureBtn');
+
+    if (setIsScreenCaptureModal) {
+      if (!isClickedInside) return setIsScreenCaptureModal(false);
+      if (isClickedBtn) return setIsScreenCaptureModal(false);
+    }
+  };
 
   return (
     <>
@@ -58,7 +69,9 @@ export default function Main() {
                 </Button>
               ) : (
                 <Button
-                  onClick={() => checkStart(setIsCommentModal, setUserInfo)}
+                  onClick={() =>
+                    checkStart(setIsCommentModal, setUserInfo, setStartModalOn)
+                  }
                   disabled={
                     userInfo.isStop | (userInfo.isOn && userInfo.isStart)
                   }
@@ -74,7 +87,9 @@ export default function Main() {
                 </Button>
               )}
               <Button
-                onClick={() => checkStop(setIsCommentModal, setStopModalOn)}
+                onClick={() =>
+                  checkStop(setIsCommentModal, setStopModalOn, setStartModalOn)
+                }
                 disabled={
                   (!userInfo.isStart && !userInfo.isStop) |
                   (!userInfo.isOn && userInfo.isStop)
@@ -85,9 +100,17 @@ export default function Main() {
             </BtnArea>
 
             {checkObjData(isCommentModal) && (
-              <Modal setOff={setIsCommentModal} isCommentModal={stopModalOn}>
+              <Modal
+                setOff={setIsCommentModal}
+                isCommentModal={stopModalOn}
+                width={400}
+                height={240}
+              >
+                {startModalOn && (
+                  <ModalImg alt="startImg" src="/images/modal/startImg.png" />
+                )}
                 {stopModalOn && (
-                  <StopCommentTitle>오늘도 수고하셨습니다.</StopCommentTitle>
+                  <ModalImg alt="stopImg" src="/images/modal/stopImg.png" />
                 )}
                 <CommentModal comment={isCommentModal} />
               </Modal>
@@ -109,8 +132,8 @@ export default function Main() {
       </FadeIn>
 
       {isScreenCaptureModal && (
-        <ScreenCapureModal>
-          <InsideModal id="captureArea">
+        <ScreenCapureModal onClick={handleScreenCaptureModal}>
+          <InsideModal id="captureArea" className="modal">
             <LeftArea>
               <ShowNowTime modal={true} />
               <ModalTime>
@@ -165,7 +188,10 @@ export default function Main() {
               alt="mainImg"
               src="/images/main/Saly-15.png"
             />
-            <SaveImg onClick={() => ScreenCapture(setIsScreenCaptureModal)}>
+            <SaveImg
+              className="captureBtn"
+              onClick={() => ScreenCapture(setIsScreenCaptureModal)}
+            >
               <img alt="snapshot" src="/images/main/Vector.png" />
               이미지로 저장하기
             </SaveImg>
@@ -250,11 +276,9 @@ const MainImg = styled.img`
   `};
 `;
 
-const StopCommentTitle = styled.div`
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.black};
+const ModalImg = styled.img`
+  width: 20%;
+  margin-bottom: 23px;
 `;
 
 const ScreenCapureModal = styled.section`
@@ -366,7 +390,7 @@ const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
     .catch(error => console.log(error));
 };
 
-const checkStart = (setIsCommentModal, setUserInfo) => {
+const checkStart = (setIsCommentModal, setUserInfo, setStartModalOn) => {
   fetch(`${API_URLS.MAIN}/start`, {
     method: 'POST',
     headers: {
@@ -400,12 +424,18 @@ const checkStart = (setIsCommentModal, setUserInfo) => {
           isStart: true,
           lastStartTime: `${dayjs().hour()}:${dayjs().minute()}:${dayjs().second()}`,
         }));
+        setIsCommentModal(prev => ({
+          ...prev,
+          isOn: true,
+          comment: '오늘 기록이 시작되고 있습니다.',
+        }));
+        setStartModalOn(true);
       }
     })
     .catch(error => console.log(error));
 };
 
-const checkStop = (setIsCommentModal, setStopModalOn) => {
+const checkStop = (setIsCommentModal, setStopModalOn, setStartModalOn) => {
   fetch(`${API_URLS.MAIN}/stop`, {
     method: 'POST',
     headers: {
@@ -450,9 +480,9 @@ const checkStop = (setIsCommentModal, setStopModalOn) => {
         setIsCommentModal(prev => ({
           ...prev,
           isOn: true,
-          comment: result.comment,
-          totalTime: result.total_time,
+          comment: '오늘도 수고하셨습니다.',
         }));
+        setStartModalOn(false);
         setStopModalOn(true);
       }
     })

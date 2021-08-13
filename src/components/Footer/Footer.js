@@ -27,6 +27,10 @@ const Container = Styled.footer`
 
   .rightArea {
     ${({ theme }) => theme.flexbox('row')};
+
+    ${({ theme }) => theme.tablet`
+      ${({ theme }) => theme.flexbox('column', 'flex-end', 'flex-end')};
+    `}
   }
 `;
 
@@ -41,4 +45,7 @@ const Producer = Styled.div`
 
 const MadeBy = Styled.div`
   font-size: 13px;
+  ${({ theme }) => theme.tablet`
+    margin-bottom: 5px;
+  `}
 `;
