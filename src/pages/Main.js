@@ -272,7 +272,7 @@ const MainImg = styled.img`
   ${({ theme }) => theme.tablet`
     position: absolute;
     opacity: 0.1;
-    z-index: -1;s
+    z-index: -1;
   `};
 `;
 

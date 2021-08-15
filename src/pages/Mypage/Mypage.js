@@ -129,7 +129,6 @@ export default function Mypage() {
           <UserSpendingTime>
             <TotalspendingHour>
               위코드와 함께 한<br />
-              {/* {getCurrentTotalTime()}시간 */}
               {getCurrentTotalTime()[0] > 0 &&
                 `${getCurrentTotalTime()[0]}시간`}{' '}
               {getCurrentTotalTime()[0] > 0

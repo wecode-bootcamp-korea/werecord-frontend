@@ -8,7 +8,7 @@ export default function GhostCards({ rank }) {
       {rank.length !== 0 ? (
         <>
           {rank.map((person, index) => (
-            <GhostCard>
+            <GhostCard key={index}>
               <img
                 alt={person.user_name}
                 src={findDefaultImg(person.user_profile_image_url)}

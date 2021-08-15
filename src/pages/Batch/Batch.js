@@ -14,7 +14,7 @@ export default function Batch({ match }) {
     const batchNum = sessionStorage.getItem('batch');
     const matchBatchNum = match.params.id;
     chooseUserType(batchNum, matchBatchNum, setBatchInfo);
-  }, []);
+  }, [match.params.id]);
 
   return (
     <FadeIn transitionDuration={1000}>

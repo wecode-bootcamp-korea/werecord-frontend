@@ -1,25 +1,27 @@
 import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import API_URLS from '../../../config';
+import API_URLS from '../../config';
 
-const GoogleLogin = props => {
+export default function GoogleLogin({ setIsSignOn }) {
   const history = useHistory();
+  const googleButton = useRef();
+
   useEffect(() => {
     googleLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const googleButton = useRef();
+
   const googleLogin = () => {
     window.gapi.load('auth2', function () {
       window.auth2 = window.gapi.auth2.init({
         client_id:
           '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
         cookiepolicy: 'single_host_origin',
-        //scope: 'additional_scope'
       });
       attachSignin(googleButton.current);
     });
+
     function attachSignin(element) {
       window.auth2.attachClickHandler(
         element,
@@ -47,7 +49,7 @@ const GoogleLogin = props => {
                   history.push('/mentorpage');
                 }
               } else {
-                props.changeModalValue();
+                setIsSignOn(true);
               }
               return res;
             });
@@ -58,42 +60,24 @@ const GoogleLogin = props => {
       );
     }
   };
-  return (
-    <>
-      <GoogleButton ref={googleButton}>
-        <GoogleLogo src="/images/googleLogo.png"></GoogleLogo>
-        <GoogleLoginText>구글로 로그인하기</GoogleLoginText>
-      </GoogleButton>
-    </>
-  );
-};
-export default GoogleLogin;
-const GoogleButton = styled.button`
-  ${({ theme }) => theme.flexbox()}
-  width: 200px;
-  height: 40px;
-  border: 1px solid ${({ theme }) => theme.colors.black};
-  border-radius: 3px;
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.black};
+
+  return <GoogleButton ref={googleButton}>구글계정으로 시작하기</GoogleButton>;
+}
+
+const GoogleButton = styled.div`
+  margin-top: 154px;
+  padding: 8px 46px;
+  border: 1px solid ${({ theme }) => theme.colors.regularBtnFontColorWhite};
+  border-radius: 20px;
+  font-size: ${({ theme }) => theme.pixelToRem(24)};
+  font-weight: 700;
+  line-height: 40px;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition: background-color 0.3s;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.blue};
-    border: 1px solid ${({ theme }) => theme.colors.blue};
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.fontColorPurple};
+    background: ${({ theme }) => theme.colors.hoverBtnBgWhite};
   }
-`;
-const GoogleLogo = styled.img`
-  margin: 5px;
-  width: 20px;
-  height: 20px;
-`;
-
-const GoogleLoginText = styled.p`
-  margin: 5px;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 15px;
 `;

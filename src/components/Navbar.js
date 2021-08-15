@@ -119,10 +119,7 @@ export default function Navbar() {
             )}
             <Button onClick={handleLogout}>로그아웃</Button>
           </StyledBtnContainer>
-          <StyledMobileBtnList
-            onClick={handleMobileBtnlist}
-            isOn={mobileNavBtnDisplayOn}
-          >
+          <StyledMobileBtnList onClick={handleMobileBtnlist}>
             <i className="fas fa-bars" />
           </StyledMobileBtnList>
         </Container>
@@ -177,34 +174,21 @@ const Button = styled.button`
     border: 1px solid ${({ theme }) => theme.colors.white};
   }
 
+  ${({ isPage }) => isPage && `color: #ffffff`};
+
   ${({ theme }) => theme.tablet`
     margin-right: 0;
-    margin-bottom: 10px;
     color: ${({ theme }) => theme.colors.fontColorPurple};
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.fontColorPurple};
-    };
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   `}
-
-  ${({ isPage }) => isPage && `color: #ffffff`};
 `;
 
-const StyledLogo = styled.div`
+const StyledLogo = styled(Button.withComponent('button'))`
   border: none;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.fontColorPurple};
   color: ${({ isMain }) => isMain === '/main' && 'white'};
-  transition: all 0.3s ease;
-  cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.fontColorWhite};
     border: none;
   }
 `;
@@ -230,6 +214,10 @@ const StyledBtnContainer = styled.div`
       background-color: ${({ theme }) => theme.colors.white};
       transform: rotate(45deg);
     }
+
+    & > button:hover {
+      color: ${({ theme }) => theme.colors.fontColorPurple};
+    }
   
     ${({ handleMobileBtnList }) =>
       handleMobileBtnList &&
@@ -242,16 +230,9 @@ const StyledMobileBtnList = styled.div`
   top: 5px;
   color: ${({ theme }) => theme.colors.fontColorPurple};
   font-size: ${({ theme }) => theme.pixelToRem(25)};
-  transition: all 0.3s ease;
   cursor: pointer;
 
   ${({ theme }) => theme.tablet`
     display: block;
   `}
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.fontColorWhite};
-  }
-
-  ${({ isOn }) => isOn && `color: #ffffff`};
 `;
