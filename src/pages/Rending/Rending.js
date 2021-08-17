@@ -34,7 +34,7 @@ export default function Rending() {
   //입력 완료 버튼 클릭가능하게 할지
   const isAbleButton = () => {
     if (userInfo.user_type === '수강생') {
-      return Boolean(userInfo.name && userInfo.batch);
+      return Boolean(userInfo.name && userInfo.batch && userInfo.position);
     }
     if (userInfo.user_type === '멘토') {
       return Boolean(userInfo.name);
@@ -362,7 +362,7 @@ const PositionArea = styled.div`
   margin-top: 20px;
 `;
 
-const LoginBtn = styled.div`
+const LoginBtn = styled.button`
   margin-top: 50px;
   padding: 8px 46px;
   border: 1px solid ${({ theme }) => theme.colors.regularBtnFontColorWhite};
