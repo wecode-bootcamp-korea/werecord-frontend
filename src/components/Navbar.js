@@ -24,10 +24,13 @@ export default function Navbar() {
   const batch = sessionStorage.getItem('batch');
 
   const handleLogout = () => {
-    if (sessionStorage.getItem('wrtoken')) {
-      sessionStorage.clear();
-      goToPage();
-    }
+    var auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signd out');
+    });
+    auth2.disconnect();
+    sessionStorage.clear();
+    goToPage();
   };
 
   const handleMobileBtnlist = () => {
@@ -117,7 +120,7 @@ export default function Navbar() {
                 멘토 페이지
               </Button>
             )}
-            <Button onClick={handleLogout}>로그아웃</Button>
+            <Button onClick={() => handleLogout()}>로그아웃</Button>
           </StyledBtnContainer>
           <StyledMobileBtnList onClick={handleMobileBtnlist}>
             <i className="fas fa-bars" />
@@ -147,7 +150,7 @@ const Container = styled.nav`
   animation-duration: 1s;
   z-index: 100;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     padding: 0 50px;
   `}
 `;
@@ -176,7 +179,7 @@ const Button = styled.button`
 
   ${({ isPage }) => isPage && `color: #ffffff`};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-right: 0;
     color: ${({ theme }) => theme.colors.fontColorPurple};
   `}
@@ -198,7 +201,7 @@ const StyledBtnContainer = styled.div`
     margin-right: 0;
   }
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
     transform: scale(0.8);
     background-color: ${({ theme }) => theme.colors.white};
@@ -232,7 +235,7 @@ const StyledMobileBtnList = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   cursor: pointer;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: block;
   `}
 `;

@@ -20,14 +20,14 @@ const Container = styled.div`
     bottom: 0;
     background: url(/images/bgImage/wave1.png) repeat-x;
     background-position: top;
-    /* animation: wave 60s linear infinite; */
+    animation: wave 30s linear infinite;
   }
 
   .wave:nth-of-type(2) {
     background: url(/images/bgImage/wave2.png) repeat-x;
     height: 75%;
     bottom: 0;
-    /* animation: wave 50s linear infinite; */
+    animation: wave 25s linear infinite;
   }
 
   @keyframes wave {

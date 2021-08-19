@@ -55,7 +55,7 @@ const Container = styled.div`
   font-family: 'Noto Sans', sans-serif;
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
       margin-top: 10px;
       height: 70px;
     `}
@@ -67,7 +67,7 @@ const Container = styled.div`
     font-size: 70px;
     color: #ffffff;
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       height: 58px;
       font-size: 50px;
     `}
@@ -84,7 +84,7 @@ const Container = styled.div`
     background: rgba(255, 255, 255, 0.3);
     overflow: hidden;
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       width: 50px;
     `}
   }
@@ -105,7 +105,7 @@ const Container = styled.div`
     justify-content: center;
     font-size: 70px;
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       height: 70px;
       font-size: 50px;
     `}

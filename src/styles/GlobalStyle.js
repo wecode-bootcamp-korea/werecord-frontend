@@ -22,6 +22,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: 'Noto Sans', 'sans-serif';
     font: inherit;
+
+    &::selection {
+      background: ${({ theme }) => theme.colors.purple};
+    }
   }
 
   body {

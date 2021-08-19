@@ -179,9 +179,9 @@ const ContentsContainer = styled.section`
   padding: 0 200px;
   z-index: 100;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
-    padding: 0;
+    padding: 0 30px;
   `}
 `;
 
@@ -228,7 +228,7 @@ const UserSpendingTime = styled.div`
   width: 100%;
   margin-top: 30px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
   `}
 `;
@@ -241,7 +241,7 @@ const TotalspendingHour = styled.div`
   line-height: 75px;
   color: ${({ theme }) => theme.colors.fontColorWhite};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('row')};
     width: 100%;
     font-size: ${({ theme }) => theme.pixelToRem(45)};
@@ -252,7 +252,7 @@ const TimeGraphContents = styled.div`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
   margin-top: 60px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
     width: 80%;
   `}
@@ -262,7 +262,7 @@ const TimeContents = styled.div`
   width: 47%;
   ${({ theme }) => theme.flexbox('column', 'flex-start', 'flex-start')};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
     margin-top: 40px;
   `}
@@ -299,7 +299,7 @@ const StyledChart = styled.div`
   position: relative;
   width: 47%;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 100%;
   `}
 `;
