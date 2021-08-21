@@ -16,7 +16,7 @@ const Container = Styled.section`
   font-size: 35px;
   font-weight: 700;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 15px;
   `}
 `;

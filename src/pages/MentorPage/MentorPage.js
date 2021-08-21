@@ -229,7 +229,7 @@ const BatchInformationContainer = styled.ul`
   width: 1380px;
   transition: transform 0.5s;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-left: 920px;
   `}
 

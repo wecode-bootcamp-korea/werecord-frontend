@@ -65,7 +65,7 @@ const MyBatchTime = styled.section`
   line-height: 75px;
   color: ${({ theme }) => theme.colors.fontColorWhite};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 35px;
     line-height: 35px;
   `}
@@ -79,7 +79,7 @@ const SubTitles = styled.span`
   color: ${({ theme }) => theme.colors.white};
   opacity: 0.6;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 12px;
   `}
 `;
@@ -98,7 +98,7 @@ const BestBatchs = styled.div`
   border-radius: 20px;
   background: black;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     height: 35px;
   `}
 `;
@@ -117,9 +117,13 @@ const FirstBatch = styled.div`
   line-height: 50px;
   background: ${({ theme }) => theme.colors.white};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 13px;
     line-height: 35px;
+
+    &:active {
+      z-index: 1;
+    }
   `}
 `;
 
@@ -137,9 +141,13 @@ const SecondBatch = styled.div`
   line-height: 50px;
   background: ${({ theme }) => theme.colors.pink};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 13px;
     line-height: 35px;
+
+    &:active {
+      z-index: 1;
+    }
   `}
 `;
 
@@ -157,9 +165,13 @@ const ThirdBatch = styled.div`
   line-height: 50px;
   background: ${({ theme }) => theme.colors.purple};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 13px;
     line-height: 35px;
+    
+    &:active {
+      z-index: 1;
+    }
   `}
 `;
 
@@ -176,7 +188,7 @@ const FirstBalloon = styled.div`
   color: ${({ theme }) => theme.colors.black};
   background: ${({ theme }) => theme.colors.white};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 40px;
     height: 40px;
     top: -60px;
@@ -208,7 +220,7 @@ const SecondBalloon = styled.div`
   color: ${({ theme }) => theme.colors.white};
   background: ${({ theme }) => theme.colors.pink};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 40px;
     height: 40px;
     top: -60px;
@@ -240,7 +252,7 @@ const ThirdBalloon = styled.div`
   color: ${({ theme }) => theme.colors.white};
   background: ${({ theme }) => theme.colors.purple};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     width: 40px;
     height: 40px;
     top: -60px;

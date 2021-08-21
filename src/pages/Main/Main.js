@@ -3,14 +3,14 @@ import FadeIn from 'react-fade-in';
 import html2canvas from 'html2canvas';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import Modal from '../components/Modal/Modal';
-import SendTimeModal from '../pages/Main/SendTimeModal/SendTimeModal';
-import CommentModal from '../components/CommentModal/CommentModal';
-import ShowNowTime from './Main/ShowNowTime/ShowNowTime';
-import ScreenCaptureBtn from './Main/ScreenCaptureBtn/ScreenCaptureBtn';
-import Flipclock from './Main/Flipclock/Flipclock';
-import checkObjData from './Util/checkObjData';
-import API_URLS from '../config';
+import Modal from '../../components/Modal/Modal';
+import SendTimeModal from './SendTimeModal/SendTimeModal';
+import CommentModal from '../../components/CommentModal/CommentModal';
+import ShowNowTime from './ShowNowTime/ShowNowTime';
+import ScreenCaptureBtn from './ScreenCaptureBtn/ScreenCaptureBtn';
+import Flipclock from './Flipclock/Flipclock';
+import checkObjData from '../Util/checkObjData';
+import API_URLS from '../../config';
 
 export default function Main() {
   const [userInfo, setUserInfo] = useState({
@@ -135,6 +135,7 @@ export default function Main() {
         <ScreenCapureModal onClick={handleScreenCaptureModal}>
           <InsideModal id="captureArea" className="modal">
             <LeftArea>
+              <Logo>We Record</Logo>
               <ShowNowTime modal={true} />
               <ModalTime>
                 <div className="time">
@@ -182,6 +183,7 @@ export default function Main() {
                     : changeTime(userInfo.totalTime)[7]}
                 </div>
               </ModalTime>
+              <ModalFooter alt="wecode" src="/images/Footer/footer.png" />
             </LeftArea>
             <MainImg
               modal={true}
@@ -210,7 +212,7 @@ const Container = styled.section`
   padding: 0 200px;
   z-index: 99;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('row')};
     margin-top: 150px;
     padding: 0 50px;
@@ -218,7 +220,7 @@ const Container = styled.section`
 `;
 
 const LeftArea = styled.div`
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')}
     width: 100%;
   `};
@@ -257,7 +259,7 @@ const Button = styled.button`
     disabled &&
     `background: rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.7)`};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     padding: 4px 14px;
     font-size: 18px;
   `};
@@ -267,18 +269,31 @@ const MainImg = styled.img`
   width: ${({ theme }) => theme.pixelToRem(370)};
   margin-top: ${({ theme }) => theme.pixelToRem(50)};
 
-  ${({ modal }) => modal && `width: 220px;  margin: 0 0 0 35px;`}
-
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     position: absolute;
     opacity: 0.1;
     z-index: -1;
   `};
+
+  ${({ modal }) =>
+    modal && `display: block; width: 220px;  margin: 0 0 0 35px;`}
 `;
 
 const ModalImg = styled.img`
   width: 20%;
   margin-bottom: 23px;
+`;
+
+const Logo = styled.div`
+  border: none;
+  font-size: ${({ theme }) => theme.pixelToRem(20)};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
+`;
+
+const ModalFooter = styled.img`
+  width: 100px;
+  margin-top: 100px;
 `;
 
 const ScreenCapureModal = styled.section`

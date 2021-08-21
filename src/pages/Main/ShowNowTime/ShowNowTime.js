@@ -38,7 +38,7 @@ const Container = Styled.h1`
     modal &&
     `margin-top: 15px; margin-bottom: 25px; font-size: 40px; line-height: 50px;`}
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: ${({ theme }) => theme.pixelToRem(45)};
     line-height: ${({ theme }) => theme.pixelToRem(60)};
   `}

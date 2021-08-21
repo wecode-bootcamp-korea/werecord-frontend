@@ -33,15 +33,15 @@ export default function Batch({ match }) {
   );
 }
 
-const Container = Styled.main`
+const Container = Styled.section`
   max-width: 1440px;
   position: relative;
   margin: 0 auto;
   padding: 0 200px;
   z-index: 99;
 
-  ${({ theme }) => theme.tablet`
-    padding: 0 50px;
+  ${({ theme }) => theme.mobile`
+    padding: 0 30px;
   `}
 `;
 
@@ -77,5 +77,8 @@ const chooseUserType = (batchNum, matchBatchNum, setBatchInfo) => {
           setBatchInfo(result);
         }
       });
+  }
+  if (matchBatchNum !== batchNum) {
+    window.location.href = '/notFound';
   }
 };
