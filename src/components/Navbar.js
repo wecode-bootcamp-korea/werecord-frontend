@@ -24,10 +24,8 @@ export default function Navbar() {
   const batch = sessionStorage.getItem('batch');
 
   const handleLogout = () => {
-    if (sessionStorage.getItem('wrtoken')) {
-      sessionStorage.clear();
-      goToPage();
-    }
+    sessionStorage.clear();
+    window.location.href = '/';
   };
 
   const handleMobileBtnlist = () => {
@@ -147,7 +145,7 @@ const Container = styled.nav`
   animation-duration: 1s;
   z-index: 100;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     padding: 0 50px;
   `}
 `;
@@ -176,7 +174,7 @@ const Button = styled.button`
 
   ${({ isPage }) => isPage && `color: #ffffff`};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-right: 0;
     color: ${({ theme }) => theme.colors.fontColorPurple};
   `}
@@ -198,7 +196,7 @@ const StyledBtnContainer = styled.div`
     margin-right: 0;
   }
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: none;
     transform: scale(0.8);
     background-color: ${({ theme }) => theme.colors.white};
@@ -232,7 +230,7 @@ const StyledMobileBtnList = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(25)};
   cursor: pointer;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     display: block;
   `}
 `;

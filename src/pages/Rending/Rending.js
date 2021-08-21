@@ -11,17 +11,14 @@ export default function Rending() {
     name: '',
     batch: '',
     position: '',
-    blog: '',
-    github: '',
-    birthday: '',
     email: sessionStorage.getItem('email'),
     profile_image_url: sessionStorage.getItem('profile_image_url'),
   });
   const [studentRadioButton, setStudentRadioButton] = useState(false);
   const [mentorRadioButton, setMentorRadioButton] = useState(false);
+  const [isSignOn, setIsSignOn] = useState(false);
   const submitButton = useRef();
   const history = useHistory();
-  const [isSignOn, setIsSignOn] = useState(false);
 
   useEffect(() => {
     if (sessionStorage.user_type === '수강생') {
@@ -37,7 +34,7 @@ export default function Rending() {
       return Boolean(userInfo.name && userInfo.batch && userInfo.position);
     }
     if (userInfo.user_type === '멘토') {
-      return Boolean(userInfo.name);
+      return Boolean(userInfo.name && userInfo.position);
     }
   };
 
@@ -213,9 +210,9 @@ const Container = styled.section`
   padding: 0 180px 0 200px;
   z-index: 99;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
-    padding: 0 50px;
+    padding: 0 30px;
   `}
 `;
 
@@ -248,7 +245,7 @@ const RightImg = styled.img`
   width: 600px;
   height: 600px;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     position: absolute;
     width: 400px;
     height: 400px;

@@ -61,7 +61,7 @@ const GhostCard = styled.li`
     margin-right: 0;
   }
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     height: 70px;
     margin: 10px 6px 0 0;
     padding: 13px;
@@ -72,7 +72,7 @@ const GhostCard = styled.li`
     height: 52px;
     border-radius: 50%;
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       width: 40px;
       height: 40px;
     `};
@@ -84,7 +84,7 @@ const MateInfo = styled.div`
   margin-left: 10px;
   font-family: Noto Sans KR;
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-left: 6px;
   `};
 
@@ -94,7 +94,7 @@ const MateInfo = styled.div`
     font-weight: 700;
     color: ${({ theme }) => theme.colors.purple};
 
-    ${({ theme }) => theme.tablet`
+    ${({ theme }) => theme.mobile`
       font-size: 16px;
     `}
   }
@@ -107,7 +107,7 @@ const PersonName = styled.div`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.purple};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     font-size: 11px;
   `}
 

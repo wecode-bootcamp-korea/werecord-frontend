@@ -7,59 +7,72 @@ export default function GoogleLogin({ setIsSignOn }) {
   const history = useHistory();
   const googleButton = useRef();
 
+  const googleLogin = () => {
+    window.googleSDKLoaded = () => {
+      window.gapi.load('auth2', function () {
+        window.auth2 = window.gapi.auth2.init({
+          client_id:
+            '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
+          cookiepolicy: 'single_host_origin',
+        });
+        attachSignin(googleButton.current);
+      });
+
+      function attachSignin(element) {
+        window.auth2.attachClickHandler(
+          element,
+          {},
+          function (googleUser) {
+            fetch(`${API_URLS.LOGIN}`, {
+              headers: {
+                Authorization: googleUser.getAuthResponse().id_token,
+              },
+            })
+              .then(res => res.json())
+              .then(res => {
+                sessionStorage.setItem('wrtoken', res.werecord_token);
+                sessionStorage.setItem('user_type', res.user_info.user_type);
+                sessionStorage.setItem('batch', res.user_info.batch);
+                sessionStorage.setItem(
+                  'profile_image_url',
+                  res.user_info.profile_image_url
+                );
+                if (!res.user_info.new_user) {
+                  if (res.user_info.user_type === '수강생') {
+                    history.push('/main');
+                  }
+                  if (res.user_info.user_type === '멘토') {
+                    history.push('/mentorpage');
+                  }
+                } else {
+                  setIsSignOn(true);
+                }
+                return res;
+              });
+          },
+          function (error) {
+            alert(JSON.stringify(error, undefined, 2));
+          }
+        );
+      }
+    };
+    (function (d, s, id) {
+      let js;
+      const fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = 'https://apis.google.com/js/platform.js?onload=googleSDKLoaded';
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'google-jssdk');
+  };
+
   useEffect(() => {
     googleLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const googleLogin = () => {
-    window.gapi.load('auth2', function () {
-      window.auth2 = window.gapi.auth2.init({
-        client_id:
-          '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-      });
-      attachSignin(googleButton.current);
-    });
-
-    function attachSignin(element) {
-      window.auth2.attachClickHandler(
-        element,
-        {},
-        function (googleUser) {
-          fetch(`${API_URLS.LOGIN}`, {
-            headers: {
-              Authorization: googleUser.getAuthResponse().id_token,
-            },
-          })
-            .then(res => res.json())
-            .then(res => {
-              sessionStorage.setItem('wrtoken', res.werecord_token);
-              sessionStorage.setItem('user_type', res.user_info.user_type);
-              sessionStorage.setItem('batch', res.user_info.batch);
-              sessionStorage.setItem(
-                'profile_image_url',
-                res.user_info.profile_image_url
-              );
-              if (!res.user_info.new_user) {
-                if (res.user_info.user_type === '수강생') {
-                  history.push('/main');
-                }
-                if (res.user_info.user_type === '멘토') {
-                  history.push('/mentorpage');
-                }
-              } else {
-                setIsSignOn(true);
-              }
-              return res;
-            });
-        },
-        function (error) {
-          alert(JSON.stringify(error, undefined, 2));
-        }
-      );
-    }
-  };
 
   return <GoogleButton ref={googleButton}>구글계정으로 시작하기</GoogleButton>;
 }

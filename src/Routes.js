@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Main from './pages/Main';
+import Main from './pages/Main/Main';
 import Navbar from '../src/components/Navbar';
 import Rending from './pages/Rending/Rending';
 import GoogleLogin from './pages/Rending/GoogleLogin';

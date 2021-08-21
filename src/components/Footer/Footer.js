@@ -5,10 +5,7 @@ export default function Footer() {
   return (
     <Container>
       <Logo alt="wecode" src="/images/Footer/footer.png" />
-      <div className="rightArea">
-        <MadeBy>made by</MadeBy>
-        <Producer>제작지원 : 주식회사 그레이스풀레인</Producer>
-      </div>
+      <MadeBy>made by</MadeBy>
     </Container>
   );
 }
@@ -20,32 +17,19 @@ const Container = Styled.footer`
   padding: 0 200px;
   color: ${({ theme }) => theme.colors.white};
 
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-top: 160px;
     padding: 0 50px;
   `}
-
-  .rightArea {
-    ${({ theme }) => theme.flexbox('row')};
-
-    ${({ theme }) => theme.tablet`
-      ${({ theme }) => theme.flexbox('column', 'flex-end', 'flex-end')};
-    `}
-  }
 `;
 
 const Logo = Styled.img`
   width: 120px;
 `;
 
-const Producer = Styled.div`
-  margin-left: 50px;
-  font-size: 13px;
-`;
-
 const MadeBy = Styled.div`
   font-size: 13px;
-  ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.mobile`
     margin-bottom: 5px;
   `}
 `;
