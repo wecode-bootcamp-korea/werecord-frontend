@@ -24,11 +24,6 @@ export default function Navbar() {
   const batch = sessionStorage.getItem('batch');
 
   const handleLogout = () => {
-    var auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signd out');
-    });
-    auth2.disconnect();
     sessionStorage.clear();
     window.location.href = '/';
   };
