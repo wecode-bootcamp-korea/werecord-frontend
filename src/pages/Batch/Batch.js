@@ -34,14 +34,16 @@ export default function Batch({ match }) {
 }
 
 const Container = Styled.section`
-  max-width: 1440px;
+  ${({ theme }) => theme.flexbox('column', 'center', 'space-between')};
+  max-width: 1040px;
   position: relative;
+  height: calc(100vh - 200px);
   margin: 0 auto;
-  padding: 0 200px;
   z-index: 99;
 
   ${({ theme }) => theme.mobile`
-    padding: 0 30px;
+    height: 100%;
+    padding: 0 20px;
   `}
 `;
 

@@ -138,15 +138,14 @@ const showContainerAnimation = keyframes`
 const Container = styled.nav`
   ${({ theme }) => theme.flexbox('row', 'space-between', 'center')};
   position: relative;
-  max-width: 1440px;
-  margin: 60px auto;
-  padding: 0 200px;
+  max-width: 1040px;
+  margin: 30px auto;
   animation-name: ${showContainerAnimation};
   animation-duration: 1s;
   z-index: 100;
 
   ${({ theme }) => theme.mobile`
-    padding: 0 50px;
+    padding: 0 20px;
   `}
 `;
 
@@ -219,7 +218,7 @@ const StyledBtnContainer = styled.div`
   
     ${({ handleMobileBtnList }) =>
       handleMobileBtnList &&
-      'display: flex;  flex-direction: column; position: absolute; right: 5px; top: 38px; z-index: 200'}
+      'display: flex; flex-direction: column; position: absolute; right: 5px; top: 38px; z-index: 200'}
     `}
 `;
 
@@ -228,6 +227,7 @@ const StyledMobileBtnList = styled.div`
   top: 5px;
   color: ${({ theme }) => theme.colors.fontColorPurple};
   font-size: ${({ theme }) => theme.pixelToRem(25)};
+  z-index: 999999999;
   cursor: pointer;
 
   ${({ theme }) => theme.mobile`

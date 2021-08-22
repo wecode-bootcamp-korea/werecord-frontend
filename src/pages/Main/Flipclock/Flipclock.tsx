@@ -57,7 +57,7 @@ const Container = styled.div`
 
   ${({ theme }) => theme.mobile`
       margin-top: 10px;
-      height: 70px;
+      height: 50px;
     `}
 
   .countdown-separator {
@@ -68,8 +68,8 @@ const Container = styled.div`
     color: #ffffff;
 
     ${({ theme }) => theme.mobile`
-      height: 58px;
-      font-size: 50px;
+      height: 50px;
+      font-size: 42px;
     `}
   }
 
@@ -85,7 +85,7 @@ const Container = styled.div`
     overflow: hidden;
 
     ${({ theme }) => theme.mobile`
-      width: 50px;
+      width: 42px;
     `}
   }
 
@@ -106,8 +106,8 @@ const Container = styled.div`
     font-size: 70px;
 
     ${({ theme }) => theme.mobile`
-      height: 70px;
-      font-size: 50px;
+      height: 50px;
+      font-size: 42px;
     `}
   }
 `;

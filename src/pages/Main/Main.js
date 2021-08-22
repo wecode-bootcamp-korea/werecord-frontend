@@ -206,15 +206,16 @@ export default function Main() {
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
-  max-width: 1440px;
+  max-width: 1040px;
+  height: calc(100vh - 200px);
   position: relative;
-  margin: 30px auto;
-  padding: 0 200px;
+  margin: 0 auto;
   z-index: 99;
 
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('row')};
-    margin-top: 150px;
+    margin-top: 70px;
+    height: 100%;
     padding: 0 50px;
   `}
 `;
@@ -242,6 +243,10 @@ const Button = styled.button`
   transition: all 0.3s ease;
   cursor: pointer;
 
+  &:last-child {
+    margin-right: 0;
+  }
+
   &:hover {
     color: ${({ theme }) => theme.colors.hoverBtnFontColorPurple};
     background: ${({ theme }) => theme.colors.hoverBtnBgWhite};
@@ -266,11 +271,13 @@ const Button = styled.button`
 `;
 
 const MainImg = styled.img`
-  width: ${({ theme }) => theme.pixelToRem(370)};
+  width: 34%;
   margin-top: ${({ theme }) => theme.pixelToRem(50)};
 
   ${({ theme }) => theme.mobile`
     position: absolute;
+    width: 300px;
+    margin: 0;
     opacity: 0.1;
     z-index: -1;
   `};

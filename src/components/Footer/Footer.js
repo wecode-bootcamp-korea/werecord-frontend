@@ -12,24 +12,28 @@ export default function Footer() {
 
 const Container = Styled.footer`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
-  max-width:  1440px;
+  max-width: 1040px;
   margin: 50px auto;
-  padding: 0 200px;
   color: ${({ theme }) => theme.colors.white};
 
   ${({ theme }) => theme.mobile`
-    margin-top: 160px;
     padding: 0 50px;
   `}
 `;
 
 const Logo = Styled.img`
   width: 120px;
+
+  ${({ theme }) => theme.mobile`
+    width: 60px;
+  `}
 `;
 
 const MadeBy = Styled.div`
   font-size: 13px;
+
   ${({ theme }) => theme.mobile`
     margin-bottom: 5px;
+    font-size: 8px;
   `}
 `;

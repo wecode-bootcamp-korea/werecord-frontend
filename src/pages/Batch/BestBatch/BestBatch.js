@@ -55,7 +55,6 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
 
 const Container = styled.div`
   ${({ theme }) => theme.flexbox('column', 'center', 'flex-start')};
-  margin-top: 94px;
 `;
 
 const MyBatchTime = styled.section`

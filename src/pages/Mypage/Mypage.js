@@ -173,15 +173,18 @@ export default function Mypage() {
 }
 
 const ContentsContainer = styled.section`
-  max-width: 1440px;
+  ${({ theme }) => theme.flexbox('column', 'center', 'space-between')};
+  max-width: 1040px;
   position: relative;
-  margin: 94px auto;
-  padding: 0 200px;
+  height: calc(100vh - 200px);
+  margin: 0 auto;
   z-index: 100;
 
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
-    padding: 0 30px;
+    height: 100%;
+    padding: 0 20px;
+    z-index: 0;
   `}
 `;
 
@@ -244,7 +247,8 @@ const TotalspendingHour = styled.div`
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('row')};
     width: 100%;
-    font-size: ${({ theme }) => theme.pixelToRem(45)};
+    font-size: ${({ theme }) => theme.pixelToRem(30)};
+    line-height: 40px;
   `}
 `;
 

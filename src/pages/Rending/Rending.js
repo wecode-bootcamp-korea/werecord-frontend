@@ -204,15 +204,15 @@ export default function Rending() {
 
 const Container = styled.section`
   ${({ theme }) => theme.flexbox('row', 'space-between')};
-  max-width: 1440px;
+  max-width: 1040px;
+  height: calc(100vh - 100px);
   position: relative;
-  margin: 170px auto 130px auto;
-  padding: 0 180px 0 200px;
+  margin: 0 auto;
   z-index: 99;
 
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
-    padding: 0 30px;
+    padding: 0 20px;
   `}
 `;
 
@@ -239,11 +239,14 @@ const SubLogo = styled.div`
   font-weight: 700;
   font-family: Noto Sans KR;
   color: ${({ theme }) => theme.colors.fontColorWhite};
+
+  ${({ theme }) => theme.mobile`
+    font-size: 30px;
+  `}
 `;
 
 const RightImg = styled.img`
-  width: 600px;
-  height: 600px;
+  width: 52%;
 
   ${({ theme }) => theme.mobile`
     position: absolute;

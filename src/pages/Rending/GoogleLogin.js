@@ -93,4 +93,10 @@ const GoogleButton = styled.div`
     color: ${({ theme }) => theme.colors.fontColorPurple};
     background: ${({ theme }) => theme.colors.hoverBtnBgWhite};
   }
+
+  ${({ theme }) => theme.mobile`
+    margin-top: 70px;
+    padding: 4px 23px;
+    font-size: 16px;
+  `}
 `;
