@@ -237,26 +237,29 @@
 📌 version2의 목표
   - UX적으로 필요한 기능 추가 및 불필요한 기능 삭제
 
+
 🗓 일정
   - 21.08.03 ~ 21.08.23
+
 
 🎥 수정된 프로젝트 시연 영상
   - [영상 바로가기](https://youtu.be/LJXK_HA_L5c)
 
+
 💁🏻‍♂️ V2 프로젝트 진행 팀원 : Front-end 김수연
 
-💻 수정 사항
 
-  🌱 공통
+💻 수정 사항
+  - 공통
     - 전체적인 UI 및 디자인 수정
 
-  🌱 global
+  - global
     - 초기 세팅 수정
     - Footer 구현
     - 페이지별 error & fix 진행
     - 컴포넌트 및 함수 재사용을 고려한 리팩토링 진행
     
-  🌱 Main Page
+  - Main Page
     - flipClock 효과를 사용한 실시간 타이머 구현
     - 지정된 Modal ScreenCapture 기능 구현
   
