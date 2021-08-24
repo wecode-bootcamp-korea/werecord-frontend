@@ -10,7 +10,7 @@ export default function EditContents() {
   const [userForm, setUserForm] = useState({});
   const [imgFile, setImgFile] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
-  const { name, position, blog, github, birthday } = userForm;
+  const { name, position } = userForm;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const callbackIsModalOn = useCallback(() => setIsModalOn(true), [isModalOn]);
   const history = useHistory();
@@ -44,7 +44,6 @@ export default function EditContents() {
   return (
     <>
       <Container>
-        <MainLogo>&gt;we-record</MainLogo>
         <ContentContainer>
           <Title>내 정보 수정 ✏️</Title>
           <Content>
@@ -78,36 +77,6 @@ export default function EditContents() {
               <option value="FullStack">FullStack</option>
             </SelectBox>
           </Content>
-          <Content>
-            <Label>생일</Label>
-            <SelectBirthDay>
-              <input
-                type="date"
-                name="birthday"
-                value={birthday || ''}
-                onChange={handleInput}
-                max="2100-01-01"
-              />
-            </SelectBirthDay>
-          </Content>
-          <Content>
-            <Label>Blog</Label>
-            <Input
-              name="blog"
-              value={blog || ''}
-              placeholder="블로그 주소를 입력해주세요."
-              onChange={handleInput}
-            />
-          </Content>
-          <Content>
-            <Label>Github</Label>
-            <Input
-              name="github"
-              value={github || ''}
-              placeholder="Github 주소를 입력해주세요."
-              onChange={handleInput}
-            />
-          </Content>
           <Button
             fontSize="12"
             clickEvent={modifyUserData}
@@ -134,7 +103,6 @@ export default function EditContents() {
 }
 
 const Title = styled.div`
-  text-align: left;
   margin-bottom: 35px;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
@@ -149,7 +117,7 @@ const Title = styled.div`
 const Container = styled.form`
   ${({ theme }) => theme.flexbox('row', 'center', 'center')}
   position: relative;
-  margin: 80px 50px 50px 50px;
+  margin: 50px 30px;
   color: #212121;
 
   ${({ theme }) => theme.mobile`
@@ -157,21 +125,7 @@ const Container = styled.form`
   `}
 `;
 
-const MainLogo = styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.black};
-  margin-right: 0px;
-  padding: 30px;
-
-  ${({ theme }) => theme.mobile`
-    display: none;
-  `}
-`;
-
 const ContentContainer = styled.div`
-  width: 50%;
-
   ${({ theme }) => theme.mobile`
     width: 90%;
   `}
@@ -210,17 +164,10 @@ const Content = styled.div`
   `}
 `;
 
-const SelectBirthDay = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-  width: 90%;
-  padding: 5px;
-  border-bottom: 1px solid black;
-`;
-
 const LeaveBtn = styled.div`
-  position: relative;
-  top: 30px;
-  right: 330px;
+  position: absolute;
+  bottom: -30px;
+  right: 0;
   padding: 3px 3px;
   font-size: 12px;
   color: red;

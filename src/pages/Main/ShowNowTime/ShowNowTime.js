@@ -34,6 +34,11 @@ const Container = Styled.h1`
   line-height: ${({ theme }) => theme.pixelToRem(75)};
   color: ${({ theme }) => theme.colors.fontColorWhite};
 
+  ${({ theme }) => theme.tablet`
+    font-size: 40px;
+    line-height: 50px;
+  `}
+
   ${({ theme }) => theme.mobile`
     font-size: ${({ theme }) => theme.pixelToRem(30)};
     line-height: ${({ theme }) => theme.pixelToRem(40)};

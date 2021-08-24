@@ -5,7 +5,15 @@ export default function Footer() {
   return (
     <Container>
       <Logo alt="wecode" src="/images/Footer/footer.png" />
-      <MadeBy>made by</MadeBy>
+      <MadeBy>
+        <a
+          href="https://github.com/wecode-bootcamp-korea/werecord-frontend"
+          target="_blank"
+          rel="noreferrer"
+        >
+          made by
+        </a>
+      </MadeBy>
     </Container>
   );
 }
@@ -16,8 +24,13 @@ const Container = Styled.footer`
   margin: 50px auto;
   color: ${({ theme }) => theme.colors.white};
 
+  ${({ theme }) => theme.tablet`
+    margin-top: 0;
+    max-width: 840px;
+  `}
+
   ${({ theme }) => theme.mobile`
-    padding: 0 50px;
+    max-width: 300px;
   `}
 `;
 

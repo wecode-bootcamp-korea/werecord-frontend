@@ -37,9 +37,14 @@ const Container = Styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'space-between')};
   max-width: 1040px;
   position: relative;
-  height: calc(100vh - 200px);
   margin: 0 auto;
   z-index: 99;
+
+  ${({ theme }) => theme.tablet`
+    max-width: 840px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  `}
 
   ${({ theme }) => theme.mobile`
     height: 100%;

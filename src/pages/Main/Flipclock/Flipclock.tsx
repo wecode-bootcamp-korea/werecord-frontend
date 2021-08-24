@@ -55,10 +55,15 @@ const Container = styled.div`
   font-family: 'Noto Sans', sans-serif;
   font-weight: 700;
 
+  ${({ theme }) => theme.tablet`
+    height: 60px;
+    margin-bottom: 40px;
+  `}
+
   ${({ theme }) => theme.mobile`
-      margin-top: 10px;
-      height: 50px;
-    `}
+    margin-top: 10px;
+    height: 50px;
+  `}
 
   .countdown-separator {
     box-sizing: border-box;
@@ -66,6 +71,11 @@ const Container = styled.div`
     margin: 0 2px;
     font-size: 70px;
     color: #ffffff;
+
+    ${({ theme }) => theme.tablet`
+      height: 60px;
+      font-size: 52px;
+    `}
 
     ${({ theme }) => theme.mobile`
       height: 50px;
@@ -83,6 +93,10 @@ const Container = styled.div`
     color: #ffffff;
     background: rgba(255, 255, 255, 0.3);
     overflow: hidden;
+
+    ${({ theme }) => theme.tablet`
+      width: 50px;
+    `}
 
     ${({ theme }) => theme.mobile`
       width: 42px;
@@ -104,6 +118,11 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     font-size: 70px;
+
+    ${({ theme }) => theme.tablet`
+      height: 60px;
+      font-size: 52px;
+    `}
 
     ${({ theme }) => theme.mobile`
       height: 50px;

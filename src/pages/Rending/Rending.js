@@ -81,7 +81,7 @@ const RightImg = styled.img`
 
   ${({ theme }) => theme.mobile`
     position: absolute;
-    width: 100%;
+    width: 300px;
     opacity: 0.1;
     z-index: -1;
   `}
