@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import API_URLS from '../../config';
 
-export default function GoogleLogin({ setIsSignOn }) {
+export default function GoogleLogin({ setHasUserData }) {
   const history = useHistory();
   const googleButton = useRef();
 
@@ -29,26 +29,21 @@ export default function GoogleLogin({ setIsSignOn }) {
               },
             })
               .then(res => res.json())
-              .then(res => {
-                sessionStorage.setItem('wrtoken', res.werecord_token);
-                sessionStorage.setItem('user_type', res.user_info.user_type);
-                sessionStorage.setItem('batch', res.user_info.batch);
-                sessionStorage.setItem(
-                  'profile_image_url',
-                  res.user_info.profile_image_url
-                );
-                if (!res.user_info.new_user) {
-                  if (res.user_info.user_type === '수강생') {
-                    history.push('/main');
-                  }
-                  if (res.user_info.user_type === '멘토') {
-                    history.push('/mentorpage');
-                  }
-                } else {
-                  setIsSignOn(true);
+              .then(
+                ({
+                  werecord_token,
+                  user_info: { user_type, batch, new_user },
+                }) => {
+                  sessionStorage.setItem('wrtoken', werecord_token);
+                  sessionStorage.setItem('user_type', user_type);
+                  sessionStorage.setItem('batch', batch);
+
+                  if (!new_user) {
+                    if (user_type === '수강생') history.push('/main');
+                    if (user_type === '멘토') history.push('/mentorpage');
+                  } else setHasUserData(false);
                 }
-                return res;
-              });
+              );
           },
           function (error) {
             alert(JSON.stringify(error, undefined, 2));
@@ -97,6 +92,6 @@ const GoogleButton = styled.div`
   ${({ theme }) => theme.mobile`
     margin-top: 70px;
     padding: 4px 23px;
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.pixelToRem(16)};
   `}
 `;

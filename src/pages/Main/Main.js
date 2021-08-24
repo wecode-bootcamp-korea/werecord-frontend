@@ -134,7 +134,7 @@ export default function Main() {
       {isScreenCaptureModal && (
         <ScreenCapureModal onClick={handleScreenCaptureModal}>
           <InsideModal id="captureArea" className="modal">
-            <LeftArea>
+            <ModalLeftArea>
               <Logo>We Record</Logo>
               <ShowNowTime modal={true} />
               <ModalTime>
@@ -184,9 +184,8 @@ export default function Main() {
                 </div>
               </ModalTime>
               <ModalFooter alt="wecode" src="/images/Footer/footer.png" />
-            </LeftArea>
-            <MainImg
-              modal={true}
+            </ModalLeftArea>
+            <ScreenCaptureModalImg
               alt="mainImg"
               src="/images/main/Saly-15.png"
             />
@@ -281,9 +280,6 @@ const MainImg = styled.img`
     opacity: 0.1;
     z-index: -1;
   `};
-
-  ${({ modal }) =>
-    modal && `display: block; width: 220px;  margin: 0 0 0 35px;`}
 `;
 
 const ModalImg = styled.img`
@@ -293,14 +289,24 @@ const ModalImg = styled.img`
 
 const Logo = styled.div`
   border: none;
+  margin-bottom: 10px;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColorWhite};
+
+  ${({ theme }) => theme.mobile`
+    font-size: 16px;
+  `}
 `;
 
 const ModalFooter = styled.img`
   width: 100px;
   margin-top: 100px;
+
+  ${({ theme }) => theme.mobile`
+    width: 60px;
+    margin-top: 30px;
+  `}
 `;
 
 const ScreenCapureModal = styled.section`
@@ -332,6 +338,15 @@ const InsideModal = styled.div`
   'linear-gradient(180deg, #7C9BEA 0%, #FD92AE 100%)'};
   background: ${HOUR < 4 &&
   'linear-gradient(180deg, #9A8ADB 0%, #7C9BEA 100%)'};
+
+  ${({ theme }) => theme.mobile`
+  ${({ theme }) => theme.flexbox('row', 'center', 'center')};
+    padding: 20px 25px;
+  `}
+`;
+
+const ModalLeftArea = styled.div`
+  ${({ theme }) => theme.flexbox('column', 'flex-start', 'flex-start')};
 `;
 
 const SaveImg = styled.div`
@@ -351,16 +366,20 @@ const SaveImg = styled.div`
 
 const ModalTime = styled.div`
   ${({ theme }) => theme.flexbox('row')};
-  font-size: 50px;
+  font-size: 70px;
   font-weight: 700;
+  line-height: 50px;
   color: ${({ theme }) => theme.colors.fontColorWhite};
 
   .time {
     margin: 0 2px;
-    padding: 7px 6px;
+    padding: 16px 8px;
     border-radius: 10px;
-    line-height: 50px;
     background: rgba(255, 255, 255, 0.3);
+
+    ${({ theme }) => theme.mobile`
+      padding: 7px 4px;
+    `}
   }
 
   .time:first-child {
@@ -370,6 +389,16 @@ const ModalTime = styled.div`
   .separator {
     padding-bottom: 8px;
   }
+
+  ${({ theme }) => theme.mobile`
+    font-size: 20px;
+    line-height: 20px;
+  `}
+`;
+
+const ScreenCaptureModalImg = styled.img`
+  width: 33%;
+  margin-left: 20px;
 `;
 
 const fetchUserData = (setUserInfo, setCheckOffWorkDate) => {
