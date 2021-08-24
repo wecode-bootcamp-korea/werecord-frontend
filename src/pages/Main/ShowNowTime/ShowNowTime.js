@@ -34,13 +34,13 @@ const Container = Styled.h1`
   line-height: ${({ theme }) => theme.pixelToRem(75)};
   color: ${({ theme }) => theme.colors.fontColorWhite};
 
-  ${({ modal }) =>
-    modal &&
-    `margin-top: 15px; margin-bottom: 25px; font-size: 40px; line-height: 50px;`}
-
   ${({ theme }) => theme.mobile`
     font-size: ${({ theme }) => theme.pixelToRem(30)};
     line-height: ${({ theme }) => theme.pixelToRem(40)};
+
+    ${({ modal }) =>
+      modal &&
+      `margin-top: 15px; margin-bottom: 25px; font-size: 20px; line-height: 25px;`}
   `}
 `;
 
