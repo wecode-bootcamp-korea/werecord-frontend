@@ -18,7 +18,7 @@ export default function GhostCards({ rank }) {
                 <PersonName>
                   <div className="name">{person.user_name}</div>
                   <div className="hour">
-                    {person.user_last_week_total_time}시간
+                    {changeSecondToHour(person.user_last_week_total_time)}시간
                   </div>
                 </PersonName>
               </MateInfo>
@@ -102,7 +102,7 @@ const MateInfo = styled.div`
 
 const PersonName = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
-  width: 140px;
+  width: 100px;
   font-size: ${({ theme }) => theme.pixelToRem(15)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.purple};
@@ -131,3 +131,9 @@ const BeforeRank = styled.div`
   color: ${({ theme }) => theme.colors.fontColorPurple};
   background: ${({ theme }) => theme.colors.white};
 `;
+
+const changeSecondToHour = countingTime => {
+  let hour = Math.floor(countingTime / 3600);
+
+  return hour;
+};

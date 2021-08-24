@@ -293,6 +293,10 @@ const Logo = styled.div`
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.fontColorWhite};
+
+  ${({ theme }) => theme.mobile`
+    font-size: 16px;
+  `}
 `;
 
 const ModalFooter = styled.img`
