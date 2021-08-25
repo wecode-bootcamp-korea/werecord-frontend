@@ -275,6 +275,7 @@ const TimeContents = styled.div`
 
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
+    width: 100%;
     margin-top: 40px;
   `}
 `;
@@ -304,6 +305,10 @@ const AfterDday = styled.div`
 const AverageTimeContent = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
   margin-bottom: 21px;
+
+  ${({ theme }) => theme.mobile`
+    ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
+  `}
 `;
 
 const StyledChart = styled.div`
