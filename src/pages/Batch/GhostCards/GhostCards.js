@@ -28,7 +28,8 @@ export default function GhostCards({ rank }) {
       ) : (
         <BeforeRank>
           다음주,
-          <br /> 첫 지박령 순위가
+          <br />
+          첫 지박령 순위가
           <br />
           발표됩니다.
         </BeforeRank>

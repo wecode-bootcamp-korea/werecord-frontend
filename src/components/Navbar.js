@@ -144,6 +144,11 @@ const Container = styled.nav`
   animation-duration: 1s;
   z-index: 100;
 
+  ${({ theme }) => theme.tablet`
+    max-width: 840px;
+    margin-bottom: 0;
+  `}
+
   ${({ theme }) => theme.mobile`
     padding: 0 20px;
   `}

@@ -12,9 +12,10 @@ export default function NotFoundPage() {
 
 const Container = Styled.section`
   ${({ theme }) => theme.flexbox('row', 'center', 'center')};
-  height: 100vh;
+  height: calc(100vh - 200px);
   font-size: 35px;
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.fontColorWhite};
 
   ${({ theme }) => theme.mobile`
     font-size: 15px;

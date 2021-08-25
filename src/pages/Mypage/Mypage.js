@@ -175,10 +175,13 @@ export default function Mypage() {
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'space-between')};
   max-width: 1040px;
-  position: relative;
-  height: calc(100vh - 200px);
   margin: 0 auto;
-  z-index: 100;
+
+  ${({ theme }) => theme.tablet`
+    max-width: 840px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  `}
 
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
@@ -244,6 +247,10 @@ const TotalspendingHour = styled.div`
   line-height: 75px;
   color: ${({ theme }) => theme.colors.fontColorWhite};
 
+  ${({ theme }) => theme.tablet`
+    font-size: 55px;
+  `}
+
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('row')};
     width: 100%;
@@ -268,6 +275,7 @@ const TimeContents = styled.div`
 
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
+    width: 100%;
     margin-top: 40px;
   `}
 `;
@@ -297,6 +305,10 @@ const AfterDday = styled.div`
 const AverageTimeContent = styled.div`
   ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
   margin-bottom: 21px;
+
+  ${({ theme }) => theme.mobile`
+    ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')};
+  `}
 `;
 
 const StyledChart = styled.div`

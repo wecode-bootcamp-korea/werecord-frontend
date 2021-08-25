@@ -3,12 +3,10 @@ import FadeIn from 'react-fade-in';
 import Styled from 'styled-components';
 import BestBatch from './BestBatch/BestBatch';
 import PeersBox from './PeersBox/PeersBox';
-import checkObjData from '../Util/checkObjData';
 import API_URLS from '../../config';
 
 export default function Batch({ match }) {
-  const [batchInfo, setBatchInfo] = useState({});
-  const { winner_batches_information, my_batch_information } = batchInfo;
+  const [batchInfo, setBatchInfo] = useState();
 
   useEffect(() => {
     const batchNum = sessionStorage.getItem('batch');
@@ -19,15 +17,13 @@ export default function Batch({ match }) {
   return (
     <FadeIn transitionDuration={1000}>
       <Container>
-        {checkObjData(batchInfo) > 0 && (
+        {batchInfo && (
           <BestBatch
-            winnerInfo={winner_batches_information}
-            myBatchInfo={my_batch_information}
+            winnerInfo={batchInfo.winner_batches_information}
+            myBatchInfo={batchInfo.my_batch_information}
           />
         )}
-        {checkObjData(batchInfo) > 0 && (
-          <PeersBox myBatchInfo={my_batch_information} />
-        )}
+        {batchInfo && <PeersBox myBatchInfo={batchInfo.my_batch_information} />}
       </Container>
     </FadeIn>
   );
@@ -36,10 +32,13 @@ export default function Batch({ match }) {
 const Container = Styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'space-between')};
   max-width: 1040px;
-  position: relative;
-  height: calc(100vh - 200px);
   margin: 0 auto;
-  z-index: 99;
+
+  ${({ theme }) => theme.tablet`
+    max-width: 840px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  `}
 
   ${({ theme }) => theme.mobile`
     height: 100%;

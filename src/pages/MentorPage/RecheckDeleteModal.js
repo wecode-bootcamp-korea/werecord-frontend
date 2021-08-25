@@ -4,9 +4,8 @@ import Styled from 'styled-components';
 export default function RecheckDeleteModal({ deleteAccount }) {
   return (
     <ModalContainer>
-      <MainLogo>&gt;we-record</MainLogo>
       <RecheckDeleteSection>
-        <RecheckDeleteHeader>정말 탈퇴하시겠어요?🥺</RecheckDeleteHeader>
+        <RecheckDeleteHeader>정말 탈퇴하시겠어요?</RecheckDeleteHeader>
         <RecheckDeleteBtn onClick={deleteAccount}>탈퇴하기</RecheckDeleteBtn>
       </RecheckDeleteSection>
     </ModalContainer>
@@ -19,20 +18,9 @@ const ModalContainer = Styled.section`
   height: 100%;
 `;
 
-const MainLogo = Styled.div`
-  font-size: 25px;
-  padding: 30px;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.black};
-
-  ${({ theme }) => theme.mobile`
-    display: none;
-  `}
-`;
-
 const RecheckDeleteSection = Styled.div`
   ${({ theme }) => theme.flexbox('column', 'start', 'stretch')};
-  padding: 30px;
+  padding: 50px;
 `;
 
 const RecheckDeleteHeader = Styled.h1`

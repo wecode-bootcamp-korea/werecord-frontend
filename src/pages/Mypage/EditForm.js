@@ -1,28 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../components/Modal/Modal';
 import RecheckDeleteModal from '../MentorPage/RecheckDeleteModal';
 import API_URLS from '../../config';
-import Button from '../../components/Button/Button';
 
 export default function EditContents() {
   const [userForm, setUserForm] = useState({});
   const [imgFile, setImgFile] = useState('');
   const [isModalOn, setIsModalOn] = useState(false);
-  const { name, position, blog, github, birthday } = userForm;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const callbackIsModalOn = useCallback(() => setIsModalOn(true), [isModalOn]);
-  const history = useHistory();
+  const { name, position } = userForm;
 
   useEffect(() => {
-    getUserDataFetch(setUserForm, history);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getUserDataFetch(setUserForm);
   }, []);
 
   const modifyUserData = e => {
     e.preventDefault();
-    sendImgData(userForm, imgFile, history);
+    sendImgData(userForm, imgFile);
   };
 
   const handleInput = e => {
@@ -44,87 +38,49 @@ export default function EditContents() {
   return (
     <>
       <Container>
-        <MainLogo>&gt;we-record</MainLogo>
-        <ContentContainer>
-          <Title>내 정보 수정 ✏️</Title>
-          <Content>
-            <Label>이름</Label>
-            <Input
-              name="name"
-              placeholder="이름을 입력해주세요."
-              value={name || ''}
-              onChange={handleInput}
-            />
-          </Content>
-          <Content>
-            <Label>사진</Label>
-            <Input
-              name="image"
-              type="file"
-              accept="image/*"
-              onChange={onFileInput}
-            />
-          </Content>
-          <Content>
-            <Label>포지션</Label>
-            <SelectBox
-              name="position"
-              value={position || ''}
-              onChange={handleInput}
-            >
-              <option value="Undefined">미정</option>
-              <option value="Front-end">Front-end</option>
-              <option value="Back-end">Back-end</option>
-              <option value="FullStack">FullStack</option>
-            </SelectBox>
-          </Content>
-          <Content>
-            <Label>생일</Label>
-            <SelectBirthDay>
-              <input
-                type="date"
-                name="birthday"
-                value={birthday || ''}
-                onChange={handleInput}
-                max="2100-01-01"
-              />
-            </SelectBirthDay>
-          </Content>
-          <Content>
-            <Label>Blog</Label>
-            <Input
-              name="blog"
-              value={blog || ''}
-              placeholder="블로그 주소를 입력해주세요."
-              onChange={handleInput}
-            />
-          </Content>
-          <Content>
-            <Label>Github</Label>
-            <Input
-              name="github"
-              value={github || ''}
-              placeholder="Github 주소를 입력해주세요."
-              onChange={handleInput}
-            />
-          </Content>
-          <Button
-            fontSize="12"
-            clickEvent={modifyUserData}
-            type="white"
-            disabled={!userForm.name}
+        <Title>내 정보 수정 ✏️</Title>
+        <Content>
+          <Label>이름</Label>
+          <Input
+            name="name"
+            placeholder="이름을 입력해주세요."
+            value={name || ''}
+            onChange={handleInput}
+          />
+        </Content>
+        <Content>
+          <Label>사진</Label>
+          <Input
+            name="image"
+            type="file"
+            accept="image/*"
+            onChange={onFileInput}
+          />
+        </Content>
+        <Content>
+          <Label>포지션</Label>
+          <SelectBox
+            name="position"
+            value={position || ''}
+            onChange={handleInput}
           >
-            수정
-          </Button>
-          <LeaveBtn onClick={callbackIsModalOn}>탈퇴</LeaveBtn>
-        </ContentContainer>
+            <option value="Undefined">미정</option>
+            <option value="Front-end">Front-end</option>
+            <option value="Back-end">Back-end</option>
+            <option value="FullStack">FullStack</option>
+          </SelectBox>
+        </Content>
+        <ReviseButton onClick={modifyUserData} disabled={!userForm.name}>
+          수정
+        </ReviseButton>
+        <LeaveBtn onClick={() => setIsModalOn(true)}>탈퇴</LeaveBtn>
       </Container>
 
       {isModalOn && (
         <Modal>
           <RecheckDeleteModal
             deleteAccount={() => {
-              recheckLeave(history);
+              recheckLeave();
             }}
           />
         </Modal>
@@ -134,7 +90,6 @@ export default function EditContents() {
 }
 
 const Title = styled.div`
-  text-align: left;
   margin-bottom: 35px;
   font-size: ${({ theme }) => theme.pixelToRem(20)};
   font-weight: 700;
@@ -147,33 +102,13 @@ const Title = styled.div`
 `;
 
 const Container = styled.form`
-  ${({ theme }) => theme.flexbox('row', 'center', 'center')}
   position: relative;
-  margin: 80px 50px 50px 50px;
+  margin: 50px 30px;
   color: #212121;
 
   ${({ theme }) => theme.mobile`
-    margin: 0;
-  `}
-`;
-
-const MainLogo = styled.div`
-  font-size: ${({ theme }) => theme.pixelToRem(25)};
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.black};
-  margin-right: 0px;
-  padding: 30px;
-
-  ${({ theme }) => theme.mobile`
-    display: none;
-  `}
-`;
-
-const ContentContainer = styled.div`
-  width: 50%;
-
-  ${({ theme }) => theme.mobile`
     width: 90%;
+    margin: 0;
   `}
 `;
 
@@ -210,17 +145,25 @@ const Content = styled.div`
   `}
 `;
 
-const SelectBirthDay = styled.div`
-  ${({ theme }) => theme.flexbox('row', 'flex-start', 'center')}
-  width: 90%;
-  padding: 5px;
-  border-bottom: 1px solid black;
+const ReviseButton = styled.button`
+  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.6;
+  }
+  &:active {
+    opacity: 0.9;
+  }
 `;
 
 const LeaveBtn = styled.div`
-  position: relative;
-  top: 30px;
-  right: 330px;
+  position: absolute;
+  bottom: -30px;
+  right: 0;
   padding: 3px 3px;
   font-size: 12px;
   color: red;
@@ -231,7 +174,7 @@ const LeaveBtn = styled.div`
   }
 `;
 
-const getUserDataFetch = (setUserForm, history) => {
+const getUserDataFetch = setUserForm => {
   fetch(`${API_URLS.EDIT_PROFILE}`, {
     headers: {
       Authorization: sessionStorage.getItem('wrtoken'),
@@ -241,14 +184,14 @@ const getUserDataFetch = (setUserForm, history) => {
     .then(({ data, message }) => {
       if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
-        history.push('/');
+        window.location.href = '/';
       } else {
         setUserForm(data);
       }
     });
 };
 
-const recheckLeave = history => {
+const recheckLeave = () => {
   fetch(`${API_URLS.EDIT_PROFILE}`, {
     method: 'DELETE',
     headers: {
@@ -256,7 +199,7 @@ const recheckLeave = history => {
     },
   }).then(({ status }) => {
     if (status === 401) {
-      history.push('/');
+      window.location.href = '/';
     } else if (status === 204) {
       alert('성공적으로 탈퇴되었습니다!');
       sessionStorage.clear();
@@ -265,7 +208,7 @@ const recheckLeave = history => {
   });
 };
 
-const sendImgData = (userForm, imgFile, history) => {
+const sendImgData = (userForm, imgFile) => {
   const userInfo = JSON.stringify(userForm);
   const userData = new FormData();
   userData.append('info', userInfo);
@@ -284,7 +227,7 @@ const sendImgData = (userForm, imgFile, history) => {
         window.location.replace('/mypage');
       } else if (message === 'REFRESH_TOKEN_EXPIRED') {
         sessionStorage.clear();
-        history.push('/');
+        window.location.href = '/';
       }
     });
 };

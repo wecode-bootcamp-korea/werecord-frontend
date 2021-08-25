@@ -37,6 +37,10 @@ const Container = styled.section`
   height: calc(100vh - 100px);
   margin: 0 auto;
 
+  ${({ theme }) => theme.tablet`
+    max-width: 840px;
+  `}
+
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
     padding: 0 20px;
@@ -81,7 +85,7 @@ const RightImg = styled.img`
 
   ${({ theme }) => theme.mobile`
     position: absolute;
-    width: 100%;
+    width: 300px;
     opacity: 0.1;
     z-index: -1;
   `}

@@ -96,6 +96,7 @@ export default React.memo(SendTimeModal);
 
 const Container = Styled.div`
   margin-bottom: 25px;
+  padding: 30px;
 `;
 
 const ModalTitle = Styled.h1`

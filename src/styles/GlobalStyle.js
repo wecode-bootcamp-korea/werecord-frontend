@@ -1,18 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import dayjs from 'dayjs';
-
-const HOUR = dayjs().hour();
-const changeBgColor = h => {
-  if (h >= 22 || h < 4)
-    return 'linear-gradient(180deg, #9A8ADB 0%, #7C9BEA 100%)';
-  if (h >= 18 && h < 22)
-    return 'linear-gradient(180deg, #FFC49D 0%, #9A8ADB 100%)';
-  if (h >= 12 && h < 18)
-    return `linear-gradient(180deg, #E7F5FF 0%, #FFC49D 100%)`;
-  if (h >= 9 && h < 12)
-    return 'linear-gradient(180deg, #7C9BEA 0%, #FD92AE 100%)';
-};
+import changeBgColor from '../pages/Util/changeBgColor';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -43,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 auto;
     overflow-x: hidden;
     background: url(/images/bgImage/wave1.png), url(/images/bgImage/wave2.pgn),
-    ${changeBgColor(HOUR)};
+    ${changeBgColor(dayjs().hour())};
     background-size: cover;
   }
 
