@@ -32,9 +32,7 @@ export default function Batch({ match }) {
 const Container = Styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'space-between')};
   max-width: 1040px;
-  position: relative;
   margin: 0 auto;
-  z-index: 99;
 
   ${({ theme }) => theme.tablet`
     max-width: 840px;

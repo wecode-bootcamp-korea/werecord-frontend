@@ -1,8 +1,8 @@
-export default function findDefaultImg(peer_profile_image_url) {
-  const haveImg = peer_profile_image_url.indexOf('werecord');
+export default function findDefaultImg(imageURL) {
+  const haveImg = imageURL.indexOf('werecord');
 
   if (haveImg > 0) {
-    return peer_profile_image_url;
+    return imageURL;
   }
 
   if (haveImg < 0) {

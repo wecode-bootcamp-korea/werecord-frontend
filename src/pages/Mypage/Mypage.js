@@ -175,9 +175,7 @@ export default function Mypage() {
 const ContentsContainer = styled.section`
   ${({ theme }) => theme.flexbox('column', 'center', 'space-between')};
   max-width: 1040px;
-  position: relative;
   margin: 0 auto;
-  z-index: 100;
 
   ${({ theme }) => theme.tablet`
     max-width: 840px;
