@@ -2,7 +2,7 @@ import API_URLS from '../../../config';
 import dayjs from 'dayjs';
 
 export default function checkStart(
-  setIsCommentModal,
+  setIsOnCommentModal,
   setUserInfo,
   setStartAndStopImg
 ) {
@@ -19,14 +19,14 @@ export default function checkStart(
         window.location.href = '/';
       }
       if (message === 'ALREADY_RECORD_ERROR') {
-        setIsCommentModal(prev => ({
+        setIsOnCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '이미 출근하셨습니다.',
         }));
       }
       if (message === 'LOCATION_ERROR') {
-        setIsCommentModal(prev => ({
+        setIsOnCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '위코드에 계시나요?',
@@ -39,7 +39,7 @@ export default function checkStart(
           isStart: true,
           lastStartTime: `${dayjs().hour()}:${dayjs().minute()}:${dayjs().second()}`,
         }));
-        setIsCommentModal(prev => ({
+        setIsOnCommentModal(prev => ({
           ...prev,
           isOn: true,
           comment: '오늘 기록이 시작되고 있습니다.',

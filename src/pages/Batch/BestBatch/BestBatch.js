@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import theme from '../../../styles/theme';
 import GhostCards from '../GhostCards/GhostCards';
 
 export default function BestBatch({ winnerInfo, myBatchInfo }) {
   const { batch_total_time } = myBatchInfo;
 
-  const BEST_BATCHES = winnerInfo.sort(
+  const BEST_BATCHES_RANK = winnerInfo.sort(
     (a, b) => b.batch_total_time - a.batch_total_time
   );
 
@@ -14,35 +15,49 @@ export default function BestBatch({ winnerInfo, myBatchInfo }) {
       <MyBatchTime>
         우리 기수 현재
         <br />
-        {makeMyBatchTotalTime(batch_total_time)}
+        {Math.floor(batch_total_time / 3600)}시간 기록 중
       </MyBatchTime>
       <BestBatchTime>
         <SubTitles>최고 기록을 향한 여정</SubTitles>
         <BestBatchs>
-          <FirstBatch>
-            {Math.floor(BEST_BATCHES[0].batch_total_time / 3600)}시간
-            <FirstBalloon>{BEST_BATCHES[0].batch_name}기</FirstBalloon>
-          </FirstBatch>
-          <SecondBatch
+          <Batch
+            width={100}
+            color={theme.colors.purple}
+            bgColor={theme.colors.white}
+          >
+            {Math.floor(BEST_BATCHES_RANK[0].batch_total_time / 3600)}시간
+            <BatchesBalloon bgColor={theme.colors.white}>
+              {BEST_BATCHES_RANK[0].batch_name}기
+            </BatchesBalloon>
+          </Batch>
+          <Batch
             width={
-              (BEST_BATCHES[1].batch_total_time /
-                BEST_BATCHES[0].batch_total_time) *
+              (BEST_BATCHES_RANK[1].batch_total_time /
+                BEST_BATCHES_RANK[0].batch_total_time) *
               100
             }
+            color={theme.colors.white}
+            bgColor={theme.colors.pink}
           >
-            {Math.floor(BEST_BATCHES[1].batch_total_time / 3600)}시간
-            <SecondBalloon>{BEST_BATCHES[1].batch_name}기</SecondBalloon>
-          </SecondBatch>
-          <ThirdBatch
+            {Math.floor(BEST_BATCHES_RANK[1].batch_total_time / 3600)}시간
+            <BatchesBalloon bgColor={theme.colors.pink}>
+              {BEST_BATCHES_RANK[1].batch_name}기
+            </BatchesBalloon>
+          </Batch>
+          <Batch
             width={
-              (BEST_BATCHES[2].batch_total_time /
-                BEST_BATCHES[0].batch_total_time) *
+              (BEST_BATCHES_RANK[2].batch_total_time /
+                BEST_BATCHES_RANK[0].batch_total_time) *
               100
             }
+            color={theme.colors.white}
+            bgColor={theme.colors.purple}
           >
-            {Math.floor(BEST_BATCHES[2].batch_total_time / 3600)}시간
-            <ThirdBalloon>{BEST_BATCHES[2].batch_name}기</ThirdBalloon>
-          </ThirdBatch>
+            {Math.floor(BEST_BATCHES_RANK[2].batch_total_time / 3600)}시간
+            <BatchesBalloon bgColor={theme.colors.purple}>
+              {BEST_BATCHES_RANK[2].batch_name}기
+            </BatchesBalloon>
+          </Batch>
         </BestBatchs>
       </BestBatchTime>
       <PersonRanking>
@@ -102,19 +117,19 @@ const BestBatchs = styled.div`
   `}
 `;
 
-const FirstBatch = styled.div`
+const Batch = styled.div`
   position: absolute;
-  width: 100%;
+  width: ${({ width }) => `${width}%`};
   height: 100%;
   padding-right: 13px;
   border-radius: 20px;
   font-size: ${({ theme }) => theme.pixelToRem(15)};
   font-weight: 700;
   font-family: Noto Sans KR;
-  color: ${({ theme }) => theme.colors.purple};
+  color: ${({ color }) => color};
   text-align: right;
   line-height: 50px;
-  background: ${({ theme }) => theme.colors.white};
+  background: ${({ bgColor }) => bgColor};
 
   ${({ theme }) => theme.mobile`
     font-size: 13px;
@@ -126,66 +141,15 @@ const FirstBatch = styled.div`
   `}
 `;
 
-const SecondBatch = styled.div`
-  position: absolute;
-  width: ${({ width }) => width}%;
-  height: 100%;
-  border-radius: 20px 0 0 20px;
-  padding-right: 13px;
-  font-size: ${({ theme }) => theme.pixelToRem(15)};
-  font-weight: 700;
-  font-family: Noto Sans KR;
-  color: ${({ theme }) => theme.colors.white};
-  text-align: right;
-  line-height: 50px;
-  background: ${({ theme }) => theme.colors.pink};
-
-  ${({ theme }) => theme.mobile`
-    font-size: 13px;
-    line-height: 35px;
-
-    &:active {
-      z-index: 1;
-    }
-  `}
-`;
-
-const ThirdBatch = styled.div`
-  position: absolute;
-  width: ${({ width }) => width}%;
-  height: 100%;
-  border-radius: 20px 0 0 20px;
-  padding-right: 13px;
-  font-size: ${({ theme }) => theme.pixelToRem(15)};
-  font-weight: 700;
-  font-family: Noto Sans KR;
-  color: ${({ theme }) => theme.colors.white};
-  text-align: right;
-  line-height: 50px;
-  background: ${({ theme }) => theme.colors.purple};
-
-  ${({ theme }) => theme.mobile`
-    font-size: 13px;
-    line-height: 35px;
-    
-    &:active {
-      z-index: 1;
-    }
-  `}
-`;
-
-const FirstBalloon = styled.div`
+const BatchesBalloon = styled.div`
   position: absolute;
   top: -70px;
   right: 0;
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  font-size: ${({ theme }) => theme.pixelToRem(15)};
-  font-weight: 700;
   text-align: center;
-  color: ${({ theme }) => theme.colors.black};
-  background: ${({ theme }) => theme.colors.white};
+  background: ${({ bgColor }) => bgColor};
 
   ${({ theme }) => theme.mobile`
     width: 40px;
@@ -196,71 +160,7 @@ const FirstBalloon = styled.div`
   `}
 
   &:after {
-    border-top: 20px solid ${({ theme }) => theme.colors.white};
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 0px solid transparent;
-    content: '';
-    ${({ theme }) => theme.posCenterX('absolute')}
-    bottom: -10px;
-  }
-`;
-
-const SecondBalloon = styled.div`
-  position: absolute;
-  top: -70px;
-  right: 0;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  font-size: ${({ theme }) => theme.pixelToRem(15)};
-  font-weight: 700;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.white};
-  background: ${({ theme }) => theme.colors.pink};
-
-  ${({ theme }) => theme.mobile`
-    width: 40px;
-    height: 40px;
-    top: -60px;
-    font-size: 13px;
-    line-height: 40px;
-  `}
-
-  &:after {
-    border-top: 20px solid ${({ theme }) => theme.colors.pink};
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 0px solid transparent;
-    content: '';
-    ${({ theme }) => theme.posCenterX('absolute')}
-    bottom: -10px;
-  }
-`;
-
-const ThirdBalloon = styled.div`
-  position: absolute;
-  top: -70px;
-  right: 0;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  font-size: ${({ theme }) => theme.pixelToRem(15)};
-  font-weight: 700;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.white};
-  background: ${({ theme }) => theme.colors.purple};
-
-  ${({ theme }) => theme.mobile`
-    width: 40px;
-    height: 40px;
-    top: -60px;
-    font-size: 13px;
-    line-height: 40px;
-  `}
-
-  &:after {
-    border-top: 20px solid ${({ theme }) => theme.colors.purple};
+    border-top: 20px solid ${({ bgColor }) => bgColor};
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-bottom: 0px solid transparent;
@@ -274,7 +174,3 @@ const PersonRanking = styled.section`
   width: 100%;
   margin-top: 42px;
 `;
-
-const makeMyBatchTotalTime = batchTotalTime => {
-  return `${Math.floor(batchTotalTime / 3600).toLocaleString()}시간 기록 중  `;
-};

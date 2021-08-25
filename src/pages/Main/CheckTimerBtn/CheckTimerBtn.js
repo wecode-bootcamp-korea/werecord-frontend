@@ -8,7 +8,7 @@ import checkRestart from '../Util/checkRestart';
 export default function CheckTimerBtn({
   userInfo,
   setUserInfo,
-  setIsCommentModal,
+  setIsOnCommentModal,
   setStartAndStopImg,
 }) {
   return (
@@ -18,7 +18,7 @@ export default function CheckTimerBtn({
       ) : (
         <Button
           onClick={() =>
-            checkStart(setIsCommentModal, setUserInfo, setStartAndStopImg)
+            checkStart(setIsOnCommentModal, setUserInfo, setStartAndStopImg)
           }
           disabled={userInfo.isStop | (userInfo.isOn && userInfo.isStart)}
         >
@@ -26,12 +26,12 @@ export default function CheckTimerBtn({
         </Button>
       )}
       {userInfo.isOn && (
-        <Button onClick={() => checkPause(setIsCommentModal, setUserInfo)}>
+        <Button onClick={() => checkPause(setIsOnCommentModal, setUserInfo)}>
           PAUSE
         </Button>
       )}
       <Button
-        onClick={() => checkStop(setIsCommentModal, setStartAndStopImg)}
+        onClick={() => checkStop(setIsOnCommentModal, setStartAndStopImg)}
         disabled={
           (!userInfo.isStart && !userInfo.isStop) |
           (!userInfo.isOn && userInfo.isStop)

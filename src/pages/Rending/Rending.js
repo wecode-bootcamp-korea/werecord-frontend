@@ -37,6 +37,10 @@ const Container = styled.section`
   height: calc(100vh - 100px);
   margin: 0 auto;
 
+  ${({ theme }) => theme.tablet`
+    max-width: 840px;
+  `}
+
   ${({ theme }) => theme.mobile`
     ${({ theme }) => theme.flexbox('column')};
     padding: 0 20px;

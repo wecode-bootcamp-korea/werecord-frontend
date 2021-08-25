@@ -29,47 +29,47 @@ export default function ScreenCaptureModal({
           <ModalTime>
             <div className="time">
               {userInfo.isOn
-                ? changeTime(
+                ? changeSecondToTime(
                     countingTimer(userInfo.totalTime, userInfo.lastStartTime)
                   )[0]
-                : changeTime(userInfo.totalTime)[0]}
+                : changeSecondToTime(userInfo.totalTime)[0]}
             </div>
             <div className="time">
               {userInfo.isOn
-                ? changeTime(
+                ? changeSecondToTime(
                     countingTimer(userInfo.totalTime, userInfo.lastStartTime)
                   )[1]
-                : changeTime(userInfo.totalTime)[1]}
+                : changeSecondToTime(userInfo.totalTime)[1]}
             </div>
             <div className="separator">:</div>
             <div className="time">
               {userInfo.isOn
-                ? changeTime(
+                ? changeSecondToTime(
                     countingTimer(userInfo.totalTime, userInfo.lastStartTime)
                   )[3]
-                : changeTime(userInfo.totalTime)[3]}
+                : changeSecondToTime(userInfo.totalTime)[3]}
             </div>
             <div className="time">
               {userInfo.isOn
-                ? changeTime(
+                ? changeSecondToTime(
                     countingTimer(userInfo.totalTime, userInfo.lastStartTime)
                   )[4]
-                : changeTime(userInfo.totalTime)[4]}
+                : changeSecondToTime(userInfo.totalTime)[4]}
             </div>
             <div className="separator">:</div>
             <div className="time">
               {userInfo.isOn
-                ? changeTime(
+                ? changeSecondToTime(
                     countingTimer(userInfo.totalTime, userInfo.lastStartTime)
                   )[6]
-                : changeTime(userInfo.totalTime)[6]}
+                : changeSecondToTime(userInfo.totalTime)[6]}
             </div>
             <div className="time">
               {userInfo.isOn
-                ? changeTime(
+                ? changeSecondToTime(
                     countingTimer(userInfo.totalTime, userInfo.lastStartTime)
                   )[7]
-                : changeTime(userInfo.totalTime)[7]}
+                : changeSecondToTime(userInfo.totalTime)[7]}
             </div>
           </ModalTime>
           <ModalFooter alt="wecode" src="/images/Footer/footer.png" />
@@ -218,7 +218,7 @@ function saveAs(uri, filename) {
   }
 }
 
-const changeTime = countingTime => {
+const changeSecondToTime = countingTime => {
   let hour = Math.floor(countingTime / 3600);
   let minute = Math.floor((countingTime % 3600) / 60);
   let second = (countingTime % 3600) % 60;

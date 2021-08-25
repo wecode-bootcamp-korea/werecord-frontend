@@ -4,7 +4,7 @@ import Styled from 'styled-components';
 
 export default function Modal({
   setOff,
-  isCommentModal,
+  isOnCommentModal,
   children,
   width,
   height,
@@ -13,7 +13,7 @@ export default function Modal({
     const isclickedInside = e.target.closest('.modal');
     const isclickedBtn = e.target.closest('.closeBtn');
 
-    if (isCommentModal) {
+    if (isOnCommentModal) {
       window.location.replace('/main');
     }
 

@@ -8,7 +8,6 @@ import ShowNowTime from './ShowNowTime/ShowNowTime';
 import ScreenCaptureBtn from './ScreenCaptureBtn/ScreenCaptureBtn';
 import Flipclock from './Flipclock/Flipclock';
 import ScreenCaptureModal from './ScreenCaptureModal/ScreenCaptureModal';
-import checkObjData from '../Util/checkObjData';
 import countingTimer from './Util/countingTimer';
 import API_URLS from '../../config';
 import CheckTimerBtn from './CheckTimerBtn/CheckTimerBtn';
@@ -23,7 +22,7 @@ export default function Main() {
     totalTime: 0,
   });
 
-  const [isCommentModal, setIsCommentModal] = useState({});
+  const [isOnCommentModal, setIsOnCommentModal] = useState();
   const [startAndStopImg, setStartAndStopImg] = useState('start');
   const [isScreenCaptureModal, setIsScreenCaptureModal] = useState(false);
 
@@ -55,14 +54,14 @@ export default function Main() {
             <CheckTimerBtn
               userInfo={userInfo}
               setUserInfo={setUserInfo}
-              setIsCommentModal={setIsCommentModal}
+              setIsOnCommentModal={setIsOnCommentModal}
               setStartAndStopImg={setStartAndStopImg}
             />
 
-            {checkObjData(isCommentModal) && (
+            {isOnCommentModal && (
               <Modal
-                setOff={setIsCommentModal}
-                isCommentModal={startAndStopImg === 'stop'}
+                setOff={setIsOnCommentModal}
+                isOnCommentModal={startAndStopImg === 'stop'}
                 width={400}
                 height={240}
               >
@@ -75,7 +74,7 @@ export default function Main() {
                   }
                 />
 
-                <CommentModal comment={isCommentModal} />
+                <CommentModal comment={isOnCommentModal} />
               </Modal>
             )}
 
