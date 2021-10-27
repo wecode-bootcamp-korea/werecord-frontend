@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import API_URLS from '../../config';
 
+console.log(process.env.REACT_APP_GOOGLE_KEY);
+
 export default function GoogleLogin({ setHasUserData }) {
   const history = useHistory();
   const googleButton = useRef();
@@ -11,8 +13,7 @@ export default function GoogleLogin({ setHasUserData }) {
     window.googleSDKLoaded = () => {
       window.gapi.load('auth2', function () {
         window.auth2 = window.gapi.auth2.init({
-          client_id:
-            '348690319815-t5e8gq77l8f3iqm60aqsiebna9utntq8.apps.googleusercontent.com',
+          client_id: process.env.REACT_APP_GOOGLE_KEY,
           cookiepolicy: 'single_host_origin',
         });
         attachSignin(googleButton.current);
@@ -28,7 +29,10 @@ export default function GoogleLogin({ setHasUserData }) {
                 Authorization: googleUser.getAuthResponse().id_token,
               },
             })
-              .then(res => res.json())
+              .then(res => {
+                console.log(res);
+                return res.json();
+              })
               .then(
                 ({
                   werecord_token,
